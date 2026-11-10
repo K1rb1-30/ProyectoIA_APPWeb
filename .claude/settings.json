@@ -1,0 +1,52 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(**/.env)",
+      "Read(**/.env.local)",
+      "Read(**/.env.production)",
+      "Read(**/.env.staging)",
+      "Read(**/.env.testing)",
+      "Read(**/.env.backup)",
+      "Edit(**/.env)",
+      "Edit(**/.env.local)",
+      "Edit(**/.env.production)",
+      "Edit(**/.env.staging)",
+      "Edit(**/.env.testing)",
+      "Edit(**/.env.backup)",
+      "Write(**/.env)",
+      "Write(**/.env.local)",
+      "Write(**/.env.production)",
+      "Write(**/.env.staging)",
+      "Write(**/.env.testing)",
+      "Write(**/.env.backup)",
+      "Read(**/auth.json)",
+      "Read(**/*.pem)",
+      "Read(**/*.key)",
+      "Read(./secrets/**)",
+      "Bash(cat .env*)",
+      "Bash(less .env*)",
+      "Bash(more .env*)",
+      "Bash(head .env*)",
+      "Bash(tail .env*)",
+      "Bash(type .env*)",
+      "Bash(grep * .env*)",
+      "Bash(printenv*)",
+      "Bash(env)",
+      "Bash(php artisan tinker*)",
+      "Bash(php artisan config:show*)",
+      "Bash(php artisan env*)",
+      "Bash(git push --force*)",
+      "Bash(git push -f*)",
+      "Bash(git push origin main*)",
+      "Bash(rm -rf*)"
+    ],
+    "ask": [
+      "Bash(git push*)",
+      "Bash(git commit*)",
+      "Bash(git merge*)",
+      "Bash(git reset*)",
+      "Bash(php artisan migrate:fresh*)",
+      "Bash(php artisan db:wipe*)"
+    ]
+  }
+}
