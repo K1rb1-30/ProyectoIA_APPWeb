@@ -53,9 +53,9 @@ Configura `APP_LOCALE=es` y `APP_FAKER_LOCALE=es_ES` en `.env.example`. Para tra
 - **Despliegue:** Railway o Laravel Cloud
 
 ### MySQL
-- Base de datos de desarrollo: `mesaya`. Base de datos de tests: `mesaya_test`.
-- En `.env.example`: `DB_CONNECTION=mysql`, `DB_HOST=127.0.0.1`, `DB_PORT=3306`, `DB_DATABASE=mesaya`, `DB_USERNAME=root` y `DB_PASSWORD=` vacío.
-- En `phpunit.xml`, los tests usan MySQL con `DB_DATABASE=mesaya_test`. Quita las líneas que ponen SQLite en memoria. No pongas contraseñas en `phpunit.xml`.
+- Base de datos de desarrollo: `proyectoIA`. Base de datos de tests: `proyectoIA_test`. (El nombre de la app aún no es definitivo; las bases de datos no se renombran con él.)
+- En `.env.example`: `DB_CONNECTION=mysql`, `DB_HOST=127.0.0.1`, `DB_PORT=3306`, `DB_DATABASE=proyectoIA`, `DB_USERNAME=root` y `DB_PASSWORD=` vacío.
+- En `phpunit.xml`, los tests usan MySQL con `DB_DATABASE=proyectoIA_test`. Quita las líneas que ponen SQLite en memoria. No pongas contraseñas en `phpunit.xml`.
 - Cotejamiento `utf8mb4_unicode_ci` para que funcionen tildes, ñ y emojis.
 - Si no puedes conectar con MySQL, **no cambies a SQLite**: avísanos.
 
@@ -109,7 +109,7 @@ Reglas:
 No empieces nada 🟣 por tu cuenta.
 
 ## Tests (golden tests)
-Ejecutar: `php artisan test` (contra la base de datos MySQL `mesaya_test`)
+Ejecutar: `php artisan test` (contra la base de datos MySQL `proyectoIA_test`)
 1. Enviar una comanda crea el `pedido` con sus `lineas_pedido` y aparece en cocina.
 2. No se puede pasar de `pendiente` a `listo` sin pasar por `preparando`.
 3. Dividir la cuenta: la suma de las partes es exactamente el total (probar a dividir entre 3).
