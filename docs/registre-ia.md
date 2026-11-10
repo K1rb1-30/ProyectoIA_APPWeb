@@ -20,3 +20,11 @@ Se rellena en cada sesión de trabajo, no al final. Mínimo 15 entradas.
 - **Prompt:** "Pásame el CLAUDE.md y los archivos necesarios para que Claude Code tenga todo el contexto, restringiéndole el acceso a .env, contraseñas y claves API"
 - **Resultado:** Generó `CLAUDE.md`, `.claude/settings.json` (reglas de bloqueo) y este registro · ¿funcionó?: PENDIENTE DE REVISAR
 - **Enlace:** PENDIENTE
+
+### Entrada 3
+- **Fecha y autor:** 10/11/2026 – Iván
+- **Herramienta:** Claude Code
+- **Objetivo:** Crear el proyecto Laravel y dejar la configuración inicial lista para una PR a `main`
+- **Prompt:** "Créame un proyecto de Laravel en esta carpeta" + "Haz un commit y genera la pull request a main de configuración inicial, comprueba todo"
+- **Resultado:** Proyecto Laravel 13 creado; `.env.example` con MySQL (`mesaya`), idioma `es` y Faker `es_ES`; `phpunit.xml` con MySQL (`mesaya_test`); CLAUDE.md actualizado a Laravel 13. Comprobado: conexión a MySQL, migraciones, `php artisan test` (2 tests OK) y `npm run build`. Falta crear la BD `mesaya_test` · ¿funcionó?: PENDIENTE DE REVISAR
+- **Enlace:** 1859590
