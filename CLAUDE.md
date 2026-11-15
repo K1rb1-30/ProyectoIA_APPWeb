@@ -101,6 +101,13 @@ Reglas:
 - Los 14 alérgenos legales van en un seeder (`AlergenosSeeder`).
 - URL fija del QR: `/r/{slug}/mesa/{numero}`.
 
+## Diseño visual (obligatorio para cualquier vista)
+El diseño de la web está en `docs/design/DesignFrontend/` (maquetas hechas con Google Stitch).
+- **Antes de crear o modificar una vista Blade**, lee `docs/design/DesignFrontend/README.md` (índice de pantallas) y `docs/design/DesignFrontend/DESIGN.md` (colores, tipografía y componentes).
+- Cada pantalla tiene su carpeta `<rol>/<pantalla>/` con `screen.png` (captura) y `code.html` (maqueta HTML + Tailwind). La vista tiene que parecerse a la captura.
+- Las maquetas son solo referencia: no se enlazan ni se sirven desde la aplicación. Los colores y tamaños se definen una vez con `@theme` en `resources/css/app.css`.
+- Si una pantalla no tiene maqueta, sigue el estilo de la más parecida y avisa.
+
 ## Funcionalidades y prioridad
 🟢 **MVP (v0.1):** login y roles, multi-restaurante, carta (CRUD + foto + disponibilidad), alérgenos, mesas y QR en PDF, comanda del camarero, pantalla de cocina, aviso de plato listo.
 🔵 **v1.0:** carta pública por QR, autopedido, dividir la cuenta, pago con Stripe, pago en efectivo, cerrar mesa, estadísticas (Chart.js).
