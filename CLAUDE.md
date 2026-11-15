@@ -152,6 +152,15 @@ Nosotros revisamos la entrada, decidimos si funcionó y ponemos el enlace a la P
 
 Si un cambio afecta a la instalación, a la API o al uso, avisa de qué documento hay que actualizar.
 
+## Grafo del proyecto (graphify)
+El proyecto tiene un grafo de conocimiento en `graphify-out/` (archivos, clases y relaciones entre ellos). Unos hooks de `.claude/settings.json` lo recuerdan antes de cada búsqueda o lectura.
+- El comando se ejecuta siempre como `python -m graphify ...` (el ejecutable `graphify` puede no estar en el PATH). Requiere `pip install graphifyy`.
+- Si existe `graphify-out/graph.json`, **antes de buscar o leer código para responder una pregunta sobre el proyecto**, ejecuta `python -m graphify query "<pregunta>"`. Para relaciones, `python -m graphify path "<A>" "<B>"`; para un concepto, `python -m graphify explain "<concepto>"`. Lee los archivos solo en las líneas que el grafo haya señalado. Incluye esta norma en los prompts de los subagentes que exploren código.
+- Lee `graphify-out/GRAPH_REPORT.md` solo para una visión general de la arquitectura.
+- **Después de modificar código**, ejecuta `python -m graphify update .` para actualizar el grafo (análisis local, sin coste).
+- `graphify-out/graph.json` se reescribe entero en cada actualización: un diff grande en una PR es normal.
+- `.graphifyignore` impide que graphify lea `.env`, `vendor/`, `node_modules/` y las maquetas. No quites esas líneas.
+
 ## Comandos útiles
 ```bash
 composer install && npm install

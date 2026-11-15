@@ -1,0 +1,11 @@
+# Archivos que graphify no debe leer
+.env
+.env.*
+!.env.example
+auth.json
+storage/
+vendor/
+node_modules/
+public/build/
+# Maquetas de diseño: no son código de la aplicación
+docs/design/DesignFrontend/
