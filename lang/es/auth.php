@@ -1,0 +1,11 @@
+<?php
+
+// Mensajes de inicio de sesión en castellano.
+
+return [
+
+    'failed' => 'El correo o la contraseña no son correctos.',
+    'password' => 'La contraseña no es correcta.',
+    'throttle' => 'Demasiados intentos de acceso. Vuelve a intentarlo en :seconds segundos.',
+
+];
