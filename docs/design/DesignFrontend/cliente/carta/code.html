@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MesaYa · Bar La Plaza · Mesa 5</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 with Container Queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-tertiary-fixed-variant": "#005236",
+            "on-primary-container": "#582200",
+            "surface-variant": "#dce2f3",
+            "on-background": "#151c27",
+            "secondary-fixed": "#d9e3f6",
+            "surface": "#f9f9ff",
+            "surface-dim": "#d3daea",
+            "on-secondary-fixed-variant": "#3d4756",
+            "error": "#ba1a1a",
+            "surface-tint": "#9d4300",
+            "primary": "#9d4300",
+            "outline": "#8c7164",
+            "tertiary-fixed": "#6ffbbe",
+            "secondary-fixed-dim": "#bdc7d9",
+            "on-primary-fixed": "#341100",
+            "on-error-container": "#93000a",
+            "inverse-on-surface": "#ebf1ff",
+            "primary-fixed": "#ffdbca",
+            "on-tertiary-container": "#003b26",
+            "background": "#f9f9ff",
+            "tertiary": "#006c49",
+            "on-tertiary-fixed": "#002113",
+            "surface-container": "#e7eefe",
+            "on-secondary": "#ffffff",
+            "on-error": "#ffffff",
+            "primary-container": "#f97316",
+            "on-primary": "#ffffff",
+            "on-primary-fixed-variant": "#783200",
+            "on-secondary-fixed": "#121c2a",
+            "surface-bright": "#f9f9ff",
+            "tertiary-fixed-dim": "#4edea3",
+            "outline-variant": "#e0c0b1",
+            "surface-container-highest": "#dce2f3",
+            "tertiary-container": "#00b07a",
+            "error-container": "#ffdad6",
+            "on-tertiary": "#ffffff",
+            "inverse-surface": "#2a313d",
+            "on-secondary-container": "#596373",
+            "surface-container-lowest": "#ffffff",
+            "secondary-container": "#d6e0f3",
+            "inverse-primary": "#ffb690",
+            "primary-fixed-dim": "#ffb690",
+            "surface-container-low": "#f0f3ff",
+            "secondary": "#555f6f",
+            "on-surface": "#151c27",
+            "surface-container-high": "#e2e8f8",
+            "on-surface-variant": "#584237"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "gutter-md": "1.5rem",
+            "space-xs": "0.25rem",
+            "margin-md": "1.5rem",
+            "margin": "1rem",
+            "gutter": "1rem",
+            "space-lg": "1.5rem",
+            "space-md": "1rem",
+            "space-sm": "0.5rem",
+            "margin-lg": "2.5rem",
+            "space-xl": "2rem"
+          },
+          "fontFamily": {
+            "label-md": ["Inter"],
+            "label-lg": ["Inter"],
+            "headline-sm": ["Inter"],
+            "headline-md": ["Inter"],
+            "display-hero-mobile": ["Inter"],
+            "body-md": ["Inter"],
+            "label-sm": ["Inter"],
+            "body-lg": ["Inter"],
+            "headline-lg": ["Inter"],
+            "price-display": ["Inter"],
+            "display-hero": ["Inter"]
+          },
+          "fontSize": {
+            "label-md": ["13px", {"lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+            "label-lg": ["15px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+            "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+            "headline-md": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+            "display-hero-mobile": ["30px", {"lineHeight": "36px", "letterSpacing": "-0.015em", "fontWeight": "800"}],
+            "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+            "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "700"}],
+            "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+            "headline-lg": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+            "price-display": ["18px", {"lineHeight": "22px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+            "display-hero": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .material-symbols-outlined.fill-icon {
+      font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 24;
+    }
+    /* Hide scrollbars for slick category tab swipe */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body-md antialiased selection:bg-primary-container selection:text-on-primary min-h-screen pb-32">
+<!-- Top App Bar (Shared Component Anchor) -->
+<header class="bg-surface dark:bg-inverse-surface docked full-width top-0 sticky z-40 shadow-sm dark:shadow-none">
+<div class="flex justify-between items-center w-full px-margin md:px-margin-md max-w-[720px] mx-auto py-3">
+<!-- Brand & Table Info -->
+<div class="flex items-center space-x-2.5">
+<div class="w-9 h-9 rounded-xl bg-primary-container text-on-primary flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined" data-icon="restaurant_menu">restaurant_menu</span>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">Bar La Plaza</span>
+<span class="bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm px-1.5 py-0.5 rounded">MesaYa</span>
+</div>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="inline-flex items-center gap-1 bg-tertiary-container/15 text-tertiary font-label-sm text-label-sm px-2 py-0.5 rounded-full font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span>
+              Mesa 5 · Sesión activa
+            </span>
+</div>
+</div>
+</div>
+<!-- Quick Action: Llamar Camarero -->
+<button aria-label="Llamar camarero" class="min-h-[44px] px-3 py-1.5 rounded-xl bg-surface-container-lowest border border-outline-variant/40 hover:bg-surface-container text-on-surface active:scale-[0.98] transition-all duration-150 flex items-center gap-1.5 shadow-sm text-label-md font-label-md" id="call-waiter-btn" onclick="toggleCallWaiter()" type="button">
+<span class="material-symbols-outlined text-primary" data-icon="room_service">room_service</span>
+<span class="hidden sm:inline font-semibold">Camarero</span>
+</button>
+</div>
+</header>
+<!-- Notification Toast for Waiter Call -->
+<div class="fixed top-16 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 transform -translate-y-12 opacity-0 pointer-events-none w-11/12 max-w-sm" id="waiter-toast">
+<div class="bg-inverse-surface text-inverse-on-surface px-4 py-3 rounded-2xl shadow-xl flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary-fixed fill-icon" data-icon="check_circle">check_circle</span>
+<p class="font-label-md text-label-md flex-1">¡Avisado! Un camarero se acerca a la Mesa 5.</p>
+</div>
+</div>
+<main class="max-w-[720px] mx-auto px-margin md:px-margin-md pt-3">
+<!-- Search & Dietary Filter Bar -->
+<div class="mb-3">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3.5 text-secondary pointer-events-none" data-icon="search">search</span>
+<input class="w-full pl-10 pr-10 min-h-[48px] bg-surface-container-lowest rounded-2xl border border-outline-variant/30 text-on-surface placeholder:text-secondary font-body-md text-body-md focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all" placeholder="Buscar croquetas, bravas, raciones..." type="search"/>
+<button aria-label="Filtro de alérgenos" class="absolute right-2.5 p-1.5 text-secondary hover:text-on-surface rounded-lg active:scale-95" type="button">
+<span class="material-symbols-outlined" data-icon="tune">tune</span>
+</button>
+</div>
+</div>
+<!-- Category Tabs (Horizontally scrollable & sticky below app bar) -->
+<nav aria-label="Categorías de la carta" class="sticky top-[61px] z-30 bg-surface/95 backdrop-blur-md py-2 -mx-margin px-margin mb-3 overflow-x-auto no-scrollbar">
+<div class="flex items-center gap-2 min-w-max">
+<!-- Tab: Tapas (Active) -->
+<button class="min-h-[40px] px-4 py-2 rounded-full bg-primary-container text-on-primary font-label-md text-label-md flex items-center gap-1.5 shadow-sm active:scale-[0.97] transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="tapas">tapas</span>
+<span>Tapas</span>
+</button>
+<!-- Tab: Raciones -->
+<button class="min-h-[40px] px-4 py-2 rounded-full bg-surface-container-lowest border border-outline-variant/30 text-secondary hover:text-on-surface font-label-md text-label-md flex items-center gap-1.5 active:scale-[0.97] transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="dinner_dining">dinner_dining</span>
+<span>Raciones</span>
+</button>
+<!-- Tab: Principales -->
+<button class="min-h-[40px] px-4 py-2 rounded-full bg-surface-container-lowest border border-outline-variant/30 text-secondary hover:text-on-surface font-label-md text-label-md flex items-center gap-1.5 active:scale-[0.97] transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="skillet">skillet</span>
+<span>Principales</span>
+</button>
+<!-- Tab: Postres -->
+<button class="min-h-[40px] px-4 py-2 rounded-full bg-surface-container-lowest border border-outline-variant/30 text-secondary hover:text-on-surface font-label-md text-label-md flex items-center gap-1.5 active:scale-[0.97] transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="icecream">icecream</span>
+<span>Postres</span>
+</button>
+<!-- Tab: Bebidas -->
+<button class="min-h-[40px] px-4 py-2 rounded-full bg-surface-container-lowest border border-outline-variant/30 text-secondary hover:text-on-surface font-label-md text-label-md flex items-center gap-1.5 active:scale-[0.97] transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="local_bar">local_bar</span>
+<span>Bebidas</span>
+</button>
+</div>
+</nav>
+<!-- Tapas Section Header -->
+<div class="flex items-baseline justify-between mb-3 px-1">
+<div>
+<h1 class="font-headline-md text-headline-md text-on-surface">Tapas Tradicionales</h1>
+<p class="font-body-md text-secondary text-xs">Elaboradas al momento con producto de proximidad</p>
+</div>
+<span class="text-xs font-semibold text-secondary-fixed-variant bg-surface-container-high px-2 py-0.5 rounded-full">5 platos</span>
+</div>
+<!-- Dishes Card Stack (Level 1 Elevation) -->
+<div class="space-y-space-md">
+<!-- Plato 1: Croquetas caseras (Con 1 añadido) -->
+<article class="bg-surface-container-lowest rounded-2xl p-space-md border border-outline-variant/30 shadow-[0_2px_8px_-2px_rgba(31,41,55,0.05)] transition-all flex flex-col justify-between">
+<div class="flex gap-3">
+<div class="flex-1 pr-1">
+<div class="flex items-center gap-2 mb-1">
+<h2 class="font-headline-sm text-headline-sm font-semibold text-on-surface leading-tight">Croquetas caseras de jamón ibérico (6 uds.)</h2>
+</div>
+<p class="font-body-md text-body-md text-secondary mb-2.5 leading-snug">Bechamel cremosa tradicional con jamón de bellota crujiente.</p>
+<!-- Alérgenos -->
+<div class="flex flex-wrap items-center gap-1.5 mb-3">
+<span class="inline-flex items-center gap-1 bg-surface-container-high text-on-surface px-2 py-0.5 rounded-md font-label-sm text-label-sm">
+                🌾 Gluten
+              </span>
+<span class="inline-flex items-center gap-1 bg-surface-container-high text-on-surface px-2 py-0.5 rounded-md font-label-sm text-label-sm">
+                🥛 Lácteos
+              </span>
+<span class="inline-flex items-center gap-1 bg-surface-container-high text-on-surface px-2 py-0.5 rounded-md font-label-sm text-label-sm">
+                🥚 Huevo
+              </span>
+</div>
+</div>
+<!-- Imagen con ratio perfecto -->
+<div class="relative w-[92px] h-[92px] flex-shrink-0">
+<img class="w-full h-full object-cover rounded-xl shadow-inner" data-alt="A mouth-watering gourmet dish of crispy Spanish jamon iberico croquettes piled delicately on a handcrafted white ceramic plate. The golden breadcrumb crust glistens under warm golden restaurant lighting, accompanied by a small herb garnish. Warm minimalist restaurant ambiance with terracotta and soft wood tones in the blurred background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkddY8nH2h8q54u4GhuSLWt0OIW-kWl2b_k_P8Ohjhyuu5poGosW6TU0ZWTG2P9SZcLbzz0hTerGR06ZOdsVXQU4DgPg2nb1Fx3xGC4fEaTDtbUAySAYMqiBsWB2HLPdR7vjxgwdaVCL1kRPEL8Qcc45r9U6O9fuIdN31E4ax1Tk4RK9vqlYCv4oO-Vs6ydp0Jg73XvWbz9lOAr3z8YyJg2yf4R6-Rq2vldLD4ryZG"/>
+</div>
+</div>
+<!-- Precio y Stepper Activo (1 añadido) -->
+<div class="flex items-center justify-between pt-2 border-t border-surface-container">
+<span class="font-price-display text-price-display text-on-surface">8,50 €</span>
+<div class="flex items-center bg-surface-container rounded-full p-0.5 shadow-sm border border-outline-variant/20">
+<button aria-label="Restar una croqueta" class="w-10 h-10 min-h-[40px] flex items-center justify-center rounded-full bg-surface-container-lowest text-on-surface hover:bg-surface-dim active:scale-90 transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="remove">remove</span>
+</button>
+<span class="w-8 text-center font-bold text-on-surface font-label-lg text-label-lg">1</span>
+<button aria-label="Añadir una croqueta" class="w-10 h-10 min-h-[40px] flex items-center justify-center rounded-full bg-primary-container text-on-primary active:scale-90 transition-all shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="add">add</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Plato 2: Patatas bravas tradicionales -->
+<article class="bg-surface-container-lowest rounded-2xl p-space-md border border-outline-variant/30 shadow-[0_2px_8px_-2px_rgba(31,41,55,0.05)] transition-all flex flex-col justify-between">
+<div class="flex gap-3">
+<div class="flex-1 pr-1">
+<h2 class="font-headline-sm text-headline-sm font-semibold text-on-surface leading-tight mb-1">Patatas bravas tradicionales</h2>
+<p class="font-body-md text-body-md text-secondary mb-2.5 leading-snug">Patata gallega crujiente con salsa brava artesanal de pimentón de la Vera y alioli suave.</p>
+<div class="flex flex-wrap items-center gap-1.5 mb-3">
+<span class="inline-flex items-center gap-1 bg-surface-container-high text-on-surface px-2 py-0.5 rounded-md font-label-sm text-label-sm">
+                🥚 Huevo
+              </span>
+<span class="inline-flex items-center gap-1 bg-tertiary-container/15 text-tertiary px-2 py-0.5 rounded-md font-label-sm text-label-sm">
+                🌶️ Picante suave
+              </span>
+</div>
+</div>
+<div class="relative w-[92px] h-[92px] flex-shrink-0">
+<img class="w-full h-full object-cover rounded-xl shadow-inner" data-alt="Golden crisp-fried Spanish patatas bravas cut in rustic chunks served in a glazed terracotta bowl, lavishly drizzled with vibrant red pimenton sauce and dollops of creamy white garlic alioli. Soft natural daylight hitting the textured fried potatoes against a neutral stone background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZx__a1Ij-AMSEWD9H5JtYjOsl4nLweylV8JXu2Euc_MIYaYB1NAwrrdf0teP9JzCO7y-vJ00poazPskVudnxLYyq0wpXFBuzvs4ASvfRECkHLXr7Wym0regxIQ8le0RZZWJv3Q4YbC7lWG7gl2MeeQcEussC8yXheeCZnbYZR1AO00QNmeoUDdYTMob44LW_MbK0l3krHbc2IcCDdayGqmxdvWj21d-e_Egh1zp92"/>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-surface-container">
+<span class="font-price-display text-price-display text-on-surface">6,00 €</span>
+<button aria-label="Añadir Patatas bravas al pedido" class="min-h-[48px] min-w-[48px] px-4 rounded-xl bg-primary-container text-on-primary font-label-md text-label-md flex items-center justify-center gap-1 active:scale-[0.95] transition-all shadow-sm hover:brightness-105" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
+<span class="font-bold">Añadir</span>
+</button>
+</div>
+</article>
+<!-- Plato 3: Tortilla de patatas jugosa -->
+<article class="bg-surface-container-lowest rounded-2xl p-space-md border border-outline-variant/30 shadow-[0_2px_8px_-2px_rgba(31,41,55,0.05)] transition-all flex flex-col justify-between">
+<div class="flex gap-3">
+<div class="flex-1 pr-1">
+<div class="flex items-center gap-1.5 mb-1">
+<span class="bg-primary-fixed text-on-primary-fixed text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">Top Ventas</span>
+<h2 class="font-headline-sm text-headline-sm font-semibold text-on-surface leading-tight">Tortilla de patatas jugosa al momento</h2>
+</div>
+<p class="font-body-md text-body-md text-secondary mb-2.5 leading-snug">Hecha con huevos de corral, cebolla caramelizada y patata pochada tierna.</p>
+<div class="flex flex-wrap items-center gap-1.5 mb-3">
+<span class="inline-flex items-center gap-1 bg-surface-container-high text-on-surface px-2 py-0.5 rounded-md font-label-sm text-label-sm">
+                🥚 Huevo
+              </span>
+<span class="inline-flex items-center gap-1 bg-surface-container-high text-on-surface px-2 py-0.5 rounded-md font-label-sm text-label-sm">
+                🧅 Con cebolla
+              </span>
+</div>
+</div>
+<div class="relative w-[92px] h-[92px] flex-shrink-0">
+<img class="w-full h-full object-cover rounded-xl shadow-inner" data-alt="A freshly sliced authentic Spanish potato omelette pincho displaying a delightfully runny, creamy golden egg center. Resting on rustic sourdough bread toast over a minimal ceramic platter. Soft overhead directional lighting highlights the glistening olive oil and caramelized textures." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQhdpeYOh_RxTspaZJaRirDB8tlFKKL6H1T_eFm9wNKt4oDUWpLNYJ6EGHNbln0xeFuvmDJttBhdlXz4xV8jE6Ba2LwgNWo6FUTAL83rEo9CEGRI7ZgpQD64xwmVvx8jA7q6HZIEYnSJ74upcCjKtP2IJZhz32335pweRQbe70fxKFZBSQT_2ewscXZMui6adBCabPGmrqPh-uvNnHuj52DrkfCVs9LIM_NPkatbn9"/>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-surface-container">
+<span class="font-price-display text-price-display text-on-surface">7,20 €</span>
+<button aria-label="Añadir Tortilla de patatas al pedido" class="min-h-[48px] min-w-[48px] px-4 rounded-xl bg-primary-container text-on-primary font-label-md text-label-md flex items-center justify-center gap-1 active:scale-[0.95] transition-all shadow-sm hover:brightness-105" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
+<span class="font-bold">Añadir</span>
+</button>
+</div>
+</article>
+<!-- Plato 4: Ensaladilla rusa de la casa -->
+<article class="bg-surface-container-lowest rounded-2xl p-space-md border border-outline-variant/30 shadow-[0_2px_8px_-2px_rgba(31,41,55,0.05)] transition-all flex flex-col justify-between">
+<div class="flex gap-3">
+<div class="flex-1 pr-1">
+<h2 class="font-headline-sm text-headline-sm font-semibold text-on-surface leading-tight mb-1">Ensaladilla rusa de la casa</h2>
+<p class="font-body-md text-body-md text-secondary mb-2.5 leading-snug">Con atún claro, patata, zanahoria, mayonesa suave y picos camperos.</p>
+<div class="flex flex-wrap items-center gap-1.5 mb-3">
+<span class="inline-flex items-center gap-1 bg-surface-container-high text-on-surface px-2 py-0.5 rounded-md font-label-sm text-label-sm">
+                🐟 Pescado
+              </span>
+<span class="inline-flex items-center gap-1 bg-surface-container-high text-on-surface px-2 py-0.5 rounded-md font-label-sm text-label-sm">
+                🌾 Gluten
+              </span>
+<span class="inline-flex items-center gap-1 bg-surface-container-high text-on-surface px-2 py-0.5 rounded-md font-label-sm text-label-sm">
+                🥚 Huevo
+              </span>
+</div>
+</div>
+<div class="relative w-[92px] h-[92px] flex-shrink-0">
+<img class="w-full h-full object-cover rounded-xl shadow-inner" data-alt="A refined gourmet presentation of classic Spanish ensaladilla rusa plated inside a minimalist round mold, topped with olive oil drizzle and artisan breadsticks. Garnished with delicate edible micro-greens, set against crisp bright Scandinavian tableware and natural morning bistro light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC22WN2xpdfIfZ6U-IqBbo5r-F-nUkk-jPUbEP49XDG8gvK0QZ1MbHLY6LO2gq3vMmoU93j_e0zuHY1LpxDXNakx-fxyvl0qmwIaN2cCoJWtU8yDjzE8lNjRFA8GLT19SAN43OklGhOSuGVUYuRsSsarQ8mLerjNy8tq6yAUlEW44jVv5Qvfmi0_VrmAjRiHp7szZnP71vpDL3Ia7mF8NBo32LSuxu8VZ-wxm-ZKPzs"/>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-surface-container">
+<span class="font-price-display text-price-display text-on-surface">6,80 €</span>
+<button aria-label="Añadir Ensaladilla rusa al pedido" class="min-h-[48px] min-w-[48px] px-4 rounded-xl bg-primary-container text-on-primary font-label-md text-label-md flex items-center justify-center gap-1 active:scale-[0.95] transition-all shadow-sm hover:brightness-105" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
+<span class="font-bold">Añadir</span>
+</button>
+</div>
+</article>
+<!-- Plato 5: Calamares a la romana fritos (AGOTADO / NO DISPONIBLE) -->
+<article class="bg-surface-container-lowest/70 rounded-2xl p-space-md border border-outline-variant/20 shadow-none opacity-60 grayscale-[40%] transition-all flex flex-col justify-between select-none">
+<div class="flex gap-3">
+<div class="flex-1 pr-1">
+<div class="flex items-center gap-2 mb-1">
+<span class="inline-flex items-center gap-1 bg-error-container text-on-error-container font-label-sm text-label-sm px-2 py-0.5 rounded-full font-bold">
+<span class="material-symbols-outlined text-[13px]" data-icon="block">block</span>
+                Agotado hoy
+              </span>
+</div>
+<h2 class="font-headline-sm text-headline-sm font-semibold text-secondary leading-tight line-through mb-1">Calamares a la romana fritos</h2>
+<p class="font-body-md text-body-md text-secondary/80 mb-2.5 leading-snug">Calamares frescos rebozados con harina suave y limón exprimido.</p>
+<div class="flex flex-wrap items-center gap-1.5 mb-3">
+<span class="inline-flex items-center gap-1 bg-surface-container text-secondary px-2 py-0.5 rounded-md font-label-sm text-label-sm">
+                🌾 Gluten
+              </span>
+<span class="inline-flex items-center gap-1 bg-surface-container text-secondary px-2 py-0.5 rounded-md font-label-sm text-label-sm">
+                🦑 Moluscos
+              </span>
+</div>
+</div>
+<div class="relative w-[92px] h-[92px] flex-shrink-0">
+<img class="w-full h-full object-cover rounded-xl filter grayscale contrast-75" data-alt="Golden crisp deep-fried squid calamari rings garnished with yellow lemon wedges and sea salt flakes on rustic craft wrapping paper. Moody cinematic shadows and diffused restaurant lighting showing warm tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYcuHajoR3pl6T8l7jtJB_Atii09XxKs2QJy7orrRxZB1n8S7ze7dzzCADFoG-8xtBaVJAIugEi5K1ehOugyQgRkqEDYip1oqBQmaD0s-MftGkggGlnKOIwGP_hsFyrNmDhPXuQnt2VO_uSTJm58x6mcdzvBLvcTkTSMRh3qPOG8mxgqzbbXXhqm4dYEJrQMqhqZMbj0XBgmm_HQBQr-m3b5NSV8j28jast4Qqo39g"/>
+<div class="absolute inset-0 bg-inverse-surface/20 rounded-xl"></div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-surface-container/60">
+<span class="font-price-display text-price-display text-secondary">9,50 €</span>
+<button aria-label="Calamares a la romana no disponibles" class="min-h-[48px] px-4 rounded-xl bg-surface-container-high text-secondary cursor-not-allowed font-label-md text-label-md flex items-center justify-center gap-1.5" disabled="" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="do_not_disturb_on">do_not_disturb_on</span>
+<span>No disponible</span>
+</button>
+</div>
+</article>
+</div>
+<!-- Special Chef Note / Hospitality Banner -->
+<div class="mt-6 p-4 rounded-2xl bg-surface-container-high/60 border border-outline-variant/30 flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-[24px] mt-0.5" data-icon="info">info</span>
+<div class="text-xs text-on-surface-variant leading-relaxed">
+<p class="font-semibold text-on-surface">¿Intolerancias o peticiones especiales?</p>
+<p>Puedes indicarlas en el siguiente paso o pulsar el botón <span class="font-semibold text-primary">Camarero</span> para que nos acerquemos a asesorarte.</p>
+</div>
+</div>
+</main>
+<!-- Floating Sticky Cart Action Button (Level 2 Elevation) -->
+<aside class="fixed bottom-16 left-0 right-0 z-40 px-margin max-w-[720px] mx-auto pointer-events-none">
+<div class="pointer-events-auto">
+<button class="w-full min-h-[54px] bg-primary-container text-on-primary rounded-2xl px-5 py-3 shadow-[0_12px_24px_-6px_rgba(249,115,22,0.4)] flex items-center justify-between active:scale-[0.98] transition-all hover:brightness-105" onclick="toggleCartModal()" type="button">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-bold text-sm">
+            3
+          </div>
+<span class="font-headline-sm text-headline-sm font-bold tracking-tight">Ver pedido</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-price-display text-price-display">18,50 €</span>
+<span class="material-symbols-outlined text-[22px] font-bold" data-icon="arrow_forward">arrow_forward</span>
+</div>
+</button>
+</div>
+</aside>
+<!-- Bottom Navigation Bar (Shared Component Anchor) -->
+<!-- Active state: 'Carta' (Closest semantic match to the digital QR menu page) -->
+<nav aria-label="Navegación principal" class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-space-md py-space-sm max-w-[720px] mx-auto bg-surface dark:bg-inverse-surface shadow-lg dark:shadow-none">
+<!-- Tab 1: Carta (ACTIVE) -->
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary rounded-xl px-4 py-1.5 active:scale-[0.98] transition-transform duration-150" href="#carta">
+<span class="material-symbols-outlined fill-icon text-[22px]" data-icon="restaurant">restaurant</span>
+<span class="font-label-sm text-label-sm font-bold mt-0.5">Carta</span>
+</a>
+<!-- Tab 2: Mi Mesa (INACTIVE) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant px-4 py-1.5 hover:bg-surface-container-low dark:hover:bg-surface-variant hover:text-on-surface active:scale-[0.98] transition-transform duration-150" href="#mimesa">
+<span class="material-symbols-outlined text-[22px]" data-icon="receipt_long">receipt_long</span>
+<span class="font-label-sm text-label-sm font-semibold mt-0.5">Mi Mesa</span>
+</a>
+<!-- Tab 3: Cuenta (INACTIVE) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant px-4 py-1.5 hover:bg-surface-container-low dark:hover:bg-surface-variant hover:text-on-surface active:scale-[0.98] transition-transform duration-150" href="#cuenta">
+<span class="material-symbols-outlined text-[22px]" data-icon="payments">payments</span>
+<span class="font-label-sm text-label-sm font-semibold mt-0.5">Cuenta</span>
+</a>
+</nav>
+<!-- Simple Feedback & Micro-Interactions Script -->
+<script>
+    function toggleCallWaiter() {
+      const toast = document.getElementById('waiter-toast');
+      const btn = document.getElementById('call-waiter-btn');
+      
+      btn.classList.add('bg-primary-fixed', 'text-on-primary-fixed');
+      toast.classList.remove('opacity-0', '-translate-y-12', 'pointer-events-none');
+      toast.classList.add('opacity-100', 'translate-y-0');
+
+      setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', '-translate-y-12', 'pointer-events-none');
+        btn.classList.remove('bg-primary-fixed', 'text-on-primary-fixed');
+      }, 3500);
+    }
+
+    function toggleCartModal() {
+      alert("Comanda Mesa 5:\n- 1x Croquetas caseras de jamón (8,50 €)\n- 1x Patatas bravas tradicionales (6,00 €)\n- 1x Caña doble Mahou (4,00 €)\nTotal: 18,50 €\n\nListo para enviar a la cocina.");
+    }
+  </script>
+</body></html>

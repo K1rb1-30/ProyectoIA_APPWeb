@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-surface" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bar La Plaza · MesaYa Backoffice - Estadísticas</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Inter Google Font -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config Verbatim -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-tertiary": "#ffffff",
+            "primary-fixed": "#ffdbca",
+            "secondary-fixed-dim": "#bdc7d9",
+            "surface-container-high": "#e2e8f8",
+            "outline-variant": "#e0c0b1",
+            "surface-variant": "#dce2f3",
+            "on-secondary-fixed-variant": "#3d4756",
+            "surface-bright": "#f9f9ff",
+            "on-primary-container": "#582200",
+            "secondary-container": "#d6e0f3",
+            "error": "#ba1a1a",
+            "surface-tint": "#9d4300",
+            "tertiary": "#006c49",
+            "on-secondary-container": "#596373",
+            "tertiary-fixed-dim": "#4edea3",
+            "on-primary": "#ffffff",
+            "tertiary-fixed": "#6ffbbe",
+            "on-surface": "#151c27",
+            "error-container": "#ffdad6",
+            "on-primary-fixed": "#341100",
+            "on-tertiary-fixed-variant": "#005236",
+            "inverse-surface": "#2a313d",
+            "outline": "#8c7164",
+            "on-error": "#ffffff",
+            "on-primary-fixed-variant": "#783200",
+            "surface-container-highest": "#dce2f3",
+            "primary": "#9d4300",
+            "inverse-primary": "#ffb690",
+            "surface-container-low": "#f0f3ff",
+            "primary-container": "#f97316",
+            "background": "#f9f9ff",
+            "on-secondary-fixed": "#121c2a",
+            "surface-container-lowest": "#ffffff",
+            "surface-dim": "#d3daea",
+            "surface": "#f9f9ff",
+            "surface-container": "#e7eefe",
+            "on-surface-variant": "#584237",
+            "on-tertiary-fixed": "#002113",
+            "tertiary-container": "#00b07a",
+            "secondary": "#555f6f",
+            "on-tertiary-container": "#003b26",
+            "inverse-on-surface": "#ebf1ff",
+            "on-secondary": "#ffffff",
+            "on-background": "#151c27",
+            "secondary-fixed": "#d9e3f6",
+            "primary-fixed-dim": "#ffb690",
+            "on-error-container": "#93000a"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "gutter": "1rem",
+            "space-xs": "0.25rem",
+            "space-lg": "1.5rem",
+            "gutter-md": "1.5rem",
+            "margin": "1rem",
+            "margin-md": "1.5rem",
+            "margin-lg": "2.5rem",
+            "space-md": "1rem",
+            "space-sm": "0.5rem",
+            "space-xl": "2rem"
+          },
+          "fontFamily": {
+            "body-md": ["Inter"],
+            "display-hero-mobile": ["Inter"],
+            "display-hero": ["Inter"],
+            "label-lg": ["Inter"],
+            "label-sm": ["Inter"],
+            "headline-md": ["Inter"],
+            "headline-lg": ["Inter"],
+            "price-display": ["Inter"],
+            "body-lg": ["Inter"],
+            "label-md": ["Inter"],
+            "headline-sm": ["Inter"]
+          },
+          "fontSize": {
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "display-hero-mobile": ["30px", { "lineHeight": "36px", "letterSpacing": "-0.015em", "fontWeight": "800" }],
+            "display-hero": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+            "label-lg": ["15px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "700" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "headline-lg": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "price-display": ["18px", { "lineHeight": "22px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+            "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+  </style>
+</head>
+<body class="h-full bg-surface text-on-surface antialiased overflow-x-hidden">
+<!-- ========================================================================= -->
+<!-- 1. SIDEBAR (SideNavBar Shared Component) -->
+<!-- ========================================================================= -->
+<aside class="fixed left-0 top-0 h-screen w-64 z-40 flex flex-col justify-between p-4 bg-surface-container-lowest border-r border-outline-variant/30 shadow-sm">
+<!-- Top brand cluster & primary action -->
+<div class="flex flex-col gap-5">
+<!-- Brand Logo Header -->
+<div class="flex items-center gap-3 px-2 pt-1">
+<div class="w-10 h-10 rounded-xl bg-primary-container flex items-center justify-center text-on-primary shadow-sm">
+<span class="material-symbols-outlined text-2xl" data-icon="restaurant_menu">restaurant_menu</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">Bar La Plaza</span>
+<span class="bg-primary-fixed text-on-primary-fixed text-[10px] font-bold px-1.5 py-0.5 rounded">PRO</span>
+</div>
+<span class="font-label-md text-label-md text-secondary">MesaYa Backoffice</span>
+</div>
+</div>
+<!-- Action Button CTA -->
+<button class="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-primary-container text-on-primary font-label-lg text-label-lg hover:opacity-95 active:translate-y-px transition-all shadow-sm">
+<span class="material-symbols-outlined text-lg" data-icon="add">add</span>
+<span>Nueva Mesa</span>
+</button>
+<!-- Main Navigation Menu -->
+<nav class="flex flex-col gap-1.5">
+<!-- Carta -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors font-label-md text-label-md active:translate-y-px" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="restaurant_menu">restaurant_menu</span>
+<span>Carta</span>
+</a>
+<!-- Alérgenos -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors font-label-md text-label-md active:translate-y-px" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="nutrition">nutrition</span>
+<span>Alérgenos</span>
+</a>
+<!-- Mesas y QR -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors font-label-md text-label-md active:translate-y-px" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="qr_code_scanner">qr_code_scanner</span>
+<span>Mesas y QR</span>
+</a>
+<!-- Personal -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors font-label-md text-label-md active:translate-y-px" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="badge">badge</span>
+<span>Personal</span>
+</a>
+<!-- Estadísticas (Active) -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md shadow-sm active:translate-y-px" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="bar_chart" data-weight="fill" style="font-variation-settings: 'FILL' 1;">bar_chart</span>
+<span class="font-bold">Estadísticas</span>
+</a>
+</nav>
+</div>
+<!-- Bottom Sidebar Section: Status & Footer tabs -->
+<div class="flex flex-col gap-3 pt-3 border-t border-outline-variant/30">
+<!-- Sync Status Box -->
+<div class="px-3 py-2.5 rounded-xl bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="relative flex h-2.5 w-2.5">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-tertiary-container opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-tertiary"></span>
+</span>
+<div class="flex flex-col">
+<span class="text-[11px] font-bold text-on-surface leading-tight">TPV y Cocina</span>
+<span class="text-[10px] text-tertiary font-semibold leading-tight">Sincronizado</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-secondary text-sm" data-icon="wifi">wifi</span>
+</div>
+<!-- Footer Tabs -->
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="settings">settings</span>
+<span>Configuración</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="help">help</span>
+<span>Soporte</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- ========================================================================= -->
+<!-- 2. TOPBAR (TopNavBar Shared Component) -->
+<!-- ========================================================================= -->
+<header class="sticky top-0 right-0 z-30 flex items-center justify-between px-8 h-16 w-full pl-72 bg-surface-container-lowest border-b border-outline-variant/30 shadow-sm">
+<!-- Left: Venue Status & Breadcrumb -->
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md font-extrabold text-on-surface tracking-tight">Bar La Plaza</span>
+<span class="text-secondary font-body-md text-body-md">· Centro</span>
+</div>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-tertiary/10 text-tertiary text-xs font-bold">
+<span class="h-1.5 w-1.5 rounded-full bg-tertiary"></span>
+        Servicio Activo
+      </span>
+</div>
+<!-- Center/Right: Period Filters, Export & Admin Profile -->
+<div class="flex items-center gap-4">
+<!-- Period Selector Pill Group -->
+<div class="hidden xl:flex items-center bg-surface-container-low p-1 rounded-xl">
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-lowest text-on-surface font-label-md text-label-md font-bold shadow-sm transition-all">Hoy</button>
+<button class="px-3 py-1.5 rounded-lg text-secondary hover:text-on-surface font-label-md text-label-md transition-colors">Últimos 7 días</button>
+<button class="px-3 py-1.5 rounded-lg text-secondary hover:text-on-surface font-label-md text-label-md transition-colors">Este mes</button>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-secondary hover:text-on-surface font-label-md text-label-md transition-colors">
+<span class="material-symbols-outlined text-base" data-icon="calendar_month">calendar_month</span>
+<span>Rango</span>
+</button>
+</div>
+<!-- Export Report Action -->
+<button class="flex items-center gap-2 px-3.5 py-2 rounded-xl border border-outline-variant/60 bg-surface-container-lowest text-on-surface hover:bg-surface-container-low font-label-md text-label-md transition-all active:scale-95 shadow-sm">
+<span class="material-symbols-outlined text-base text-primary" data-icon="file_download">file_download</span>
+<span>Exportar informe</span>
+</button>
+<!-- Divider -->
+<div class="h-6 w-px bg-outline-variant/40"></div>
+<!-- User Admin Profile -->
+<div class="flex items-center gap-3 pl-1">
+<div class="flex flex-col text-right">
+<span class="font-label-md text-label-md font-bold text-on-surface">Manuel Rivas</span>
+<span class="text-[11px] text-secondary font-medium">Gerente / Admin</span>
+</div>
+<div class="w-10 h-10 rounded-full ring-2 ring-primary-container/20 overflow-hidden bg-primary-fixed flex items-center justify-center text-on-primary-fixed font-bold text-sm">
+          MR
+        </div>
+</div>
+</div>
+</header>
+<!-- ========================================================================= -->
+<!-- MAIN CONTENT CANVAS -->
+<!-- ========================================================================= -->
+<main class="pl-72 pr-8 py-8 flex flex-col gap-6 max-w-[1400px]">
+<!-- Title and Subtitle with Live Refresh Notice -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-2">
+<div>
+<h1 class="font-headline-lg text-headline-lg font-bold text-on-surface">Informes y Analítica</h1>
+<p class="font-body-md text-body-md text-secondary mt-0.5">Métricas de facturación en directo, comportamiento de comensales y rendimiento culinario.</p>
+</div>
+<div class="flex items-center gap-2 text-xs text-secondary bg-surface-container-low px-3 py-1.5 rounded-lg w-fit">
+<span class="material-symbols-outlined text-sm text-tertiary" data-icon="sync">sync</span>
+<span>Actualizado hace 3 min · Turno Comidas</span>
+</div>
+</div>
+<!-- ========================================================================= -->
+<!-- 3. TOP ROW: KPI CARDS BENTO -->
+<!-- ========================================================================= -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- KPI 1: Ventas del Día -->
+<div class="bg-surface-container-lowest p-5 rounded-2xl border border-outline-variant/30 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-md text-label-md text-secondary">Ventas del Día</span>
+<div class="w-8 h-8 rounded-lg bg-primary-fixed/50 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-lg" data-icon="payments">payments</span>
+</div>
+</div>
+<div>
+<div class="font-display-hero text-display-hero font-extrabold text-on-surface tracking-tight">2.480,50 €</div>
+<div class="flex items-center gap-1.5 mt-2">
+<span class="inline-flex items-center text-xs font-bold text-tertiary bg-tertiary/10 px-2 py-0.5 rounded-md">
+<span class="material-symbols-outlined text-xs mr-0.5" data-icon="trending_up">trending_up</span>
+              +18.4%
+            </span>
+<span class="text-xs text-secondary font-medium">vs. ayer (2.095 €)</span>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-outline-variant/20 flex items-center justify-between text-xs text-secondary">
+<span>Objetivo diario: 2.200 €</span>
+<span class="font-bold text-tertiary">Superado (112%)</span>
+</div>
+</div>
+<!-- KPI 2: Nº de Pedidos / Comandas -->
+<div class="bg-surface-container-lowest p-5 rounded-2xl border border-outline-variant/30 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-md text-label-md text-secondary">Comandas Totales</span>
+<div class="w-8 h-8 rounded-lg bg-surface-container text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-lg" data-icon="receipt_long">receipt_long</span>
+</div>
+</div>
+<div>
+<div class="font-display-hero text-display-hero font-extrabold text-on-surface tracking-tight">108 <span class="text-lg font-normal text-secondary">pedidos</span></div>
+<div class="flex items-center gap-1.5 mt-2">
+<span class="inline-flex items-center text-xs font-bold text-tertiary bg-tertiary/10 px-2 py-0.5 rounded-md">
+<span class="material-symbols-outlined text-xs mr-0.5" data-icon="arrow_upward">arrow_upward</span>
+              +12
+            </span>
+<span class="text-xs text-secondary font-medium">vs. media habitual</span>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-outline-variant/20 flex items-center justify-between text-[11px] text-secondary">
+<span>Sala: <strong>58</strong></span>
+<span>·</span>
+<span>Terraza: <strong>36</strong></span>
+<span>·</span>
+<span>Barra: <strong>14</strong></span>
+</div>
+</div>
+<!-- KPI 3: Ticket Medio -->
+<div class="bg-surface-container-lowest p-5 rounded-2xl border border-outline-variant/30 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-md text-label-md text-secondary">Ticket Medio</span>
+<div class="w-8 h-8 rounded-lg bg-surface-container text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-lg" data-icon="query_stats">query_stats</span>
+</div>
+</div>
+<div>
+<div class="font-display-hero text-display-hero font-extrabold text-on-surface tracking-tight">22,96 €</div>
+<div class="flex items-center gap-1.5 mt-2">
+<span class="inline-flex items-center text-xs font-bold text-tertiary bg-tertiary/10 px-2 py-0.5 rounded-md">
+<span class="material-symbols-outlined text-xs mr-0.5" data-icon="arrow_upward">arrow_upward</span>
+              +2,10 €
+            </span>
+<span class="text-xs text-secondary font-medium">vs. semana pasada</span>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-outline-variant/20 flex items-center justify-between text-xs text-secondary">
+<span>Ticket comensal</span>
+<span class="font-bold text-on-surface">11,48 € / persona</span>
+</div>
+</div>
+<!-- KPI 4: Tiempo Medio de Rotación -->
+<div class="bg-surface-container-lowest p-5 rounded-2xl border border-outline-variant/30 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-md text-label-md text-secondary">Rotación / Servicio</span>
+<div class="w-8 h-8 rounded-lg bg-surface-container text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-lg" data-icon="timelapse">timelapse</span>
+</div>
+</div>
+<div>
+<div class="font-display-hero text-display-hero font-extrabold text-on-surface tracking-tight">38 <span class="text-lg font-normal text-secondary">min / mesa</span></div>
+<div class="flex items-center gap-1.5 mt-2">
+<span class="inline-flex items-center text-xs font-bold text-tertiary bg-tertiary/10 px-2 py-0.5 rounded-md">
+<span class="material-symbols-outlined text-xs mr-0.5" data-icon="check_circle">check_circle</span>
+              Óptima
+            </span>
+<span class="text-xs text-secondary font-medium">Capacidad al 86%</span>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-outline-variant/20 flex items-center justify-between text-xs text-secondary">
+<span>Tiempo en cocina</span>
+<span class="font-bold text-on-surface">9,4 min comanda</span>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- 4. MAIN BAR CHART: VENTAS POR FRANJAS HORARIAS / DÍA -->
+<!-- ========================================================================= -->
+<section class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/30 shadow-sm">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+<div>
+<div class="flex items-center gap-2">
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface">Distribución de Facturación por Franja</h2>
+<span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-primary-fixed text-on-primary-fixed">Jornada de Hoy</span>
+</div>
+<p class="font-body-md text-body-md text-secondary mt-1">Evolución de ventas y ocupación horaria en servicio de mediodía y noche.</p>
+</div>
+<!-- Filter Pill Controls -->
+<div class="flex items-center gap-3">
+<!-- Metric Switcher -->
+<div class="flex items-center bg-surface-container-low p-1 rounded-xl">
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-lowest text-on-surface font-label-md text-label-md font-bold shadow-sm">Facturación (€)</button>
+<button class="px-3 py-1.5 rounded-lg text-secondary hover:text-on-surface font-label-md text-label-md">Nº Comandas</button>
+</div>
+<!-- Peak Hour Badge -->
+<div class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-primary-fixed/40 border border-primary-fixed-dim/40 text-on-primary-fixed">
+<span class="material-symbols-outlined text-primary text-base" data-icon="local_fire_department">local_fire_department</span>
+<span class="text-xs font-bold">Pico máx: 14:30 - 15:30 (640,00 €)</span>
+</div>
+</div>
+</div>
+<!-- Modern Visual Bar Chart Container -->
+<div class="w-full pt-4">
+<!-- SVG Grid & Bar Visualization -->
+<div class="relative h-64 w-full flex items-end justify-between gap-3 px-2 pb-6 border-b border-outline-variant/30">
+<!-- Horizontal Reference lines -->
+<div class="absolute inset-0 flex flex-col justify-between pointer-events-none pb-6 text-xs text-secondary/60">
+<div class="w-full border-b border-dashed border-outline-variant/30 flex justify-between pr-2">
+<span class="bg-surface-container-lowest px-1 -mt-2">700 €</span>
+</div>
+<div class="w-full border-b border-dashed border-outline-variant/30 flex justify-between pr-2">
+<span class="bg-surface-container-lowest px-1 -mt-2">500 €</span>
+</div>
+<div class="w-full border-b border-dashed border-outline-variant/30 flex justify-between pr-2">
+<span class="bg-surface-container-lowest px-1 -mt-2">300 €</span>
+</div>
+<div class="w-full border-b border-dashed border-outline-variant/30 flex justify-between pr-2">
+<span class="bg-surface-container-lowest px-1 -mt-2">100 €</span>
+</div>
+</div>
+<!-- Bar 1: Aperitivo Temprano (11:30 - 13:00) -->
+<div class="relative z-10 flex-1 flex flex-col items-center group h-full justify-end">
+<div class="w-full max-w-[54px] bg-secondary-container hover:bg-secondary-fixed transition-all rounded-t-xl" style="height: 24%;">
+<div class="opacity-0 group-hover:opacity-100 transition-opacity absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-[11px] font-bold py-1 px-2 rounded shadow-md pointer-events-none whitespace-nowrap">
+                168,00 € · 9 com.
+              </div>
+</div>
+<span class="text-[11px] font-medium text-secondary mt-2">12:00 - 13:30</span>
+<span class="text-[10px] text-secondary/70">Aperitivo</span>
+</div>
+<!-- Bar 2: Comidas Inicio (13:30 - 14:30) -->
+<div class="relative z-10 flex-1 flex flex-col items-center group h-full justify-end">
+<div class="w-full max-w-[54px] bg-primary-container/80 hover:bg-primary-container transition-all rounded-t-xl" style="height: 68%;">
+<div class="opacity-0 group-hover:opacity-100 transition-opacity absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-[11px] font-bold py-1 px-2 rounded shadow-md pointer-events-none whitespace-nowrap">
+                476,50 € · 21 com.
+              </div>
+</div>
+<span class="text-[11px] font-medium text-secondary mt-2">13:30 - 14:30</span>
+<span class="text-[10px] text-secondary/70">Comidas 1</span>
+</div>
+<!-- Bar 3: PICO MÁXIMO (14:30 - 15:30) -->
+<div class="relative z-10 flex-1 flex flex-col items-center group h-full justify-end">
+<!-- Pulsing Badge on Top -->
+<div class="absolute top-2 left-1/2 -translate-x-1/2 flex items-center gap-1 bg-primary text-on-primary text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm">
+<span class="material-symbols-outlined text-[12px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span>Pico</span>
+</div>
+<div class="w-full max-w-[54px] bg-primary-container hover:opacity-90 transition-all rounded-t-xl relative shadow-md" style="height: 92%;">
+<div class="opacity-0 group-hover:opacity-100 transition-opacity absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-[11px] font-bold py-1 px-2 rounded shadow-md pointer-events-none whitespace-nowrap z-20">
+                640,00 € · 28 com.
+              </div>
+</div>
+<span class="text-[11px] font-bold text-on-surface mt-2">14:30 - 15:30</span>
+<span class="text-[10px] font-bold text-primary">Sobremesa</span>
+</div>
+<!-- Bar 4: Comidas Fin (15:30 - 17:00) -->
+<div class="relative z-10 flex-1 flex flex-col items-center group h-full justify-end">
+<div class="w-full max-w-[54px] bg-secondary-container hover:bg-secondary-fixed transition-all rounded-t-xl" style="height: 48%;">
+<div class="opacity-0 group-hover:opacity-100 transition-opacity absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-[11px] font-bold py-1 px-2 rounded shadow-md pointer-events-none whitespace-nowrap">
+                336,00 € · 14 com.
+              </div>
+</div>
+<span class="text-[11px] font-medium text-secondary mt-2">15:30 - 17:00</span>
+<span class="text-[10px] text-secondary/70">Cafés/Copas</span>
+</div>
+<!-- Bar 5: Tardeo (18:00 - 20:30) -->
+<div class="relative z-10 flex-1 flex flex-col items-center group h-full justify-end">
+<div class="w-full max-w-[54px] bg-secondary-container hover:bg-secondary-fixed transition-all rounded-t-xl" style="height: 38%;">
+<div class="opacity-0 group-hover:opacity-100 transition-opacity absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-[11px] font-bold py-1 px-2 rounded shadow-md pointer-events-none whitespace-nowrap">
+                265,00 € · 12 com.
+              </div>
+</div>
+<span class="text-[11px] font-medium text-secondary mt-2">18:00 - 20:30</span>
+<span class="text-[10px] text-secondary/70">Tardeo</span>
+</div>
+<!-- Bar 6: Cenas 1 (20:30 - 22:00) -->
+<div class="relative z-10 flex-1 flex flex-col items-center group h-full justify-end">
+<div class="w-full max-w-[54px] bg-primary-container/70 hover:bg-primary-container transition-all rounded-t-xl" style="height: 64%;">
+<div class="opacity-0 group-hover:opacity-100 transition-opacity absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-[11px] font-bold py-1 px-2 rounded shadow-md pointer-events-none whitespace-nowrap">
+                448,00 € · 18 com.
+              </div>
+</div>
+<span class="text-[11px] font-medium text-secondary mt-2">20:30 - 22:00</span>
+<span class="text-[10px] text-secondary/70">Cenas turno 1</span>
+</div>
+<!-- Bar 7: Cenas 2 (22:00 - Cierre) -->
+<div class="relative z-10 flex-1 flex flex-col items-center group h-full justify-end">
+<div class="w-full max-w-[54px] bg-secondary-container/80 hover:bg-secondary-fixed transition-all rounded-t-xl" style="height: 22%;">
+<div class="opacity-0 group-hover:opacity-100 transition-opacity absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-[11px] font-bold py-1 px-2 rounded shadow-md pointer-events-none whitespace-nowrap">
+                147,00 € · 6 com.
+              </div>
+</div>
+<span class="text-[11px] font-medium text-secondary mt-2">22:00 - 00:00</span>
+<span class="text-[10px] text-secondary/70">Cierre</span>
+</div>
+</div>
+<!-- Legend / Key Footnote -->
+<div class="flex flex-wrap items-center justify-between pt-4 text-xs text-secondary">
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-primary-container"></span>
+<span>Servicio de Alta Demanda</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-secondary-container"></span>
+<span>Demanda Regular</span>
+</div>
+</div>
+<span>Total acumulado en franjas: <strong>2.480,50 €</strong></span>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- 5. TWO LOWER COLUMNS: TOP SELLERS & PAYMENT DONUT CHART -->
+<!-- ========================================================================= -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start pb-12">
+<!-- LEFT COLUMN: TOP SELLERS RANKING (7 cols) -->
+<section class="lg:col-span-7 bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/30 shadow-sm flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div>
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface">Platos Más Pedidos</h2>
+<p class="font-body-md text-body-md text-secondary mt-0.5">Top ventas por volumen e impacto en la recaudación del día.</p>
+</div>
+<button class="text-primary hover:text-on-primary-container text-xs font-bold flex items-center gap-1">
+<span>Ver ranking completo</span>
+<span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+<!-- Item List -->
+<div class="flex flex-col divide-y divide-outline-variant/20">
+<!-- Item #1: Croquetas caseras -->
+<div class="py-3.5 flex items-center gap-3">
+<span class="font-headline-sm text-headline-sm font-extrabold text-primary w-6 text-center">1</span>
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-primary-container shrink-0">
+<span class="material-symbols-outlined text-2xl" data-icon="dinner_dining">dinner_dining</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg font-bold text-on-surface truncate">Croquetas caseras de jamón</span>
+<span class="font-label-lg text-label-lg font-bold text-on-surface">1.207,00 €</span>
+</div>
+<div class="flex items-center justify-between text-xs text-secondary mt-1">
+<span>142 unidades servidas</span>
+<span class="text-tertiary font-semibold">Margen 72%</span>
+</div>
+<!-- Mini progress bar share -->
+<div class="w-full bg-surface-container-high rounded-full h-1.5 mt-2">
+<div class="bg-primary-container h-1.5 rounded-full" style="width: 82%;"></div>
+</div>
+</div>
+</div>
+<!-- Item #2: Caña Doble Mahou -->
+<div class="py-3.5 flex items-center gap-3">
+<span class="font-headline-sm text-headline-sm font-extrabold text-secondary w-6 text-center">2</span>
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-2xl" data-icon="sports_bar">sports_bar</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg font-bold text-on-surface truncate">Caña Doble Mahou / Estrella</span>
+<span class="font-label-lg text-label-lg font-bold text-on-surface">324,50 €</span>
+</div>
+<div class="flex items-center justify-between text-xs text-secondary mt-1">
+<span>118 unidades servidas</span>
+<span class="text-tertiary font-semibold">Margen 84%</span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-1.5 mt-2">
+<div class="bg-primary-container h-1.5 rounded-full" style="width: 68%;"></div>
+</div>
+</div>
+</div>
+<!-- Item #3: Patatas bravas taberneras -->
+<div class="py-3.5 flex items-center gap-3">
+<span class="font-headline-sm text-headline-sm font-extrabold text-secondary w-6 text-center">3</span>
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-primary-container shrink-0">
+<span class="material-symbols-outlined text-2xl" data-icon="lunch_dining">lunch_dining</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg font-bold text-on-surface truncate">Patatas bravas taberneras</span>
+<span class="font-label-lg text-label-lg font-bold text-on-surface">576,00 €</span>
+</div>
+<div class="flex items-center justify-between text-xs text-secondary mt-1">
+<span>96 raciones servidas</span>
+<span class="text-tertiary font-semibold">Margen 78%</span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-1.5 mt-2">
+<div class="bg-primary-container h-1.5 rounded-full" style="width: 55%;"></div>
+</div>
+</div>
+</div>
+<!-- Item #4: Pincho de tortilla melosa -->
+<div class="py-3.5 flex items-center gap-3">
+<span class="font-headline-sm text-headline-sm font-extrabold text-secondary w-6 text-center">4</span>
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-2xl" data-icon="egg_alt">egg_alt</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg font-bold text-on-surface truncate">Pincho de tortilla melosa</span>
+<span class="font-label-lg text-label-lg font-bold text-on-surface">333,00 €</span>
+</div>
+<div class="flex items-center justify-between text-xs text-secondary mt-1">
+<span>74 pinchos servidos</span>
+<span class="text-tertiary font-semibold">Margen 69%</span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-1.5 mt-2">
+<div class="bg-primary-container h-1.5 rounded-full" style="width: 44%;"></div>
+</div>
+</div>
+</div>
+<!-- Item #5: Pulpo a feira con cachelos -->
+<div class="py-3.5 flex items-center gap-3">
+<span class="font-headline-sm text-headline-sm font-extrabold text-secondary w-6 text-center">5</span>
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-primary-container shrink-0">
+<span class="material-symbols-outlined text-2xl" data-icon="set_meal">set_meal</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg font-bold text-on-surface truncate">Pulpo a feira con cachelos</span>
+<span class="font-label-lg text-label-lg font-bold text-on-surface">693,00 €</span>
+</div>
+<div class="flex items-center justify-between text-xs text-secondary mt-1">
+<span>42 raciones servidas</span>
+<span class="text-tertiary font-semibold">Margen 58%</span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-1.5 mt-2">
+<div class="bg-primary-container h-1.5 rounded-full" style="width: 32%;"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- RIGHT COLUMN: METODOS DE PAGO (DONUT CHART) (5 cols) -->
+<section class="lg:col-span-5 bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/30 shadow-sm flex flex-col gap-6">
+<div>
+<div class="flex items-center justify-between">
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface">Métodos de Pago</h2>
+<span class="material-symbols-outlined text-secondary" data-icon="credit_card">credit_card</span>
+</div>
+<p class="font-body-md text-body-md text-secondary mt-0.5">Cobros registrados por pasarela digital vs. caja física.</p>
+</div>
+<!-- Donut Chart & Percentages in Center -->
+<div class="flex flex-col items-center justify-center py-2 relative">
+<div class="relative w-48 h-48 flex items-center justify-center">
+<!-- SVG Donut Chart -->
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 120 120">
+<!-- Background Circle / Track -->
+<circle cx="60" cy="60" fill="transparent" r="48" stroke="#dce2f3" stroke-width="14"></circle>
+<!-- Efectivo: 26% (circumference ~ 301.6 -> 26% is ~ 78.4, offset starts after 74%) -->
+<circle cx="60" cy="60" fill="transparent" r="48" stroke="#555f6f" stroke-dasharray="301.6" stroke-dashoffset="78.4" stroke-linecap="round" stroke-width="14"></circle>
+<!-- Tarjeta Stripe / Contactless: 74% (stroke-dasharray 301.6, value ~ 223.2) -->
+<circle cx="60" cy="60" fill="transparent" r="48" stroke="#f97316" stroke-dasharray="223.2 301.6" stroke-dashoffset="0" stroke-linecap="round" stroke-width="14"></circle>
+</svg>
+<!-- Center Text -->
+<div class="absolute flex flex-col items-center justify-center text-center">
+<span class="font-display-hero text-headline-lg font-extrabold text-on-surface leading-none">74%</span>
+<span class="text-[11px] font-bold text-primary mt-1">Tarjeta / QR</span>
+<span class="text-[10px] text-secondary">Stripe Pay</span>
+</div>
+</div>
+</div>
+<!-- Breakdown Details -->
+<div class="flex flex-col gap-3">
+<!-- Card Row -->
+<div class="p-3.5 rounded-xl bg-surface-container-low flex items-center justify-between border border-outline-variant/20">
+<div class="flex items-center gap-3">
+<span class="w-3.5 h-3.5 rounded-full bg-primary-container shrink-0"></span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-bold text-on-surface">Tarjeta Stripe / Contactless</span>
+<span class="text-xs text-secondary">Cobro en mesa vía QR y Datáfono TPV</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-lg text-label-lg font-bold text-on-surface">1.835,57 €</span>
+<div class="text-xs text-secondary font-medium">80 transacciones</div>
+</div>
+</div>
+<!-- Cash Row -->
+<div class="p-3.5 rounded-xl bg-surface-container-low flex items-center justify-between border border-outline-variant/20">
+<div class="flex items-center gap-3">
+<span class="w-3.5 h-3.5 rounded-full bg-secondary shrink-0"></span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-bold text-on-surface">Efectivo en Mesa</span>
+<span class="text-xs text-secondary">Gestionado por camareros en caja</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-lg text-label-lg font-bold text-on-surface">644,93 €</span>
+<div class="text-xs text-secondary font-medium">28 transacciones</div>
+</div>
+</div>
+<!-- Extra Metric: Tips -->
+<div class="mt-2 pt-3 border-t border-outline-variant/30 flex items-center justify-between text-xs">
+<div class="flex items-center gap-1.5 text-secondary">
+<span class="material-symbols-outlined text-sm text-tertiary" data-icon="volunteer_activism">volunteer_activism</span>
+<span>Propinas acumuladas hoy:</span>
+</div>
+<span class="font-bold text-tertiary text-sm">84,50 € <span class="text-[11px] font-normal text-secondary">(3.4% s/ facturación)</span></span>
+</div>
+</div>
+</section>
+</div>
+</main>
+</body></html>

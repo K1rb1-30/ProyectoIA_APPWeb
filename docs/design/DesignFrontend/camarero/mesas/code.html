@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-background" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>MesaYa - Panel de Camarero · Bar La Plaza</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Inter Font -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 with Container Queries & Forms -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "error-container": "#ffdad6",
+            "on-secondary-fixed": "#121c2a",
+            "background": "#f9f9ff",
+            "secondary-container": "#d6e0f3",
+            "on-tertiary": "#ffffff",
+            "surface-container-high": "#e2e8f8",
+            "on-tertiary-fixed": "#002113",
+            "outline": "#8c7164",
+            "on-primary-container": "#582200",
+            "on-primary-fixed": "#341100",
+            "secondary-fixed": "#d9e3f6",
+            "surface": "#f9f9ff",
+            "error": "#ba1a1a",
+            "on-primary": "#ffffff",
+            "tertiary": "#006c49",
+            "on-tertiary-container": "#003b26",
+            "inverse-on-surface": "#ebf1ff",
+            "inverse-surface": "#2a313d",
+            "tertiary-fixed-dim": "#4edea3",
+            "on-primary-fixed-variant": "#783200",
+            "on-tertiary-fixed-variant": "#005236",
+            "on-error-container": "#93000a",
+            "secondary": "#555f6f",
+            "surface-tint": "#9d4300",
+            "secondary-fixed-dim": "#bdc7d9",
+            "tertiary-container": "#00b07a",
+            "tertiary-fixed": "#6ffbbe",
+            "primary-fixed": "#ffdbca",
+            "surface-dim": "#d3daea",
+            "surface-container": "#e7eefe",
+            "on-surface": "#151c27",
+            "surface-container-lowest": "#ffffff",
+            "on-background": "#151c27",
+            "surface-variant": "#dce2f3",
+            "surface-container-highest": "#dce2f3",
+            "primary-container": "#f97316",
+            "on-secondary-container": "#596373",
+            "on-secondary-fixed-variant": "#3d4756",
+            "primary": "#9d4300",
+            "surface-bright": "#f9f9ff",
+            "inverse-primary": "#ffb690",
+            "surface-container-low": "#f0f3ff",
+            "on-error": "#ffffff",
+            "outline-variant": "#e0c0b1",
+            "on-surface-variant": "#584237",
+            "on-secondary": "#ffffff",
+            "primary-fixed-dim": "#ffb690"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-md": "1rem",
+            "gutter-md": "1.5rem",
+            "space-xs": "0.25rem",
+            "margin": "1rem",
+            "margin-lg": "2.5rem",
+            "space-lg": "1.5rem",
+            "gutter": "1rem",
+            "space-sm": "0.5rem",
+            "margin-md": "1.5rem",
+            "space-xl": "2rem"
+          },
+          "fontFamily": {
+            "body-lg": ["Inter"],
+            "headline-sm": ["Inter"],
+            "headline-md": ["Inter"],
+            "label-lg": ["Inter"],
+            "price-display": ["Inter"],
+            "display-hero-mobile": ["Inter"],
+            "headline-lg": ["Inter"],
+            "display-hero": ["Inter"],
+            "label-md": ["Inter"],
+            "label-sm": ["Inter"],
+            "body-md": ["Inter"]
+          },
+          "fontSize": {
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "label-lg": ["15px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+            "price-display": ["18px", { "lineHeight": "22px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "display-hero-mobile": ["30px", { "lineHeight": "36px", "letterSpacing": "-0.015em", "fontWeight": "800" }],
+            "headline-lg": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "display-hero": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+            "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 24px;
+      line-height: 1;
+      letter-spacing: normal;
+      text-transform: none;
+      display: inline-block;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    @keyframes pulse-subtle {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.92; transform: scale(1.02); }
+    }
+    .animate-pulse-subtle {
+      animation: pulse-subtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    /* Ocultar barra de desplazamiento manteniendo funcionalidad táctil */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface antialiased font-body-md text-body-md select-none min-h-screen flex flex-col pb-28">
+<!-- ================= TOP APP BAR (Shared Anchor Pattern) ================= -->
+<header class="bg-surface dark:bg-inverse-surface shadow-sm dark:shadow-none docked full-width top-0 sticky z-40">
+<div class="flex justify-between items-center w-full px-margin md:px-margin-md max-w-[720px] mx-auto py-3">
+<!-- Leading: Estado de servicio y rol -->
+<div class="flex items-center gap-2.5">
+<div class="w-10 h-10 rounded-xl bg-primary-fixed flex items-center justify-center text-primary font-headline-sm">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">restaurant_menu</span>
+</div>
+<div class="flex flex-col text-left">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-headline-sm text-on-surface">Bar La Plaza</span>
+<span class="inline-flex items-center px-1.5 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm">En Vivo</span>
+</div>
+<span class="font-label-md text-label-md text-secondary">Camarero: Carlos M. · Turno Mediodía</span>
+</div>
+</div>
+<!-- Trailing: Notificaciones & Asistencia de Sala -->
+<div class="flex items-center gap-2">
+<button aria-label="Llamar encargado" class="w-11 h-11 rounded-xl bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface active:scale-[0.98] transition-all duration-150" type="button">
+<span class="material-symbols-outlined text-on-surface">room_service</span>
+</button>
+<button aria-label="Actualizar mesas" class="w-11 h-11 rounded-xl bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface active:scale-[0.98] transition-all duration-150" type="button">
+<span class="material-symbols-outlined text-on-surface">sync</span>
+</button>
+</div>
+</div>
+<!-- Pestañas de Zona (Horizontally scrollable) -->
+<div class="w-full max-w-[720px] mx-auto px-margin pt-1 pb-3">
+<div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5">
+<button class="shrink-0 px-4 py-2 rounded-xl bg-on-surface text-surface-container-lowest font-label-md text-label-md shadow-sm transition-all duration-150 active:scale-[0.98] flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">grid_view</span>
+<span>Todas (12)</span>
+</button>
+<button class="shrink-0 px-4 py-2 rounded-xl bg-surface-container-lowest text-secondary font-label-md text-label-md border border-outline-variant/30 hover:bg-surface-container transition-all duration-150 active:scale-[0.98] flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">meeting_room</span>
+<span>Sala Interior (6)</span>
+</button>
+<button class="shrink-0 px-4 py-2 rounded-xl bg-surface-container-lowest text-secondary font-label-md text-label-md border border-outline-variant/30 hover:bg-surface-container transition-all duration-150 active:scale-[0.98] flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">deck</span>
+<span>Terraza (6)</span>
+</button>
+</div>
+</div>
+</header>
+<!-- ================= CONTENEDOR PRINCIPAL ================= -->
+<main class="w-full max-w-[720px] mx-auto px-margin space-y-4 pt-3 flex-1">
+<!-- KPI / Resumen de Estado de Sala Rápido en Cifras -->
+<section class="grid grid-cols-3 gap-2.5">
+<div class="bg-surface-container-lowest rounded-2xl p-3 border border-outline-variant/20 shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary">Libres</span>
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary"></span>
+</div>
+<div class="mt-2 flex items-baseline gap-1">
+<span class="font-headline-lg text-headline-lg text-tertiary font-bold">4</span>
+<span class="font-label-sm text-label-sm text-secondary">mesas</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-2xl p-3 border border-outline-variant/20 shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary">Ocupadas</span>
+<span class="w-2.5 h-2.5 rounded-full bg-primary-container"></span>
+</div>
+<div class="mt-2 flex items-baseline gap-1">
+<span class="font-headline-lg text-headline-lg text-on-surface font-bold">6</span>
+<span class="font-label-sm text-label-sm text-secondary">mesas</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-2xl p-3 border border-outline-variant/20 shadow-sm flex flex-col justify-between bg-error-container/30">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-error font-bold">En Pase</span>
+<span class="relative flex h-2.5 w-2.5">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-error opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-error"></span>
+</span>
+</div>
+<div class="mt-2 flex items-baseline gap-1">
+<span class="font-headline-lg text-headline-lg text-error font-bold">2</span>
+<span class="font-label-sm text-label-sm text-error/80 font-semibold">platos</span>
+</div>
+</div>
+</section>
+<!-- NOTIFICACIÓN PRIORITARIA FLOTANTE: AVISO DE COCINA / PASE -->
+<section aria-live="assertive" class="bg-surface-container-lowest rounded-2xl p-4 border-2 border-primary-container shadow-md relative overflow-hidden animate-pulse-subtle">
+<div class="absolute top-0 left-0 bottom-0 w-2 bg-primary-container"></div>
+<div class="pl-2.5 space-y-2.5">
+<div class="flex items-start justify-between gap-2">
+<div class="flex items-center gap-2">
+<span class="flex items-center justify-center w-7 h-7 rounded-lg bg-primary-container text-on-primary">
+<span class="material-symbols-outlined text-[18px]">skillet</span>
+</span>
+<div>
+<span class="font-label-md text-label-md text-primary font-bold uppercase tracking-wider block">¡Plato Listo en Cocina!</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Mesa 5 · Salida Urgente</span>
+</div>
+</div>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container font-label-sm text-label-sm text-secondary">
+            hace 1 min
+          </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant font-medium bg-surface-container-low p-2 rounded-xl border border-outline-variant/30">
+<strong class="text-on-surface">Comanda #104:</strong> 2x Croquetas de jamón ibérico, 1x Patatas bravas al alioli ahumado.
+        </p>
+<!-- Botones táctiles de respuesta rápida -->
+<div class="grid grid-cols-2 gap-2 pt-0.5">
+<button class="min-h-[46px] px-3 py-2 rounded-xl bg-primary-container hover:bg-primary text-on-primary font-label-lg text-label-lg flex items-center justify-center gap-1.5 shadow-sm active:scale-[0.98] transition-all" type="button">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">done_all</span>
+<span>Marcar servido</span>
+</button>
+<button class="min-h-[46px] px-3 py-2 rounded-xl bg-surface-container text-on-surface hover:bg-surface-container-high font-label-lg text-label-lg flex items-center justify-center gap-1.5 active:scale-[0.98] transition-all border border-outline-variant/30" type="button">
+<span class="material-symbols-outlined text-[20px]">receipt_long</span>
+<span>Ver comanda</span>
+</button>
+</div>
+</div>
+</section>
+<!-- ================= CUADRÍCULA INTERACTIVA DE MESAS (GRID 2 COLS ERGONÓMICO) ================= -->
+<section class="space-y-3">
+<div class="flex items-center justify-between px-1">
+<h2 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2">
+<span>Mapa de Mesas</span>
+<span class="text-xs bg-surface-container px-2 py-0.5 rounded-full text-secondary font-medium">Auto-refresco 10s</span>
+</h2>
+<span class="font-label-md text-label-md text-primary font-medium flex items-center gap-1 cursor-pointer">
+<span class="material-symbols-outlined text-[16px]">tune</span> Filtrar
+        </span>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<!-- ================= MESA 5: ALERTA PLATO LISTO EN PASE ================= -->
+<article class="bg-surface-container-lowest rounded-2xl p-3.5 border-2 border-primary-container shadow-md flex flex-col justify-between relative overflow-hidden active:scale-[0.98] transition-all duration-150">
+<div class="absolute top-0 left-0 bottom-0 w-2 bg-primary-container"></div>
+<div class="pl-2">
+<!-- Cabecera de tarjeta -->
+<div class="flex items-start justify-between mb-1.5">
+<div>
+<span class="font-headline-md text-headline-md text-on-surface font-black block tracking-tight">MESA 5</span>
+<span class="font-label-sm text-label-sm text-secondary">Sala · 3 comensales</span>
+</div>
+<span class="relative flex h-3 w-3 mt-1">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-container opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-primary-container"></span>
+</span>
+</div>
+<!-- Aviso parpadeante / tag destacado -->
+<div class="my-2 py-1 px-2 rounded-lg bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">https</span>
+<span>¡PASE LISTO!</span>
+</div>
+<!-- Detalle comida / cuenta -->
+<div class="space-y-1 mb-3">
+<p class="font-body-md text-body-md text-on-surface font-medium truncate">Croquetas y Bravas</p>
+<div class="flex items-center justify-between text-secondary">
+<span class="font-label-md text-label-md">Total mesa:</span>
+<span class="font-price-display text-price-display text-on-surface">31,00 €</span>
+</div>
+<div class="flex items-center gap-1 text-secondary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+<span>Último: hace 1 min</span>
+</div>
+</div>
+</div>
+<!-- Botón de acción ergonómico -->
+<button class="w-full min-h-[44px] rounded-xl bg-primary-container text-on-primary font-label-md text-label-md font-bold flex items-center justify-center gap-1 active:bg-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">dinner_dining</span>
+<span>Llevar pase</span>
+</button>
+</article>
+<!-- ================= MESA 7: PLATO LISTO EN TERRAZA ================= -->
+<article class="bg-surface-container-lowest rounded-2xl p-3.5 border-2 border-primary-container/80 shadow-sm flex flex-col justify-between relative overflow-hidden active:scale-[0.98] transition-all duration-150">
+<div class="absolute top-0 left-0 bottom-0 w-2 bg-primary-container"></div>
+<div class="pl-2">
+<div class="flex items-start justify-between mb-1.5">
+<div>
+<span class="font-headline-md text-headline-md text-on-surface font-black block tracking-tight">MESA 7</span>
+<span class="font-label-sm text-label-sm text-secondary">Terraza · 4 comensales</span>
+</div>
+<span class="w-3 h-3 rounded-full bg-primary-container mt-1"></span>
+</div>
+<div class="my-2 py-1 px-2 rounded-lg bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">sports_bar</span>
+<span>2 Cañas y Tapa</span>
+</div>
+<div class="space-y-1 mb-3">
+<p class="font-body-md text-body-md text-on-surface font-medium truncate">Bebida lista en barra</p>
+<div class="flex items-center justify-between text-secondary">
+<span class="font-label-md text-label-md">Total mesa:</span>
+<span class="font-price-display text-price-display text-on-surface">18,60 €</span>
+</div>
+<div class="flex items-center gap-1 text-secondary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+<span>Último: hace 3 min</span>
+</div>
+</div>
+</div>
+<button class="w-full min-h-[44px] rounded-xl bg-surface-container text-on-surface hover:bg-surface-container-high font-label-md text-label-md font-bold flex items-center justify-center gap-1 transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">check</span>
+<span>Servir barra</span>
+</button>
+</article>
+<!-- ================= MESA 6: COBRO PENDIENTE EN EFECTIVO ================= -->
+<article class="bg-surface-container-lowest rounded-2xl p-3.5 border-2 border-secondary shadow-sm flex flex-col justify-between relative overflow-hidden active:scale-[0.98] transition-all duration-150">
+<div class="absolute top-0 left-0 bottom-0 w-2 bg-secondary"></div>
+<div class="pl-2">
+<div class="flex items-start justify-between mb-1.5">
+<div>
+<span class="font-headline-md text-headline-md text-on-surface font-black block tracking-tight">MESA 6</span>
+<span class="font-label-sm text-label-sm text-secondary">Terraza · 1 comensal</span>
+</div>
+<span class="p-1 rounded-md bg-secondary-fixed text-on-secondary-fixed">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+</span>
+</div>
+<div class="my-2 py-1 px-2 rounded-lg bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">receipt</span>
+<span>PIDE CUENTA EFECTIVO</span>
+</div>
+<div class="space-y-1 mb-3">
+<p class="font-body-md text-body-md text-error font-semibold">Prepara billete 20 €</p>
+<div class="flex items-center justify-between text-secondary">
+<span class="font-label-md text-label-md">Total a cobrar:</span>
+<span class="font-price-display text-price-display text-on-surface font-bold text-lg">10,34 €</span>
+</div>
+<div class="flex items-center gap-1 text-secondary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+<span>Espera: 4 min</span>
+</div>
+</div>
+</div>
+<button class="w-full min-h-[44px] rounded-xl bg-on-surface text-surface-container-lowest font-label-md text-label-md font-bold flex items-center justify-center gap-1 active:bg-secondary transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">point_of_sale</span>
+<span>Cobrar mesa</span>
+</button>
+</article>
+<!-- ================= MESA 2: OCUPADA COMERCIANDO NORMAL ================= -->
+<article class="bg-surface-container-lowest rounded-2xl p-3.5 border border-outline-variant/30 shadow-sm flex flex-col justify-between relative overflow-hidden active:scale-[0.98] transition-all duration-150">
+<div class="absolute top-0 left-0 bottom-0 w-2 bg-primary-container/60"></div>
+<div class="pl-2">
+<div class="flex items-start justify-between mb-1.5">
+<div>
+<span class="font-headline-md text-headline-md text-on-surface font-black block tracking-tight">MESA 2</span>
+<span class="font-label-sm text-label-sm text-secondary">Sala · 3 comensales</span>
+</div>
+<span class="w-2.5 h-2.5 rounded-full bg-primary-container/80 mt-1"></span>
+</div>
+<div class="my-2 py-1 px-2 rounded-lg bg-surface-container text-secondary font-label-sm text-label-sm font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">soup_kitchen</span>
+<span>Comiendo principales</span>
+</div>
+<div class="space-y-1 mb-3">
+<p class="font-body-md text-body-md text-secondary truncate">Comanda activa #102</p>
+<div class="flex items-center justify-between text-secondary">
+<span class="font-label-md text-label-md">Total parcial:</span>
+<span class="font-price-display text-price-display text-on-surface">24,50 €</span>
+</div>
+<div class="flex items-center gap-1 text-secondary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+<span>Sentados: 35 min</span>
+</div>
+</div>
+</div>
+<button class="w-full min-h-[44px] rounded-xl bg-surface-container text-on-surface hover:bg-surface-container-high font-label-md text-label-md font-medium flex items-center justify-center gap-1 transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+<span>Añadir pedido</span>
+</button>
+</article>
+<!-- ================= MESA 1: LIBRE Y LIMPIA ================= -->
+<article class="bg-surface-container-lowest rounded-2xl p-3.5 border border-tertiary/30 shadow-sm flex flex-col justify-between relative overflow-hidden active:scale-[0.98] transition-all duration-150">
+<div class="absolute top-0 left-0 bottom-0 w-2 bg-tertiary"></div>
+<div class="pl-2">
+<div class="flex items-start justify-between mb-1.5">
+<div>
+<span class="font-headline-md text-headline-md text-tertiary font-black block tracking-tight">MESA 1</span>
+<span class="font-label-sm text-label-sm text-secondary">Sala · Cap. 4 pax</span>
+</div>
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary mt-1"></span>
+</div>
+<div class="my-2 py-1 px-2 rounded-lg bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-label-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span>LIBRE Y LIMPIA</span>
+</div>
+<div class="space-y-1 mb-3 pt-1">
+<p class="font-body-md text-body-md text-secondary">Montada para 4 comensales</p>
+<div class="flex items-center justify-between text-secondary">
+<span class="font-label-md text-label-md">Turno previo:</span>
+<span class="font-label-md text-label-md font-semibold text-on-surface">Cerrado</span>
+</div>
+<div class="flex items-center gap-1 text-secondary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">cleaning_services</span>
+<span>Desinfectada</span>
+</div>
+</div>
+</div>
+<button class="w-full min-h-[44px] rounded-xl bg-tertiary text-on-tertiary font-label-md text-label-md font-bold flex items-center justify-center gap-1 active:bg-tertiary-container transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">group_add</span>
+<span>Abrir mesa</span>
+</button>
+</article>
+<!-- ================= MESA 4: LIBRE Y LIMPIA (2 PAX) ================= -->
+<article class="bg-surface-container-lowest rounded-2xl p-3.5 border border-tertiary/30 shadow-sm flex flex-col justify-between relative overflow-hidden active:scale-[0.98] transition-all duration-150">
+<div class="absolute top-0 left-0 bottom-0 w-2 bg-tertiary"></div>
+<div class="pl-2">
+<div class="flex items-start justify-between mb-1.5">
+<div>
+<span class="font-headline-md text-headline-md text-tertiary font-black block tracking-tight">MESA 4</span>
+<span class="font-label-sm text-label-sm text-secondary">Terraza · Cap. 2 pax</span>
+</div>
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary mt-1"></span>
+</div>
+<div class="my-2 py-1 px-2 rounded-lg bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-label-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span>LIBRE Y LIMPIA</span>
+</div>
+<div class="space-y-1 mb-3 pt-1">
+<p class="font-body-md text-body-md text-secondary">Mesa alta exterior</p>
+<div class="flex items-center justify-between text-secondary">
+<span class="font-label-md text-label-md">Turno previo:</span>
+<span class="font-label-md text-label-md font-semibold text-on-surface">Cerrado</span>
+</div>
+<div class="flex items-center gap-1 text-secondary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">cleaning_services</span>
+<span>Desinfectada</span>
+</div>
+</div>
+</div>
+<button class="w-full min-h-[44px] rounded-xl bg-tertiary text-on-tertiary font-label-md text-label-md font-bold flex items-center justify-center gap-1 active:bg-tertiary-container transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">group_add</span>
+<span>Abrir mesa</span>
+</button>
+</article>
+</div>
+</section>
+<!-- ACCIÓN RÁPIDA FLOTANTE / INFERIOR DE APOYO A SALA -->
+<section class="bg-surface-container-low rounded-2xl p-3 border border-outline-variant/30 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">info</span>
+<span class="font-label-md text-label-md text-secondary">¿Mesa no registrada? Crea una comanda rápida.</span>
+</div>
+<button class="px-3 py-1.5 rounded-xl bg-surface-container-lowest text-on-surface border border-outline-variant/30 font-label-md text-label-md font-semibold hover:bg-surface-container active:scale-[0.98]" type="button">
+        + Comanda Rápida
+      </button>
+</section>
+</main>
+<!-- ================= BOTTOM NAVIGATION BAR (Camarero Específico) ================= -->
+<!-- Conforme a BottomNavBar JSON con estilo: docked full-width bottom-0, shadow-lg, sin borders directos -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-surface dark:bg-inverse-surface shadow-lg dark:shadow-none py-space-sm px-space-md">
+<div class="flex justify-around items-center max-w-[720px] mx-auto">
+<!-- Pestaña 1: Mesas (ACTIVA - Plano / Salón) -->
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary rounded-xl px-4 py-1.5 active:scale-[0.98] transition-transform duration-150" type="button">
+<span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+<span class="font-label-sm text-label-sm mt-0.5">Mesas</span>
+</button>
+<!-- Pestaña 2: Avisos de Cocina (Con badge 2) -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant px-4 py-1.5 relative hover:bg-surface-container-low dark:hover:bg-surface-variant active:scale-[0.98] transition-transform duration-150 rounded-xl" type="button">
+<span class="relative">
+<span class="material-symbols-outlined text-[22px]">skillet</span>
+<span class="absolute -top-1 -right-2 bg-error text-on-error font-label-sm text-label-sm w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold">2</span>
+</span>
+<span class="font-label-sm text-label-sm mt-0.5">Avisos Cocina</span>
+</button>
+<!-- Pestaña 3: Cobros Pendientes (Con badge 1) -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant px-4 py-1.5 relative hover:bg-surface-container-low dark:hover:bg-surface-variant active:scale-[0.98] transition-transform duration-150 rounded-xl" type="button">
+<span class="relative">
+<span class="material-symbols-outlined text-[22px]">payments</span>
+<span class="absolute -top-1 -right-2 bg-secondary text-on-primary font-label-sm text-label-sm w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold">1</span>
+</span>
+<span class="font-label-sm text-label-sm mt-0.5">Cobros</span>
+</button>
+<!-- Pestaña 4: Perfil / Turno -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant px-4 py-1.5 hover:bg-surface-container-low dark:hover:bg-surface-variant active:scale-[0.98] transition-transform duration-150 rounded-xl" type="button">
+<span class="material-symbols-outlined text-[22px]">badge</span>
+<span class="font-label-sm text-label-sm mt-0.5">Mi Turno</span>
+</button>
+</div>
+</nav>
+<!-- Script ligero para interacción táctil responsiva en sala -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Feedback auditivo háptico leve en dispositivos móviles compatibles
+      const buttons = document.querySelectorAll('button');
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (navigator.vibrate) {
+            navigator.vibrate(12);
+          }
+        });
+      });
+    });
+  </script>
+</body></html>

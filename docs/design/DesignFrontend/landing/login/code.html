@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-background" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MesaYa · Acceso al Sistema de Gestión</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Inter Google Font -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN with forms container-queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration verbatim -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-error": "#ffffff",
+            "surface-container-highest": "#dce2f3",
+            "on-primary": "#ffffff",
+            "on-error-container": "#93000a",
+            "tertiary-fixed-dim": "#4edea3",
+            "surface-container-high": "#e2e8f8",
+            "primary-container": "#f97316",
+            "tertiary-container": "#00b07a",
+            "secondary": "#555f6f",
+            "primary": "#9d4300",
+            "inverse-surface": "#2a313d",
+            "secondary-fixed": "#d9e3f6",
+            "inverse-on-surface": "#ebf1ff",
+            "secondary-container": "#d6e0f3",
+            "on-primary-fixed-variant": "#783200",
+            "outline-variant": "#e0c0b1",
+            "on-tertiary": "#ffffff",
+            "surface-dim": "#d3daea",
+            "surface-bright": "#f9f9ff",
+            "on-secondary-fixed": "#121c2a",
+            "surface-container": "#e7eefe",
+            "outline": "#8c7164",
+            "inverse-primary": "#ffb690",
+            "surface-variant": "#dce2f3",
+            "tertiary": "#006c49",
+            "error-container": "#ffdad6",
+            "primary-fixed": "#ffdbca",
+            "on-tertiary-fixed": "#002113",
+            "on-tertiary-container": "#003b26",
+            "secondary-fixed-dim": "#bdc7d9",
+            "primary-fixed-dim": "#ffb690",
+            "error": "#ba1a1a",
+            "on-surface": "#151c27",
+            "surface-container-lowest": "#ffffff",
+            "on-tertiary-fixed-variant": "#005236",
+            "surface-tint": "#9d4300",
+            "on-primary-container": "#582200",
+            "on-primary-fixed": "#341100",
+            "on-secondary-container": "#596373",
+            "on-background": "#151c27",
+            "on-surface-variant": "#584237",
+            "background": "#f9f9ff",
+            "surface": "#f9f9ff",
+            "on-secondary": "#ffffff",
+            "on-secondary-fixed-variant": "#3d4756",
+            "surface-container-low": "#f0f3ff",
+            "tertiary-fixed": "#6ffbbe"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "gutter": "1rem",
+            "space-sm": "0.5rem",
+            "margin": "1rem",
+            "space-lg": "1.5rem",
+            "gutter-md": "1.5rem",
+            "space-md": "1rem",
+            "space-xs": "0.25rem",
+            "margin-lg": "2.5rem",
+            "margin-md": "1.5rem",
+            "space-xl": "2rem"
+          },
+          "fontFamily": {
+            "display-hero": [
+              "Inter"
+            ],
+            "label-sm": [
+              "Inter"
+            ],
+            "display-hero-mobile": [
+              "Inter"
+            ],
+            "headline-md": [
+              "Inter"
+            ],
+            "headline-lg": [
+              "Inter"
+            ],
+            "body-md": [
+              "Inter"
+            ],
+            "label-lg": [
+              "Inter"
+            ],
+            "price-display": [
+              "Inter"
+            ],
+            "label-md": [
+              "Inter"
+            ],
+            "body-lg": [
+              "Inter"
+            ],
+            "headline-sm": [
+              "Inter"
+            ]
+          },
+          "fontSize": {
+            "display-hero": [
+              "40px",
+              {
+                "lineHeight": "48px",
+                "letterSpacing": "-0.02em",
+                "fontWeight": "800"
+              }
+            ],
+            "label-sm": [
+              "11px",
+              {
+                "lineHeight": "14px",
+                "letterSpacing": "0.03em",
+                "fontWeight": "700"
+              }
+            ],
+            "display-hero-mobile": [
+              "30px",
+              {
+                "lineHeight": "36px",
+                "letterSpacing": "-0.015em",
+                "fontWeight": "800"
+              }
+            ],
+            "headline-md": [
+              "22px",
+              {
+                "lineHeight": "28px",
+                "letterSpacing": "-0.01em",
+                "fontWeight": "700"
+              }
+            ],
+            "headline-lg": [
+              "28px",
+              {
+                "lineHeight": "34px",
+                "letterSpacing": "-0.01em",
+                "fontWeight": "700"
+              }
+            ],
+            "body-md": [
+              "14px",
+              {
+                "lineHeight": "20px",
+                "fontWeight": "400"
+              }
+            ],
+            "label-lg": [
+              "15px",
+              {
+                "lineHeight": "20px",
+                "letterSpacing": "0.01em",
+                "fontWeight": "600"
+              }
+            ],
+            "price-display": [
+              "18px",
+              {
+                "lineHeight": "22px",
+                "letterSpacing": "-0.01em",
+                "fontWeight": "700"
+              }
+            ],
+            "label-md": [
+              "13px",
+              {
+                "lineHeight": "18px",
+                "letterSpacing": "0.01em",
+                "fontWeight": "600"
+              }
+            ],
+            "body-lg": [
+              "16px",
+              {
+                "lineHeight": "24px",
+                "fontWeight": "400"
+              }
+            ],
+            "headline-sm": [
+              "18px",
+              {
+                "lineHeight": "24px",
+                "fontWeight": "600"
+              }
+            ]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .tactile-press:active {
+      transform: translateY(1px) scale(0.99);
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #e0c0b1;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="h-full font-body-md text-body-md text-on-surface antialiased bg-background flex flex-col justify-between selection:bg-primary-container selection:text-on-primary">
+<div class="min-h-full flex flex-col lg:flex-row w-full flex-grow">
+<!-- LEFT PANEL: Visual Storytelling & Hospitality Ambience (Split Screen) -->
+<div class="hidden lg:flex lg:w-5/12 xl:w-1/2 relative bg-inverse-surface flex-col justify-between p-10 xl:p-14 overflow-hidden border-r border-outline-variant/30">
+<!-- Background Ambient Image with High Gastronomy Context -->
+<div class="absolute inset-0 z-0 bg-cover bg-center opacity-40 mix-blend-luminosity scale-105 transition-transform duration-1000 ease-out" data-alt="A warm, atmospheric contemporary Spanish restaurant interior with Scandinavian minimalism influences, featuring polished natural oak tables, sculptural terracotta bar fixtures, soft low-angle evening light, and refined ceramic tableware. The mood is sophisticated, bustling yet organized, bathed in warm amber tones, clean whites, and deep graphite accents." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBudB7CRlwSb4bLp-gkpsghMldtyw0IE0O6H8AGKWrzbavbard_-EFdCv3aO-KHlrJPN_X70xaXuar6BKhWv_GGwR7JFft8C-H3wuE9fvvIFujVS1G9TW65yOS88vxKvee_DmYovGeWMr7s6-Pak-Wq2iHZzKVdRV8FmWeQ0TBjPbDzJUKsNJ1kU-1VbpmkZ5OjrYaEprhojIwdUr2uOpGvCbVUEMyYfpQhdqHRtsJg')">
+</div>
+<!-- Ambient Gradient Overlay -->
+<div class="absolute inset-0 z-10 bg-gradient-to-t from-inverse-surface via-inverse-surface/80 to-inverse-surface/40"></div>
+<!-- Top Branding in Split View -->
+<div class="relative z-20 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-on-primary" data-icon="restaurant_menu">restaurant_menu</span>
+</div>
+<div>
+<span class="font-headline-sm text-headline-sm font-bold text-inverse-on-surface tracking-tight block">MesaYa</span>
+<span class="font-label-sm text-label-sm text-secondary-fixed-dim uppercase tracking-wider block">Sistema Operativo Gastronómico</span>
+</div>
+</div>
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container-lowest/10 backdrop-blur-md border border-white/10 text-inverse-on-surface font-label-md text-label-md">
+<span class="inline-block w-2 h-2 rounded-full bg-tertiary-fixed animate-pulse"></span>
+<span>Red TPV Operativa</span>
+</div>
+</div>
+<!-- Mid Content / Value Proposition Showcase -->
+<div class="relative z-20 space-y-8 my-auto py-12 max-w-lg">
+<div class="space-y-3">
+<span class="px-3 py-1 rounded-full bg-primary-fixed/20 text-inverse-primary border border-primary-fixed/30 font-label-sm text-label-sm font-bold tracking-wide uppercase inline-flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm" data-icon="table_restaurant">table_restaurant</span>
+            Servicio en Vivo 2.4
+          </span>
+<h1 class="font-display-hero text-display-hero text-inverse-on-surface font-extrabold tracking-tight leading-tight">
+            Sincronía total entre barra, sala y fogones.
+          </h1>
+<p class="font-body-lg text-body-lg text-secondary-fixed-dim leading-relaxed">
+            Comandas instantáneas en menos de 1.8 segundos, KDS dinámico con alérgenos automáticos y liquidación de mesas por Bizum y tarjeta.
+          </p>
+</div>
+<!-- Live Metrics Micro-Bento Card -->
+<div class="grid grid-cols-2 gap-4 pt-2">
+<div class="p-4 rounded-xl bg-white/5 backdrop-blur-md border border-white/10 space-y-1">
+<div class="flex items-center gap-2 text-inverse-primary">
+<span class="material-symbols-outlined text-lg" data-icon="speed">speed</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Rotación Media</span>
+</div>
+<p class="font-price-display text-price-display font-bold text-inverse-on-surface">+34% mesas/turno</p>
+<p class="font-label-sm text-label-sm text-secondary-fixed-dim">Optimización por QR dinámico</p>
+</div>
+<div class="p-4 rounded-xl bg-white/5 backdrop-blur-md border border-white/10 space-y-1">
+<div class="flex items-center gap-2 text-tertiary-fixed">
+<span class="material-symbols-outlined text-lg" data-icon="verified_user">verified_user</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Cumplimiento 100%</span>
+</div>
+<p class="font-price-display text-price-display font-bold text-inverse-on-surface">Norma Alérgenos UE</p>
+<p class="font-label-sm text-label-sm text-secondary-fixed-dim">Filtro de cocina en tiempo real</p>
+</div>
+</div>
+</div>
+<!-- Bottom Split Footer Note -->
+<div class="relative z-20 flex items-center justify-between pt-6 border-t border-white/10 font-label-sm text-label-sm text-secondary-fixed-dim">
+<span>© 2024 MesaYa Technologies S.L.</span>
+<div class="flex items-center gap-4">
+<span class="hover:text-inverse-on-surface transition-colors cursor-pointer">Guía Rápida TPV</span>
+<span class="hover:text-inverse-on-surface transition-colors cursor-pointer">Soporte Técnico 24/7</span>
+</div>
+</div>
+</div>
+<!-- RIGHT PANEL: Authentication Form Experience -->
+<div class="w-full lg:w-7/12 xl:w-1/2 flex flex-col justify-between p-6 sm:p-10 lg:p-14 xl:p-16 overflow-y-auto">
+<!-- Top Mobile Brand Banner & Service Status -->
+<div class="flex items-center justify-between pb-6 border-b border-outline-variant/30 lg:border-none lg:pb-0">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center text-on-primary shadow-sm lg:hidden">
+<span class="material-symbols-outlined text-on-primary" data-icon="restaurant_menu">restaurant_menu</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm font-extrabold text-primary tracking-tight">MesaYa</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">v2.8</span>
+</div>
+<span class="font-label-md text-label-md text-secondary block">Gestión de Sala, Cocina y Administración</span>
+</div>
+</div>
+<!-- Venue Context Tag -->
+<div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container-low border border-outline-variant/30 text-on-surface font-label-md text-label-md">
+<span class="material-symbols-outlined text-primary text-base" data-icon="storefront">storefront</span>
+<span class="font-semibold">Bar La Plaza</span>
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+</div>
+</div>
+<!-- Main Login Container (Max Width Constrained) -->
+<div class="w-full max-w-md mx-auto my-auto py-8">
+<!-- Welcome Header -->
+<div class="mb-8 space-y-2">
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface tracking-tight">
+            Bienvenido de nuevo a MesaYa · Acceso a tu restaurante
+          </h2>
+<p class="font-body-md text-body-md text-secondary">
+            Selecciona tu perfil operativo para ingresar al panel de servicio correspondiente.
+          </p>
+</div>
+<!-- Role Selector Tabs -->
+<div class="mb-6">
+<label class="block font-label-md text-label-md text-on-surface-variant mb-2">Perfil de Servicio</label>
+<div class="grid grid-cols-3 gap-1.5 p-1 rounded-xl bg-surface-container border border-outline-variant/30" role="tablist">
+<!-- Tab 1: Administración (Default Active) -->
+<button aria-selected="true" class="role-tab flex flex-col sm:flex-row items-center justify-center gap-1.5 py-2.5 px-2 rounded-lg bg-surface-container-lowest text-primary shadow-sm font-label-md text-label-md transition-all font-bold" id="role-admin" onclick="selectRole('admin')" role="tab" type="button">
+<span class="material-symbols-outlined text-lg" data-icon="admin_panel_settings">admin_panel_settings</span>
+<span class="truncate">Gerencia</span>
+</button>
+<!-- Tab 2: Camarero -->
+<button aria-selected="false" class="role-tab flex flex-col sm:flex-row items-center justify-center gap-1.5 py-2.5 px-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-all font-label-md text-label-md" id="role-waiter" onclick="selectRole('waiter')" role="tab" type="button">
+<span class="material-symbols-outlined text-lg" data-icon="table_bar">table_bar</span>
+<span class="truncate">Camarero</span>
+</button>
+<!-- Tab 3: Cocina KDS -->
+<button aria-selected="false" class="role-tab flex flex-col sm:flex-row items-center justify-center gap-1.5 py-2.5 px-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-all font-label-md text-label-md" id="role-kitchen" onclick="selectRole('kitchen')" role="tab" type="button">
+<span class="material-symbols-outlined text-lg" data-icon="skillet">skillet</span>
+<span class="truncate">Cocina KDS</span>
+</button>
+</div>
+</div>
+<!-- Standard Authentication Form -->
+<form class="space-y-4" onsubmit="event.preventDefault(); handleLoginSubmit();">
+<!-- Email / User Input -->
+<div>
+<label class="block font-label-md text-label-md font-semibold text-on-surface mb-1.5" for="email-input">
+              Correo electrónico
+            </label>
+<div class="relative rounded-lg shadow-sm">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-secondary">
+<span class="material-symbols-outlined text-xl" data-icon="mail">mail</span>
+</div>
+<input class="block w-full pl-11 pr-4 py-3 rounded-lg border border-outline-variant/50 bg-surface-container-lowest text-on-surface placeholder:text-secondary/60 focus:border-primary-container focus:ring-1 focus:ring-primary-container font-body-md text-body-md transition-colors" id="email-input" name="email" placeholder="ej. manuel@barlaplaza.es" required="" style="min-height: 48px;" type="email" value="manuel@barlaplaza.es"/>
+</div>
+</div>
+<!-- Password Input -->
+<div>
+<div class="flex items-center justify-between mb-1.5">
+<label class="block font-label-md text-label-md font-semibold text-on-surface" for="password-input">
+                Contraseña
+              </label>
+<a class="font-label-md text-label-md text-primary hover:text-on-primary-fixed-variant transition-colors underline-offset-2 hover:underline" href="#">
+                ¿Olvidaste tu contraseña?
+              </a>
+</div>
+<div class="relative rounded-lg shadow-sm">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-secondary">
+<span class="material-symbols-outlined text-xl" data-icon="lock">lock</span>
+</div>
+<input class="block w-full pl-11 pr-11 py-3 rounded-lg border border-outline-variant/50 bg-surface-container-lowest text-on-surface placeholder:text-secondary/60 focus:border-primary-container focus:ring-1 focus:ring-primary-container font-body-md text-body-md transition-colors" id="password-input" name="password" placeholder="Introduce tu clave de acceso" required="" style="min-height: 48px;" type="password" value="secretPassword123"/>
+<button aria-label="Mostrar u ocultar contraseña" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-secondary hover:text-on-surface transition-colors" id="toggle-pwd-btn" onclick="togglePasswordVisibility()" type="button">
+<span class="material-symbols-outlined text-xl" data-icon="visibility" id="pwd-icon">visibility</span>
+</button>
+</div>
+</div>
+<!-- Remember Session Checkbox -->
+<div class="flex items-center pt-1">
+<input checked="" class="h-4.5 w-4.5 rounded border-outline-variant/60 text-primary-container focus:ring-primary-container cursor-pointer transition-colors" id="remember-device" name="remember-device" type="checkbox"/>
+<label class="ml-2.5 block font-label-md text-label-md text-on-surface-variant cursor-pointer select-none" for="remember-device">
+              Mantener sesión iniciada en este dispositivo TPV
+            </label>
+</div>
+<!-- Submit Button -->
+<div class="pt-2">
+<button class="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-lg bg-primary-container hover:bg-primary text-on-primary font-label-lg text-label-lg font-bold shadow-sm tactile-press transition-all" style="min-height: 48px;" type="submit">
+<span class="material-symbols-outlined text-xl" data-icon="login">login</span>
+<span>Iniciar sesión en MesaYa</span>
+</button>
+</div>
+</form>
+<!-- Divider -->
+<div class="relative my-7">
+<div aria-hidden="true" class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-outline-variant/40"></div>
+</div>
+<div class="relative flex justify-center font-label-md text-label-md">
+<span class="bg-background px-3 text-secondary">O accede rápidamente con</span>
+</div>
+</div>
+<!-- Quick PIN Mode Trigger Button -->
+<div>
+<button class="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-lg bg-surface-container-lowest border-2 border-outline-variant/40 hover:border-primary-container/80 text-on-surface hover:text-primary font-label-lg text-label-lg font-semibold shadow-sm tactile-press transition-all group" onclick="openPinModal()" style="min-height: 48px;" type="button">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform" data-icon="pin">pin</span>
+<span>Código PIN de Camarero / Pantalla rápida</span>
+</button>
+</div>
+<!-- Current Shift Venue Mini Alert -->
+<div class="mt-6 p-3.5 rounded-xl bg-surface-container-low border border-outline-variant/30 flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-xl shrink-0 mt-0.5" data-icon="info">info</span>
+<div class="font-body-md text-body-md text-on-surface-variant">
+<span class="font-semibold text-on-surface">Turno de Almuerzo activo</span> en <strong class="text-on-surface">Bar La Plaza</strong>. Hay 12 comandas en curso y 4 mesas reservadas para los próximos 45 minutos.
+          </div>
+</div>
+</div>
+<!-- Bottom Security & Registration Links -->
+<div class="pt-6 border-t border-outline-variant/30 text-center space-y-3">
+<!-- Encryption Assurance Badge -->
+<div class="inline-flex items-center gap-1.5 font-label-sm text-label-sm text-secondary bg-surface-container px-3 py-1 rounded-full">
+<span class="material-symbols-outlined text-tertiary text-sm" data-icon="lock">lock</span>
+<span>Conexión cifrada de extremo a extremo TPV / Stripe</span>
+<span class="text-tertiary font-bold">· PCI-DSS L1</span>
+</div>
+<!-- New Venue Lead -->
+<div class="font-label-md text-label-md text-secondary">
+          ¿Tu restaurante aún no utiliza MesaYa? 
+          <a class="font-semibold text-primary hover:text-on-primary-fixed-variant transition-colors ml-1 underline-offset-2 hover:underline" href="#">
+            Solicita tu alta o vuelve a la Landing
+          </a>
+</div>
+</div>
+</div>
+</div>
+<!-- PIN CODE MODAL FOR RAPID STAFF ACCESS -->
+<div aria-labelledby="pin-modal-title" aria-modal="true" class="fixed inset-0 z-50 bg-on-surface/50 backdrop-blur-sm hidden items-center justify-center p-4 transition-opacity duration-200" id="pin-modal" role="dialog">
+<div class="w-full max-w-sm rounded-2xl bg-surface-container-lowest p-6 shadow-xl border border-outline-variant/40 space-y-6">
+<!-- Modal Header -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-primary-fixed flex items-center justify-center text-on-primary-fixed-variant">
+<span class="material-symbols-outlined text-lg" data-icon="dialpad">dialpad</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface" id="pin-modal-title">Acceso Rápido por PIN</h3>
+<p class="font-label-sm text-label-sm text-secondary">Introduce tus 4 dígitos de camarero</p>
+</div>
+</div>
+<button aria-label="Cerrar ventana PIN" class="w-8 h-8 rounded-full flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface-container transition-colors" onclick="closePinModal()" type="button">
+<span class="material-symbols-outlined text-xl" data-icon="close">close</span>
+</button>
+</div>
+<!-- PIN Digits Display Indicator -->
+<div class="flex justify-center items-center gap-4 py-2">
+<div class="w-4 h-4 rounded-full border-2 border-outline-variant/60 transition-all duration-150" id="dot-0"></div>
+<div class="w-4 h-4 rounded-full border-2 border-outline-variant/60 transition-all duration-150" id="dot-1"></div>
+<div class="w-4 h-4 rounded-full border-2 border-outline-variant/60 transition-all duration-150" id="dot-2"></div>
+<div class="w-4 h-4 rounded-full border-2 border-outline-variant/60 transition-all duration-150" id="dot-3"></div>
+</div>
+<!-- Tactile Numpad Grid (8px rhythm and 48px hit areas) -->
+<div class="grid grid-cols-3 gap-2.5">
+<button class="h-12 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface font-price-display text-price-display font-bold tactile-press flex items-center justify-center transition-colors" onclick="pressPin('1')" type="button">1</button>
+<button class="h-12 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface font-price-display text-price-display font-bold tactile-press flex items-center justify-center transition-colors" onclick="pressPin('2')" type="button">2</button>
+<button class="h-12 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface font-price-display text-price-display font-bold tactile-press flex items-center justify-center transition-colors" onclick="pressPin('3')" type="button">3</button>
+<button class="h-12 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface font-price-display text-price-display font-bold tactile-press flex items-center justify-center transition-colors" onclick="pressPin('4')" type="button">4</button>
+<button class="h-12 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface font-price-display text-price-display font-bold tactile-press flex items-center justify-center transition-colors" onclick="pressPin('5')" type="button">5</button>
+<button class="h-12 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface font-price-display text-price-display font-bold tactile-press flex items-center justify-center transition-colors" onclick="pressPin('6')" type="button">6</button>
+<button class="h-12 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface font-price-display text-price-display font-bold tactile-press flex items-center justify-center transition-colors" onclick="pressPin('7')" type="button">7</button>
+<button class="h-12 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface font-price-display text-price-display font-bold tactile-press flex items-center justify-center transition-colors" onclick="pressPin('8')" type="button">8</button>
+<button class="h-12 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface font-price-display text-price-display font-bold tactile-press flex items-center justify-center transition-colors" onclick="pressPin('9')" type="button">9</button>
+<button class="h-12 rounded-xl bg-error-container/40 hover:bg-error-container text-error font-label-md text-label-md font-bold tactile-press flex items-center justify-center transition-colors" onclick="clearPin()" type="button">C</button>
+<button class="h-12 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface font-price-display text-price-display font-bold tactile-press flex items-center justify-center transition-colors" onclick="pressPin('0')" type="button">0</button>
+<button class="h-12 rounded-xl bg-surface-container-low hover:bg-surface-container text-secondary hover:text-on-surface tactile-press flex items-center justify-center transition-colors" onclick="backspacePin()" type="button">
+<span class="material-symbols-outlined" data-icon="backspace">backspace</span>
+</button>
+</div>
+<!-- Feedback helper info -->
+<div class="text-center font-label-sm text-label-sm text-secondary pt-1" id="pin-feedback">
+        Para Camarero de barra o sala asignado a turno
+      </div>
+</div>
+</div>
+<!-- Interactive Logic for State & Feedback -->
+<script>
+    // Password toggle
+    function togglePasswordVisibility() {
+      const passwordInput = document.getElementById('password-input');
+      const icon = document.getElementById('pwd-icon');
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        icon.innerText = 'visibility_off';
+      } else {
+        passwordInput.type = 'password';
+        icon.innerText = 'visibility';
+      }
+    }
+
+    // Role switcher logic
+    function selectRole(role) {
+      const tabs = {
+        admin: document.getElementById('role-admin'),
+        waiter: document.getElementById('role-waiter'),
+        kitchen: document.getElementById('role-kitchen')
+      };
+
+      const emailInput = document.getElementById('email-input');
+
+      // Reset all tabs to inactive state
+      Object.values(tabs).forEach(tab => {
+        tab.className = "role-tab flex flex-col sm:flex-row items-center justify-center gap-1.5 py-2.5 px-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-all font-label-md text-label-md";
+        tab.setAttribute('aria-selected', 'false');
+      });
+
+      // Activate selected tab
+      if (tabs[role]) {
+        tabs[role].className = "role-tab flex flex-col sm:flex-row items-center justify-center gap-1.5 py-2.5 px-2 rounded-lg bg-surface-container-lowest text-primary shadow-sm font-label-md text-label-md transition-all font-bold";
+        tabs[role].setAttribute('aria-selected', 'true');
+      }
+
+      // Contextual demo email adaptation
+      if (role === 'admin') {
+        emailInput.value = 'manuel@barlaplaza.es';
+      } else if (role === 'waiter') {
+        emailInput.value = 'sala.carlos@barlaplaza.es';
+      } else if (role === 'kitchen') {
+        emailInput.value = 'kds.cocina@barlaplaza.es';
+      }
+    }
+
+    // PIN Pad logic
+    let enteredPin = "";
+
+    function openPinModal() {
+      enteredPin = "";
+      updatePinDots();
+      const modal = document.getElementById('pin-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closePinModal() {
+      const modal = document.getElementById('pin-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function pressPin(digit) {
+      if (enteredPin.length < 4) {
+        enteredPin += digit;
+        updatePinDots();
+        if (enteredPin.length === 4) {
+          // Simulate instant PIN recognition
+          const feedback = document.getElementById('pin-feedback');
+          feedback.innerHTML = '<span class="text-tertiary font-bold flex items-center justify-center gap-1"><span class="material-symbols-outlined text-sm" data-icon="check_circle">check_circle</span> PIN validado · Conectando con mesa...</span>';
+          setTimeout(() => {
+            closePinModal();
+            alert('¡Acceso concedido a Carlos (Camarero Sala)! Abriendo vista de comandas activas.');
+          }, 600);
+        }
+      }
+    }
+
+    function clearPin() {
+      enteredPin = "";
+      updatePinDots();
+    }
+
+    function backspacePin() {
+      if (enteredPin.length > 0) {
+        enteredPin = enteredPin.slice(0, -1);
+        updatePinDots();
+      }
+    }
+
+    function updatePinDots() {
+      for (let i = 0; i < 4; i++) {
+        const dot = document.getElementById('dot-' + i);
+        if (i < enteredPin.length) {
+          dot.className = "w-4 h-4 rounded-full bg-primary-container border-2 border-primary-container scale-110 transition-all duration-150";
+        } else {
+          dot.className = "w-4 h-4 rounded-full border-2 border-outline-variant/60 transition-all duration-150";
+        }
+      }
+      const feedback = document.getElementById('pin-feedback');
+      if (enteredPin.length < 4) {
+        feedback.innerHTML = 'Para Camarero de barra o sala asignado a turno';
+        feedback.className = "text-center font-label-sm text-label-sm text-secondary pt-1";
+      }
+    }
+
+    function handleLoginSubmit() {
+      const email = document.getElementById('email-input').value;
+      alert('Iniciando sesión en MesaYa con ' + email + '...');
+    }
+  </script>
+</body></html>

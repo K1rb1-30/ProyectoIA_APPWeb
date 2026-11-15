@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nueva comanda · Bar La Plaza</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-container-highest": "#dce2f3",
+            "surface-container-high": "#e2e8f8",
+            "on-error": "#ffffff",
+            "on-primary-container": "#582200",
+            "inverse-on-surface": "#ebf1ff",
+            "primary-fixed": "#ffdbca",
+            "inverse-surface": "#2a313d",
+            "on-background": "#151c27",
+            "on-secondary-fixed-variant": "#3d4756",
+            "error-container": "#ffdad6",
+            "on-surface-variant": "#584237",
+            "surface-tint": "#9d4300",
+            "on-tertiary-fixed": "#002113",
+            "primary-container": "#f97316",
+            "on-tertiary-fixed-variant": "#005236",
+            "inverse-primary": "#ffb690",
+            "surface-variant": "#dce2f3",
+            "on-surface": "#151c27",
+            "on-primary-fixed": "#341100",
+            "on-error-container": "#93000a",
+            "surface-container-lowest": "#ffffff",
+            "surface": "#f9f9ff",
+            "secondary-fixed": "#d9e3f6",
+            "tertiary": "#006c49",
+            "error": "#ba1a1a",
+            "on-primary": "#ffffff",
+            "secondary": "#555f6f",
+            "on-secondary-container": "#596373",
+            "outline-variant": "#e0c0b1",
+            "surface-dim": "#d3daea",
+            "primary": "#9d4300",
+            "secondary-fixed-dim": "#bdc7d9",
+            "tertiary-fixed-dim": "#4edea3",
+            "on-secondary-fixed": "#121c2a",
+            "primary-fixed-dim": "#ffb690",
+            "outline": "#8c7164",
+            "on-tertiary-container": "#003b26",
+            "tertiary-fixed": "#6ffbbe",
+            "surface-container": "#e7eefe",
+            "on-tertiary": "#ffffff",
+            "on-secondary": "#ffffff",
+            "surface-container-low": "#f0f3ff",
+            "on-primary-fixed-variant": "#783200",
+            "tertiary-container": "#00b07a",
+            "secondary-container": "#d6e0f3",
+            "background": "#f9f9ff",
+            "surface-bright": "#f9f9ff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin-lg": "2.5rem",
+            "space-lg": "1.5rem",
+            "space-sm": "0.5rem",
+            "space-xl": "2rem",
+            "margin": "1rem",
+            "gutter-md": "1.5rem",
+            "space-xs": "0.25rem",
+            "margin-md": "1.5rem",
+            "space-md": "1rem",
+            "gutter": "1rem"
+          },
+          "fontFamily": {
+            "display-hero": ["Inter"],
+            "body-md": ["Inter"],
+            "label-sm": ["Inter"],
+            "headline-sm": ["Inter"],
+            "label-md": ["Inter"],
+            "label-lg": ["Inter"],
+            "price-display": ["Inter"],
+            "headline-lg": ["Inter"],
+            "body-lg": ["Inter"],
+            "display-hero-mobile": ["Inter"],
+            "headline-md": ["Inter"]
+          },
+          "fontSize": {
+            "display-hero": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+            "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+            "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "700"}],
+            "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+            "label-md": ["13px", {"lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+            "label-lg": ["15px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+            "price-display": ["18px", {"lineHeight": "22px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+            "headline-lg": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+            "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+            "display-hero-mobile": ["30px", {"lineHeight": "36px", "letterSpacing": "-0.015em", "fontWeight": "800"}],
+            "headline-md": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .tactile-press { transition: transform 0.1s ease, background-color 0.15s ease; }
+    .tactile-press:active { transform: scale(0.97) translateY(1px); }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface antialiased font-body-md selection:bg-primary-container selection:text-surface-container-lowest">
+<div class="max-w-[720px] mx-auto min-h-screen flex flex-col relative pb-32">
+<!-- HEADER / APP BAR CON MODO FOCALIZADO -->
+<header class="docked full-width top-0 sticky z-40 bg-surface shadow-sm px-margin py-3 border-b-0">
+<div class="flex items-center justify-between gap-2">
+<div class="flex items-center gap-2">
+<a aria-label="Volver a mesas" class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface tactile-press" href="#">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+</a>
+<div>
+<h1 class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-tight">Nueva comanda</h1>
+<p class="font-label-sm text-label-sm text-secondary">Bar La Plaza · TPV Camarero</p>
+</div>
+</div>
+<div class="flex items-center gap-1.5 bg-surface-container-lowest px-2.5 py-1.5 rounded-xl border border-surface-container-highest shadow-sm">
+<span class="w-2 h-2 rounded-full bg-tertiary-container animate-pulse"></span>
+<span class="material-symbols-outlined text-[16px] text-primary">badge</span>
+<span class="font-label-md text-label-md text-on-surface font-medium truncate max-w-[130px]">Carlos M. (Mediodía)</span>
+</div>
+</div>
+</header>
+<!-- SELECTOR RÁPIDO DE MESA Y COMENSALES -->
+<section class="px-margin pt-3 pb-2">
+<!-- Fila de Chips Rápidos de Mesa -->
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-md text-label-md text-secondary uppercase tracking-wider">Seleccionar mesa</span>
+<button class="font-label-md text-label-md text-primary font-semibold hover:underline flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">map</span> Plano sala
+        </button>
+</div>
+<div class="flex gap-2 overflow-x-auto no-scrollbar pb-1.5 -mx-margin px-margin">
+<button class="tactile-press flex-shrink-0 px-3.5 py-2 rounded-xl bg-surface-container-lowest border border-surface-container-highest text-left shadow-sm">
+<span class="block font-headline-sm text-headline-sm leading-none text-on-surface">M1</span>
+<span class="block font-label-sm text-label-sm text-tertiary font-bold mt-1">Libre</span>
+</button>
+<button class="tactile-press flex-shrink-0 px-4 py-2 rounded-xl bg-on-surface text-surface-container-lowest text-left shadow-md ring-2 ring-primary-container">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-headline-sm leading-none text-surface-container-lowest font-bold">M3</span>
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+</div>
+<span class="block font-label-sm text-label-sm text-primary-fixed mt-1">Seleccionada</span>
+</button>
+<button class="tactile-press flex-shrink-0 px-3.5 py-2 rounded-xl bg-surface-container-lowest border border-surface-container-highest text-left shadow-sm">
+<span class="block font-headline-sm text-headline-sm leading-none text-on-surface">M5</span>
+<span class="block font-label-sm text-label-sm text-primary font-semibold mt-1">Ocupada</span>
+</button>
+<button class="tactile-press flex-shrink-0 px-3.5 py-2 rounded-xl bg-surface-container-lowest border border-surface-container-highest text-left shadow-sm">
+<span class="block font-headline-sm text-headline-sm leading-none text-on-surface">M7</span>
+<span class="block font-label-sm text-label-sm text-tertiary font-bold mt-1">Libre</span>
+</button>
+<button class="tactile-press flex-shrink-0 px-3.5 py-2 rounded-xl bg-surface-container-lowest border border-surface-container-highest text-left shadow-sm">
+<span class="block font-headline-sm text-headline-sm leading-none text-on-surface">Barra 2</span>
+<span class="block font-label-sm text-label-sm text-tertiary font-bold mt-1">Libre</span>
+</button>
+<button class="tactile-press flex-shrink-0 px-3.5 py-2 rounded-xl bg-surface-container-lowest border border-surface-container-highest text-left shadow-sm">
+<span class="block font-headline-sm text-headline-sm leading-none text-on-surface">Terr. 4</span>
+<span class="block font-label-sm text-label-sm text-tertiary font-bold mt-1">Libre</span>
+</button>
+</div>
+<!-- Ficha de la Mesa Activa con Selector de Comensales -->
+<div class="mt-2 bg-surface-container-lowest p-3.5 rounded-2xl border border-surface-container-highest flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-3">
+<div class="w-11 h-11 rounded-xl bg-primary-fixed flex items-center justify-center text-primary font-bold text-headline-sm">
+            3
+          </div>
+<div>
+<div class="font-headline-sm text-headline-sm text-on-surface">Mesa 3 · Sala Interior</div>
+<p class="font-body-md text-body-md text-secondary">Zona Climatizada · Alta rotación</p>
+</div>
+</div>
+<!-- Stepper Comensales -->
+<div class="flex items-center bg-surface-container-low rounded-xl p-1 gap-1 border border-surface-container-highest">
+<button aria-label="Menos comensales" class="w-8 h-8 rounded-lg bg-surface-container-lowest text-on-surface font-bold text-lg flex items-center justify-center tactile-press shadow-sm">
+            -
+          </button>
+<div class="px-2 text-center">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface leading-none block">4</span>
+<span class="font-label-sm text-label-sm text-secondary uppercase block text-[9px]">Pax</span>
+</div>
+<button aria-label="Más comensales" class="w-8 h-8 rounded-lg bg-surface-container-lowest text-on-surface font-bold text-lg flex items-center justify-center tactile-press shadow-sm">
+            +
+          </button>
+</div>
+</div>
+</section>
+<!-- BUSCADOR RÁPIDO CON LUPA Y CÓDIGO -->
+<section class="px-margin pt-2 pb-1">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-secondary text-[22px]">search</span>
+<input class="w-full h-12 pl-11 pr-24 rounded-xl bg-surface-container-lowest border border-surface-container-highest text-body-lg text-on-surface placeholder:text-secondary focus:border-primary-container focus:ring-0 transition-colors" placeholder="Buscar plato o código (ej. 102, Bravas)..." type="text"/>
+<div class="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
+<kbd class="px-2 py-1 rounded bg-surface-container-low text-secondary font-label-sm text-[11px] font-semibold border border-surface-container-highest">TAB</kbd>
+</div>
+</div>
+</section>
+<!-- SELECTOR DE CATEGORÍAS TIPO PILL -->
+<nav class="pt-2 pb-2">
+<div class="flex gap-2 overflow-x-auto no-scrollbar px-margin">
+<button class="tactile-press px-4 py-2 rounded-full bg-on-surface text-surface-container-lowest font-label-md text-label-md flex items-center gap-1.5 flex-shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[16px]">tapas</span>
+<span>Tapas</span>
+</button>
+<button class="tactile-press px-4 py-2 rounded-full bg-surface-container-lowest text-secondary border border-surface-container-highest font-label-md text-label-md flex items-center gap-1.5 flex-shrink-0 hover:bg-surface-container-low">
+<span class="material-symbols-outlined text-[16px]">dinner_dining</span>
+<span>Raciones</span>
+</button>
+<button class="tactile-press px-4 py-2 rounded-full bg-surface-container-lowest text-secondary border border-surface-container-highest font-label-md text-label-md flex items-center gap-1.5 flex-shrink-0 hover:bg-surface-container-low">
+<span class="material-symbols-outlined text-[16px]">lunch_dining</span>
+<span>Bocadillos</span>
+</button>
+<button class="tactile-press px-4 py-2 rounded-full bg-surface-container-lowest text-secondary border border-surface-container-highest font-label-md text-label-md flex items-center gap-1.5 flex-shrink-0 hover:bg-surface-container-low">
+<span class="material-symbols-outlined text-[16px]">sports_bar</span>
+<span>Bebidas</span>
+</button>
+<button class="tactile-press px-4 py-2 rounded-full bg-surface-container-lowest text-secondary border border-surface-container-highest font-label-md text-label-md flex items-center gap-1.5 flex-shrink-0 hover:bg-surface-container-low">
+<span class="material-symbols-outlined text-[16px]">coffee</span>
+<span>Postres y Cafés</span>
+</button>
+</div>
+</nav>
+<!-- LISTA RÁPIDA DE PLATOS (BENTO GRID TÁCTIL PARA CAMARERO) -->
+<main class="px-margin space-y-2.5 flex-1">
+<!-- ITEM 1: Croquetas de jamón ibérico (Cantidad: 2) -->
+<article class="bg-surface-container-lowest rounded-2xl p-3 border border-surface-container-highest shadow-sm relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary-container"></div>
+<div class="flex items-center justify-between gap-3 pl-1">
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm font-bold bg-surface-container-high px-1.5 py-0.5 rounded text-on-secondary-container">#101</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface truncate">Croquetas de jamón ibérico</h2>
+</div>
+<div class="flex items-center gap-2 mt-1">
+<span class="font-price-display text-price-display text-primary font-bold">8,50 €</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-surface-container-high text-secondary">Gluten</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-surface-container-high text-secondary">Lácteos</span>
+</div>
+</div>
+<!-- Stepper Camarero Rápido -->
+<div class="flex items-center gap-2">
+<div class="flex items-center bg-surface-container-low rounded-xl p-1 border border-surface-container-highest">
+<button class="w-10 h-10 rounded-lg bg-surface-container-lowest text-on-surface font-bold text-xl flex items-center justify-center tactile-press shadow-sm">
+                -
+              </button>
+<span class="w-8 text-center font-headline-sm text-headline-sm font-bold text-on-surface">2</span>
+<button class="w-10 h-10 rounded-lg bg-primary-container text-surface-container-lowest font-bold text-xl flex items-center justify-center tactile-press shadow-sm">
+                +
+              </button>
+</div>
+</div>
+</div>
+</article>
+<!-- ITEM 2: Patatas bravas al alioli (Cantidad: 1) -->
+<article class="bg-surface-container-lowest rounded-2xl p-3 border border-surface-container-highest shadow-sm relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary-container"></div>
+<div class="flex items-center justify-between gap-3 pl-1">
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm font-bold bg-surface-container-high px-1.5 py-0.5 rounded text-on-secondary-container">#104</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface truncate">Patatas bravas al alioli</h2>
+</div>
+<div class="flex items-center gap-2 mt-1">
+<span class="font-price-display text-price-display text-primary font-bold">6,00 €</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-surface-container-high text-secondary">Huevo</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-surface-container-high text-secondary">Picante suave</span>
+</div>
+</div>
+<!-- Stepper Camarero Rápido -->
+<div class="flex items-center gap-2">
+<div class="flex items-center bg-surface-container-low rounded-xl p-1 border border-surface-container-highest">
+<button class="w-10 h-10 rounded-lg bg-surface-container-lowest text-on-surface font-bold text-xl flex items-center justify-center tactile-press shadow-sm">
+                -
+              </button>
+<span class="w-8 text-center font-headline-sm text-headline-sm font-bold text-on-surface">1</span>
+<button class="w-10 h-10 rounded-lg bg-primary-container text-surface-container-lowest font-bold text-xl flex items-center justify-center tactile-press shadow-sm">
+                +
+              </button>
+</div>
+</div>
+</div>
+</article>
+<!-- ITEM 3: Caña Doble Mahou (Cantidad: 2) -->
+<article class="bg-surface-container-lowest rounded-2xl p-3 border border-surface-container-highest shadow-sm relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary-container"></div>
+<div class="flex items-center justify-between gap-3 pl-1">
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm font-bold bg-surface-container-high px-1.5 py-0.5 rounded text-on-secondary-container">#401</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface truncate">Caña Doble Mahou</h2>
+</div>
+<div class="flex items-center gap-2 mt-1">
+<span class="font-price-display text-price-display text-primary font-bold">2,75 €</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-secondary-container text-on-secondary-fixed">Copa fría</span>
+</div>
+</div>
+<!-- Stepper Camarero Rápido -->
+<div class="flex items-center gap-2">
+<div class="flex items-center bg-surface-container-low rounded-xl p-1 border border-surface-container-highest">
+<button class="w-10 h-10 rounded-lg bg-surface-container-lowest text-on-surface font-bold text-xl flex items-center justify-center tactile-press shadow-sm">
+                -
+              </button>
+<span class="w-8 text-center font-headline-sm text-headline-sm font-bold text-on-surface">2</span>
+<button class="w-10 h-10 rounded-lg bg-primary-container text-surface-container-lowest font-bold text-xl flex items-center justify-center tactile-press shadow-sm">
+                +
+              </button>
+</div>
+</div>
+</div>
+</article>
+<!-- ITEM 4: Calamares a la romana (Agotado - Deshabilitado) -->
+<article class="bg-surface-container-low rounded-2xl p-3 border border-surface-container-highest/60 opacity-60 relative overflow-hidden">
+<div class="flex items-center justify-between gap-3 pl-1">
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm font-bold bg-surface-container-highest px-1.5 py-0.5 rounded text-secondary">#108</span>
+<h2 class="font-headline-sm text-headline-sm text-secondary line-through truncate">Calamares a la romana</h2>
+</div>
+<div class="flex items-center gap-2 mt-1">
+<span class="font-price-display text-price-display text-secondary">11,50 €</span>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-error-container text-on-error-container flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">block</span> Agotado cocina
+              </span>
+</div>
+</div>
+<button class="h-10 px-4 rounded-xl bg-surface-container-highest text-secondary font-label-md text-label-md cursor-not-allowed" disabled="">
+            No disp.
+          </button>
+</div>
+</article>
+<!-- ITEM 5: Tortilla de patatas jugosa (Añadir +) -->
+<article class="bg-surface-container-lowest rounded-2xl p-3 border border-surface-container-highest shadow-sm relative overflow-hidden">
+<div class="flex items-center justify-between gap-3 pl-1">
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm font-bold bg-surface-container-high px-1.5 py-0.5 rounded text-on-secondary-container">#103</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface truncate">Tortilla de patatas jugosa</h2>
+</div>
+<div class="flex items-center gap-2 mt-1">
+<span class="font-price-display text-price-display text-primary font-bold">7,20 €</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-surface-container-high text-secondary">Pincho con pan</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-tertiary-fixed text-on-tertiary-fixed">Top ventas</span>
+</div>
+</div>
+<button class="h-10 px-4 rounded-xl bg-surface-container-lowest border-2 border-primary-container text-primary font-label-lg text-label-lg font-bold flex items-center gap-1 tactile-press shadow-sm hover:bg-primary-fixed">
+<span class="material-symbols-outlined text-[18px]">add</span> Añadir
+          </button>
+</div>
+</article>
+<!-- SECCIÓN DE NOTAS Y MARCHAS DE COCINA -->
+<section class="mt-4 bg-surface-container-lowest rounded-2xl p-3.5 border border-surface-container-highest shadow-sm space-y-3">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-primary">edit_note</span>
+            Notas rápidas para cocina
+          </span>
+<span class="font-label-sm text-label-sm text-secondary">Toque para añadir</span>
+</div>
+<!-- Chips de atajos rápidos -->
+<div class="flex flex-wrap gap-1.5">
+<button class="px-2.5 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container-high border border-surface-container-highest text-on-surface font-label-md text-label-md tactile-press">
+            Muy hecho
+          </button>
+<button class="px-2.5 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container-high border border-surface-container-highest text-on-surface font-label-md text-label-md tactile-press">
+            Sin cebolla
+          </button>
+<button class="px-2.5 py-1.5 rounded-lg bg-on-surface text-surface-container-lowest font-label-md text-label-md tactile-press shadow-xs flex items-center gap-1">
+<span>Salsa aparte</span>
+<span class="material-symbols-outlined text-[12px]">check</span>
+</button>
+<button class="px-2.5 py-1.5 rounded-lg bg-on-surface text-surface-container-lowest font-label-md text-label-md tactile-press shadow-xs flex items-center gap-1">
+<span>Todo al centro</span>
+<span class="material-symbols-outlined text-[12px]">check</span>
+</button>
+<button class="px-2.5 py-1.5 rounded-lg bg-error-container text-on-error-container border border-error/20 font-label-md text-label-md font-bold tactile-press">
+            Urgente
+          </button>
+</div>
+<!-- Campo libre -->
+<input class="w-full text-body-md h-10 px-3 rounded-xl bg-surface-container-low border border-surface-container-highest focus:border-primary-container focus:ring-0" placeholder="Escribir nota específica para la mesa..." type="text" value="Salsa aparte · Todo al centro para compartir"/>
+<!-- Toggle Orden de Marcha -->
+<label class="flex items-center justify-between p-2.5 rounded-xl bg-surface-container-low border border-surface-container-highest cursor-pointer">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-tertiary">dinner_dining</span>
+<div>
+<span class="block font-label-md text-label-md font-semibold text-on-surface">Marchar primeros ahora</span>
+<span class="block font-label-sm text-label-sm text-secondary">Segundos quedarán en espera de aviso</span>
+</div>
+</div>
+<input checked="" class="w-5 h-5 rounded text-primary-container focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+</label>
+</section>
+</main>
+<!-- PANEL FIJO INFERIOR: RESUMEN Y ENVÍO A COCINA -->
+<div class="fixed bottom-14 left-0 right-0 z-40 bg-surface/95 backdrop-blur-md px-margin py-2.5 max-w-[720px] mx-auto">
+<div class="bg-surface-container-lowest border border-surface-container-highest rounded-2xl p-2.5 shadow-lg flex items-center justify-between gap-3">
+<div class="pl-2">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-primary-container"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">28,50 €</span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary">5 artículos · Mesa 3 (4 Pax)</span>
+</div>
+<!-- Botón Principal "Enviar a cocina" -->
+<button class="h-12 px-6 rounded-xl bg-primary-container text-surface-container-lowest font-headline-sm text-headline-sm font-bold flex items-center gap-2 shadow-md hover:bg-surface-tint active:scale-[0.98] transition-all tactile-press flex-1 max-w-[260px] justify-center">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<span>Enviar cocina</span>
+</button>
+</div>
+</div>
+<!-- BOTTOM NAVBAR CONSISTENTE DE CAMARERO (MANDATORIA) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-space-md py-space-sm max-w-[720px] mx-auto shadow-lg bg-surface">
+<!-- Mesas (Activa conceptualmente en navegación de sala) -->
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary rounded-xl px-4 py-1.5 active:scale-[0.98] transition-transform duration-150" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">table_restaurant</span>
+<span class="font-label-sm text-label-sm">Mesas</span>
+</a>
+<!-- Avisos -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1.5 hover:bg-surface-container-low active:scale-[0.98] transition-transform duration-150 relative" href="#">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="font-label-sm text-label-sm">Avisos</span>
+<span class="absolute top-1 right-3 w-2 h-2 rounded-full bg-error"></span>
+</a>
+<!-- Cobros / Cuenta -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1.5 hover:bg-surface-container-low active:scale-[0.98] transition-transform duration-150" href="#">
+<span class="material-symbols-outlined text-[20px]">payments</span>
+<span class="font-label-sm text-label-sm">Cobros</span>
+</a>
+<!-- Mi Turno -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1.5 hover:bg-surface-container-low active:scale-[0.98] transition-transform duration-150" href="#">
+<span class="material-symbols-outlined text-[20px]">schedule</span>
+<span class="font-label-sm text-label-sm">Mi Turno</span>
+</a>
+</nav>
+</div>
+</body></html>

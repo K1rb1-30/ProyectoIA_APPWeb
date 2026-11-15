@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Precios y Planes | MesaYa - SaaS Hostelería y Comandas en Mesa</title>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 with Plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-bright": "#f9f9ff",
+            "tertiary-fixed-dim": "#4edea3",
+            "surface": "#f9f9ff",
+            "on-secondary-container": "#596373",
+            "on-secondary-fixed": "#121c2a",
+            "on-secondary-fixed-variant": "#3d4756",
+            "surface-container-low": "#f0f3ff",
+            "surface-container-highest": "#dce2f3",
+            "on-primary-fixed": "#341100",
+            "secondary": "#555f6f",
+            "error": "#ba1a1a",
+            "on-surface": "#151c27",
+            "on-tertiary": "#ffffff",
+            "inverse-surface": "#2a313d",
+            "surface-container": "#e7eefe",
+            "outline": "#8c7164",
+            "surface-tint": "#9d4300",
+            "secondary-fixed-dim": "#bdc7d9",
+            "primary": "#9d4300",
+            "on-surface-variant": "#584237",
+            "on-error-container": "#93000a",
+            "on-background": "#151c27",
+            "surface-container-high": "#e2e8f8",
+            "on-tertiary-container": "#003b26",
+            "on-primary-fixed-variant": "#783200",
+            "tertiary-container": "#00b07a",
+            "primary-fixed": "#ffdbca",
+            "surface-dim": "#d3daea",
+            "tertiary-fixed": "#6ffbbe",
+            "on-error": "#ffffff",
+            "secondary-fixed": "#d9e3f6",
+            "surface-variant": "#dce2f3",
+            "primary-fixed-dim": "#ffb690",
+            "tertiary": "#006c49",
+            "on-primary": "#ffffff",
+            "secondary-container": "#d6e0f3",
+            "on-tertiary-fixed-variant": "#005236",
+            "on-secondary": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "background": "#f9f9ff",
+            "inverse-primary": "#ffb690",
+            "inverse-on-surface": "#ebf1ff",
+            "on-primary-container": "#582200",
+            "on-tertiary-fixed": "#002113",
+            "error-container": "#ffdad6",
+            "primary-container": "#f97316",
+            "outline-variant": "#e0c0b1"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-md": "1rem",
+            "margin-md": "1.5rem",
+            "gutter": "1rem",
+            "margin": "1rem",
+            "space-sm": "0.5rem",
+            "space-xl": "2rem",
+            "gutter-md": "1.5rem",
+            "space-lg": "1.5rem",
+            "space-xs": "0.25rem",
+            "margin-lg": "2.5rem"
+          },
+          "fontFamily": {
+            "label-lg": ["Inter", "sans-serif"],
+            "display-hero": ["Inter", "sans-serif"],
+            "body-md": ["Inter", "sans-serif"],
+            "price-display": ["Inter", "sans-serif"],
+            "headline-lg": ["Inter", "sans-serif"],
+            "body-lg": ["Inter", "sans-serif"],
+            "display-hero-mobile": ["Inter", "sans-serif"],
+            "headline-sm": ["Inter", "sans-serif"],
+            "label-sm": ["Inter", "sans-serif"],
+            "label-md": ["Inter", "sans-serif"],
+            "headline-md": ["Inter", "sans-serif"]
+          },
+          "fontSize": {
+            "label-lg": ["15px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+            "display-hero": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "price-display": ["18px", { "lineHeight": "22px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "headline-lg": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "display-hero-mobile": ["30px", { "lineHeight": "36px", "letterSpacing": "-0.015em", "fontWeight": "800" }],
+            "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "700" }],
+            "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .material-symbols-outlined.fill {
+      font-variation-settings: 'FILL' 1;
+    }
+  </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface antialiased selection:bg-primary-fixed selection:text-on-primary-fixed min-h-screen flex flex-col">
+<!-- ========================================================================= -->
+<!-- 1. HEADER / BARRA DE NAVEGACIÓN (SHARED COMPONENT: TopNavBar)            -->
+<!-- ========================================================================= -->
+<header class="bg-surface-bright/95 dark:bg-inverse-surface/95 backdrop-blur-md docked full-width top sticky z-50 shadow-sm dark:shadow-none">
+<div class="flex justify-between items-center w-full px-6 py-3.5 max-w-7xl mx-auto">
+<!-- Brand & Badge -->
+<div class="flex items-center gap-3">
+<a class="flex items-center gap-2 group" href="#">
+<div class="w-9 h-9 rounded-xl bg-primary-container flex items-center justify-center text-on-primary shadow-sm group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[22px]">restaurant</span>
+</div>
+<span class="text-headline-md font-headline-md font-extrabold text-primary dark:text-inverse-primary tracking-tight">MesaYa</span>
+</a>
+<span class="hidden sm:inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container animate-pulse"></span>
+          SaaS Hostelería
+        </span>
+</div>
+<!-- Navigation Links (Active mapping: 'Precios') -->
+<nav class="hidden lg:flex items-center gap-8">
+<a class="text-on-surface-variant dark:text-inverse-on-surface hover:text-primary dark:hover:text-inverse-primary transition-colors font-label-lg text-label-lg active:translate-y-[1px] transition-transform duration-100" href="#como-funciona">Cómo funciona</a>
+<a class="text-on-surface-variant dark:text-inverse-on-surface hover:text-primary dark:hover:text-inverse-primary transition-colors font-label-lg text-label-lg active:translate-y-[1px] transition-transform duration-100" href="#carta-qr">Carta y QR</a>
+<a class="text-on-surface-variant dark:text-inverse-on-surface hover:text-primary dark:hover:text-inverse-primary transition-colors font-label-lg text-label-lg active:translate-y-[1px] transition-transform duration-100" href="#cocina-kds">Cocina KDS</a>
+<a class="text-primary dark:text-inverse-primary font-bold border-b-2 border-primary dark:border-inverse-primary pb-1 font-label-lg text-label-lg" href="#precios">Precios</a>
+<a class="text-on-surface-variant dark:text-inverse-on-surface hover:text-primary dark:hover:text-inverse-primary transition-colors font-label-lg text-label-lg flex items-center gap-1 active:translate-y-[1px] transition-transform duration-100" href="#tpv">
+<span class="material-symbols-outlined text-[18px]">point_of_sale</span>
+          Acceso Personal/TPV
+        </a>
+</nav>
+<!-- Trailing Action Buttons -->
+<div class="flex items-center gap-3">
+<a class="hidden sm:inline-flex items-center justify-center px-4 py-2 rounded-xl text-on-surface font-label-lg text-label-lg border border-outline-variant hover:bg-surface-container-high transition-colors active:translate-y-[1px]" href="#login">
+          Iniciar sesión
+        </a>
+<a class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-primary-container text-white font-label-lg text-label-lg font-semibold shadow-sm hover:brightness-105 transition-all active:translate-y-[1px]" href="#comenzar">
+          Empezar gratis
+        </a>
+</div>
+</div>
+</header>
+<main class="flex-1">
+<!-- ========================================================================= -->
+<!-- 2. HERO DE PRECIOS                                                        -->
+<!-- ========================================================================= -->
+<section class="pt-12 pb-10 px-4 sm:px-6 max-w-7xl mx-auto text-center" id="precios">
+<!-- Tag / Badge -->
+<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-container-high border border-outline-variant/60 text-on-surface-variant mb-6 shadow-sm">
+<span class="material-symbols-outlined text-primary text-[18px]">verified</span>
+<span class="font-label-md text-label-md font-semibold">Planes transparentes sin sorpresas ni costes de instalación</span>
+</div>
+<!-- Main Headline -->
+<h1 class="font-display-hero-mobile md:font-display-hero text-display-hero-mobile md:text-display-hero text-on-surface max-w-4xl mx-auto tracking-tight mb-4">
+        Invierte en rapidez, multiplica la <span class="text-primary-container relative inline-block">rotación de tus mesas</span>
+</h1>
+<!-- Subtitle -->
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto mb-10">
+        Elige el plan ideal según el tamaño de tu sala o terraza. Sin permanencia, con 14 días de prueba gratuita y soporte técnico en español 7 días a la semana.
+      </p>
+<!-- Billing Toggle (Interactive Vanilla JS) -->
+<div class="inline-flex items-center p-1.5 bg-surface-container-high rounded-2xl border border-outline-variant/40 shadow-inner gap-1">
+<button class="px-5 py-2.5 rounded-xl font-label-lg text-label-lg transition-all text-on-surface-variant hover:text-on-surface" id="btn-mensual" onclick="setBilling('mensual')">
+          Mensual
+        </button>
+<button class="px-5 py-2.5 rounded-xl font-label-lg text-label-lg transition-all bg-surface-container-lowest text-on-surface shadow-sm font-bold flex items-center gap-2" id="btn-anual" onclick="setBilling('anual')">
+<span>Anual</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-tertiary-container text-on-tertiary font-label-sm text-label-sm font-bold">
+            Ahorra 20% + 2 meses gratis
+          </span>
+</button>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- 3. TARJETAS DE PLANES (3 NIVELES - WARM IBERIAN MODERNISM)                -->
+<!-- ========================================================================= -->
+<section class="pb-16 px-4 sm:px-6 max-w-7xl mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+<!-- PLAN 1: Bar & Cafetería -->
+<div class="bg-surface-container-lowest rounded-2xl p-7 border border-outline-variant/60 shadow-sm flex flex-col justify-between hover:shadow-md transition-all relative">
+<div>
+<div class="flex items-center justify-between mb-4">
+<span class="font-label-lg text-label-lg text-on-surface-variant font-bold tracking-wider uppercase">Básico</span>
+<span class="p-2 rounded-xl bg-surface-container-low text-primary">
+<span class="material-symbols-outlined text-[24px]">local_cafe</span>
+</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">Bar &amp; Cafetería</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 min-h-[40px]">
+              Ideal para bares tradicionales, tabernas y cafeterías de rotación rápida en barra y mesas.
+            </p>
+<!-- Price Container -->
+<div class="mb-6 p-4 rounded-xl bg-surface-container-low/70">
+<div class="flex items-baseline gap-1.5">
+<span class="text-display-hero-mobile font-display-hero text-on-surface tracking-tight" id="price-bar">24 €</span>
+<span class="font-body-md text-body-md text-on-surface-variant">/ mes</span>
+</div>
+<p class="font-label-sm text-label-sm text-secondary mt-1" id="sub-bar">Facturado anualmente (o 29 € / mes)</p>
+</div>
+<!-- Feature List -->
+<ul class="space-y-3.5 mb-8">
+<li class="flex items-start gap-3 text-on-surface font-body-md text-body-md">
+<span class="material-symbols-outlined text-tertiary-container text-[20px] shrink-0 mt-0.5">check_circle</span>
+<span><strong>Hasta 15 mesas</strong> con QR dinámico autónomo</span>
+</li>
+<li class="flex items-start gap-3 text-on-surface font-body-md text-body-md">
+<span class="material-symbols-outlined text-tertiary-container text-[20px] shrink-0 mt-0.5">check_circle</span>
+<span>Carta digital interactiva con fotos en alta definición</span>
+</li>
+<li class="flex items-start gap-3 text-on-surface font-body-md text-body-md">
+<span class="material-symbols-outlined text-tertiary-container text-[20px] shrink-0 mt-0.5">check_circle</span>
+<span>Gestión de los <strong>14 alérgenos</strong> (Reglamento UE 1169/2011)</span>
+</li>
+<li class="flex items-start gap-3 text-on-surface font-body-md text-body-md">
+<span class="material-symbols-outlined text-tertiary-container text-[20px] shrink-0 mt-0.5">check_circle</span>
+<span>Pagos en mesa con Stripe y aviso de llamada a camarero</span>
+</li>
+<li class="flex items-start gap-3 text-on-surface font-body-md text-body-md">
+<span class="material-symbols-outlined text-tertiary-container text-[20px] shrink-0 mt-0.5">check_circle</span>
+<span>2 cuentas simultáneas para personal de sala</span>
+</li>
+<li class="flex items-start gap-3 text-on-surface font-body-md text-body-md">
+<span class="material-symbols-outlined text-tertiary-container text-[20px] shrink-0 mt-0.5">check_circle</span>
+<span>Soporte estándar por chat y correo</span>
+</li>
+</ul>
+</div>
+<a class="w-full min-h-[48px] inline-flex items-center justify-center px-4 py-3 rounded-xl border-2 border-outline-variant font-label-lg text-label-lg font-semibold text-on-surface hover:bg-surface-container-high transition-colors active:translate-y-[1px]" href="#registro-bar">
+            Probar 14 días gratis
+          </a>
+</div>
+<!-- PLAN 2: Restaurante PRO (DESTACADO / POPULAR) -->
+<div class="bg-surface-container-lowest rounded-2xl p-7 border-2 border-primary-container shadow-xl flex flex-col justify-between relative ring-4 ring-primary-container/10 -translate-y-0 md:-translate-y-2">
+<!-- Recommended Badge -->
+<div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-primary-container text-white font-label-sm text-label-sm font-bold shadow-md flex items-center gap-1.5 whitespace-nowrap">
+<span class="material-symbols-outlined text-[16px] fill">stars</span>
+            Recomendado para el 85% de locales
+          </div>
+<div>
+<div class="flex items-center justify-between mb-4 mt-2">
+<span class="font-label-lg text-label-lg text-primary-container font-extrabold tracking-wider uppercase">El más popular</span>
+<span class="p-2 rounded-xl bg-primary-fixed text-primary">
+<span class="material-symbols-outlined text-[24px]">restaurant_menu</span>
+</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">Restaurante PRO</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 min-h-[40px]">
+              Para restaurantes gastronómicos, arrocerías y terrazas con alta afluencia y cocina estructurada.
+            </p>
+<!-- Price Container -->
+<div class="mb-6 p-4 rounded-xl bg-primary-fixed/30 border border-primary-fixed-dim/40">
+<div class="flex items-baseline gap-1.5">
+<span class="text-display-hero-mobile font-display-hero text-on-surface tracking-tight" id="price-pro">49 €</span>
+<span class="font-body-md text-body-md text-on-surface-variant">/ mes</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-primary-fixed-variant mt-1" id="sub-pro">Facturado anualmente (o 59 € / mes)</p>
+</div>
+<p class="font-label-md text-label-md font-bold text-on-surface mb-3">TODO lo de Bar &amp; Cafetería, más:</p>
+<!-- Feature List -->
+<ul class="space-y-3.5 mb-8">
+<li class="flex items-start gap-3 text-on-surface font-body-md text-body-md">
+<span class="material-symbols-outlined text-primary-container text-[20px] shrink-0 mt-0.5">check_circle</span>
+<span><strong>Mesas y QR ilimitados</strong> (Sala, Barra y Terraza exterior)</span>
+</li>
+<li class="flex items-start gap-3 text-on-surface font-body-md text-body-md">
+<span class="material-symbols-outlined text-primary-container text-[20px] shrink-0 mt-0.5">check_circle</span>
+<span><strong>Pantalla KDS de Cocina en tiempo real</strong> (fría, caliente, pase)</span>
+</li>
+<li class="flex items-start gap-3 text-on-surface font-body-md text-body-md">
+<span class="material-symbols-outlined text-primary-container text-[20px] shrink-0 mt-0.5">check_circle</span>
+<span><strong>División de cuenta</strong> (a partes iguales o por platos)</span>
+</li>
+<li class="flex items-start gap-3 text-on-surface font-body-md text-body-md">
+<span class="material-symbols-outlined text-primary-container text-[20px] shrink-0 mt-0.5">check_circle</span>
+<span>Integración <strong>TicketBAI, VeriFactu, Bizum y Apple Pay</strong></span>
+</li>
+<li class="flex items-start gap-3 text-on-surface font-body-md text-body-md">
+<span class="material-symbols-outlined text-primary-container text-[20px] shrink-0 mt-0.5">check_circle</span>
+<span>Cuentas de empleados ilimitadas con roles de seguridad</span>
+</li>
+<li class="flex items-start gap-3 text-on-surface font-body-md text-body-md">
+<span class="material-symbols-outlined text-primary-container text-[20px] shrink-0 mt-0.5">check_circle</span>
+<span>Analítica predictiva de platos más rentables y horas pico</span>
+</li>
+</ul>
+</div>
+<a class="w-full min-h-[48px] inline-flex items-center justify-center px-4 py-3 rounded-xl bg-primary-container text-white font-label-lg text-label-lg font-bold shadow-md hover:brightness-105 transition-all active:translate-y-[1px]" href="#registro-pro">
+            Comenzar prueba PRO gratis
+          </a>
+</div>
+<!-- PLAN 3: Grupos & Multilocal -->
+<div class="bg-surface-container-lowest rounded-2xl p-7 border border-outline-variant/60 shadow-sm flex flex-col justify-between hover:shadow-md transition-all relative">
+<div>
+<div class="flex items-center justify-between mb-4">
+<span class="font-label-lg text-label-lg text-on-surface-variant font-bold tracking-wider uppercase">Enterprise</span>
+<span class="p-2 rounded-xl bg-surface-container-low text-secondary">
+<span class="material-symbols-outlined text-[24px]">corporate_fare</span>
+</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">Grupos &amp; Multilocal</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 min-h-[40px]">
+              Para cadenas de restauración, franquicias y grupos gastronómicos con gestión multi-sede.
+            </p>
+<!-- Price Container -->
+<div class="mb-6 p-4 rounded-xl bg-surface-container-low/70">
+<div class="flex items-baseline gap-1.5">
+<span class="text-display-hero-mobile font-display-hero text-on-surface tracking-tight" id="price-enterprise">99 €</span>
+<span class="font-body-md text-body-md text-on-surface-variant">/ local / mes</span>
+</div>
+<p class="font-label-sm text-label-sm text-secondary mt-1" id="sub-enterprise">Facturado anualmente (o 119 € / mes por local)</p>
+</div>
+<p class="font-label-md text-label-md font-bold text-on-surface mb-3">TODO lo de Restaurante PRO, más:</p>
+<!-- Feature List -->
+<ul class="space-y-3.5 mb-8">
+<li class="flex items-start gap-3 text-on-surface font-body-md text-body-md">
+<span class="material-symbols-outlined text-tertiary-container text-[20px] shrink-0 mt-0.5">check_circle</span>
+<span><strong>Panel de control global multi-sede</strong> con cartas unificadas</span>
+</li>
+<li class="flex items-start gap-3 text-on-surface font-body-md text-body-md">
+<span class="material-symbols-outlined text-tertiary-container text-[20px] shrink-0 mt-0.5">check_circle</span>
+<span>Integración API directa con ERPs y TPVs (Revo, Lightspeed, Agora)</span>
+</li>
+<li class="flex items-start gap-3 text-on-surface font-body-md text-body-md">
+<span class="material-symbols-outlined text-tertiary-container text-[20px] shrink-0 mt-0.5">check_circle</span>
+<span>Gestor de cuenta y soporte técnico prioritario 24/7</span>
+</li>
+<li class="flex items-start gap-3 text-on-surface font-body-md text-body-md">
+<span class="material-symbols-outlined text-tertiary-container text-[20px] shrink-0 mt-0.5">check_circle</span>
+<span>Formación presencial o telemática para toda la brigada</span>
+</li>
+<li class="flex items-start gap-3 text-on-surface font-body-md text-body-md">
+<span class="material-symbols-outlined text-tertiary-container text-[20px] shrink-0 mt-0.5">check_circle</span>
+<span>SLA de disponibilidad del 99.9% garantizado</span>
+</li>
+<li class="flex items-start gap-3 text-on-surface font-body-md text-body-md">
+<span class="material-symbols-outlined text-tertiary-container text-[20px] shrink-0 mt-0.5">check_circle</span>
+<span>Desarrollos a medida y marca blanca de la webapp</span>
+</li>
+</ul>
+</div>
+<a class="w-full min-h-[48px] inline-flex items-center justify-center px-4 py-3 rounded-xl border border-outline font-label-lg text-label-lg font-semibold text-on-surface hover:bg-surface-container-high transition-colors active:translate-y-[1px]" href="#contacto-ventas">
+            Hablar con ventas / Solicitar demo
+          </a>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- 4. SECCIÓN RETORNO DE INVERSIÓN (CALCULADORA DE RENTABILIDAD)            -->
+<!-- ========================================================================= -->
+<section class="py-14 bg-surface-container-low px-4 sm:px-6">
+<div class="max-w-6xl mx-auto">
+<div class="text-center mb-10">
+<span class="font-label-md text-label-md font-bold uppercase tracking-wider text-primary">Rentabilidad Demostrada</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mt-1">¿Por qué MesaYa se paga solo en el primer turno?</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl mx-auto mt-2">
+            Nuestros hosteleros no ven el software como un gasto, sino como un motor de tesorería directo.
+          </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Metric Card 1 -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/50 shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-4">
+<span class="p-2.5 rounded-xl bg-tertiary-container/10 text-tertiary">
+<span class="material-symbols-outlined text-[28px]">speed</span>
+</span>
+<span class="text-label-sm font-label-sm font-bold text-tertiary bg-tertiary-fixed px-2.5 py-0.5 rounded-full">+12 min ganados</span>
+</div>
+<div>
+<p class="font-display-hero-mobile font-display-hero text-on-surface text-primary mb-1">+34%</p>
+<h4 class="font-headline-sm text-headline-sm text-on-surface mb-2">Rotación de mesas por turno</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                Los clientes leen la carta, piden y pagan desde su propio móvil. Sin esperas interminables para pedir la cuenta un viernes noche.
+              </p>
+</div>
+</div>
+<!-- Metric Card 2 -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/50 shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-4">
+<span class="p-2.5 rounded-xl bg-primary-fixed/50 text-primary-container">
+<span class="material-symbols-outlined text-[28px]">add_shopping_cart</span>
+</span>
+<span class="text-label-sm font-label-sm font-bold text-primary-container bg-primary-fixed px-2.5 py-0.5 rounded-full">Upselling visual</span>
+</div>
+<div>
+<p class="font-display-hero-mobile font-display-hero text-on-surface text-primary-container mb-1">+1,80 €</p>
+<h4 class="font-headline-sm text-headline-sm text-on-surface mb-2">Aumento en ticket medio</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                Las fotografías apetitosas, maridajes de vinos y sugerencias de postres incrementan los pedidos de impulso de forma orgánica.
+              </p>
+</div>
+</div>
+<!-- Metric Card 3 -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/50 shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-4">
+<span class="p-2.5 rounded-xl bg-surface-container-high text-secondary">
+<span class="material-symbols-outlined text-[28px]">timer_off</span>
+</span>
+<span class="text-label-sm font-label-sm font-bold text-on-secondary-fixed-variant bg-secondary-fixed px-2.5 py-0.5 rounded-full">Cero fricción</span>
+</div>
+<div>
+<p class="font-display-hero-mobile font-display-hero text-on-surface text-secondary mb-1">0 min</p>
+<h4 class="font-headline-sm text-headline-sm text-on-surface mb-2">Esperas para pedir la cuenta</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                El comensal abona la cuenta directamente vía Apple Pay o Bizum, dividiendo el importe al instante sin requerir el datáfono del camarero.
+              </p>
+</div>
+</div>
+</div>
+<!-- Mini Visual Highlight with Data Alt -->
+<div class="mt-8 bg-surface-container-lowest p-4 sm:p-6 rounded-2xl border border-outline-variant/50 flex flex-col md:flex-row items-center gap-6">
+<div class="w-full md:w-1/3 h-44 rounded-xl overflow-hidden relative shrink-0">
+<img class="w-full h-full object-cover" data-alt="A warm, contemporary Spanish gastrobar interior bathed in soft afternoon terracotta sunlight. Diners at high wooden oak tables tap their modern smartphones to view digital tapas menus, while an efficient waitstaff smiles warmly in the background. The visual aesthetic fuses crisp Scandinavian minimalism with cozy Mediterranean hospitality, featuring natural linen textures and vibrant ceramic plates." src="https://lh3.googleusercontent.com/aida-public/AB6AXuANY05HRxegxlyOIQQEvi2IdSZJgk0KQso6rPjnrQ2vfyq4ueYOda2zj6RjWpExHE0HXh__ETl9_atcKc0Nsq_Nujfz7vUjuLAcsqAXOkc_s027y-LxZL0jh9IbrUqjbDp7S6-zYS8W3d04FZcczAUdR3_nvF_HQiN0Bg2_Q3RhJvLTbPOX_9Q_HN3Twb6OqeCmwuMIA4yfHR7IQy57y7QoPmrUFOame8Ue25LD5Ope"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+<span class="absolute bottom-3 left-3 text-white font-label-sm text-label-sm font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">location_on</span> Restaurante Arrocería La Marina, Valencia
+            </span>
+</div>
+<div class="w-full md:w-2/3">
+<div class="flex items-center gap-1 text-primary-container mb-2">
+<span class="material-symbols-outlined text-[18px] fill">star</span>
+<span class="material-symbols-outlined text-[18px] fill">star</span>
+<span class="material-symbols-outlined text-[18px] fill">star</span>
+<span class="material-symbols-outlined text-[18px] fill">star</span>
+<span class="material-symbols-outlined text-[18px] fill">star</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant ml-2 font-bold">5.0 / 5 en más de 450 locales</span>
+</div>
+<blockquote class="font-body-lg text-body-lg text-on-surface italic mb-3">
+              "En la terraza de verano ganamos un turno extra cada mediodía. Con el KDS la cocina sabe qué marchar sin que los camareros den paseos vacíos. Es el dinero mejor invertido de la temporada."
+            </blockquote>
+<p class="font-label-md text-label-md font-bold text-on-surface">Carlos M. — <span class="text-on-surface-variant font-normal">Propietario &amp; Jefe de Sala</span></p>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- 5. TABLA COMPARATIVA DETALLADA DE FUNCIONALIDADES                        -->
+<!-- ========================================================================= -->
+<section class="py-16 px-4 sm:px-6 max-w-7xl mx-auto">
+<div class="text-center mb-12">
+<span class="font-label-md text-label-md font-bold uppercase tracking-wider text-primary">Comparativa Exhaustiva</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mt-1">Todas las funciones, con total transparencia</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl mx-auto mt-2">
+          Compara al detalle qué incluye cada modalidad y elige según tus necesidades operativas.
+        </p>
+</div>
+<div class="overflow-x-auto rounded-2xl border border-outline-variant/60 shadow-sm bg-surface-container-lowest">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/70 border-b border-outline-variant/40">
+<th class="p-4 sm:p-5 font-headline-sm text-headline-sm text-on-surface w-2/5">Características</th>
+<th class="p-4 sm:p-5 text-center font-headline-sm text-headline-sm text-on-surface w-1/5">
+                Bar &amp; Cafetería
+                <span class="block font-label-sm text-label-sm text-on-surface-variant font-normal mt-0.5">24 € / mes</span>
+</th>
+<th class="p-4 sm:p-5 text-center font-headline-sm text-headline-sm text-primary-container bg-primary-fixed/20 border-x border-primary-fixed-dim/40 w-1/5">
+                Restaurante PRO
+                <span class="block font-label-sm text-label-sm text-on-surface-variant font-normal mt-0.5">49 € / mes</span>
+</th>
+<th class="p-4 sm:p-5 text-center font-headline-sm text-headline-sm text-on-surface w-1/5">
+                Grupos &amp; Enterprise
+                <span class="block font-label-sm text-label-sm text-on-surface-variant font-normal mt-0.5">99 € / local</span>
+</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/30 font-body-md text-body-md">
+<!-- Category: Carta y Códigos QR -->
+<tr class="bg-surface-container-high/40">
+<td class="p-3.5 px-5 font-label-lg text-label-lg font-bold text-primary" colspan="4">
+                Carta y Códigos QR
+              </td>
+</tr>
+<tr>
+<td class="p-4 px-5 text-on-surface">Número de mesas con código QR</td>
+<td class="p-4 text-center text-on-surface-variant font-medium">Hasta 15 mesas</td>
+<td class="p-4 text-center font-bold text-primary bg-primary-fixed/10 border-x border-primary-fixed-dim/30">Ilimitadas (Sala + Terraza)</td>
+<td class="p-4 text-center font-bold text-on-surface">Ilimitadas Multi-local</td>
+</tr>
+<tr>
+<td class="p-4 px-5 text-on-surface">Carta digital con fotos y descripciones</td>
+<td class="p-4 text-center"><span class="material-symbols-outlined text-tertiary-container text-[22px]">check_circle</span></td>
+<td class="p-4 text-center bg-primary-fixed/10 border-x border-primary-fixed-dim/30"><span class="material-symbols-outlined text-primary-container text-[22px]">check_circle</span></td>
+<td class="p-4 text-center"><span class="material-symbols-outlined text-tertiary-container text-[22px]">check_circle</span></td>
+</tr>
+<tr>
+<td class="p-4 px-5 text-on-surface">Gestión de 14 alérgenos (Reglamento UE 1169/2011)</td>
+<td class="p-4 text-center"><span class="material-symbols-outlined text-tertiary-container text-[22px]">check_circle</span></td>
+<td class="p-4 text-center bg-primary-fixed/10 border-x border-primary-fixed-dim/30"><span class="material-symbols-outlined text-primary-container text-[22px]">check_circle</span></td>
+<td class="p-4 text-center"><span class="material-symbols-outlined text-tertiary-container text-[22px]">check_circle</span></td>
+</tr>
+<tr>
+<td class="p-4 px-5 text-on-surface">Actualizaciones de carta en tiempo real (platos agotados)</td>
+<td class="p-4 text-center"><span class="material-symbols-outlined text-tertiary-container text-[22px]">check_circle</span></td>
+<td class="p-4 text-center bg-primary-fixed/10 border-x border-primary-fixed-dim/30"><span class="material-symbols-outlined text-primary-container text-[22px]">check_circle</span></td>
+<td class="p-4 text-center"><span class="material-symbols-outlined text-tertiary-container text-[22px]">check_circle</span></td>
+</tr>
+<!-- Category: Operativa de Sala y Cocina KDS -->
+<tr class="bg-surface-container-high/40">
+<td class="p-3.5 px-5 font-label-lg text-label-lg font-bold text-primary" colspan="4">
+                Operativa de Sala y Cocina KDS
+              </td>
+</tr>
+<tr>
+<td class="p-4 px-5 text-on-surface">Pantalla de Cocina KDS en vivo (partidas caliente/fría/pase)</td>
+<td class="p-4 text-center text-outline"><span class="material-symbols-outlined text-[20px]">remove</span></td>
+<td class="p-4 text-center bg-primary-fixed/10 border-x border-primary-fixed-dim/30"><span class="material-symbols-outlined text-primary-container text-[22px]">check_circle</span></td>
+<td class="p-4 text-center"><span class="material-symbols-outlined text-tertiary-container text-[22px]">check_circle</span></td>
+</tr>
+<tr>
+<td class="p-4 px-5 text-on-surface">Llamada a camarero desde el móvil del cliente</td>
+<td class="p-4 text-center"><span class="material-symbols-outlined text-tertiary-container text-[22px]">check_circle</span></td>
+<td class="p-4 text-center bg-primary-fixed/10 border-x border-primary-fixed-dim/30"><span class="material-symbols-outlined text-primary-container text-[22px]">check_circle</span></td>
+<td class="p-4 text-center"><span class="material-symbols-outlined text-tertiary-container text-[22px]">check_circle</span></td>
+</tr>
+<tr>
+<td class="p-4 px-5 text-on-surface">Comandas directas de comensal a cocina / barra</td>
+<td class="p-4 text-center text-outline"><span class="material-symbols-outlined text-[20px]">remove</span></td>
+<td class="p-4 text-center bg-primary-fixed/10 border-x border-primary-fixed-dim/30"><span class="material-symbols-outlined text-primary-container text-[22px]">check_circle</span></td>
+<td class="p-4 text-center"><span class="material-symbols-outlined text-tertiary-container text-[22px]">check_circle</span></td>
+</tr>
+<tr>
+<td class="p-4 px-5 text-on-surface">Cuentas de camareros y sala incluidas</td>
+<td class="p-4 text-center text-on-surface-variant">2 usuarios</td>
+<td class="p-4 text-center font-bold text-primary bg-primary-fixed/10 border-x border-primary-fixed-dim/30">Ilimitadas con permisos</td>
+<td class="p-4 text-center font-bold text-on-surface">Ilimitadas con jerarquías</td>
+</tr>
+<!-- Category: Pagos y Facturación Fiscal (TicketBAI) -->
+<tr class="bg-surface-container-high/40">
+<td class="p-3.5 px-5 font-label-lg text-label-lg font-bold text-primary" colspan="4">
+                Pagos y Facturación Fiscal (TicketBAI)
+              </td>
+</tr>
+<tr>
+<td class="p-4 px-5 text-on-surface">Pago en mesa con tarjeta (Stripe / Apple Pay / Google Pay)</td>
+<td class="p-4 text-center"><span class="material-symbols-outlined text-tertiary-container text-[22px]">check_circle</span></td>
+<td class="p-4 text-center bg-primary-fixed/10 border-x border-primary-fixed-dim/30"><span class="material-symbols-outlined text-primary-container text-[22px]">check_circle</span></td>
+<td class="p-4 text-center"><span class="material-symbols-outlined text-tertiary-container text-[22px]">check_circle</span></td>
+</tr>
+<tr>
+<td class="p-4 px-5 text-on-surface">División de cuenta en mesa ('Split bill' por platos o partes)</td>
+<td class="p-4 text-center text-outline"><span class="material-symbols-outlined text-[20px]">remove</span></td>
+<td class="p-4 text-center bg-primary-fixed/10 border-x border-primary-fixed-dim/30"><span class="material-symbols-outlined text-primary-container text-[22px]">check_circle</span></td>
+<td class="p-4 text-center"><span class="material-symbols-outlined text-tertiary-container text-[22px]">check_circle</span></td>
+</tr>
+<tr>
+<td class="p-4 px-5 text-on-surface">Conformidad TicketBAI &amp; VeriFactu (Ley Antifraude)</td>
+<td class="p-4 text-center text-outline"><span class="material-symbols-outlined text-[20px]">remove</span></td>
+<td class="p-4 text-center bg-primary-fixed/10 border-x border-primary-fixed-dim/30"><span class="material-symbols-outlined text-primary-container text-[22px]">check_circle</span></td>
+<td class="p-4 text-center"><span class="material-symbols-outlined text-tertiary-container text-[22px]">check_circle</span></td>
+</tr>
+<!-- Category: Informes y Soporte -->
+<tr class="bg-surface-container-high/40">
+<td class="p-3.5 px-5 font-label-lg text-label-lg font-bold text-primary" colspan="4">
+                Informes, Integraciones y Soporte
+              </td>
+</tr>
+<tr>
+<td class="p-4 px-5 text-on-surface">Integración con TPVs existentes (Revo, Lightspeed, Agora)</td>
+<td class="p-4 text-center text-outline"><span class="material-symbols-outlined text-[20px]">remove</span></td>
+<td class="p-4 text-center bg-primary-fixed/10 border-x border-primary-fixed-dim/30"><span class="material-symbols-outlined text-primary-container text-[22px]">check_circle</span></td>
+<td class="p-4 text-center"><span class="material-symbols-outlined text-tertiary-container text-[22px]">check_circle</span></td>
+</tr>
+<tr>
+<td class="p-4 px-5 text-on-surface">Nivel de Soporte Técnico</td>
+<td class="p-4 text-center text-on-surface-variant">Chat &amp; Email (Lunes-Viernes)</td>
+<td class="p-4 text-center font-bold text-primary bg-primary-fixed/10 border-x border-primary-fixed-dim/30">Teléfono &amp; Chat 7 días</td>
+<td class="p-4 text-center font-bold text-on-surface">Gestor Dedicado 24/7</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- 6. PREGUNTAS FRECUENTES (FAQ)                                             -->
+<!-- ========================================================================= -->
+<section class="py-14 bg-surface-container-low/60 px-4 sm:px-6">
+<div class="max-w-4xl mx-auto">
+<div class="text-center mb-10">
+<span class="font-label-md text-label-md font-bold uppercase tracking-wider text-primary">Resolvemos tus dudas</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mt-1">Preguntas Frecuentes</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">
+            Todo lo que necesitas saber antes de dar el paso digital en tu local.
+          </p>
+</div>
+<div class="space-y-4">
+<!-- FAQ 1 -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/50 shadow-sm">
+<h3 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-container">devices</span>
+              ¿Tengo que comprar hardware nuevo o tablets caras?
+            </h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-3 pl-9">
+              No, absolutamente no. MesaYa es 100% basado en la nube. Funciona en cualquier teléfono inteligente, tablet Android o iPad que ya tengas en el local, e incluso en pantallas de televisión normales para la cocina KDS mediante cualquier navegador web.
+            </p>
+</div>
+<!-- FAQ 2 -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/50 shadow-sm">
+<h3 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-container">credit_card_off</span>
+              ¿Cómo funciona la prueba gratuita de 14 días?
+            </h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-3 pl-9">
+              Te registras en menos de 2 minutos sin necesidad de introducir tu tarjeta de crédito bancaria. Tendrás acceso total a todas las funciones del Plan PRO durante dos semanas completas para probarlo en servicio real. Si te convence, seleccionas tu plan; si no, tu cuenta se pausará sin coste alguno.
+            </p>
+</div>
+<!-- FAQ 3 -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/50 shadow-sm">
+<h3 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-container">policy</span>
+              ¿Cumple con la ley antifraude y normativas TicketBAI / VeriFactu?
+            </h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-3 pl-9">
+              Sí, 100% garantizado por contrato. MesaYa genera códigos QR encadenados con firma electrónica en cada cobro, cumpliendo de forma nativa los requerimientos de las Haciendas Forales del País Vasco (TicketBAI) y la normativa nacional VeriFactu de la Agencia Tributaria.
+            </p>
+</div>
+<!-- FAQ 4 -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/50 shadow-sm">
+<h3 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-container">wifi_off</span>
+              ¿Qué pasa si se cae el WiFi de mi restaurante en mitad del servicio?
+            </h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-3 pl-9">
+              Nuestra aplicación web progresiva (PWA) dispone de un modo contingencia fuera de línea. Los clientes usan sus propios datos móviles 4G/5G para escanear y pedir, y los camareros reciben las alertas mediante respaldo de datos móviles en sus terminales sin que el servicio se detenga.
+            </p>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- 7. BANNER FINAL DE CONVERSIÓN                                             -->
+<!-- ========================================================================= -->
+<section class="py-16 px-4 sm:px-6 max-w-7xl mx-auto">
+<div class="bg-gradient-to-br from-inverse-surface to-on-secondary-fixed rounded-3xl p-8 sm:p-14 text-white relative overflow-hidden shadow-2xl flex flex-col items-center text-center">
+<!-- Ambient Warm Glow -->
+<div class="absolute -right-20 -bottom-20 w-80 h-80 rounded-full bg-primary-container/20 blur-3xl pointer-events-none"></div>
+<div class="absolute -left-20 -top-20 w-80 h-80 rounded-full bg-tertiary-container/20 blur-3xl pointer-events-none"></div>
+<span class="px-4 py-1 rounded-full bg-white/10 text-primary-fixed-dim font-label-md text-label-md font-semibold mb-6 border border-white/10">
+          Digitaliza tu sala hoy mismo
+        </span>
+<h2 class="font-display-hero-mobile md:font-display-hero text-display-hero-mobile md:text-display-hero max-w-3xl tracking-tight mb-4">
+          Únete a los más de 450 restaurantes que ya no hacen esperar a sus clientes.
+        </h2>
+<p class="font-body-lg text-body-lg text-inverse-on-surface/80 max-w-xl mb-8">
+          Configura tus mesas en 10 minutos. Carga tu carta con un archivo PDF o foto de tu menú actual y nuestro equipo te asiste en la puesta en marcha.
+        </p>
+<div class="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+<a class="w-full sm:w-auto min-h-[48px] px-8 py-3.5 rounded-xl bg-primary-container text-white font-label-lg text-label-lg font-bold shadow-lg hover:brightness-110 transition-all flex items-center justify-center gap-2 active:translate-y-[1px]" href="#comenzar">
+<span>Empezar ahora gratis</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</a>
+<a class="w-full sm:w-auto min-h-[48px] px-7 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-label-lg text-label-lg font-semibold border border-white/20 transition-all flex items-center justify-center gap-2 active:translate-y-[1px]" href="#demo">
+<span class="material-symbols-outlined text-[20px]">play_circle</span>
+<span>Ver demostración en vivo</span>
+</a>
+</div>
+<p class="font-label-sm text-label-sm text-inverse-on-surface/60 mt-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-tertiary-fixed-dim">verified_user</span>
+          14 días gratis • Sin permanencia • Configuración asistida sin coste
+        </p>
+</div>
+</section>
+</main>
+<!-- ========================================================================= -->
+<!-- 8. FOOTER OFICIAL (SHARED COMPONENT: Footer)                             -->
+<!-- ========================================================================= -->
+<footer class="bg-surface-container dark:bg-inverse-surface full-width">
+<div class="w-full px-6 py-12 max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+<!-- Brand & Copyright -->
+<div class="flex flex-col items-center md:items-start gap-2 text-center md:text-left">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-lg bg-primary-container flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-[16px]">restaurant</span>
+</div>
+<span class="text-headline-sm font-headline-sm font-bold text-on-surface dark:text-inverse-on-surface">MesaYa</span>
+</div>
+<p class="text-body-md font-body-md text-on-surface-variant dark:text-inverse-on-surface max-w-md">
+          © 2025 MesaYa Technologies S.L. Conforme normativa TicketBAI y Reglamento UE 1169/2011 sobre alérgenos. Todos los derechos reservados.
+        </p>
+</div>
+<!-- Footer Navigation Links -->
+<div class="flex flex-wrap justify-center md:justify-end gap-x-6 gap-y-3">
+<a class="text-on-surface-variant dark:text-inverse-on-surface hover:text-primary dark:hover:text-inverse-primary transition-colors duration-150 font-label-sm text-label-sm active:translate-y-[1px] transition-transform duration-100" href="#ticketbai">
+          TicketBAI Fiscal
+        </a>
+<a class="text-on-surface-variant dark:text-inverse-on-surface hover:text-primary dark:hover:text-inverse-primary transition-colors duration-150 font-label-sm text-label-sm active:translate-y-[1px] transition-transform duration-100" href="#ue-normativa">
+          Normativa UE 1169/2011
+        </a>
+<a class="text-on-surface-variant dark:text-inverse-on-surface hover:text-primary dark:hover:text-inverse-primary transition-colors duration-150 font-label-sm text-label-sm active:translate-y-[1px] transition-transform duration-100" href="#terminos">
+          Términos del Servicio
+        </a>
+<a class="text-on-surface-variant dark:text-inverse-on-surface hover:text-primary dark:hover:text-inverse-primary transition-colors duration-150 font-label-sm text-label-sm active:translate-y-[1px] transition-transform duration-100" href="#privacidad">
+          Privacidad y Cookies
+        </a>
+<a class="text-on-surface-variant dark:text-inverse-on-surface hover:text-primary dark:hover:text-inverse-primary transition-colors duration-150 font-label-sm text-label-sm active:translate-y-[1px] transition-transform duration-100" href="#soporte">
+          Soporte TPV y KDS
+        </a>
+<a class="text-on-surface-variant dark:text-inverse-on-surface hover:text-primary dark:hover:text-inverse-primary transition-colors duration-150 font-label-sm text-label-sm active:translate-y-[1px] transition-transform duration-100" href="#contacto">
+          Contacto
+        </a>
+</div>
+</div>
+</footer>
+<!-- ========================================================================= -->
+<!-- INLINE VANILLA JAVASCRIPT: BILLING SWITCHER (Mensual vs Anual)          -->
+<!-- ========================================================================= -->
+<script>
+    function setBilling(mode) {
+      const btnMensual = document.getElementById('btn-mensual');
+      const btnAnual = document.getElementById('btn-anual');
+      
+      const priceBar = document.getElementById('price-bar');
+      const subBar = document.getElementById('sub-bar');
+      
+      const pricePro = document.getElementById('price-pro');
+      const subPro = document.getElementById('sub-pro');
+      
+      const priceEnterprise = document.getElementById('price-enterprise');
+      const subEnterprise = document.getElementById('sub-enterprise');
+
+      if (mode === 'anual') {
+        // Toggle Buttons Style
+        btnAnual.className = "px-5 py-2.5 rounded-xl font-label-lg text-label-lg transition-all bg-surface-container-lowest text-on-surface shadow-sm font-bold flex items-center gap-2";
+        btnMensual.className = "px-5 py-2.5 rounded-xl font-label-lg text-label-lg transition-all text-on-surface-variant hover:text-on-surface";
+        
+        // Prices
+        priceBar.textContent = '24 €';
+        subBar.textContent = 'Facturado anualmente (o 29 € / mes)';
+        
+        pricePro.textContent = '49 €';
+        subPro.textContent = 'Facturado anualmente (o 59 € / mes)';
+        
+        priceEnterprise.textContent = '99 €';
+        subEnterprise.textContent = 'Facturado anualmente (o 119 € / mes por local)';
+      } else {
+        // Toggle Buttons Style
+        btnMensual.className = "px-5 py-2.5 rounded-xl font-label-lg text-label-lg transition-all bg-surface-container-lowest text-on-surface shadow-sm font-bold";
+        btnAnual.className = "px-5 py-2.5 rounded-xl font-label-lg text-label-lg transition-all text-on-surface-variant hover:text-on-surface flex items-center gap-2";
+        
+        // Prices
+        priceBar.textContent = '29 €';
+        subBar.textContent = 'Facturado mensualmente sin permanencia';
+        
+        pricePro.textContent = '59 €';
+        subPro.textContent = 'Facturado mensualmente sin permanencia';
+        
+        priceEnterprise.textContent = '119 €';
+        subEnterprise.textContent = 'Facturado mensualmente por cada local';
+      }
+    }
+  </script>
+</body></html>

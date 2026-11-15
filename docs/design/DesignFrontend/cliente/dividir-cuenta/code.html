@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pedir la cuenta y dividir · MesaYa</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 with configuration -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-container": "#e7eefe",
+            "primary": "#9d4300",
+            "surface-container-low": "#f0f3ff",
+            "surface": "#f9f9ff",
+            "surface-bright": "#f9f9ff",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-highest": "#dce2f3",
+            "on-secondary": "#ffffff",
+            "inverse-on-surface": "#ebf1ff",
+            "tertiary": "#006c49",
+            "on-error": "#ffffff",
+            "on-surface": "#151c27",
+            "surface-tint": "#9d4300",
+            "secondary-container": "#d6e0f3",
+            "error-container": "#ffdad6",
+            "on-surface-variant": "#584237",
+            "surface-variant": "#dce2f3",
+            "on-tertiary-fixed": "#002113",
+            "on-tertiary-container": "#003b26",
+            "surface-dim": "#d3daea",
+            "on-secondary-fixed-variant": "#3d4756",
+            "secondary-fixed": "#d9e3f6",
+            "on-background": "#151c27",
+            "primary-fixed": "#ffdbca",
+            "on-primary-fixed": "#341100",
+            "on-tertiary-fixed-variant": "#005236",
+            "background": "#f9f9ff",
+            "primary-fixed-dim": "#ffb690",
+            "on-primary": "#ffffff",
+            "on-tertiary": "#ffffff",
+            "inverse-surface": "#2a313d",
+            "on-secondary-fixed": "#121c2a",
+            "outline-variant": "#e0c0b1",
+            "tertiary-container": "#00b07a",
+            "tertiary-fixed": "#6ffbbe",
+            "on-primary-container": "#582200",
+            "outline": "#8c7164",
+            "on-secondary-container": "#596373",
+            "tertiary-fixed-dim": "#4edea3",
+            "on-primary-fixed-variant": "#783200",
+            "surface-container-high": "#e2e8f8",
+            "error": "#ba1a1a",
+            "primary-container": "#f97316",
+            "secondary-fixed-dim": "#bdc7d9",
+            "on-error-container": "#93000a",
+            "secondary": "#555f6f",
+            "inverse-primary": "#ffb690"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin": "1rem",
+            "space-md": "1rem",
+            "gutter-md": "1.5rem",
+            "margin-md": "1.5rem",
+            "space-xl": "2rem",
+            "space-sm": "0.5rem",
+            "gutter": "1rem",
+            "margin-lg": "2.5rem",
+            "space-lg": "1.5rem",
+            "space-xs": "0.25rem"
+          },
+          "fontFamily": {
+            "label-sm": ["Inter"],
+            "display-hero-mobile": ["Inter"],
+            "headline-lg": ["Inter"],
+            "label-lg": ["Inter"],
+            "label-md": ["Inter"],
+            "headline-md": ["Inter"],
+            "body-md": ["Inter"],
+            "body-lg": ["Inter"],
+            "display-hero": ["Inter"],
+            "price-display": ["Inter"],
+            "headline-sm": ["Inter"]
+          },
+          "fontSize": {
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "700" }],
+            "display-hero-mobile": ["30px", { "lineHeight": "36px", "letterSpacing": "-0.015em", "fontWeight": "800" }],
+            "headline-lg": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "label-lg": ["15px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+            "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "display-hero": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+            "price-display": ["18px", { "lineHeight": "22px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    /* Ambient micro-shadows matching warm minimalist design guidance */
+    .shadow-warm-sm {
+      box-shadow: 0 2px 8px -2px rgba(31, 41, 55, 0.05), 0 1px 3px 0 rgba(31, 41, 55, 0.03);
+    }
+    .shadow-warm-md {
+      box-shadow: 0 10px 22px -5px rgba(157, 67, 0, 0.08), 0 4px 10px -2px rgba(31, 41, 55, 0.04);
+    }
+    .shadow-warm-sheet {
+      box-shadow: 0 -8px 24px -6px rgba(31, 41, 55, 0.08);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface antialiased min-h-screen flex flex-col font-body-md text-body-md selection:bg-primary-fixed selection:text-on-primary-fixed pb-28">
+<!-- Main Responsive Container (Mobile 390px default up to 720px) -->
+<div class="w-full max-w-[720px] mx-auto min-h-screen flex flex-col relative bg-background">
+<!-- TopAppBar Sticky Shell -->
+<header class="docked full-width top-0 sticky z-40 bg-surface shadow-sm transition-all duration-150">
+<div class="flex justify-between items-center w-full px-margin md:px-margin-md py-space-sm h-16">
+<!-- Close / Back Button -->
+<button aria-label="Volver a la carta" class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container active:scale-[0.98] transition-all" type="button">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<!-- Centered Header Info with Brand Anchor -->
+<div class="text-center flex-1 mx-2">
+<div class="flex items-center justify-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+<h1 class="font-headline-sm text-headline-sm font-bold text-on-surface tracking-tight">Pedir la cuenta · Mesa 5</h1>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant flex items-center justify-center gap-1 mt-0.5">
+<span>Bar La Plaza</span>
+<span>·</span>
+<span class="inline-flex items-center text-tertiary font-bold">2 rondas de comandas</span>
+</p>
+</div>
+<!-- Trailing Action: Llamar camarero / Servicio de mesa -->
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-primary bg-primary-fixed/40 hover:bg-primary-fixed active:scale-[0.98] transition-all" title="Llamar camarero" type="button">
+<span class="material-symbols-outlined text-primary" data-icon="room_service">room_service</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 px-margin space-y-space-md pt-space-sm">
+<!-- 1. Tarjeta resumen total de la mesa -->
+<section class="bg-surface-container-lowest rounded-2xl p-space-md shadow-warm-sm border border-outline-variant/40 relative overflow-hidden">
+<!-- Warm terracotta accent line on top -->
+<div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-container via-primary to-primary-fixed-dim"></div>
+<div class="flex items-start justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant tracking-wider block">TOTAL MESA ACUMULADO</span>
+<div class="flex items-baseline gap-1.5 mt-0.5">
+<span class="font-display-hero-mobile text-display-hero-mobile text-on-surface tracking-tight">31,00 €</span>
+<span class="font-label-sm text-label-sm bg-surface-container text-on-secondary-container px-2 py-0.5 rounded-full font-bold">6 artículos</span>
+</div>
+</div>
+<div class="text-right">
+<div class="inline-flex items-center gap-1 bg-surface-container-low text-on-surface-variant px-2.5 py-1 rounded-full text-xs font-semibold">
+<span class="material-symbols-outlined text-sm text-primary" data-icon="table_restaurant">table_restaurant</span>
+<span>Mesa 5</span>
+</div>
+</div>
+</div>
+<!-- Tax breakdown -->
+<div class="mt-3 pt-2.5 border-t border-outline-variant/30 flex items-center justify-between text-xs text-on-surface-variant">
+<div class="flex gap-3">
+<span>Base imponible: <strong class="text-on-surface">28,18 €</strong></span>
+<span>IVA 10%: <strong class="text-on-surface">2,82 €</strong></span>
+</div>
+<span class="text-primary font-medium flex items-center gap-0.5 cursor-pointer hover:underline">
+            Ver detalle
+            <span class="material-symbols-outlined text-xs" data-icon="chevron_right">chevron_right</span>
+</span>
+</div>
+<!-- Progress Tracker Bar -->
+<div class="mt-4 bg-surface-container-low rounded-xl p-3 border border-outline-variant/20">
+<div class="flex justify-between items-center text-xs mb-1.5">
+<span class="font-semibold text-on-surface flex items-center gap-1">
+<span class="material-symbols-outlined text-sm text-tertiary" data-icon="check_circle">check_circle</span>
+              Progreso del pago
+            </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">
+<strong class="text-on-surface">0,00 €</strong> de 31,00 € (0 / 3 comensales)
+            </span>
+</div>
+<!-- Progress bar track -->
+<div class="w-full bg-outline-variant/30 h-2.5 rounded-full overflow-hidden flex">
+<!-- 0% filled initially, ready for dynamic fill -->
+<div class="bg-tertiary h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+</div>
+<p class="text-[11px] text-on-surface-variant mt-1.5">Mesa abierta · Podéis pagar simultáneamente desde vuestros móviles</p>
+</div>
+</section>
+<!-- 2. Selector de modo de división (Segmented Control Pill Tabs) -->
+<section>
+<div class="bg-surface-container-low p-1.5 rounded-2xl flex items-center gap-1 shadow-inner border border-outline-variant/30">
+<!-- Opción 1: A partes iguales (Activa) -->
+<button class="flex-1 min-h-[44px] bg-on-surface text-surface-container-lowest font-label-md text-label-md rounded-xl flex items-center justify-center gap-2 shadow-sm transition-all duration-150" id="tab-equal" type="button">
+<span class="material-symbols-outlined text-base" data-icon="group">group</span>
+<span>A partes iguales</span>
+</button>
+<!-- Opción 2: Por platos consumidos -->
+<button class="flex-1 min-h-[44px] bg-transparent text-on-surface-variant hover:text-on-surface font-label-md text-label-md rounded-xl flex items-center justify-center gap-2 transition-all duration-150" id="tab-dishes" type="button">
+<span class="material-symbols-outlined text-base" data-icon="restaurant_menu">restaurant_menu</span>
+<span>Por platos</span>
+</button>
+</div>
+</section>
+<!-- 3. MODO 'A PARTES IGUALES' (VISTA PRINCIPAL DETALLADA) -->
+<section class="space-y-space-md" id="view-equal">
+<!-- Ergonomic Stepper Card -->
+<div class="bg-surface-container-lowest rounded-2xl p-space-md shadow-warm-sm border border-outline-variant/40 flex items-center justify-between">
+<div>
+<span class="font-label-md text-label-md text-on-surface font-semibold block">Número de comensales</span>
+<span class="text-xs text-on-surface-variant">Divide los 31,00 € equitativamente</span>
+</div>
+<!-- Quantity Stepper with 48px hit areas -->
+<div class="inline-flex items-center bg-surface-container-low rounded-xl p-1 border border-outline-variant/30">
+<button aria-label="Reducir un comensal" class="w-11 h-11 rounded-lg bg-surface-container-lowest text-on-surface flex items-center justify-center shadow-xs active:scale-95 transition-transform hover:bg-surface-container" type="button">
+<span class="material-symbols-outlined font-bold" data-icon="remove">remove</span>
+</button>
+<div class="px-4 text-center min-w-[70px]">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">3</span>
+<span class="block text-[10px] uppercase font-bold text-on-surface-variant -mt-1 tracking-wider">personas</span>
+</div>
+<button aria-label="Aumentar un comensal" class="w-11 h-11 rounded-lg bg-surface-container-lowest text-on-surface flex items-center justify-center shadow-xs active:scale-95 transition-transform hover:bg-surface-container" type="button">
+<span class="material-symbols-outlined font-bold" data-icon="add">add</span>
+</button>
+</div>
+</div>
+<!-- Automatic Cent Adjustment Pill Note -->
+<div class="flex items-center gap-2 px-3 py-2 bg-primary-fixed/25 rounded-xl border border-primary-fixed-dim/40 text-on-surface-variant text-xs">
+<span class="material-symbols-outlined text-primary text-base" data-icon="balance">balance</span>
+<span>Reparto automático de céntimos ajustado: <strong>10,34 € + 10,33 € + 10,33 € = 31,00 €</strong></span>
+</div>
+<!-- Diners Breakdown Cards -->
+<div class="space-y-3">
+<!-- PERSONA 1: Tú (Interactive Full Action State) -->
+<div class="bg-surface-container-lowest rounded-2xl p-space-md shadow-warm-md border-2 border-primary-container relative overflow-hidden">
+<!-- Left status bar accent -->
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary-container"></div>
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary font-bold flex items-center justify-center text-sm shadow-xs">
+                  P1
+                </div>
+<div>
+<div class="flex items-center gap-1.5">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Persona 1</h3>
+<span class="bg-primary-container text-on-primary font-label-sm text-label-sm px-2 py-0.5 rounded-full">TÚ</span>
+</div>
+<span class="inline-flex items-center gap-1 text-xs text-amber-600 font-semibold mt-0.5">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                    Pendiente de pago
+                  </span>
+</div>
+</div>
+<!-- Price -->
+<div class="text-right">
+<span class="font-display-hero-mobile text-display-hero-mobile font-bold text-on-surface tracking-tight">10,34 €</span>
+<span class="block text-[11px] text-on-surface-variant">1/3 de la cuenta (+0,01 €)</span>
+</div>
+</div>
+<!-- Action Buttons for Persona 1 (Min height 48px touch standard) -->
+<div class="mt-4 pt-3 border-t border-outline-variant/30 flex flex-col sm:flex-row gap-2">
+<!-- Primary CTA: Pagar con tarjeta / Apple Pay -->
+<button class="flex-1 min-h-[48px] bg-primary-container hover:bg-primary text-on-primary font-label-lg text-label-lg rounded-xl flex items-center justify-center gap-2 shadow-warm-sm active:translate-y-[1px] active:scale-[0.98] transition-all" type="button">
+<span class="material-symbols-outlined text-xl" data-icon="credit_card">credit_card</span>
+<span>Pagar mi parte con tarjeta</span>
+</button>
+<!-- Secondary CTA: Pagar en efectivo -->
+<button class="min-h-[48px] px-4 bg-surface-container-lowest hover:bg-surface-container-low border border-outline text-on-surface font-label-md text-label-md rounded-xl flex items-center justify-center gap-1.5 active:scale-[0.98] transition-all" type="button">
+<span class="material-symbols-outlined text-lg text-on-surface-variant" data-icon="payments">payments</span>
+<span>Efectivo</span>
+</button>
+</div>
+</div>
+<!-- PERSONA 2 (Other Diner) -->
+<div class="bg-surface-container-lowest rounded-2xl p-space-md shadow-warm-sm border border-outline-variant/40 relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-amber-400"></div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-full bg-surface-container text-on-surface font-bold flex items-center justify-center text-xs">
+                  P2
+                </div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Persona 2</h3>
+<span class="inline-flex items-center gap-1 text-xs text-on-surface-variant">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                    Pendiente
+                  </span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<span class="font-price-display text-price-display font-bold text-on-surface">10,33 €</span>
+<span class="block text-[10px] text-on-surface-variant">1/3 de la cuenta</span>
+</div>
+<!-- Mini quick-pay / share invite button -->
+<button class="min-h-[40px] px-3 bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface text-xs font-semibold rounded-lg flex items-center gap-1 border border-outline-variant/30 active:scale-95 transition-all" title="Pagar por Persona 2 o cobrar" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="qr_code_scanner">qr_code_scanner</span>
+<span>Cobrar</span>
+</button>
+</div>
+</div>
+</div>
+<!-- PERSONA 3 (Other Diner) -->
+<div class="bg-surface-container-lowest rounded-2xl p-space-md shadow-warm-sm border border-outline-variant/40 relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-amber-400"></div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-full bg-surface-container text-on-surface font-bold flex items-center justify-center text-xs">
+                  P3
+                </div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Persona 3</h3>
+<span class="inline-flex items-center gap-1 text-xs text-on-surface-variant">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                    Pendiente
+                  </span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<span class="font-price-display text-price-display font-bold text-on-surface">10,33 €</span>
+<span class="block text-[10px] text-on-surface-variant">1/3 de la cuenta</span>
+</div>
+<button class="min-h-[40px] px-3 bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface text-xs font-semibold rounded-lg flex items-center gap-1 border border-outline-variant/30 active:scale-95 transition-all" title="Pagar por Persona 3 o cobrar" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="qr_code_scanner">qr_code_scanner</span>
+<span>Cobrar</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. SECCIÓN ALTERNATIVA: PREVIA / PANEL DE ASIGNACIÓN 'POR PLATOS' -->
+<section class="bg-surface-container-lowest rounded-2xl p-space-md shadow-warm-sm border border-outline-variant/40">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="w-7 h-7 rounded-lg bg-surface-container text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-base" data-icon="checklist">checklist</span>
+</span>
+<div>
+<h2 class="font-label-lg text-label-lg text-on-surface font-bold">Desglose por platos pedidos</h2>
+<span class="text-xs text-on-surface-variant">O asigna ítems individuales a cada comensal</span>
+</div>
+</div>
+<span class="text-xs font-bold text-tertiary bg-tertiary-fixed/30 px-2 py-0.5 rounded-full">6 ítems</span>
+</div>
+<!-- Dish Assignment Mini Bento Grid -->
+<div class="space-y-2.5">
+<!-- Dish 1: Croquetas de Jamón Ibérico (Compartido P1 + P2) -->
+<div class="p-3 bg-surface rounded-xl border border-outline-variant/30 flex items-center justify-between">
+<div class="flex-1 pr-2">
+<div class="flex items-center gap-1.5">
+<span class="font-semibold text-on-surface text-sm">Croquetas de Jamón Ibérico</span>
+<span class="text-[10px] bg-neutral-200 text-neutral-800 font-bold px-1.5 py-0.2 rounded">Tapa</span>
+</div>
+<div class="flex items-center gap-1.5 mt-1">
+<span class="text-xs text-on-surface-variant">Asignado a:</span>
+<span class="bg-primary-fixed text-on-primary-fixed text-[11px] font-bold px-1.5 py-0.2 rounded-full">Tú (P1)</span>
+<span class="bg-surface-container text-on-surface text-[11px] font-semibold px-1.5 py-0.2 rounded-full">P2</span>
+<span class="text-[11px] text-on-surface-variant font-medium">(4,25 € c/u)</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-price-display text-price-display font-bold text-on-surface">8,50 €</span>
+<span class="block text-[10px] text-tertiary font-semibold">Compartido (2)</span>
+</div>
+</div>
+<!-- Dish 2: Patatas Bravas Taberneras (Asignado a P2) -->
+<div class="p-3 bg-surface rounded-xl border border-outline-variant/30 flex items-center justify-between">
+<div class="flex-1 pr-2">
+<div class="flex items-center gap-1.5">
+<span class="font-semibold text-on-surface text-sm">Patatas Bravas Taberneras</span>
+<span class="text-[10px] bg-red-100 text-red-800 font-bold px-1.5 py-0.2 rounded">Picante</span>
+</div>
+<div class="flex items-center gap-1.5 mt-1">
+<span class="text-xs text-on-surface-variant">Asignado a:</span>
+<span class="bg-surface-container text-on-surface text-[11px] font-semibold px-1.5 py-0.2 rounded-full">P2</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-price-display text-price-display font-bold text-on-surface">6,00 €</span>
+<span class="block text-[10px] text-on-surface-variant">Individual</span>
+</div>
+</div>
+<!-- Dish 3: Cervezas Doble de Barril x2 (P3 + P1) -->
+<div class="p-3 bg-surface rounded-xl border border-outline-variant/30 flex items-center justify-between">
+<div class="flex-1 pr-2">
+<div class="flex items-center gap-1.5">
+<span class="font-semibold text-on-surface text-sm">2x Caña Doble de Cerveza</span>
+<span class="text-[10px] bg-amber-100 text-amber-900 font-bold px-1.5 py-0.2 rounded">Bebida</span>
+</div>
+<div class="flex items-center gap-1.5 mt-1">
+<span class="text-xs text-on-surface-variant">Asignado a:</span>
+<span class="bg-primary-fixed text-on-primary-fixed text-[11px] font-bold px-1.5 py-0.2 rounded-full">Tú (P1)</span>
+<span class="bg-surface-container text-on-surface text-[11px] font-semibold px-1.5 py-0.2 rounded-full">P3</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-price-display text-price-display font-bold text-on-surface">5,50 €</span>
+<span class="block text-[10px] text-on-surface-variant">2,75 € c/u</span>
+</div>
+</div>
+<!-- Dish 4: Pulpo a Feira (P3) -->
+<div class="p-3 bg-surface rounded-xl border border-outline-variant/30 flex items-center justify-between">
+<div class="flex-1 pr-2">
+<div class="flex items-center gap-1.5">
+<span class="font-semibold text-on-surface text-sm">Media Ración Pulpo a Feira</span>
+<span class="text-[10px] bg-blue-100 text-blue-900 font-bold px-1.5 py-0.2 rounded">Mar</span>
+</div>
+<div class="flex items-center gap-1.5 mt-1">
+<span class="text-xs text-on-surface-variant">Asignado a:</span>
+<span class="bg-surface-container text-on-surface text-[11px] font-semibold px-1.5 py-0.2 rounded-full">P3</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-price-display text-price-display font-bold text-on-surface">11,00 €</span>
+<span class="block text-[10px] text-on-surface-variant">Individual</span>
+</div>
+</div>
+</div>
+<button class="w-full mt-3 py-2 text-center text-xs font-semibold text-primary hover:text-on-primary-container flex items-center justify-center gap-1" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="tune">tune</span>
+<span>Personalizar reparto de platos</span>
+</button>
+</section>
+<!-- 5. Acciones Globales: Factura y Pago Total -->
+<section class="space-y-2.5 pb-4">
+<!-- Pagar la cuenta completa (Invitación o único pagador) -->
+<button class="w-full min-h-[50px] bg-on-surface text-surface-container-lowest hover:bg-neutral-800 font-label-lg text-label-lg rounded-xl flex items-center justify-between px-space-md shadow-warm-sm active:scale-[0.99] transition-all" type="button">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container" data-icon="redeem">redeem</span>
+<span>¿Invitas tú? Pagar cuenta completa</span>
+</div>
+<span class="font-bold text-primary-fixed text-base">31,00 €</span>
+</button>
+<!-- Solicitud de Factura Simplificada / Ticket con CIF -->
+<div class="bg-surface-container-lowest rounded-xl p-3 border border-outline-variant/30 flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="receipt">receipt</span>
+<div>
+<p class="font-label-md text-label-md text-on-surface font-semibold">¿Necesitas factura con CIF/NIF?</p>
+<p class="text-xs text-on-surface-variant">Generación automática en PDF tras el cobro</p>
+</div>
+</div>
+<button class="text-xs font-bold text-primary bg-primary-fixed/40 hover:bg-primary-fixed px-3 py-1.5 rounded-lg active:scale-95 transition-all" type="button">
+            Solicitar
+          </button>
+</div>
+<!-- Security and hospitality guarantee note -->
+<div class="flex items-center justify-center gap-2 text-xs text-on-surface-variant py-2">
+<span class="material-symbols-outlined text-sm text-tertiary" data-icon="verified_user">verified_user</span>
+<span>Pago seguro SSL · TPV Redsys / Bizum / Apple Pay</span>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Shared Component Anchor) -->
+<!-- Destination Rule: The screen is 'Cuenta', so index 2 ('Cuenta') is strictly active -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-space-md py-space-sm max-w-[720px] right-0 mx-auto bg-surface shadow-lg">
+<!-- Tab 1: Carta (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1.5 hover:bg-surface-container-low hover:text-on-surface active:scale-[0.98] transition-transform duration-150" href="#carta">
+<span class="material-symbols-outlined text-2xl" data-icon="restaurant">restaurant</span>
+<span class="font-label-sm text-label-sm mt-0.5">Carta</span>
+</a>
+<!-- Tab 2: Mi Mesa (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1.5 hover:bg-surface-container-low hover:text-on-surface active:scale-[0.98] transition-transform duration-150 relative" href="#mimesa">
+<span class="material-symbols-outlined text-2xl" data-icon="receipt_long">receipt_long</span>
+<span class="font-label-sm text-label-sm mt-0.5">Mi Mesa</span>
+<span class="absolute top-1 right-3 w-2 h-2 rounded-full bg-primary"></span>
+</a>
+<!-- Tab 3: Cuenta (ACTIVE according to JSON instructions: bg-primary-container text-on-primary rounded-xl px-4 py-1.5) -->
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary rounded-xl px-4 py-1.5 active:scale-[0.98] transition-transform duration-150 shadow-xs" href="#cuenta">
+<span class="material-symbols-outlined text-2xl" data-icon="payments" data-weight="fill" style="font-variation-settings: 'FILL' 1;">payments</span>
+<span class="font-label-sm text-label-sm mt-0.5 font-bold">Cuenta</span>
+</a>
+</nav>
+</div>
+<!-- Lightweight interaction toggle script -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const tabEqual = document.getElementById('tab-equal');
+      const tabDishes = document.getElementById('tab-dishes');
+      const viewEqual = document.getElementById('view-equal');
+
+      if (tabEqual && tabDishes) {
+        tabDishes.addEventListener('click', () => {
+          tabDishes.className = 'flex-1 min-h-[44px] bg-on-surface text-surface-container-lowest font-label-md text-label-md rounded-xl flex items-center justify-center gap-2 shadow-sm transition-all duration-150';
+          tabEqual.className = 'flex-1 min-h-[44px] bg-transparent text-on-surface-variant hover:text-on-surface font-label-md text-label-md rounded-xl flex items-center justify-center gap-2 transition-all duration-150';
+        });
+
+        tabEqual.addEventListener('click', () => {
+          tabEqual.className = 'flex-1 min-h-[44px] bg-on-surface text-surface-container-lowest font-label-md text-label-md rounded-xl flex items-center justify-center gap-2 shadow-sm transition-all duration-150';
+          tabDishes.className = 'flex-1 min-h-[44px] bg-transparent text-on-surface-variant hover:text-on-surface font-label-md text-label-md rounded-xl flex items-center justify-center gap-2 transition-all duration-150';
+        });
+      }
+    });
+  </script>
+</body></html>

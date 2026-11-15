@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MesaYa - Pago con tarjeta | Bar La Plaza · Mesa 5</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Inter Google Font -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN with forms and container queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Theme Configuration verbatim -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "tertiary-container": "#00b07a",
+            "inverse-on-surface": "#ebf1ff",
+            "tertiary-fixed": "#6ffbbe",
+            "on-tertiary-fixed-variant": "#005236",
+            "on-tertiary": "#ffffff",
+            "on-error": "#ffffff",
+            "primary-fixed-dim": "#ffb690",
+            "on-primary-container": "#582200",
+            "error": "#ba1a1a",
+            "on-secondary-fixed": "#121c2a",
+            "surface-container-low": "#f0f3ff",
+            "on-background": "#151c27",
+            "inverse-surface": "#2a313d",
+            "surface": "#f9f9ff",
+            "on-error-container": "#93000a",
+            "on-primary": "#ffffff",
+            "surface-dim": "#d3daea",
+            "surface-container-lowest": "#ffffff",
+            "on-secondary-fixed-variant": "#3d4756",
+            "surface-variant": "#dce2f3",
+            "tertiary": "#006c49",
+            "on-tertiary-fixed": "#002113",
+            "tertiary-fixed-dim": "#4edea3",
+            "surface-bright": "#f9f9ff",
+            "inverse-primary": "#ffb690",
+            "on-secondary": "#ffffff",
+            "primary-container": "#f97316",
+            "surface-container": "#e7eefe",
+            "surface-container-high": "#e2e8f8",
+            "on-surface": "#151c27",
+            "outline": "#8c7164",
+            "primary": "#9d4300",
+            "secondary-fixed-dim": "#bdc7d9",
+            "on-primary-fixed": "#341100",
+            "primary-fixed": "#ffdbca",
+            "on-surface-variant": "#584237",
+            "secondary-container": "#d6e0f3",
+            "surface-container-highest": "#dce2f3",
+            "on-tertiary-container": "#003b26",
+            "background": "#f9f9ff",
+            "error-container": "#ffdad6",
+            "outline-variant": "#e0c0b1",
+            "surface-tint": "#9d4300",
+            "secondary": "#555f6f",
+            "on-secondary-container": "#596373",
+            "on-primary-fixed-variant": "#783200",
+            "secondary-fixed": "#d9e3f6"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin-lg": "2.5rem",
+            "gutter-md": "1.5rem",
+            "space-xs": "0.25rem",
+            "margin-md": "1.5rem",
+            "gutter": "1rem",
+            "space-lg": "1.5rem",
+            "space-xl": "2rem",
+            "space-md": "1rem",
+            "space-sm": "0.5rem",
+            "margin": "1rem"
+          },
+          "fontFamily": {
+            "display-hero-mobile": [
+              "Inter"
+            ],
+            "display-hero": [
+              "Inter"
+            ],
+            "body-md": [
+              "Inter"
+            ],
+            "headline-sm": [
+              "Inter"
+            ],
+            "label-lg": [
+              "Inter"
+            ],
+            "label-sm": [
+              "Inter"
+            ],
+            "headline-lg": [
+              "Inter"
+            ],
+            "label-md": [
+              "Inter"
+            ],
+            "body-lg": [
+              "Inter"
+            ],
+            "headline-md": [
+              "Inter"
+            ],
+            "price-display": [
+              "Inter"
+            ]
+          },
+          "fontSize": {
+            "display-hero-mobile": [
+              "30px",
+              {
+                "lineHeight": "36px",
+                "letterSpacing": "-0.015em",
+                "fontWeight": "800"
+              }
+            ],
+            "display-hero": [
+              "40px",
+              {
+                "lineHeight": "48px",
+                "letterSpacing": "-0.02em",
+                "fontWeight": "800"
+              }
+            ],
+            "body-md": [
+              "14px",
+              {
+                "lineHeight": "20px",
+                "fontWeight": "400"
+              }
+            ],
+            "headline-sm": [
+              "18px",
+              {
+                "lineHeight": "24px",
+                "fontWeight": "600"
+              }
+            ],
+            "label-lg": [
+              "15px",
+              {
+                "lineHeight": "20px",
+                "letterSpacing": "0.01em",
+                "fontWeight": "600"
+              }
+            ],
+            "label-sm": [
+              "11px",
+              {
+                "lineHeight": "14px",
+                "letterSpacing": "0.03em",
+                "fontWeight": "700"
+              }
+            ],
+            "headline-lg": [
+              "28px",
+              {
+                "lineHeight": "34px",
+                "letterSpacing": "-0.01em",
+                "fontWeight": "700"
+              }
+            ],
+            "label-md": [
+              "13px",
+              {
+                "lineHeight": "18px",
+                "letterSpacing": "0.01em",
+                "fontWeight": "600"
+              }
+            ],
+            "body-lg": [
+              "16px",
+              {
+                "lineHeight": "24px",
+                "fontWeight": "400"
+              }
+            ],
+            "headline-md": [
+              "22px",
+              {
+                "lineHeight": "28px",
+                "letterSpacing": "-0.01em",
+                "fontWeight": "700"
+              }
+            ],
+            "price-display": [
+              "18px",
+              {
+                "lineHeight": "22px",
+                "letterSpacing": "-0.01em",
+                "fontWeight": "700"
+              }
+            ]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      background-color: #f9f9ff;
+      color: #151c27;
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 20px;
+      line-height: 1;
+      display: inline-block;
+      text-transform: none;
+      letter-spacing: normal;
+      word-wrap: normal;
+      white-space: nowrap;
+      direction: ltr;
+    }
+    /* Ambient tactile card shadow matching Design System */
+    .tactile-card {
+      background-color: #ffffff;
+      box-shadow: 0 2px 8px -2px rgba(31, 41, 55, 0.05), 0 1px 3px 0 rgba(31, 41, 55, 0.03);
+      border: 1px solid #e7e5e4;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface min-h-screen pb-32">
+<!-- TOP APP BAR (Shared Component Anchor) -->
+<header class="bg-surface dark:bg-inverse-surface shadow-sm dark:shadow-none docked full-width top-0 sticky z-40">
+<div class="flex justify-between items-center w-full px-margin md:px-margin-md max-w-[720px] mx-auto py-3">
+<!-- Leading Icon / Back navigation -->
+<a aria-label="Volver a la cuenta" class="flex items-center gap-1.5 text-on-surface-variant dark:text-surface-variant hover:text-on-surface active:scale-[0.98] transition-all duration-150 py-1.5 px-2 rounded-lg -ml-2" href="#">
+<span class="material-symbols-outlined text-primary dark:text-inverse-primary" data-icon="restaurant_menu">restaurant_menu</span>
+<span class="font-label-md text-label-md hidden sm:inline">Carta</span>
+</a>
+<!-- Headline Anchor -->
+<div class="flex flex-col items-center">
+<span class="font-headline-md text-headline-md font-bold text-on-surface dark:text-inverse-on-surface text-center tracking-tight">Bar La Plaza · Mesa 5</span>
+<div class="flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-tertiary text-xs" data-icon="lock" style="font-size: 13px;">lock</span>
+<span class="font-label-sm text-label-sm text-tertiary font-medium">Pago Seguro SSL</span>
+</div>
+</div>
+<!-- Trailing Icon -->
+<button aria-label="Servicio de sala" class="flex items-center justify-center p-2 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container dark:hover:bg-surface-variant rounded-full active:scale-[0.98] transition-all duration-150">
+<span class="material-symbols-outlined text-primary dark:text-inverse-primary" data-icon="room_service">room_service</span>
+</button>
+</div>
+</header>
+<!-- SUBHEADER / RETORNO A CUENTA -->
+<div class="max-w-[720px] mx-auto px-margin pt-3 pb-1">
+<a class="inline-flex items-center gap-1.5 text-secondary hover:text-on-surface transition-colors duration-150 font-label-md text-label-md group" href="#">
+<span class="material-symbols-outlined group-hover:-translate-x-0.5 transition-transform" data-icon="arrow_back">arrow_back</span>
+<span>Volver a la cuenta</span>
+</a>
+</div>
+<!-- MAIN CANVAS -->
+<main class="max-w-[720px] mx-auto px-margin mt-2 space-y-space-md">
+<!-- SECCIÓN RESUMEN DE TU PARTE (Bento card) -->
+<section class="tactile-card rounded-2xl p-space-md overflow-hidden relative">
+<!-- Glow accent line -->
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary-container to-tertiary"></div>
+<!-- Header de partición -->
+<div class="flex items-start justify-between gap-2 border-b border-surface-variant/50 pb-3">
+<div>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-surface-container text-on-secondary-container mb-1">
+            División de cuenta
+          </span>
+<h1 class="font-headline-sm text-headline-sm text-on-surface">Tu parte a pagar (Persona 1 de 3)</h1>
+<p class="font-body-md text-body-md text-secondary mt-0.5">1/3 proporcional de la comanda de mesa</p>
+</div>
+<div class="text-right">
+<span class="block font-display-hero-mobile text-display-hero-mobile text-primary font-extrabold tracking-tight" id="display-total">10,34 €</span>
+<span class="font-label-sm text-label-sm text-secondary">IVA 10% incluido</span>
+</div>
+</div>
+<!-- Detalle de conceptos incluidos en su parte -->
+<div class="mt-3 pt-1 space-y-2">
+<div class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Conceptos de tu porción (1/3)</div>
+<div class="bg-surface-container-low/70 rounded-xl p-3 space-y-1.5 text-on-surface">
+<div class="flex justify-between items-center font-body-md text-body-md">
+<span class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+              1/3 Ración Croquetas Jamón Ibérico (6 uds)
+            </span>
+<span class="font-semibold text-on-surface">3,80 €</span>
+</div>
+<div class="flex justify-between items-center font-body-md text-body-md">
+<span class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+              1/3 Patatas Bravas Tabernero
+            </span>
+<span class="font-semibold text-on-surface">2,94 €</span>
+</div>
+<div class="flex justify-between items-center font-body-md text-body-md">
+<span class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+              1 Caña doble Cerveza Especial (consumo propio)
+            </span>
+<span class="font-semibold text-on-surface">3,60 €</span>
+</div>
+</div>
+</div>
+<!-- SECTOR DE PROPINA VOLUNTARIA RÁPIDA -->
+<div class="mt-4 pt-3 border-t border-surface-variant/40">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-md text-label-md text-on-surface font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-primary-container" data-icon="volunteer_activism" style="font-size: 18px;">volunteer_activism</span>
+            Propina voluntaria para el equipo
+          </span>
+<span class="font-label-sm text-label-sm text-secondary" id="propina-selected-label">Sin propina</span>
+</div>
+<!-- Botones táctiles de propina -->
+<div aria-label="Selección de propina" class="grid grid-cols-3 sm:grid-cols-5 gap-2" id="tip-group" role="radiogroup">
+<button class="tip-btn border rounded-xl py-2 px-1 text-center font-label-md text-label-md font-semibold transition-all duration-150 active:scale-[0.97] bg-on-surface text-surface border-on-surface shadow-sm" onclick="selectTip(0, this, 'Sin propina')" type="button">
+            Sin propina
+          </button>
+<button class="tip-btn border rounded-xl py-2 px-1 text-center font-label-md text-label-md font-semibold transition-all duration-150 active:scale-[0.97] bg-surface-container-lowest text-on-surface border-surface-variant hover:border-primary-container" onclick="selectTip(0.50, this, '+0,50 €')" type="button">
+            +0,50 €
+          </button>
+<button class="tip-btn border rounded-xl py-2 px-1 text-center font-label-md text-label-md font-semibold transition-all duration-150 active:scale-[0.97] bg-surface-container-lowest text-on-surface border-surface-variant hover:border-primary-container" onclick="selectTip(1.00, this, '+1,00 €')" type="button">
+            +1,00 €
+          </button>
+<button class="tip-btn border rounded-xl py-2 px-1 text-center font-label-md text-label-md font-semibold transition-all duration-150 active:scale-[0.97] bg-surface-container-lowest text-on-surface border-surface-variant hover:border-primary-container" onclick="selectTip(1.03, this, '+10% (1,03 €)')" type="button">
+            +10% (1,03 €)
+          </button>
+<button class="tip-btn border rounded-xl py-2 px-1 text-center font-label-md text-label-md font-semibold transition-all duration-150 active:scale-[0.97] bg-surface-container-lowest text-on-surface border-surface-variant hover:border-primary-container col-span-3 sm:col-span-1" onclick="customTipPrompt(this)" type="button">
+            Personalizada
+          </button>
+</div>
+</div>
+</section>
+<!-- SECCIÓN PASARELA DE PAGO CON TARJETA - STRIPE -->
+<section class="tactile-card rounded-2xl p-space-md space-y-4">
+<!-- Aviso Stripe Test Mode -->
+<div class="rounded-xl p-3 bg-amber-50 border border-amber-200 flex items-start gap-2.5">
+<span class="material-symbols-outlined text-amber-600 flex-shrink-0 mt-0.5" data-icon="warning" style="font-size: 20px;">warning</span>
+<div class="text-amber-900">
+<div class="font-label-md text-label-md font-bold">⚠️ Modo de prueba (Test mode)</div>
+<p class="font-body-md text-body-md text-amber-800 text-xs mt-0.5">No se realizarán cargos reales en tu tarjeta bancaria. Utiliza tarjetas de prueba oficiales de Stripe.</p>
+</div>
+</div>
+<!-- Quick Pay Express: Apple Pay / Google Pay -->
+<div>
+<button class="w-full bg-[#000000] hover:bg-[#1a1a1a] text-white font-headline-sm text-headline-sm rounded-xl py-3 px-4 flex items-center justify-center gap-2 shadow-md active:scale-[0.98] transition-transform duration-150 min-h-[48px]" type="button">
+<!-- Apple SVG Icon -->
+<svg class="w-5 h-5 fill-current" viewbox="0 0 170 170">
+<path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.08-7.75-8.03-12.18-14.85-6.75-10.33-11.83-21.72-15.24-34.15-3.41-12.44-5.12-23.75-5.12-33.94 0-14.65 3.73-26.69 11.19-36.14 7.46-9.44 16.71-14.28 27.75-14.51 5.37 0 11.13 1.48 17.29 4.43 6.15 2.95 10.02 4.49 11.6 4.62 1.94-.25 6.07-1.89 12.38-4.91 6.31-3.03 12.06-4.33 17.25-3.92 13.53.77 24.34 5.75 32.44 14.93-11.96 7.23-17.83 17.23-17.6 30 0 10.45 4.09 19.34 12.27 26.67 3.82 3.47 8.16 6.07 13.01 7.82-2.73 8.35-6.32 17.06-10.77 26.13zM119.22 33.15c0-7.39 2.66-14.42 7.98-21.09 5.32-6.68 11.95-10.98 19.89-12.92.51 1.63.77 3.27.77 4.92 0 7.37-2.82 14.56-8.46 21.57-5.64 7.02-12.49 11.23-20.55 12.63-.26-1.63-.63-3.33-1.63-5.11z"></path>
+</svg>
+<span class="tracking-wide">Pagar 10,34 € con Pay</span>
+</button>
+</div>
+<!-- Divisor elegante -->
+<div class="relative flex items-center justify-center my-3">
+<div class="border-t border-surface-variant w-full"></div>
+<span class="bg-surface-container-lowest px-3 font-label-sm text-label-sm text-secondary uppercase tracking-wider relative whitespace-nowrap">
+          o bien introduce los datos de tu tarjeta
+        </span>
+</div>
+<!-- FORMULARIO STRIPE ELEMENTS -->
+<form class="space-y-3" id="stripe-payment-form" onsubmit="event.preventDefault(); simulatePayment();">
+<!-- Número de tarjeta con detección de marca -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface font-semibold mb-1" for="card-number">
+            Número de tarjeta
+          </label>
+<div class="relative rounded-xl border border-surface-variant focus-within:border-primary-container bg-surface-container-lowest transition-colors flex items-center">
+<div class="pl-3 flex items-center pointer-events-none text-secondary">
+<span class="material-symbols-outlined" data-icon="credit_card">credit_card</span>
+</div>
+<input class="w-full bg-transparent border-0 py-3 pl-3 pr-24 font-body-lg text-body-lg text-on-surface focus:ring-0 placeholder:text-secondary/50 min-h-[48px]" id="card-number" inputmode="numeric" maxlength="19" placeholder="4242 •••• •••• 4242" required="" type="text" value="4242 4242 4242 4242"/>
+<!-- Badge de tarjeta (Visa / Mastercard) -->
+<div class="absolute right-3 flex items-center gap-1.5">
+<span class="px-2 py-0.5 bg-blue-100 text-blue-800 font-bold text-xs rounded border border-blue-200 uppercase tracking-tighter">VISA</span>
+<span class="px-1.5 py-0.5 bg-surface-container text-secondary text-[10px] font-bold rounded">TEST</span>
+</div>
+</div>
+</div>
+<!-- Fila Caducidad y CVC -->
+<div class="grid grid-cols-2 gap-3">
+<div>
+<label class="block font-label-md text-label-md text-on-surface font-semibold mb-1" for="card-expiry">
+              Caducidad
+            </label>
+<div class="relative rounded-xl border border-surface-variant focus-within:border-primary-container bg-surface-container-lowest transition-colors">
+<input class="w-full bg-transparent border-0 py-3 px-3 font-body-lg text-body-lg text-on-surface focus:ring-0 placeholder:text-secondary/50 min-h-[48px]" id="card-expiry" inputmode="numeric" maxlength="5" placeholder="MM/AA" required="" type="text" value="12/28"/>
+</div>
+</div>
+<div>
+<div class="flex items-center justify-between mb-1">
+<label class="font-label-md text-label-md text-on-surface font-semibold" for="card-cvc">CVC</label>
+<span class="material-symbols-outlined text-secondary text-sm cursor-help" data-icon="help_outline" title="3 dígitos en el reverso">help_outline</span>
+</div>
+<div class="relative rounded-xl border border-surface-variant focus-within:border-primary-container bg-surface-container-lowest transition-colors flex items-center">
+<input class="w-full bg-transparent border-0 py-3 pl-3 pr-9 font-body-lg text-body-lg text-on-surface focus:ring-0 placeholder:text-secondary/50 min-h-[48px]" id="card-cvc" inputmode="numeric" maxlength="3" placeholder="123" required="" type="password" value="123"/>
+<span class="material-symbols-outlined text-secondary absolute right-2.5 text-sm" data-icon="lock">lock</span>
+</div>
+</div>
+</div>
+<!-- Nombre del titular -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface font-semibold mb-1" for="card-holder">
+            Nombre del titular
+          </label>
+<div class="relative rounded-xl border border-surface-variant focus-within:border-primary-container bg-surface-container-lowest transition-colors">
+<input class="w-full bg-transparent border-0 py-3 px-3 font-body-lg text-body-lg text-on-surface focus:ring-0 placeholder:text-secondary/50 min-h-[48px]" id="card-holder" placeholder="Ej. Carmen Rodríguez" required="" type="text" value="Persona 1 (Comensal)"/>
+</div>
+</div>
+<!-- Guardar tarjeta checkbox -->
+<div class="pt-1">
+<label class="flex items-start gap-2.5 cursor-pointer">
+<input checked="" class="mt-1 h-4 w-4 rounded text-primary-container focus:ring-primary-container border-surface-variant cursor-pointer" type="checkbox"/>
+<span class="font-body-md text-body-md text-secondary leading-snug">
+              Guardar tarjeta de forma segura para próximas comandas en Bar La Plaza
+            </span>
+</label>
+</div>
+<!-- BOTÓN TÁCTIL PRINCIPAL (#F97316) MIN-HEIGHT 48PX -->
+<div class="pt-2">
+<button class="w-full bg-primary-container hover:bg-[#ea580c] active:scale-[0.98] text-on-primary font-headline-sm text-headline-sm rounded-xl py-3.5 px-4 flex items-center justify-center gap-2 shadow-lg transition-all duration-150 min-h-[48px]" id="pay-submit-button" type="submit">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+<span class="font-bold" id="btn-pay-text">Pagar 10,34 € de forma segura</span>
+</button>
+</div>
+</form>
+<!-- Trust Badges & Stripe Compliance Footer -->
+<div class="pt-3 border-t border-surface-variant/40 flex flex-col sm:flex-row items-center justify-between gap-3 text-secondary text-xs">
+<div class="flex items-center gap-1.5">
+<span class="font-semibold text-on-surface">Powered by</span>
+<!-- Stripe stylized wordmark -->
+<span class="font-extrabold tracking-tight text-[#635BFF] text-sm flex items-center">
+            stripe
+          </span>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-tertiary" data-icon="shield" style="font-size: 15px;">shield</span>
+<span class="font-label-sm text-label-sm">Cifrado AES-256</span>
+</div>
+<span class="text-surface-variant">•</span>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-secondary" data-icon="verified" style="font-size: 15px;">verified</span>
+<span class="font-label-sm text-label-sm">PCI-DSS Nivel 1</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Asistencia de mesa rápida -->
+<div class="text-center py-2">
+<button class="inline-flex items-center gap-1 text-secondary hover:text-primary font-label-md text-label-md" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="support_agent">support_agent</span>
+        ¿Tienes dudas con el importe? Avisar al camarero
+      </button>
+</div>
+</main>
+<!-- BOTTOM NAVBAR (Shared Component Anchor) -->
+<!-- Context: Destino primario activo "Cuenta" -->
+<nav aria-label="Navegación principal" class="bg-surface dark:bg-inverse-surface shadow-lg dark:shadow-none fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-space-md py-space-sm max-w-[720px] mx-auto right-0">
+<!-- Destino 1: Carta (Inactivo) -->
+<a aria-label="Carta" class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant px-4 py-1.5 hover:bg-surface-container-low dark:hover:bg-surface-variant hover:text-on-surface dark:hover:text-inverse-on-surface active:scale-[0.98] transition-transform duration-150 rounded-xl" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="restaurant">restaurant</span>
+<span class="font-label-sm text-label-sm mt-0.5">Carta</span>
+</a>
+<!-- Destino 2: Mi Mesa (Inactivo) -->
+<a aria-label="Mi Mesa" class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant px-4 py-1.5 hover:bg-surface-container-low dark:hover:bg-surface-variant hover:text-on-surface dark:hover:text-inverse-on-surface active:scale-[0.98] transition-transform duration-150 rounded-xl" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="receipt_long">receipt_long</span>
+<span class="font-label-sm text-label-sm mt-0.5">Mi Mesa</span>
+</a>
+<!-- Destino 3: Cuenta (ACTIVO - style_active_navigation) -->
+<a aria-current="page" aria-label="Cuenta" class="flex flex-col items-center justify-center bg-primary-container text-on-primary rounded-xl px-4 py-1.5 active:scale-[0.98] transition-transform duration-150 shadow-sm" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="payments" style="font-variation-settings: 'FILL' 1;">payments</span>
+<span class="font-label-sm text-label-sm mt-0.5">Cuenta</span>
+</a>
+</nav>
+<!-- Interactive script for Tip selection & dynamic payment total recalculation -->
+<script>
+    const baseAmount = 10.34;
+    let currentTip = 0.00;
+
+    function formatCurrency(val) {
+      return val.toFixed(2).replace('.', ',') + ' €';
+    }
+
+    function selectTip(amount, buttonElement, labelText) {
+      currentTip = amount;
+      const total = baseAmount + currentTip;
+      
+      // Update UI elements
+      document.getElementById('display-total').textContent = formatCurrency(total);
+      document.getElementById('btn-pay-text').textContent = 'Pagar ' + formatCurrency(total) + ' de forma segura';
+      document.getElementById('propina-selected-label').textContent = labelText;
+
+      // Update button styling states
+      const allButtons = document.querySelectorAll('.tip-btn');
+      allButtons.forEach(btn => {
+        btn.classList.remove('bg-on-surface', 'text-surface', 'border-on-surface', 'shadow-sm');
+        btn.classList.add('bg-surface-container-lowest', 'text-on-surface', 'border-surface-variant');
+      });
+
+      buttonElement.classList.remove('bg-surface-container-lowest', 'text-on-surface', 'border-surface-variant');
+      buttonElement.classList.add('bg-on-surface', 'text-surface', 'border-on-surface', 'shadow-sm');
+    }
+
+    function customTipPrompt(buttonElement) {
+      const input = prompt('Introduce el importe de la propina voluntaria (€):', '2.00');
+      if (input !== null) {
+        const parsed = parseFloat(input.replace(',', '.'));
+        if (!isNaN(parsed) && parsed >= 0) {
+          selectTip(parsed, buttonElement, '+' + formatCurrency(parsed));
+        }
+      }
+    }
+
+    function simulatePayment() {
+      const btn = document.getElementById('pay-submit-button');
+      const totalStr = formatCurrency(baseAmount + currentTip);
+      btn.innerHTML = `<span class="material-symbols-outlined animate-spin" data-icon="progress_activity">progress_activity</span><span>Procesando en Stripe...</span>`;
+      btn.disabled = true;
+      btn.classList.add('opacity-80');
+
+      setTimeout(() => {
+        btn.innerHTML = `<span class="material-symbols-outlined" data-icon="check_circle">check_circle</span><span>¡Pago de ${totalStr} completado!</span>`;
+        btn.classList.remove('bg-primary-container', 'opacity-80');
+        btn.classList.add('bg-tertiary');
+      }, 1200);
+    }
+  </script>
+</body></html>

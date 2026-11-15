@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-background" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MesaYa Backoffice | Bar La Plaza - Carta y Catálogo de Platos</title>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary-fixed": "#ffdbca",
+            "tertiary-container": "#00b07a",
+            "on-secondary": "#ffffff",
+            "tertiary-fixed-dim": "#4edea3",
+            "secondary": "#555f6f",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-highest": "#dce2f3",
+            "on-surface": "#151c27",
+            "error": "#ba1a1a",
+            "on-secondary-fixed": "#121c2a",
+            "secondary-container": "#d6e0f3",
+            "on-secondary-fixed-variant": "#3d4756",
+            "on-surface-variant": "#584237",
+            "on-primary": "#ffffff",
+            "surface-tint": "#9d4300",
+            "secondary-fixed": "#d9e3f6",
+            "surface-dim": "#d3daea",
+            "on-background": "#151c27",
+            "on-primary-fixed-variant": "#783200",
+            "on-tertiary-fixed": "#002113",
+            "surface-container": "#e7eefe",
+            "surface-bright": "#f9f9ff",
+            "primary-container": "#f97316",
+            "surface-variant": "#dce2f3",
+            "on-tertiary-container": "#003b26",
+            "on-error": "#ffffff",
+            "on-primary-container": "#582200",
+            "on-tertiary-fixed-variant": "#005236",
+            "tertiary": "#006c49",
+            "on-tertiary": "#ffffff",
+            "secondary-fixed-dim": "#bdc7d9",
+            "tertiary-fixed": "#6ffbbe",
+            "inverse-primary": "#ffb690",
+            "background": "#f9f9ff",
+            "inverse-surface": "#2a313d",
+            "outline": "#8c7164",
+            "surface-container-low": "#f0f3ff",
+            "error-container": "#ffdad6",
+            "primary": "#9d4300",
+            "surface-container-high": "#e2e8f8",
+            "outline-variant": "#e0c0b1",
+            "primary-fixed-dim": "#ffb690",
+            "inverse-on-surface": "#ebf1ff",
+            "surface": "#f9f9ff",
+            "on-error-container": "#93000a",
+            "on-secondary-container": "#596373",
+            "on-primary-fixed": "#341100"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin": "1rem",
+            "gutter-md": "1.5rem",
+            "space-xl": "2rem",
+            "margin-md": "1.5rem",
+            "gutter": "1rem",
+            "margin-lg": "2.5rem",
+            "space-xs": "0.25rem",
+            "space-sm": "0.5rem",
+            "space-lg": "1.5rem",
+            "space-md": "1rem"
+          },
+          "fontFamily": {
+            "label-sm": ["Inter"],
+            "body-lg": ["Inter"],
+            "headline-lg": ["Inter"],
+            "display-hero": ["Inter"],
+            "label-lg": ["Inter"],
+            "label-md": ["Inter"],
+            "display-hero-mobile": ["Inter"],
+            "price-display": ["Inter"],
+            "headline-md": ["Inter"],
+            "headline-sm": ["Inter"],
+            "body-md": ["Inter"]
+          },
+          "fontSize": {
+            "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "700"}],
+            "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+            "headline-lg": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+            "display-hero": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+            "label-lg": ["15px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+            "label-md": ["13px", {"lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+            "display-hero-mobile": ["30px", {"lineHeight": "36px", "letterSpacing": "-0.015em", "fontWeight": "800"}],
+            "price-display": ["18px", {"lineHeight": "22px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+            "headline-md": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+            "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+            "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    /* Custom scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #e0c0b1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #8c7164;
+    }
+  </style>
+</head>
+<body class="h-full bg-background text-on-surface antialiased flex overflow-hidden">
+<!-- ========================================================================= -->
+<!-- 1. SHARED COMPONENT: SideNavBar                                          -->
+<!-- ========================================================================= -->
+<aside class="fixed left-0 top-0 h-screen w-64 z-40 flex flex-col justify-between p-4 bg-surface-container-lowest dark:bg-inverse-surface border-r border-outline-variant/30 dark:border-outline/20 shadow-sm dark:shadow-none shrink-0 select-none">
+<!-- Top Branding & Navigation -->
+<div class="flex flex-col gap-6">
+<!-- Brand Header -->
+<div class="flex items-center gap-3 px-2 py-1">
+<div class="w-10 h-10 rounded-xl bg-primary-container text-on-primary flex items-center justify-center font-display-hero text-headline-sm shadow-sm ring-2 ring-primary/20">
+<span class="material-symbols-outlined text-[24px]" data-icon="restaurant">restaurant</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-md text-headline-md font-bold text-on-surface dark:text-inverse-on-surface leading-tight tracking-tight">Bar La Plaza</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-primary text-on-primary uppercase tracking-wider">PRO</span>
+</div>
+<span class="font-label-md text-label-md text-secondary">MesaYa Backoffice</span>
+</div>
+</div>
+<!-- Action Button CTA -->
+<button class="w-full min-h-[44px] flex items-center justify-center gap-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md border border-outline-variant/40 transition-colors shadow-xs active:translate-y-px">
+<span class="material-symbols-outlined text-[18px] text-primary" data-icon="add">add</span>
+<span>Nueva Mesa</span>
+</button>
+<!-- Main Navigation Menu -->
+<nav aria-label="Navegación principal" class="flex flex-col gap-1.5">
+<!-- Tab 1: Carta (ACTIVE) -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary text-on-primary font-label-md text-label-md shadow-xs transition-colors" href="#carta">
+<span class="material-symbols-outlined text-[20px]" data-icon="restaurant_menu">restaurant_menu</span>
+<span class="flex-1">Carta</span>
+<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-on-primary text-primary">48</span>
+</a>
+<!-- Tab 2: Alérgenos (INACTIVE) -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container-high transition-colors font-label-md text-label-md" href="#alergenos">
+<span class="material-symbols-outlined text-[20px]" data-icon="nutrition">nutrition</span>
+<span class="flex-1">Alérgenos</span>
+<span class="text-secondary font-label-sm text-label-sm bg-surface-container px-2 py-0.5 rounded-full">14</span>
+</a>
+<!-- Tab 3: Mesas y QR (INACTIVE) -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container-high transition-colors font-label-md text-label-md" href="#mesas-qr">
+<span class="material-symbols-outlined text-[20px]" data-icon="qr_code_scanner">qr_code_scanner</span>
+<span class="flex-1">Mesas y QR</span>
+<span class="text-secondary font-label-sm text-label-sm bg-surface-container px-2 py-0.5 rounded-full">12</span>
+</a>
+<!-- Tab 4: Personal (INACTIVE) -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container-high transition-colors font-label-md text-label-md" href="#personal">
+<span class="material-symbols-outlined text-[20px]" data-icon="badge">badge</span>
+<span class="flex-1">Personal</span>
+<span class="text-secondary font-label-sm text-label-sm bg-surface-container px-2 py-0.5 rounded-full">4</span>
+</a>
+<!-- Tab 5: Estadísticas (INACTIVE) -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container-high transition-colors font-label-md text-label-md" href="#estadisticas">
+<span class="material-symbols-outlined text-[20px]" data-icon="bar_chart">bar_chart</span>
+<span>Estadísticas</span>
+</a>
+</nav>
+</div>
+<!-- Footer System Navigation -->
+<div class="pt-4 border-t border-outline-variant/30 dark:border-outline/20 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors font-label-md text-label-md" href="#configuracion">
+<span class="material-symbols-outlined text-[18px]" data-icon="settings">settings</span>
+<span>Configuración</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors font-label-md text-label-md" href="#soporte">
+<span class="material-symbols-outlined text-[18px]" data-icon="help">help</span>
+<span>Soporte</span>
+</a>
+<!-- Quick Server/Sync Status Badge -->
+<div class="mt-2 p-2.5 rounded-lg bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-tertiary-container opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-tertiary"></span>
+</span>
+<span class="font-label-sm text-label-sm text-secondary">Comandas en vivo</span>
+</div>
+<span class="font-label-sm text-label-sm text-tertiary font-bold">Online</span>
+</div>
+</div>
+</aside>
+<!-- ========================================================================= -->
+<!-- 2. MAIN LAYOUT (TopNavBar + Content Canvas + Edit Drawer)                 -->
+<!-- ========================================================================= -->
+<div class="flex-1 flex flex-col pl-64 min-w-0 h-screen overflow-hidden">
+<!-- ----------------------------------------------------------------------- -->
+<!-- SHARED COMPONENT: TopNavBar                                             -->
+<!-- ----------------------------------------------------------------------- -->
+<header class="h-16 w-full flex items-center justify-between px-8 bg-surface-container-lowest dark:bg-inverse-surface border-b border-outline-variant/30 dark:border-outline/20 shadow-sm dark:shadow-none z-30 shrink-0">
+<!-- Left: Quick Search Bar with Keyboard shortcut -->
+<div class="flex items-center gap-4 w-96">
+<div class="relative w-full">
+<span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-secondary">
+<span class="material-symbols-outlined text-[18px]" data-icon="search">search</span>
+</span>
+<input class="w-full h-10 pl-9 pr-12 rounded-lg bg-surface text-on-surface text-body-md border border-outline-variant/40 focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all" placeholder="Buscar en la carta, alérgeno o código..." type="text"/>
+<kbd class="absolute right-2.5 top-2.5 px-1.5 py-0.5 text-[10px] font-semibold text-secondary bg-surface-container border border-outline-variant/40 rounded">⌘K</kbd>
+</div>
+</div>
+<!-- Right Actions: Status, Metrics, Notifications, Profile -->
+<div class="flex items-center gap-4">
+<!-- Live Occupancy Metric -->
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container-low border border-outline-variant/20">
+<span class="material-symbols-outlined text-[18px] text-primary" data-icon="table_bar">table_bar</span>
+<span class="font-label-md text-label-md text-secondary">Ocupación:</span>
+<span class="font-label-md text-label-md font-bold text-on-surface">83% (10/12)</span>
+</div>
+<!-- Trailing Primary Action / Status Indicator -->
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-tertiary/10 border border-tertiary/20 text-tertiary">
+<span class="w-2 h-2 rounded-full bg-tertiary-container animate-pulse"></span>
+<span class="font-label-md text-label-md font-bold">Servicio Activo</span>
+</div>
+<div class="h-6 w-px bg-outline-variant/40"></div>
+<!-- Trailing Icon Action: Table Bar / Alerts -->
+<button class="relative p-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" title="Alertas de Sala">
+<span class="material-symbols-outlined text-[20px]" data-icon="notifications">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary-container"></span>
+</button>
+<!-- User Profile Pill -->
+<div class="flex items-center gap-2.5 pl-2">
+<div class="w-8 h-8 rounded-full bg-primary-fixed text-on-primary-fixed font-bold text-xs flex items-center justify-center ring-1 ring-primary/20">
+            MR
+          </div>
+<div class="flex flex-col text-left">
+<span class="font-label-md text-label-md text-on-surface leading-tight">Manuel Rivas</span>
+<span class="font-label-sm text-label-sm text-secondary">Jefe de Sala</span>
+</div>
+</div>
+</div>
+</header>
+<!-- ----------------------------------------------------------------------- -->
+<!-- MAIN CONTENT VIEWPORT (Split Canvas + Side Drawer)                     -->
+<!-- ----------------------------------------------------------------------- -->
+<div class="flex-1 flex overflow-hidden relative">
+<!-- ===================================================================== -->
+<!-- SECTION 'CARTA': Central Table & Management Area                      -->
+<!-- ===================================================================== -->
+<main class="flex-1 flex flex-col overflow-y-auto px-8 py-6 space-y-6 bg-background">
+<!-- Header & Top Actions -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div>
+<div class="flex items-center gap-3">
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Carta y Catálogo de Platos</h1>
+<span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-primary-fixed text-on-primary-fixed-variant border border-outline-variant/30">
+                Turno Almuerzo
+              </span>
+</div>
+<p class="font-body-md text-body-md text-secondary mt-1">
+              Gestión de platos, disponibilidad en tiempo real para cartas QR y comanderos, precios y alérgenos.
+            </p>
+</div>
+<!-- Primary CTA Button -->
+<div class="flex items-center gap-3">
+<button class="px-3.5 py-2.5 rounded-lg bg-surface-container-lowest border border-outline-variant/40 text-on-surface font-label-md text-label-md hover:bg-surface-container-low transition-colors shadow-xs flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="file_download">file_download</span>
+<span>Exportar PDF Carta</span>
+</button>
+<button class="min-h-[44px] px-4 py-2 rounded-lg bg-primary-container hover:bg-[#ea580c] text-on-primary font-label-md text-label-md flex items-center gap-2 shadow-sm transition-all active:translate-y-px">
+<span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
+<span>+ Nuevo plato</span>
+</button>
+</div>
+</div>
+<!-- Audit & Availability Banner -->
+<div class="p-3.5 rounded-xl bg-surface-container-lowest border border-outline-variant/40 shadow-xs flex flex-wrap items-center justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-tertiary/10 text-tertiary flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]" data-icon="verified_user">verified_user</span>
+</div>
+<div class="text-body-md text-on-surface">
+<span class="font-bold text-tertiary">45 platos disponibles</span>
+<span class="text-outline-variant mx-1.5">|</span>
+<span class="font-medium text-error">3 agotados temporalmente</span>
+<span class="text-outline-variant mx-1.5">|</span>
+<span class="font-medium text-secondary">100% alérgenos auditados UE 1169/2011</span>
+</div>
+</div>
+<div class="flex items-center gap-2 text-label-sm text-secondary">
+<span class="material-symbols-outlined text-[16px] text-tertiary" data-icon="sync">sync</span>
+<span>Sincronizado con QR de mesas hace 2 min</span>
+</div>
+</div>
+<!-- Filter & Search Toolbar -->
+<div class="flex flex-col gap-4">
+<!-- Horizontal Category Tabs -->
+<div class="flex items-center gap-2 overflow-x-auto pb-1 select-none">
+<button class="px-4 py-2 rounded-full font-label-md text-label-md bg-on-surface text-on-primary shadow-xs transition-colors shrink-0">
+              Todos (48)
+            </button>
+<button class="px-4 py-2 rounded-full font-label-md text-label-md bg-surface-container-lowest text-secondary hover:text-on-surface hover:bg-surface-container border border-outline-variant/30 transition-colors shrink-0">
+              Tapas (18)
+            </button>
+<button class="px-4 py-2 rounded-full font-label-md text-label-md bg-surface-container-lowest text-secondary hover:text-on-surface hover:bg-surface-container border border-outline-variant/30 transition-colors shrink-0">
+              Raciones (14)
+            </button>
+<button class="px-4 py-2 rounded-full font-label-md text-label-md bg-surface-container-lowest text-secondary hover:text-on-surface hover:bg-surface-container border border-outline-variant/30 transition-colors shrink-0">
+              Bocadillos (8)
+            </button>
+<button class="px-4 py-2 rounded-full font-label-md text-label-md bg-surface-container-lowest text-secondary hover:text-on-surface hover:bg-surface-container border border-outline-variant/30 transition-colors shrink-0">
+              Postres (5)
+            </button>
+<button class="px-4 py-2 rounded-full font-label-md text-label-md bg-surface-container-lowest text-secondary hover:text-on-surface hover:bg-surface-container border border-outline-variant/30 transition-colors shrink-0">
+              Bebidas (15)
+            </button>
+</div>
+<!-- Secondary Toolbar: Search + Quick Filter dropdowns -->
+<div class="flex flex-wrap items-center justify-between gap-3 bg-surface-container-lowest p-3 rounded-xl border border-outline-variant/30">
+<div class="flex items-center gap-3 flex-1 min-w-[240px]">
+<div class="relative w-full max-w-sm">
+<span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-secondary">
+<span class="material-symbols-outlined text-[18px]" data-icon="search">search</span>
+</span>
+<input class="w-full h-9 pl-9 pr-3 rounded-lg bg-surface text-body-md border border-outline-variant/30 text-on-surface placeholder:text-secondary/70 focus:outline-none focus:border-primary-container" placeholder="Filtrar por nombre o ingrediente..." type="text"/>
+</div>
+<!-- Filter by State -->
+<div class="relative">
+<select class="h-9 pl-3 pr-8 rounded-lg bg-surface text-body-md text-on-surface border border-outline-variant/30 focus:outline-none focus:border-primary-container appearance-none cursor-pointer">
+<option>Estado: Todos</option>
+<option>Disponible (45)</option>
+<option>Agotado (3)</option>
+</select>
+<span class="material-symbols-outlined text-[16px] absolute right-2.5 top-2.5 pointer-events-none text-secondary" data-icon="expand_more">expand_more</span>
+</div>
+<!-- Filter by Allergen -->
+<div class="relative">
+<select class="h-9 pl-3 pr-8 rounded-lg bg-surface text-body-md text-on-surface border border-outline-variant/30 focus:outline-none focus:border-primary-container appearance-none cursor-pointer">
+<option>Filtrar por alérgeno: Todos</option>
+<option>Sin Gluten</option>
+<option>Sin Lácteos</option>
+<option>Sin Huevo</option>
+<option>Sin Frutos de Cáscara</option>
+</select>
+<span class="material-symbols-outlined text-[16px] absolute right-2.5 top-2.5 pointer-events-none text-secondary" data-icon="tune">tune</span>
+</div>
+</div>
+<!-- Sorting & Total Count -->
+<div class="flex items-center gap-3">
+<span class="font-label-sm text-label-sm text-secondary">Orden: <strong class="text-on-surface">Más pedidos</strong></span>
+<button class="p-1.5 rounded hover:bg-surface-container text-secondary hover:text-on-surface" title="Reordenar">
+<span class="material-symbols-outlined text-[18px]" data-icon="swap_vert">swap_vert</span>
+</button>
+</div>
+</div>
+</div>
+<!-- =================================================================== -->
+<!-- TABLE: Modern Gastronomic Catalog Grid                             -->
+<!-- =================================================================== -->
+<div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/30 shadow-sm overflow-hidden flex flex-col">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant/30 bg-surface-container-low/50 font-label-md text-label-md text-secondary">
+<th class="py-3.5 pl-6 pr-3 w-16 text-center" scope="col">Plato</th>
+<th class="py-3.5 px-4" scope="col">Nombre y descripción</th>
+<th class="py-3.5 px-4 w-28" scope="col">Categoría</th>
+<th class="py-3.5 px-4 w-28" scope="col">Precio</th>
+<th class="py-3.5 px-4" scope="col">Alérgenos (UE)</th>
+<th class="py-3.5 px-4 w-36 text-center" scope="col">Disponibilidad</th>
+<th class="py-3.5 pl-4 pr-6 w-24 text-right" scope="col">Acciones</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/20 font-body-md text-body-md text-on-surface">
+<!-- ROW 1: Croquetas caseras (Currently Active / Highlighted for Editing) -->
+<tr class="bg-primary/5 hover:bg-primary/10 transition-colors">
+<td class="py-3.5 pl-6 pr-3 text-center">
+<div class="w-14 h-14 rounded-xl overflow-hidden ring-2 ring-primary-container shadow-xs mx-auto">
+<img class="w-full h-full object-cover" data-alt="Golden crisp Iberian ham croquettes arranged elegantly on an off-white handcrafted ceramic tapas plate. Soft natural morning sunlight illuminates the creamy jamon bechamel texture inside. Modern Spanish tavern setting with warm wooden surfaces and fresh parsley garnish." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvCUXQ2rvQ9TKFdEmU7wx7CZcFeVbSafTwt7ds4HVW5sfLR1R9w0dp8LGf8cOqWV1uhhBXdZveMYLGewrC5KuBh8M9ifP4rP_m4srmClcCDGEoyJ_UUJVsYK3CLcK9OFDlttz-VNPCULzWOrZ5cLKXOc9QFliyf3RVakAq_MpT3zeZ76zSsHSTELTu_oWPDdCPWRpR1Nf404-rTdSppidKNIVJ6_cyaDHG0SJi0jsq"/>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2">
+<span class="font-bold text-on-surface hover:text-primary transition-colors cursor-pointer">Croquetas caseras de jamón ibérico</span>
+<span class="px-1.5 py-0.2 rounded text-[10px] font-bold bg-primary text-on-primary">Editando</span>
+</div>
+<p class="text-secondary text-xs line-clamp-1 mt-0.5">Jamón bellota 100%, bechamel cremosa y rebozado artesanal (6 uds)</p>
+<span class="font-mono text-[11px] text-secondary/80">#101</span>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-surface-container text-on-surface">Tapas</span>
+</td>
+<td class="py-3.5 px-4">
+<span class="font-price-display text-price-display font-bold text-on-surface">8,50 €</span>
+<span class="block text-[10px] text-secondary">IVA inc.</span>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-wrap gap-1">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-bold bg-primary-fixed/60 text-on-primary-fixed-variant" title="Gluten">
+<span class="material-symbols-outlined text-[13px]" data-icon="grain">grain</span>
+                        Gluten
+                      </span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-bold bg-primary-fixed/60 text-on-primary-fixed-variant" title="Lácteos">
+<span class="material-symbols-outlined text-[13px]" data-icon="water_drop">water_drop</span>
+                        Lácteos
+                      </span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-bold bg-primary-fixed/60 text-on-primary-fixed-variant" title="Huevos">
+<span class="material-symbols-outlined text-[13px]" data-icon="egg">egg</span>
+                        Huevos
+                      </span>
+</div>
+</td>
+<td class="py-3.5 px-4 text-center">
+<div class="inline-flex items-center gap-2">
+<!-- Active Switch -->
+<button aria-checked="true" class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-tertiary-container transition-colors duration-200 ease-in-out focus:outline-none" role="switch">
+<span class="translate-x-5 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+</button>
+<span class="font-label-sm text-label-sm text-tertiary">Activo</span>
+</div>
+</td>
+<td class="py-3.5 pl-4 pr-6 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg bg-primary-container text-on-primary hover:bg-[#ea580c] transition-colors shadow-xs" title="Editar plato">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+<button class="p-1.5 rounded-lg text-secondary hover:text-error hover:bg-error-container/20 transition-colors" title="Eliminar plato">
+<span class="material-symbols-outlined text-[18px]" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- ROW 2: Patatas Bravas -->
+<tr class="hover:bg-surface-container-low/40 transition-colors">
+<td class="py-3.5 pl-6 pr-3 text-center">
+<div class="w-14 h-14 rounded-xl overflow-hidden shadow-xs mx-auto">
+<img class="w-full h-full object-cover" data-alt="Traditional Spanish patatas bravas golden potato cubes tossed in spicy artisan pimentón sauce and topped with creamy garlic alioli in a glazed terracotta dish. Warm rustic Mediterranean tavern background with inviting dining lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKrxZ4TvjlY83d3cZErZ_IYyicR1lcyjOv0xk1n8olP6iq7QHIjU2DSmHvLB6QfPebjxMge-1JrBrgrKsEuMXUX3gR3EPM6CizQrD-6R2IS7RwlziGs21YuNjb7ooDkknBeK5WGLe3gafHGwyHLlf3ZnQxsZ2KBmcDVhfXC2YUNB3Ii1rpe2oM16fKnBO72cnGkIOql2ejz07DgqrvKsYYn4c3Aj_LGvTYfEj3Vs-R"/>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="font-bold text-on-surface">Patatas bravas taberneras con alioli de ajo asado</span>
+<p class="text-secondary text-xs line-clamp-1 mt-0.5">Patata agria confitada y frita con salsa brava artesanal de la casa</p>
+<span class="font-mono text-[11px] text-secondary/80">#102</span>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-surface-container text-on-surface">Tapas</span>
+</td>
+<td class="py-3.5 px-4">
+<span class="font-price-display text-price-display font-bold text-on-surface">6,00 €</span>
+<span class="block text-[10px] text-secondary">IVA inc.</span>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-wrap gap-1">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-bold bg-primary-fixed/60 text-on-primary-fixed-variant" title="Huevos">
+<span class="material-symbols-outlined text-[13px]" data-icon="egg">egg</span>
+                        Huevo
+                      </span>
+</div>
+</td>
+<td class="py-3.5 px-4 text-center">
+<div class="inline-flex items-center gap-2">
+<button aria-checked="true" class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-tertiary-container transition-colors duration-200 ease-in-out focus:outline-none" role="switch">
+<span class="translate-x-5 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+</button>
+<span class="font-label-sm text-label-sm text-tertiary">Activo</span>
+</div>
+</td>
+<td class="py-3.5 pl-4 pr-6 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container transition-colors" title="Editar plato">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+<button class="p-1.5 rounded-lg text-secondary hover:text-error hover:bg-error-container/20 transition-colors" title="Eliminar plato">
+<span class="material-symbols-outlined text-[18px]" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- ROW 3: Pulpo a feira -->
+<tr class="hover:bg-surface-container-low/40 transition-colors">
+<td class="py-3.5 pl-6 pr-3 text-center">
+<div class="w-14 h-14 rounded-xl overflow-hidden shadow-xs mx-auto">
+<img class="w-full h-full object-cover" data-alt="Galician style tender octopus slices served on a traditional circular wooden platter dusted with coarse sea salt flakes, extra virgin olive oil, and smoked Vera paprika. Vibrant culinary shot with warm gastro-bar ambiance." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpkvRY0Zi4SkldsVZhCl84NegNnWtSrlp1J6gECEeWTBryYHODtryFVD_mWDizGnEgVvbaEuYAGj07MS5PV89Ax2833RztMApO3_dyp4iuPm5j6fiWF7QR_W88vArVULD3g1FXC-Pw0_YXWdncLIWeTZG4nn0c6xrmrwyNyfnLgLyWl5A4efBjdZrsyXgYSZY-E9zMtwXo6g9_vdYrXruu0pDcjDxTmQzRR7XuI8Ky"/>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="font-bold text-on-surface">Pulpo a feira con cachelos y pimentón de la Vera</span>
+<p class="text-secondary text-xs line-clamp-1 mt-0.5">Pulpo gallego cocido al punto sobre base de patatas nuevas y AOVE</p>
+<span class="font-mono text-[11px] text-secondary/80">#103</span>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-surface-container text-on-surface">Raciones</span>
+</td>
+<td class="py-3.5 px-4">
+<span class="font-price-display text-price-display font-bold text-on-surface">16,50 €</span>
+<span class="block text-[10px] text-secondary">IVA inc.</span>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-wrap gap-1">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-bold bg-primary-fixed/60 text-on-primary-fixed-variant" title="Moluscos">
+<span class="material-symbols-outlined text-[13px]" data-icon="set_meal">set_meal</span>
+                        Moluscos
+                      </span>
+</div>
+</td>
+<td class="py-3.5 px-4 text-center">
+<div class="inline-flex items-center gap-2">
+<button aria-checked="true" class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-tertiary-container transition-colors duration-200 ease-in-out focus:outline-none" role="switch">
+<span class="translate-x-5 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+</button>
+<span class="font-label-sm text-label-sm text-tertiary">Activo</span>
+</div>
+</td>
+<td class="py-3.5 pl-4 pr-6 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container transition-colors" title="Editar plato">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+<button class="p-1.5 rounded-lg text-secondary hover:text-error hover:bg-error-container/20 transition-colors" title="Eliminar plato">
+<span class="material-symbols-outlined text-[18px]" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- ROW 4: Calamares a la andaluza (AGOTADO EN COCINA) -->
+<tr class="bg-error-container/10 hover:bg-error-container/20 transition-colors">
+<td class="py-3.5 pl-6 pr-3 text-center">
+<div class="w-14 h-14 rounded-xl overflow-hidden opacity-60 grayscale-[50%] shadow-xs mx-auto">
+<img class="w-full h-full object-cover" data-alt="Crispy golden fried squid rings Andalusian style served with fresh lemon wedges on white parchment paper. Restaurant kitchen pass lighting with clean professional tapas bar styling." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-7vnwNyCWrozEE7o5XB6ZGEqRXN5C4CY8RWOv3fg7lHm4clvI1sNi-4Hv8M81JEYEgyAljiS6WLPFyh9iazkYCR-5JSIEAwx48_j9Qfr2CFIzsYsxW0xSpvDLLOncDEDqVCLADiLcJG-cqN0KPI_2lsPSVmx1gioyEkdiBePNudVWrZiAP9Ow7Di6bZCquUuVuJvqp4oAwddph2cUMW5wNFCAzr8bzj0QXIi42-ey"/>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2">
+<span class="font-bold text-on-surface line-through text-secondary">Calamares a la andaluza fritos</span>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-error text-on-error uppercase tracking-wider">Agotado en cocina</span>
+</div>
+<p class="text-secondary text-xs line-clamp-1 mt-0.5">Anillas de calamar fresco en harina fina de garbanzo con gajos de limón</p>
+<span class="font-mono text-[11px] text-secondary/80">#104</span>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-surface-container text-on-surface">Raciones</span>
+</td>
+<td class="py-3.5 px-4">
+<span class="font-price-display text-price-display font-bold text-secondary">11,50 €</span>
+<span class="block text-[10px] text-secondary">IVA inc.</span>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-wrap gap-1">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-bold bg-primary-fixed/60 text-on-primary-fixed-variant" title="Moluscos">
+<span class="material-symbols-outlined text-[13px]" data-icon="set_meal">set_meal</span>
+                        Moluscos
+                      </span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-bold bg-primary-fixed/60 text-on-primary-fixed-variant" title="Gluten">
+<span class="material-symbols-outlined text-[13px]" data-icon="grain">grain</span>
+                        Gluten
+                      </span>
+</div>
+</td>
+<td class="py-3.5 px-4 text-center">
+<div class="inline-flex items-center gap-2">
+<!-- OFF Switch -->
+<button aria-checked="false" class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-secondary/30 transition-colors duration-200 ease-in-out focus:outline-none" role="switch">
+<span class="translate-x-0 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+</button>
+<span class="font-label-sm text-label-sm text-error font-bold">Agotado</span>
+</div>
+</td>
+<td class="py-3.5 pl-4 pr-6 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container transition-colors" title="Editar plato">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+<button class="p-1.5 rounded-lg text-secondary hover:text-error hover:bg-error-container/20 transition-colors" title="Eliminar plato">
+<span class="material-symbols-outlined text-[18px]" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- ROW 5: Tortilla trufada -->
+<tr class="hover:bg-surface-container-low/40 transition-colors">
+<td class="py-3.5 pl-6 pr-3 text-center">
+<div class="w-14 h-14 rounded-xl overflow-hidden shadow-xs mx-auto">
+<img class="w-full h-full object-cover" data-alt="Slice of runny Spanish potato tortilla with caramelized onions and black truffle paste oozing gently on a warm earthen ceramic dish. Gourmet tapas bar presentation with warm natural bistro illumination." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAA-H5GQwzIs1X3uyjvrHNjPN8Mw0FeAzIIbAoyCXFO4W-Tm7TaUWWjB316LBBluJbUyST2dWRm5AVt2lXCSNhAFxSTP1vjaOqfrTm82S5HN60s61vHLW8OMFXO0xh6X5yz32eBfLFY6FQHkZh5QeRfs4YIOJX75A59Ea_ZaP0WMEBkV8B28HUOUUjr7O4ap-PDWsDaaPkNrm71eX3Vod2k_lVI4g6U0alRHl2qzI9i"/>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="font-bold text-on-surface">Tortilla de patatas trufada con cebolla caramelizada</span>
+<p class="text-secondary text-xs line-clamp-1 mt-0.5">Poco cuajada con huevos de corral, patata pochada y salsa de trufa negra</p>
+<span class="font-mono text-[11px] text-secondary/80">#105</span>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-surface-container text-on-surface">Tapas</span>
+</td>
+<td class="py-3.5 px-4">
+<span class="font-price-display text-price-display font-bold text-on-surface">7,20 €</span>
+<span class="block text-[10px] text-secondary">IVA inc.</span>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-wrap gap-1">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-bold bg-primary-fixed/60 text-on-primary-fixed-variant" title="Huevos">
+<span class="material-symbols-outlined text-[13px]" data-icon="egg">egg</span>
+                        Huevo
+                      </span>
+</div>
+</td>
+<td class="py-3.5 px-4 text-center">
+<div class="inline-flex items-center gap-2">
+<button aria-checked="true" class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-tertiary-container transition-colors duration-200 ease-in-out focus:outline-none" role="switch">
+<span class="translate-x-5 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+</button>
+<span class="font-label-sm text-label-sm text-tertiary">Activo</span>
+</div>
+</td>
+<td class="py-3.5 pl-4 pr-6 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container transition-colors" title="Editar plato">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+<button class="p-1.5 rounded-lg text-secondary hover:text-error hover:bg-error-container/20 transition-colors" title="Eliminar plato">
+<span class="material-symbols-outlined text-[18px]" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- ROW 6: Solomillo al Pedro Ximénez -->
+<tr class="hover:bg-surface-container-low/40 transition-colors">
+<td class="py-3.5 pl-6 pr-3 text-center">
+<div class="w-14 h-14 rounded-xl overflow-hidden shadow-xs mx-auto">
+<img class="w-full h-full object-cover" data-alt="Pan-seared Iberian pork tenderloin medallions glazed in deep glossy Pedro Ximenez sweet reduction sauce garnished with caramelized raisins and crisp potato straws. Elegant contemporary Spanish tavern food presentation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUXY003p_2KGxU7cjpweSUnABZBdaN0LClQtvNTEh9BmkkHx1qq05ac-JVQCAF-yVnhbjaIzZYQnYiCtD1tCAKWt8dogmF_JZBRnDZ7g9KqTgwWEy0MphH61nJ75FlfUfY-Z0VENk4E05Q2KcI3oyYwLWeuk4M7lW4rtwiZ8g20aCHa19Q3IryCsQUNO3CZB7oh9uQafnVKfQ9D_v5ODzi1rUeExOiW41SZr4lA_zQ"/>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="font-bold text-on-surface">Solomillo ibérico al Pedro Ximénez</span>
+<p class="text-secondary text-xs line-clamp-1 mt-0.5">Medallones sellados a la brasa con reducción de vino dulce y pasas</p>
+<span class="font-mono text-[11px] text-secondary/80">#106</span>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-surface-container text-on-surface">Raciones</span>
+</td>
+<td class="py-3.5 px-4">
+<span class="font-price-display text-price-display font-bold text-on-surface">18,00 €</span>
+<span class="block text-[10px] text-secondary">IVA inc.</span>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-wrap gap-1">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-bold bg-primary-fixed/60 text-on-primary-fixed-variant" title="Sulfitos">
+<span class="material-symbols-outlined text-[13px]" data-icon="wine_bar">wine_bar</span>
+                        Sulfitos
+                      </span>
+</div>
+</td>
+<td class="py-3.5 px-4 text-center">
+<div class="inline-flex items-center gap-2">
+<button aria-checked="true" class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-tertiary-container transition-colors duration-200 ease-in-out focus:outline-none" role="switch">
+<span class="translate-x-5 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+</button>
+<span class="font-label-sm text-label-sm text-tertiary">Activo</span>
+</div>
+</td>
+<td class="py-3.5 pl-4 pr-6 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container transition-colors" title="Editar plato">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+<button class="p-1.5 rounded-lg text-secondary hover:text-error hover:bg-error-container/20 transition-colors" title="Eliminar plato">
+<span class="material-symbols-outlined text-[18px]" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Pagination & Count Bar -->
+<div class="px-6 py-3 border-t border-outline-variant/30 flex items-center justify-between text-body-md text-secondary">
+<span>Mostrando <strong>1-6</strong> de <strong>48</strong> platos registrados</span>
+<div class="flex items-center gap-1">
+<button class="p-1.5 rounded border border-outline-variant/30 text-secondary hover:bg-surface-container disabled:opacity-40" disabled="">
+<span class="material-symbols-outlined text-[18px]" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="px-3 py-1 rounded bg-primary text-on-primary font-bold text-xs">1</button>
+<button class="px-3 py-1 rounded hover:bg-surface-container text-on-surface font-semibold text-xs">2</button>
+<button class="px-3 py-1 rounded hover:bg-surface-container text-on-surface font-semibold text-xs">3</button>
+<button class="p-1.5 rounded border border-outline-variant/30 text-secondary hover:bg-surface-container">
+<span class="material-symbols-outlined text-[18px]" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- ===================================================================== -->
+<!-- 3. SLIDE-OVER DRAWER DE EDICIÓN: 'Editar Plato #101 · Croquetas'        -->
+<!-- ===================================================================== -->
+<aside class="w-[460px] bg-surface-container-lowest border-l border-outline-variant/40 shadow-2xl flex flex-col z-20 shrink-0 h-full">
+<!-- Drawer Header -->
+<div class="p-5 border-b border-outline-variant/30 flex items-center justify-between bg-surface-container-low/40">
+<div>
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">Editar Plato</span>
+<span class="font-mono text-xs px-2 py-0.5 rounded bg-surface text-secondary border border-outline-variant/40">#101</span>
+</div>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span class="text-xs font-semibold text-tertiary">Activo en carta QR y comanderos</span>
+</div>
+</div>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface-container transition-colors" title="Cerrar panel">
+<span class="material-symbols-outlined text-[20px]" data-icon="close">close</span>
+</button>
+</div>
+<!-- Drawer Scrollable Form Content -->
+<div class="flex-1 overflow-y-auto p-5 space-y-5">
+<!-- Field: Nombre del plato -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1">Nombre del plato *</label>
+<input class="w-full h-11 px-3.5 rounded-lg bg-surface text-on-surface border border-outline-variant/40 focus:border-primary-container focus:ring-1 focus:ring-primary-container text-body-md" type="text" value="Croquetas caseras de jamón ibérico"/>
+</div>
+<!-- Two Column: Categoría & Precio -->
+<div class="grid grid-cols-2 gap-3">
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1">Categoría</label>
+<div class="relative">
+<select class="w-full h-11 pl-3 pr-8 rounded-lg bg-surface text-on-surface border border-outline-variant/40 focus:border-primary-container text-body-md appearance-none">
+<option selected="">Tapas</option>
+<option>Raciones</option>
+<option>Bocadillos</option>
+<option>Postres</option>
+<option>Bebidas</option>
+</select>
+<span class="material-symbols-outlined text-[18px] absolute right-2.5 top-3 pointer-events-none text-secondary" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1">
+<span>Precio venta (€)</span>
+<span class="text-tertiary text-xs font-semibold float-right">Margen 72%</span>
+</label>
+<div class="relative">
+<input class="w-full h-11 pl-3 pr-8 rounded-lg bg-surface text-on-surface font-semibold border border-outline-variant/40 focus:border-primary-container text-body-md" type="text" value="8,50 €"/>
+<span class="material-symbols-outlined text-[18px] absolute right-2.5 top-3 pointer-events-none text-secondary" data-icon="euro">euro</span>
+</div>
+</div>
+</div>
+<!-- Field: Descripción corta -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1">
+              Descripción para la carta digital
+              <span class="text-xs text-secondary font-normal float-right">74/120 caracteres</span>
+</label>
+<textarea class="w-full p-3 rounded-lg bg-surface text-on-surface border border-outline-variant/40 focus:border-primary-container text-body-md resize-none" rows="2">Jamón bellota 100%, bechamel suave cremosa y rebozado artesanal crujiente (6 uds)</textarea>
+</div>
+<!-- Photography Section -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1.5">Fotografía del plato</label>
+<div class="flex items-center gap-3 p-3 rounded-xl border border-dashed border-outline-variant/60 bg-surface">
+<div class="w-16 h-16 rounded-lg overflow-hidden shrink-0 ring-1 ring-outline-variant/40">
+<img class="w-full h-full object-cover" data-alt="Artisan Spanish ham croquette studio close up photograph with fine crispy breadcrumb crust and steam rising softly. Warm terracotta minimalist background with professional gastronomic lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCexaf4sOWdhOgMb-1byB4PQHss6VoNjnp84A8RqQQ6hMpl8kcM9vI7kyczNxXU1oXtWnuD-W4y90ryl-aJr5TKLeHSq8T33xjq5vUz4c5IpoU6Pw1beh71cd4ONQqS1W_91xFv4jPHh9u4oM_p-slu13wOCRF0vJTQ_4IcDxNRaYH7i2y2O5BBKnfQWPdbXr9kndzcW0l56tlU9Z75yMaLg8TFip1e2Yg-E2qMdXR0"/>
+</div>
+<div class="flex-1">
+<p class="font-label-sm text-label-sm text-on-surface font-bold">croquetas-ibericas-la-plaza.jpg</p>
+<p class="text-[11px] text-secondary mt-0.5">PNG o JPG hasta 5MB (Recomendado 800x800)</p>
+<div class="flex items-center gap-2 mt-2">
+<button class="px-2.5 py-1 rounded bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-sm text-label-sm transition-colors">
+                    Cambiar imagen
+                  </button>
+<button class="text-error font-label-sm text-label-sm hover:underline">
+                    Eliminar
+                  </button>
+</div>
+</div>
+</div>
+</div>
+<!-- SECCIÓN CRÍTICA DE ALÉRGENOS: Reglamento UE 1169/2011 -->
+<div class="pt-2">
+<div class="flex items-center justify-between mb-2">
+<div>
+<label class="font-label-md text-label-md text-on-surface font-bold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-primary" data-icon="policy">policy</span>
+                  Alérgenos obligatorios (UE 1169/2011)
+                </label>
+<span class="text-[11px] text-secondary">3 seleccionados para este plato</span>
+</div>
+<span class="text-[11px] font-bold text-tertiary bg-tertiary/10 px-2 py-0.5 rounded">Obligatorio</span>
+</div>
+<!-- Grid of 14 Official EU Allergens -->
+<div class="grid grid-cols-2 gap-2">
+<!-- 1. Gluten (CHECKED) -->
+<label class="flex items-center gap-2 p-2 rounded-lg border-2 border-primary-container bg-primary-fixed/20 cursor-pointer select-none">
+<input checked="" class="rounded text-primary-container focus:ring-primary-container h-4 w-4" type="checkbox"/>
+<span class="material-symbols-outlined text-[18px] text-primary" data-icon="grain">grain</span>
+<span class="text-xs font-bold text-on-surface">1. Gluten</span>
+</label>
+<!-- 2. Crustáceos -->
+<label class="flex items-center gap-2 p-2 rounded-lg border border-outline-variant/30 bg-surface hover:bg-surface-container-low cursor-pointer select-none">
+<input class="rounded text-primary-container focus:ring-primary-container h-4 w-4" type="checkbox"/>
+<span class="material-symbols-outlined text-[18px] text-secondary" data-icon="water">water</span>
+<span class="text-xs text-secondary">2. Crustáceos</span>
+</label>
+<!-- 3. Huevos (CHECKED) -->
+<label class="flex items-center gap-2 p-2 rounded-lg border-2 border-primary-container bg-primary-fixed/20 cursor-pointer select-none">
+<input checked="" class="rounded text-primary-container focus:ring-primary-container h-4 w-4" type="checkbox"/>
+<span class="material-symbols-outlined text-[18px] text-primary" data-icon="egg">egg</span>
+<span class="text-xs font-bold text-on-surface">3. Huevos</span>
+</label>
+<!-- 4. Pescado -->
+<label class="flex items-center gap-2 p-2 rounded-lg border border-outline-variant/30 bg-surface hover:bg-surface-container-low cursor-pointer select-none">
+<input class="rounded text-primary-container focus:ring-primary-container h-4 w-4" type="checkbox"/>
+<span class="material-symbols-outlined text-[18px] text-secondary" data-icon="phishing">phishing</span>
+<span class="text-xs text-secondary">4. Pescado</span>
+</label>
+<!-- 5. Cacahuetes -->
+<label class="flex items-center gap-2 p-2 rounded-lg border border-outline-variant/30 bg-surface hover:bg-surface-container-low cursor-pointer select-none">
+<input class="rounded text-primary-container focus:ring-primary-container h-4 w-4" type="checkbox"/>
+<span class="material-symbols-outlined text-[18px] text-secondary" data-icon="spa">spa</span>
+<span class="text-xs text-secondary">5. Cacahuetes</span>
+</label>
+<!-- 6. Soja -->
+<label class="flex items-center gap-2 p-2 rounded-lg border border-outline-variant/30 bg-surface hover:bg-surface-container-low cursor-pointer select-none">
+<input class="rounded text-primary-container focus:ring-primary-container h-4 w-4" type="checkbox"/>
+<span class="material-symbols-outlined text-[18px] text-secondary" data-icon="eco">eco</span>
+<span class="text-xs text-secondary">6. Soja</span>
+</label>
+<!-- 7. Lácteos (CHECKED) -->
+<label class="flex items-center gap-2 p-2 rounded-lg border-2 border-primary-container bg-primary-fixed/20 cursor-pointer select-none">
+<input checked="" class="rounded text-primary-container focus:ring-primary-container h-4 w-4" type="checkbox"/>
+<span class="material-symbols-outlined text-[18px] text-primary" data-icon="water_drop">water_drop</span>
+<span class="text-xs font-bold text-on-surface">7. Lácteos</span>
+</label>
+<!-- 8. Frutos de cáscara -->
+<label class="flex items-center gap-2 p-2 rounded-lg border border-outline-variant/30 bg-surface hover:bg-surface-container-low cursor-pointer select-none">
+<input class="rounded text-primary-container focus:ring-primary-container h-4 w-4" type="checkbox"/>
+<span class="material-symbols-outlined text-[18px] text-secondary" data-icon="nature">nature</span>
+<span class="text-xs text-secondary">8. Frutos cáscara</span>
+</label>
+<!-- 9. Apio -->
+<label class="flex items-center gap-2 p-2 rounded-lg border border-outline-variant/30 bg-surface hover:bg-surface-container-low cursor-pointer select-none">
+<input class="rounded text-primary-container focus:ring-primary-container h-4 w-4" type="checkbox"/>
+<span class="material-symbols-outlined text-[18px] text-secondary" data-icon="grass">grass</span>
+<span class="text-xs text-secondary">9. Apio</span>
+</label>
+<!-- 10. Mostaza -->
+<label class="flex items-center gap-2 p-2 rounded-lg border border-outline-variant/30 bg-surface hover:bg-surface-container-low cursor-pointer select-none">
+<input class="rounded text-primary-container focus:ring-primary-container h-4 w-4" type="checkbox"/>
+<span class="material-symbols-outlined text-[18px] text-secondary" data-icon="breakfast_dining">breakfast_dining</span>
+<span class="text-xs text-secondary">10. Mostaza</span>
+</label>
+<!-- 11. Sésamo -->
+<label class="flex items-center gap-2 p-2 rounded-lg border border-outline-variant/30 bg-surface hover:bg-surface-container-low cursor-pointer select-none">
+<input class="rounded text-primary-container focus:ring-primary-container h-4 w-4" type="checkbox"/>
+<span class="material-symbols-outlined text-[18px] text-secondary" data-icon="scatter_plot">scatter_plot</span>
+<span class="text-xs text-secondary">11. Sésamo</span>
+</label>
+<!-- 12. Sulfitos -->
+<label class="flex items-center gap-2 p-2 rounded-lg border border-outline-variant/30 bg-surface hover:bg-surface-container-low cursor-pointer select-none">
+<input class="rounded text-primary-container focus:ring-primary-container h-4 w-4" type="checkbox"/>
+<span class="material-symbols-outlined text-[18px] text-secondary" data-icon="wine_bar">wine_bar</span>
+<span class="text-xs text-secondary">12. Sulfitos</span>
+</label>
+<!-- 13. Altramuces -->
+<label class="flex items-center gap-2 p-2 rounded-lg border border-outline-variant/30 bg-surface hover:bg-surface-container-low cursor-pointer select-none">
+<input class="rounded text-primary-container focus:ring-primary-container h-4 w-4" type="checkbox"/>
+<span class="material-symbols-outlined text-[18px] text-secondary" data-icon="filter_vintage">filter_vintage</span>
+<span class="text-xs text-secondary">13. Altramuces</span>
+</label>
+<!-- 14. Moluscos -->
+<label class="flex items-center gap-2 p-2 rounded-lg border border-outline-variant/30 bg-surface hover:bg-surface-container-low cursor-pointer select-none">
+<input class="rounded text-primary-container focus:ring-primary-container h-4 w-4" type="checkbox"/>
+<span class="material-symbols-outlined text-[18px] text-secondary" data-icon="set_meal">set_meal</span>
+<span class="text-xs text-secondary">14. Moluscos</span>
+</label>
+</div>
+</div>
+<!-- Field: Interruptor disponibilidad rápida -->
+<div class="p-3.5 rounded-xl bg-surface-container-low border border-outline-variant/30 flex items-center justify-between">
+<div>
+<span class="font-label-md text-label-md text-on-surface font-semibold block">Disponible en carta QR y comanderos</span>
+<span class="text-[11px] text-secondary">Pausar si se agota en cocina para evitar pedidos</span>
+</div>
+<button aria-checked="true" class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-tertiary-container transition-colors duration-200 ease-in-out focus:outline-none" role="switch">
+<span class="translate-x-5 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+</button>
+</div>
+</div>
+<!-- Drawer Fixed Footer Actions -->
+<div class="p-4 border-t border-outline-variant/30 bg-surface-container-lowest flex items-center justify-end gap-3">
+<button class="px-4 py-2.5 rounded-lg border border-outline-variant/40 text-secondary hover:text-on-surface hover:bg-surface-container font-label-md text-label-md transition-colors">
+            Cancelar
+          </button>
+<button class="min-h-[44px] px-6 py-2.5 rounded-lg bg-primary-container hover:bg-[#ea580c] text-on-primary font-label-md text-label-md flex items-center gap-2 shadow-sm transition-all active:translate-y-px">
+<span class="material-symbols-outlined text-[18px]" data-icon="save">save</span>
+<span>Guardar cambios</span>
+</button>
+</div>
+</aside>
+</div>
+</div>
+</body></html>

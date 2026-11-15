@@ -30,3 +30,11 @@ Se rellena en cada sesión de trabajo, no al final. Mínimo 15 entradas.
 - **Enlace:** [PullRequest](https://github.com/K1rb1-30/ProyectoIA_APPWeb.git)
 
 
+### Entrada 4
+- **Fecha y autor:** 15/11/2026 – Gabriel
+- **Herramienta:** Claude Code
+- **Objetivo:** Ordenar las maquetas exportadas de Google Stitch para que sirvan de referencia de diseño del proyecto
+- **Prompt:** "Ya está en la carpeta DesignFrontend; júntalo, modifica o crea archivos para que Claude sepa que eso es el diseño de la web. Si los design.md son todos iguales, sácalo. Hazlo fácil para tener acceso al diseño y ponernos a trabajar"
+- **Resultado:** Reorganizada `docs/design/DesignFrontend/` en carpetas `<rol>/<pantalla>/` con nombres cortos (18 pantallas, cada una con `code.html` y `screen.png`); los 5 `DESIGN.md` eran idénticos y se ha dejado uno solo en la raíz; creado `README.md` con el índice de pantallas y las diferencias entre las maquetas y el proyecto; añadida la sección "Diseño visual" a `CLAUDE.md`. No se ha tocado código de la aplicación · ¿funcionó?: PENDIENTE DE REVISAR
+- **Enlace:** PENDIENTE
+
