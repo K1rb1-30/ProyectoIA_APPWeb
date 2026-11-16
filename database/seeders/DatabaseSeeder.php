@@ -19,6 +19,10 @@ class DatabaseSeeder extends Seeder
             RestaurantesSeeder::class,
             // Cuentas fijas del equipo (Gabriel e Iván) para entrar siempre en local.
             UsuariosAdminSeeder::class,
+            // Los 14 alérgenos legales, antes que la carta que los usa.
+            AlergenosSeeder::class,
+            // Carta de ejemplo de cada restaurante.
+            CartaSeeder::class,
         ]);
     }
 }
