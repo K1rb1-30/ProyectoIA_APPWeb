@@ -102,3 +102,19 @@ Se rellena en cada sesión de trabajo, no al final. Mínimo 15 entradas.
 - **Prompt:** "Empieza la rama 3" + "OK, adelante" (al plan: edición del plato en página aparte en vez de panel lateral, y seeder con una carta de ejemplo)
 - **Resultado:** Rama `feature/gestion-carta`. Migraciones `categorias`, `alergenos`, `platos` y `alergeno_plato`; modelos `Categoria`, `Plato` (con `PerteneceARestaurante`) y `Alergeno` (común a todos los restaurantes); `AlergenosSeeder` (14 alérgenos legales) y `CartaSeeder` (carta inventada para cada restaurante). Controladores `Admin\PlatoController`, `Admin\CategoriaController` y `Admin\AlergenoController` con rutas `admin.carta*` y `admin.alergenos` protegidas con `rol:admin`; validación en `PlatoRequest` (precio "8,50" → 850 céntimos, categoría solo del propio restaurante, foto de hasta 5 MB) y `CategoriaRequest`. Vistas de la carta según la maqueta `panelAdmin/carta`, categorías y alérgenos con el mismo estilo; componentes `mensajes-sesion` y `errores-campo`. 17 tests nuevos en `GestionCartaTest`, incluido el aislamiento entre restaurantes (golden test nº 6 aplicado a la carta). `php artisan test`: 66 OK; `npm run build` OK; probado en el navegador (lista y edición). Hace falta `php artisan storage:link` para ver las fotos. No se ha actualizado graphify (no está instalado en este equipo) · ¿funcionó?: PENDIENTE DE REVISAR
 - **Enlace:** 26f1887
+
+### Entrada 13
+- **Fecha y autor:** 16/11/2026 – Iván
+- **Herramienta:** Claude Code
+- **Objetivo:** Que el rol admin pueda entrar en todas las pantallas del personal
+- **Prompt:** "En el seeder de los dos usuarios dales el rol admin, y que si tienes el rol admin puedas acceder a todo"
+- **Resultado:** Rama `feature/admin-acceso-total`. El seeder ya daba `rol = admin` a las dos cuentas (lo añadió Gabriel en la PR #9), así que no se toca. `ComprobarRol` deja pasar siempre al admin, también a las pantallas de camarero y cocina; sigue viendo solo los datos de su restaurante (eso lo hace `PerteneceARestaurante`). 2 tests nuevos en `ComprobarRolTest`. `php artisan test`: 51 OK · ¿funcionó?: PENDIENTE DE REVISAR
+- **Enlace:** PENDIENTE
+
+### Entrada 14
+- **Fecha y autor:** 16/11/2026 – Iván
+- **Herramienta:** Claude Code
+- **Objetivo:** Desplegable para que el admin cambie de vista (administración, camarero, cocina) y pruebe las pantallas más fácil
+- **Prompt:** "¿Puedes crearme en el dashboard de admin un desplegable que me deje cambiar el rol entre cliente, cocina y camarero, para que sea más fácil?"
+- **Resultado:** En la rama `feature/admin-acceso-total` (PR #11). Componente `selector-vista` ("Ver como"): solo lo ve el admin y navega a la pantalla elegida; no cambia el rol en la base de datos. Puesto en la cabecera del panel (`navigation`), del layout admin, de cocina y en una franja encima de la cabecera del camarero. "Cliente" sale desactivado hasta la rama 8 (carta pública). 3 tests en `SelectorVistaTest`. `php artisan test`: 54 OK; probado en el navegador (panel → cocina) · ¿funcionó?: PENDIENTE DE REVISAR
+- **Enlace:** PENDIENTE
