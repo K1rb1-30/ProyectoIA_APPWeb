@@ -81,6 +81,8 @@
                 <div class="flex items-center gap-space-md">
                     {{ $acciones ?? '' }}
 
+                    <x-selector-vista />
+
                     @auth
                         <div class="text-right">
                             <span class="block text-label-lg">{{ Auth::user()->name }}</span>

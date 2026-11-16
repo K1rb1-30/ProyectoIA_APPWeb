@@ -24,6 +24,9 @@
             <div class="flex items-center gap-space-sm">
                 {{ $acciones ?? '' }}
 
+                {{-- Solo lo ve el admin, para volver al panel o ir a otra vista --}}
+                <x-selector-vista />
+
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <x-boton-secundario type="submit">

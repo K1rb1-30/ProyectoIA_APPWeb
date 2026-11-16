@@ -102,3 +102,11 @@ Se rellena en cada sesión de trabajo, no al final. Mínimo 15 entradas.
 - **Prompt:** "En el seeder de los dos usuarios dales el rol admin, y que si tienes el rol admin puedas acceder a todo"
 - **Resultado:** Rama `feature/admin-acceso-total`. El seeder ya daba `rol = admin` a las dos cuentas (lo añadió Gabriel en la PR #9), así que no se toca. `ComprobarRol` deja pasar siempre al admin, también a las pantallas de camarero y cocina; sigue viendo solo los datos de su restaurante (eso lo hace `PerteneceARestaurante`). 2 tests nuevos en `ComprobarRolTest`. `php artisan test`: 51 OK · ¿funcionó?: PENDIENTE DE REVISAR
 - **Enlace:** PENDIENTE
+
+### Entrada 14
+- **Fecha y autor:** 16/11/2026 – Iván
+- **Herramienta:** Claude Code
+- **Objetivo:** Desplegable para que el admin cambie de vista (administración, camarero, cocina) y pruebe las pantallas más fácil
+- **Prompt:** "¿Puedes crearme en el dashboard de admin un desplegable que me deje cambiar el rol entre cliente, cocina y camarero, para que sea más fácil?"
+- **Resultado:** En la rama `feature/admin-acceso-total` (PR #11). Componente `selector-vista` ("Ver como"): solo lo ve el admin y navega a la pantalla elegida; no cambia el rol en la base de datos. Puesto en la cabecera del panel (`navigation`), del layout admin, de cocina y en una franja encima de la cabecera del camarero. "Cliente" sale desactivado hasta la rama 8 (carta pública). 3 tests en `SelectorVistaTest`. `php artisan test`: 54 OK; probado en el navegador (panel → cocina) · ¿funcionó?: PENDIENTE DE REVISAR
+- **Enlace:** PENDIENTE
