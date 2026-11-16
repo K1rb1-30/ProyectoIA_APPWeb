@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Concerns\PerteneceARestaurante;
+use App\Models\Mesa;
 use App\Models\Restaurante;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
@@ -74,6 +75,20 @@ class AislamientoRestaurantesTest extends TestCase
         $registro = RegistroDePrueba::create(['nombre' => 'Sin restaurante indicado']);
 
         $this->assertSame($camarero->restaurante_id, $registro->restaurante_id);
+    }
+
+    public function test_el_restaurante_a_no_ve_las_mesas_del_restaurante_b(): void
+    {
+        $restauranteA = Restaurante::factory()->create();
+        $restauranteB = Restaurante::factory()->create();
+        Mesa::factory()->create(['restaurante_id' => $restauranteA->id, 'numero' => 1]);
+        $mesaDeB = Mesa::factory()->create(['restaurante_id' => $restauranteB->id, 'numero' => 1]);
+
+        $this->actingAs(User::factory()->create(['restaurante_id' => $restauranteA->id]));
+
+        // Las dos se llaman "mesa 1", pero el admin de A solo ve la suya.
+        $this->assertSame([$restauranteA->id], Mesa::pluck('restaurante_id')->all());
+        $this->assertNull(Mesa::find($mesaDeB->id));
     }
 }
 
