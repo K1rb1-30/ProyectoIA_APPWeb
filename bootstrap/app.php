@@ -12,7 +12,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Alias corto para proteger rutas por rol: ->middleware('rol:admin')
+        $middleware->alias([
+            'rol' => \App\Http\Middleware\ComprobarRol::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

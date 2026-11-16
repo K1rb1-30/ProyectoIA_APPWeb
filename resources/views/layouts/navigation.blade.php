@@ -6,16 +6,16 @@
 <nav class="bg-surface-container-lowest border-b border-outline-variant/30">
     <div class="max-w-[1280px] mx-auto px-margin-md py-space-sm flex flex-wrap items-center justify-between gap-space-sm">
         <div class="flex items-center gap-space-md">
-            <a href="{{ route('dashboard') }}" class="flex items-center gap-3">
+            <a href="{{ route(Auth::user()->rutaDeInicio()) }}" class="flex items-center gap-3">
                 <x-logo />
                 <span class="text-headline-sm font-extrabold text-primary">{{ config('app.name', 'MesaYa') }}</span>
             </a>
 
-            <a href="{{ route('dashboard') }}"
+            <a href="{{ route(Auth::user()->rutaDeInicio()) }}"
                @class([
                    'inline-flex items-center min-h-[48px] px-4 rounded text-label-lg transition-colors',
-                   'bg-surface-container text-primary' => request()->routeIs('dashboard'),
-                   'text-secondary hover:bg-surface-container-low' => ! request()->routeIs('dashboard'),
+                   'bg-surface-container text-primary' => request()->routeIs(Auth::user()->rutaDeInicio()),
+                   'text-secondary hover:bg-surface-container-low' => ! request()->routeIs(Auth::user()->rutaDeInicio()),
                ])>
                 {{ __('Dashboard') }}
             </a>

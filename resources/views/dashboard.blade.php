@@ -1,4 +1,4 @@
-{{-- Página a la que se llega tras iniciar sesión. La rama 1 enviará a cada rol a su pantalla --}}
+{{-- Panel del administrador (rol admin). Camarero y cocina van a sus propias pantallas tras el login --}}
 <x-app-layout>
     <x-slot name="header">
         <h1 class="text-headline-lg">{{ __('Dashboard') }}</h1>
