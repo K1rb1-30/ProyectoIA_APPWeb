@@ -26,6 +26,13 @@
 <x-layouts.base :titulo="$titulo">
     {{-- max-w-md centra la columna si se abre en una pantalla grande --}}
     <div class="min-h-screen max-w-md mx-auto flex flex-col bg-background">
+        {{-- Solo lo ve el admin: una franja encima de la cabecera para volver al panel o ir a otra vista --}}
+        @if (Auth::user()?->rol === 'admin')
+            <div class="flex justify-end px-margin py-1 bg-primary-fixed/40">
+                <x-selector-vista />
+            </div>
+        @endif
+
         <header class="sticky top-0 z-20 flex items-center justify-between gap-space-sm px-margin py-space-sm bg-surface-container-lowest border-b border-outline-variant/30">
             <div class="flex items-center gap-3 min-w-0">
                 <x-logo />

@@ -23,12 +23,22 @@ class RestaurantesSeeder extends Seeder
         ];
 
         foreach ($restaurantes as $datos) {
-            $restaurante = Restaurante::create($datos);
+            // firstOrCreate busca por el slug: si el restaurante ya existe lo
+            // reutiliza. Así "php artisan db:seed" se puede ejecutar varias
+            // veces sin fallar por el slug repetido.
+            $restaurante = Restaurante::firstOrCreate(['slug' => $datos['slug']], ['nombre' => $datos['nombre']]);
 
             foreach (['admin', 'camarero', 'cocina'] as $rol) {
+                $email = $rol.'@'.$restaurante->slug.'.test';
+
+                // Igual con los usuarios: solo se crean si no existen todavía.
+                if (User::where('email', $email)->exists()) {
+                    continue;
+                }
+
                 // La factory pone un nombre de Faker en es_ES y la contraseña.
                 User::factory()->create([
-                    'email' => $rol.'@'.$restaurante->slug.'.test',
+                    'email' => $email,
                     'rol' => $rol,
                     'restaurante_id' => $restaurante->id,
                 ]);

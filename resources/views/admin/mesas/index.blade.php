@@ -7,12 +7,12 @@
 <x-layouts.admin titulo="Mesas y QR">
     <x-slot name="acciones">
         {{-- target="_blank": la página para imprimir se abre en otra pestaña --}}
-        <a href="{{ route('mesas.imprimir') }}" target="_blank"
+        <a href="{{ route('admin.mesas.imprimir') }}" target="_blank"
            class="pulsable inline-flex items-center justify-center gap-2 min-h-[48px] px-5 py-3 rounded bg-surface-container-lowest border-[1.5px] border-outline-variant/60 text-on-surface text-label-lg shadow-sm transition hover:border-primary-container">
             <x-icono nombre="picture_as_pdf" class="text-xl text-primary" />
             Descargar QR en PDF
         </a>
-        <a href="{{ route('mesas.create') }}"
+        <a href="{{ route('admin.mesas.crear') }}"
            class="pulsable inline-flex items-center justify-center gap-2 min-h-[48px] px-5 py-3 rounded bg-primary-container text-on-primary text-label-lg font-bold shadow-sm transition hover:bg-primary">
             <x-icono nombre="add" class="text-xl" />
             Añadir mesa
@@ -33,13 +33,6 @@
             </p>
         </div>
 
-        {{-- Mensaje tras crear, editar o borrar una mesa --}}
-        @if (session('estado'))
-            <div class="flex items-center gap-2 px-4 py-3 rounded bg-estado-listo/15 text-emerald-800 text-label-lg" role="status">
-                <x-icono nombre="check_circle" class="text-xl" />
-                {{ session('estado') }}
-            </div>
-        @endif
 
         {{-- Cifras rápidas --}}
         @php
@@ -114,13 +107,13 @@
 
                     {{-- Acciones: editar y borrar --}}
                     <div class="flex items-center gap-2 p-3 bg-surface-container-low/40 border-t border-outline-variant/20">
-                        <a href="{{ route('mesas.edit', $mesa) }}"
+                        <a href="{{ route('admin.mesas.editar', $mesa) }}"
                            class="flex-1 inline-flex items-center justify-center gap-1.5 min-h-[40px] px-2 rounded bg-surface-container-lowest border border-outline-variant/30 text-label-md hover:bg-surface-container">
                             <x-icono nombre="edit" class="text-[16px] text-primary" />
                             Editar
                         </a>
                         {{-- Borrar va por un formulario DELETE con @csrf. confirm() pide confirmación antes de enviarlo --}}
-                        <form method="POST" action="{{ route('mesas.destroy', $mesa) }}"
+                        <form method="POST" action="{{ route('admin.mesas.borrar', $mesa) }}"
                               onsubmit="return confirm('¿Seguro que quieres eliminar la mesa {{ $mesa->numero }}? Su QR dejará de funcionar.')">
                             @csrf
                             @method('DELETE')
@@ -134,7 +127,7 @@
             @endforeach
 
             {{-- Tarjeta discontinua para añadir otra mesa --}}
-            <a href="{{ route('mesas.create') }}"
+            <a href="{{ route('admin.mesas.crear') }}"
                class="flex flex-col items-center justify-center gap-3 p-6 min-h-[320px] rounded-lg border-2 border-dashed border-primary-container/30 text-center hover:border-primary-container hover:bg-primary-container/5 transition-colors">
                 <span class="w-14 h-14 rounded-full bg-primary-container/15 text-primary flex items-center justify-center">
                     <x-icono nombre="add_circle" class="text-3xl" />

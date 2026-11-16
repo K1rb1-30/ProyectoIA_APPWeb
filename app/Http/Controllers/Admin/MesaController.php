@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Mesa;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -13,7 +14,7 @@ use Illuminate\View\View;
  *
  * No hace falta filtrar por restaurante en ningún método: el modelo Mesa usa
  * el trait PerteneceARestaurante, que lo hace solo. Además, cuando la URL
- * trae una mesa (/mesas/{mesa}/edit), Laravel la busca con ese filtro, así
+ * trae una mesa (/admin/mesas/{mesa}/editar), Laravel la busca con ese filtro, así
  * que la mesa de otro restaurante da un 404.
  */
 class MesaController extends Controller
@@ -25,7 +26,7 @@ class MesaController extends Controller
     {
         $mesas = Mesa::with('restaurante')->orderBy('numero')->get();
 
-        return view('mesas.index', ['mesas' => $mesas]);
+        return view('admin.mesas.index', ['mesas' => $mesas]);
     }
 
     /**
@@ -35,7 +36,7 @@ class MesaController extends Controller
     {
         $mesas = Mesa::with('restaurante')->orderBy('numero')->get();
 
-        return view('mesas.imprimir', ['mesas' => $mesas]);
+        return view('admin.mesas.imprimir', ['mesas' => $mesas]);
     }
 
     public function create(): View
@@ -43,7 +44,7 @@ class MesaController extends Controller
         // El siguiente número libre, para proponerlo en el formulario.
         $siguienteNumero = (Mesa::max('numero') ?? 0) + 1;
 
-        return view('mesas.formulario', ['mesa' => new Mesa(['numero' => $siguienteNumero])]);
+        return view('admin.mesas.formulario', ['mesa' => new Mesa(['numero' => $siguienteNumero])]);
     }
 
     public function store(Request $request): RedirectResponse
@@ -53,20 +54,20 @@ class MesaController extends Controller
         // restaurante_id lo pone el trait con el del admin logueado.
         $mesa = Mesa::create($datos);
 
-        return redirect()->route('mesas.index')
+        return redirect()->route('admin.mesas')
             ->with('estado', 'Mesa '.$mesa->numero.' creada.');
     }
 
     public function edit(Mesa $mesa): View
     {
-        return view('mesas.formulario', ['mesa' => $mesa]);
+        return view('admin.mesas.formulario', ['mesa' => $mesa]);
     }
 
     public function update(Request $request, Mesa $mesa): RedirectResponse
     {
         $mesa->update($this->validar($request, $mesa));
 
-        return redirect()->route('mesas.index')
+        return redirect()->route('admin.mesas')
             ->with('estado', 'Mesa '.$mesa->numero.' actualizada.');
     }
 
@@ -74,7 +75,7 @@ class MesaController extends Controller
     {
         $mesa->delete();
 
-        return redirect()->route('mesas.index')
+        return redirect()->route('admin.mesas')
             ->with('estado', 'Mesa '.$mesa->numero.' eliminada.');
     }
 

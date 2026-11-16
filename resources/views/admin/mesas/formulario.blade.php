@@ -9,13 +9,13 @@
 
 <x-layouts.admin :titulo="$editando ? 'Editar mesa '.$mesa->numero : 'Añadir mesa'">
     <div class="max-w-lg">
-        <a href="{{ route('mesas.index') }}" class="inline-flex items-center gap-1 mb-space-md text-label-lg text-secondary hover:text-on-surface">
+        <a href="{{ route('admin.mesas') }}" class="inline-flex items-center gap-1 mb-space-md text-label-lg text-secondary hover:text-on-surface">
             <x-icono nombre="arrow_back" class="text-xl" />
             Volver a las mesas
         </a>
 
         <x-tarjeta>
-            <form method="POST" action="{{ $editando ? route('mesas.update', $mesa) : route('mesas.store') }}" class="space-y-space-lg">
+            <form method="POST" action="{{ $editando ? route('admin.mesas.actualizar', $mesa) : route('admin.mesas.guardar') }}" class="space-y-space-lg">
                 @csrf
                 {{-- Los formularios HTML solo envían GET y POST: @method('PUT') le dice a Laravel que es una actualización --}}
                 @if ($editando)
@@ -36,7 +36,7 @@
                         <x-icono nombre="save" class="text-xl" />
                         {{ $editando ? 'Guardar cambios' : 'Crear mesa' }}
                     </x-boton-primario>
-                    <a href="{{ route('mesas.index') }}"
+                    <a href="{{ route('admin.mesas') }}"
                        class="inline-flex items-center justify-center min-h-[48px] px-5 py-3 rounded border-[1.5px] border-outline-variant/60 text-label-lg hover:border-primary-container">
                         Cancelar
                     </a>
