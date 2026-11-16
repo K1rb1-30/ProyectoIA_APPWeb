@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 // Alérgeno legal. NO usa PerteneceARestaurante: los 14 son comunes a todos
 // los restaurantes y no tienen restaurante_id.
-#[Fillable(['nombre'
+#[Fillable(['nombre', 'icono'])]
+class Alergeno extends Model
+{
+    protected $table = 'alergenos';
+
+    public function platos(): BelongsToMany
+    {
+        return $this->belongsToMany(Plato::class, 'alergeno_plato');
+    }
+}
