@@ -173,6 +173,7 @@ return [
         'password' => 'contraseña',
         'password_confirmation' => 'confirmación de la contraseña',
         'current_password' => 'contraseña actual',
+        'numero' => 'número',
     ],
 
 ];

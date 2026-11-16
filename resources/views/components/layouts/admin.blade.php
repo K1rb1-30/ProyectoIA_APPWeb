@@ -19,7 +19,7 @@
     $menu = [
         ['texto' => 'Carta', 'icono' => 'restaurant_menu', 'ruta' => null],
         ['texto' => 'Alérgenos', 'icono' => 'nutrition', 'ruta' => null],
-        ['texto' => 'Mesas y QR', 'icono' => 'qr_code_2', 'ruta' => null],
+        ['texto' => 'Mesas y QR', 'icono' => 'qr_code_2', 'ruta' => 'mesas.index'],
         ['texto' => 'Personal', 'icono' => 'badge', 'ruta' => null],
         ['texto' => 'Estadísticas', 'icono' => 'bar_chart', 'ruta' => null],
     ];
@@ -40,8 +40,9 @@
             <nav class="flex flex-row flex-wrap lg:flex-col gap-1" aria-label="Menú principal">
                 @foreach ($menu as $opcion)
                     @php
-                        // La opción está activa si estamos en su ruta o en una de sus subrutas.
-                        $activa = $opcion['ruta'] && request()->routeIs($opcion['ruta'].'*');
+                        // La opción está activa si estamos en cualquier ruta de su grupo:
+                        // para "mesas.index" vale también "mesas.create", "mesas.edit"...
+                        $activa = $opcion['ruta'] && request()->routeIs(strtok($opcion['ruta'], '.').'.*');
                     @endphp
                     <a href="{{ $opcion['ruta'] ? route($opcion['ruta']) : '#' }}"
                        @class([

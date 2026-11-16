@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MesaController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +23,13 @@ Route::get('/camarero/mesas', function () {
 Route::get('/cocina/pedidos', function () {
     return view('cocina.pedidos');
 })->middleware(['auth', 'rol:cocina'])->name('cocina.pedidos');
+
+// Panel de administración: mesas y QR (rama 4).
+Route::middleware(['auth', 'rol:admin'])->group(function () {
+    // Va antes del resource para que "imprimir" no se tome como el id de una mesa.
+    Route::get('/mesas/imprimir', [MesaController::class, 'imprimir'])->name('mesas.imprimir');
+    Route::resource('mesas', MesaController::class)->except('show');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
