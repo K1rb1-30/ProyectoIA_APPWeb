@@ -32,7 +32,7 @@ Estados: ⬜ pendiente · 🟡 en curso · 🔍 en revisión (PR abierta) · ✅
 | 1 | `feature/restaurantes-y-roles` | — | Gabriel | ✅ | [#8](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/8) |
 | 2 | `feature/diseno-base` | — | Iván | ✅ | [#7](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/7) |
 | 3 | `feature/gestion-carta` | 1, 2 | | ⬜ | |
-| 4 | `feature/mesas-qr` | 1, 2 | | ⬜ | |
+| 4 | `feature/mesas-qr` | 1, 2 | Gabriel | 🟡 | |
 | 5 | `feature/comandas-camarero` | 3, 4 | | ⬜ | |
 | 6 | `feature/pantalla-cocina` | 5 | | ⬜ | |
 | 7 | `feature/avisos-camarero` | 6 | | ⬜ | |
