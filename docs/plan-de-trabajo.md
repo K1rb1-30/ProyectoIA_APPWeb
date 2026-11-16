@@ -29,7 +29,7 @@ Estados: ⬜ pendiente · 🟡 en curso · 🔍 en revisión (PR abierta) · ✅
 
 | # | Rama | Depende de | Responsable | Estado | PR |
 |---|---|---|---|---|---|
-| 1 | `feature/restaurantes-y-roles` | — | | 🟡 | |
+| 1 | `feature/restaurantes-y-roles` | — | Gabriel | 🟡 | |
 | 2 | `feature/diseno-base` | — | | ⬜ | |
 | 3 | `feature/gestion-carta` | 1, 2 | | ⬜ | |
 | 4 | `feature/mesas-qr` | 1, 2 | | ⬜ | |

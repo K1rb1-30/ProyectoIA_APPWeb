@@ -64,7 +64,7 @@ Se rellena en cada sesión de trabajo, no al final. Mínimo 15 entradas.
 - **Enlace:** PENDIENTE
 
 ### Entrada 8
-- **Fecha y autor:** 16/11/2026 – PENDIENTE (persona B)
+- **Fecha y autor:** 16/11/2026 – Gabriel
 - **Herramienta:** Claude Code
 - **Objetivo:** Rama 1 `feature/restaurantes-y-roles`: multi-restaurante, roles y aislamiento de datos
 - **Prompt:** "Somos la persona B y empezamos la rama 1 [...] Propón un plan con migraciones, modelo Restaurante, middleware ComprobarRol, trait con global scope, seeder, redirección tras el login y test base del golden test nº 6" + "OK, implementa"
