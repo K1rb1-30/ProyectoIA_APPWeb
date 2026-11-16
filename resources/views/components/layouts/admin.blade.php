@@ -92,6 +92,7 @@
 
             {{-- Contenido: ancho máximo de 1280 px, como indica DESIGN.md --}}
             <main class="flex-1 w-full max-w-[1280px] mx-auto p-margin-md lg:p-margin-lg">
+                <x-mensajes-sesion />
                 {{ $slot }}
             </main>
         </div>
