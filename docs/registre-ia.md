@@ -95,6 +95,14 @@ Se rellena en cada sesión de trabajo, no al final. Mínimo 15 entradas.
 - **Resultado:** Fusionado `main` en `feature/usuarios-admin`. Conflictos resueltos: `DatabaseSeeder` llama primero a `RestaurantesSeeder` y después a `UsuariosAdminSeeder` (se quita el "Test User" de Breeze); plan con las ramas 1 y 2 en ✅; en el registro la entrada de la rama 1 queda como la 9 y la de las cuentas fijas pasa a la 10. Hecho el `TODO` del seeder: las cuentas de Gabriel e Iván son `admin` de "La Tasca de Prueba" (se crea con `firstOrCreate` si no existe), porque desde la rama 1 `restaurante_id` es obligatorio y el seeder fallaba. `UsuariosAdminSeederTest` comprueba ahora el rol, el restaurante y que el login lleva al panel. `php artisan test`: 49 tests pasan · ¿funcionó?: PENDIENTE DE REVISAR
 - **Enlace:** PENDIENTE
 
+### Entrada 12
+- **Fecha y autor:** 16/11/2026 – Iván
+- **Herramienta:** Claude Code
+- **Objetivo:** Rama 3 del plan: gestión de la carta (categorías, platos y alérgenos) en el panel de admin
+- **Prompt:** "Empieza la rama 3" + "OK, adelante" (al plan: edición del plato en página aparte en vez de panel lateral, y seeder con una carta de ejemplo)
+- **Resultado:** Rama `feature/gestion-carta`. Migraciones `categorias`, `alergenos`, `platos` y `alergeno_plato`; modelos `Categoria`, `Plato` (con `PerteneceARestaurante`) y `Alergeno` (común a todos los restaurantes); `AlergenosSeeder` (14 alérgenos legales) y `CartaSeeder` (carta inventada para cada restaurante). Controladores `Admin\PlatoController`, `Admin\CategoriaController` y `Admin\AlergenoController` con rutas `admin.carta*` y `admin.alergenos` protegidas con `rol:admin`; validación en `PlatoRequest` (precio "8,50" → 850 céntimos, categoría solo del propio restaurante, foto de hasta 5 MB) y `CategoriaRequest`. Vistas de la carta según la maqueta `panelAdmin/carta`, categorías y alérgenos con el mismo estilo; componentes `mensajes-sesion` y `errores-campo`. 17 tests nuevos en `GestionCartaTest`, incluido el aislamiento entre restaurantes (golden test nº 6 aplicado a la carta). `php artisan test`: 66 OK; `npm run build` OK; probado en el navegador (lista y edición). Hace falta `php artisan storage:link` para ver las fotos. No se ha actualizado graphify (no está instalado en este equipo) · ¿funcionó?: PENDIENTE DE REVISAR
+- **Enlace:** 26f1887
+
 ### Entrada 13
 - **Fecha y autor:** 16/11/2026 – Iván
 - **Herramienta:** Claude Code

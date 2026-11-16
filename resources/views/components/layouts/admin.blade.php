@@ -17,8 +17,8 @@
     // Las ramas 3, 4 y 13 crearán esas rutas: mientras no existan (null),
     // el enlace apunta a "#". Al crear una ruta, poned aquí su nombre.
     $menu = [
-        ['texto' => 'Carta', 'icono' => 'restaurant_menu', 'ruta' => null],
-        ['texto' => 'Alérgenos', 'icono' => 'nutrition', 'ruta' => null],
+        ['texto' => 'Carta', 'icono' => 'restaurant_menu', 'ruta' => 'admin.carta'],
+        ['texto' => 'Alérgenos', 'icono' => 'nutrition', 'ruta' => 'admin.alergenos'],
         ['texto' => 'Mesas y QR', 'icono' => 'qr_code_2', 'ruta' => null],
         ['texto' => 'Personal', 'icono' => 'badge', 'ruta' => null],
         ['texto' => 'Estadísticas', 'icono' => 'bar_chart', 'ruta' => null],
@@ -94,6 +94,7 @@
 
             {{-- Contenido: ancho máximo de 1280 px, como indica DESIGN.md --}}
             <main class="flex-1 w-full max-w-[1280px] mx-auto p-margin-md lg:p-margin-lg">
+                <x-mensajes-sesion />
                 {{ $slot }}
             </main>
         </div>
