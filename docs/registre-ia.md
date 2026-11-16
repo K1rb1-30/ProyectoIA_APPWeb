@@ -77,4 +77,4 @@ Se rellena en cada sesión de trabajo, no al final. Mínimo 15 entradas.
 - **Objetivo:** Tener dos cuentas fijas (Gabriel e Iván) para poder entrar siempre en local
 - **Prompt:** "Créame un seeder con dos usuarios admin para mi compañero y yo, con contraseña 1234 y correos gabriel@mesaya.com e ivan@mesaya.com, ficticio todo pero para poder entrar siempre"
 - **Resultado:** Rama `feature/usuarios-admin`. Nuevo `UsuariosAdminSeeder` (usa `updateOrCreate`, no se ejecuta en producción) llamado desde `DatabaseSeeder`, y `UsuariosAdminSeederTest` (3 tests: crea las cuentas, no duplica, se puede hacer login). El rol `admin` aún no se asigna porque la columna `users.rol` llega con la rama 1; queda un TODO. Rama 2 marcada como ✅ en el plan. `php artisan test`: 37 OK · ¿funcionó?: PENDIENTE DE REVISAR
-- **Enlace:** PENDIENTE
+- **Enlace:** 816a37e · [PR #9](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/9)
