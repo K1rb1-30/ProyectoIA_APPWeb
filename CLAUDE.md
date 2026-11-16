@@ -148,9 +148,11 @@ Al terminar cada tarea, **añade una entrada al final de `docs/registre-ia.md`**
 Nosotros revisamos la entrada, decidimos si funcionó y ponemos el enlace a la PR.
 
 ## Documentación del repo
-`README.md` · `docs/01-proposta.md` · `docs/02-requisits.md` · `docs/03-disseny.md` · `docs/04-installacio.md` · `docs/05-manual-usuari.md` · `docs/06-proves.md` · `docs/registre-ia.md` · `CHANGELOG.md` (v0.1 y v1.0)
+`README.md` · `docs/01-proposta.md` · `docs/02-requisits.md` · `docs/03-disseny.md` · `docs/04-installacio.md` · `docs/05-manual-usuari.md` · `docs/06-proves.md` · `docs/plan-de-trabajo.md` · `docs/registre-ia.md` · `CHANGELOG.md` (v0.1 y v1.0)
 
 Si un cambio afecta a la instalación, a la API o al uso, avisa de qué documento hay que actualizar.
+
+**Plan de trabajo:** `docs/plan-de-trabajo.md` tiene el orden de las ramas, quién lleva cada una y su estado. Antes de empezar una rama, léelo; al terminarla, actualiza su fila (estado y PR).
 
 ## Grafo del proyecto (graphify)
 El proyecto tiene un grafo de conocimiento en `graphify-out/` (archivos, clases y relaciones entre ellos). Unos hooks de `.claude/settings.json` lo recuerdan antes de cada búsqueda o lectura.
