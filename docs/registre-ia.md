@@ -94,3 +94,11 @@ Se rellena en cada sesión de trabajo, no al final. Mínimo 15 entradas.
 - **Prompt:** "Arregla la pull request #9"
 - **Resultado:** Fusionado `main` en `feature/usuarios-admin`. Conflictos resueltos: `DatabaseSeeder` llama primero a `RestaurantesSeeder` y después a `UsuariosAdminSeeder` (se quita el "Test User" de Breeze); plan con las ramas 1 y 2 en ✅; en el registro la entrada de la rama 1 queda como la 9 y la de las cuentas fijas pasa a la 10. Hecho el `TODO` del seeder: las cuentas de Gabriel e Iván son `admin` de "La Tasca de Prueba" (se crea con `firstOrCreate` si no existe), porque desde la rama 1 `restaurante_id` es obligatorio y el seeder fallaba. `UsuariosAdminSeederTest` comprueba ahora el rol, el restaurante y que el login lleva al panel. `php artisan test`: 49 tests pasan · ¿funcionó?: PENDIENTE DE REVISAR
 - **Enlace:** PENDIENTE
+
+### Entrada 13
+- **Fecha y autor:** 16/11/2026 – Iván
+- **Herramienta:** Claude Code
+- **Objetivo:** Que el rol admin pueda entrar en todas las pantallas del personal
+- **Prompt:** "En el seeder de los dos usuarios dales el rol admin, y que si tienes el rol admin puedas acceder a todo"
+- **Resultado:** Rama `feature/admin-acceso-total`. El seeder ya daba `rol = admin` a las dos cuentas (lo añadió Gabriel en la PR #9), así que no se toca. `ComprobarRol` deja pasar siempre al admin, también a las pantallas de camarero y cocina; sigue viendo solo los datos de su restaurante (eso lo hace `PerteneceARestaurante`). 2 tests nuevos en `ComprobarRolTest`. `php artisan test`: 51 OK · ¿funcionó?: PENDIENTE DE REVISAR
+- **Enlace:** PENDIENTE
