@@ -30,7 +30,7 @@ Estados: ⬜ pendiente · 🟡 en curso · 🔍 en revisión (PR abierta) · ✅
 | # | Rama | Depende de | Responsable | Estado | PR |
 |---|---|---|---|---|---|
 | 1 | `feature/restaurantes-y-roles` | — | Gabriel | 🔍 | [#8](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/8) |
-| 2 | `feature/diseno-base` | — | | ⬜ | |
+| 2 | `feature/diseno-base` | — | Iván | ✅ | [#7](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/7) |
 | 3 | `feature/gestion-carta` | 1, 2 | | ⬜ | |
 | 4 | `feature/mesas-qr` | 1, 2 | | ⬜ | |
 | 5 | `feature/comandas-camarero` | 3, 4 | | ⬜ | |
@@ -166,7 +166,7 @@ La rama 5 necesita la 3 y la 4. Mientras tanto, la persona B puede cerrar la 1 c
 | PDF de los QR | `barryvdh/laravel-dompdf` (sirve también para el ticket PDF de los extras) **o** una página imprimible con "Guardar como PDF" del navegador | |
 | Stripe | `stripe/stripe-php` | |
 | Gráficos | Chart.js por npm (ya está en el stack) | |
-| Fuentes e iconos | Google Fonts **o** archivos servidos en local | |
+| Fuentes e iconos | Google Fonts **o** archivos servidos en local | **En local** (16/11/2026), con los paquetes npm `@fontsource-variable/inter` y `@material-symbols/font-400`. Motivos: la demo no depende del wifi y la carta pública no envía la IP del cliente a Google. Vite las empaqueta en `npm run build`. |
 
 ---
 

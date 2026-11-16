@@ -1,25 +1,29 @@
+{{-- Recuperar contraseña: se pide el correo y se envía un enlace para elegir una nueva --}}
 <x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600">
-        {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+    <div class="mb-8 space-y-2">
+        <h2 class="text-headline-lg">Recuperar la contraseña</h2>
+        <p class="text-body-md text-secondary">
+            {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+        </p>
     </div>
 
-    <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form method="POST" action="{{ route('password.email') }}">
+    <form method="POST" action="{{ route('password.email') }}" class="space-y-4">
         @csrf
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+        <x-campo-texto nombre="email" tipo="email" :etiqueta="__('Email')" icono="mail"
+                       :value="old('email')" required autofocus />
 
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
+        <div class="pt-2 space-y-3">
+            <x-boton-primario class="w-full">
+                <x-icono nombre="send" class="text-xl" />
                 {{ __('Email Password Reset Link') }}
-            </x-primary-button>
+            </x-boton-primario>
+
+            <a href="{{ route('login') }}" class="block text-center text-label-md text-primary underline-offset-2 hover:underline">
+                Volver al inicio de sesión
+            </a>
         </div>
     </form>
 </x-guest-layout>

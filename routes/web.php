@@ -13,14 +13,14 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified', 'rol:admin'])->name('dashboard');
 
 // Pantallas provisionales: las ramas 5 (comandas del camarero) y 6 (pantalla
-// de cocina) cambiarán la vista por su controlador sin tocar el nombre de la
-// ruta, que es el que usa la redirección tras el login.
+// de cocina) rellenarán estas vistas y cambiarán la función por su controlador
+// sin tocar el nombre de la ruta, que es el que usa la redirección tras el login.
 Route::get('/camarero/mesas', function () {
-    return view('proximamente', ['titulo' => 'Mesas']);
+    return view('camarero.mesas');
 })->middleware(['auth', 'rol:camarero'])->name('camarero.mesas');
 
 Route::get('/cocina/pedidos', function () {
-    return view('proximamente', ['titulo' => 'Pedidos']);
+    return view('cocina.pedidos');
 })->middleware(['auth', 'rol:cocina'])->name('cocina.pedidos');
 
 Route::middleware('auth')->group(function () {

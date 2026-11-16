@@ -1,47 +1,49 @@
+{{-- Pantalla de inicio de sesión. Referencia: docs/design/DesignFrontend/landing/login --}}
 <x-guest-layout>
-    <!-- Session Status -->
+    <div class="mb-8 space-y-2">
+        <h2 class="text-headline-lg">Bienvenido de nuevo a MesaYa</h2>
+        <p class="text-body-md text-secondary">
+            Entra con tu cuenta del restaurante. Te llevaremos a tu pantalla de trabajo.
+        </p>
+    </div>
+
+    {{-- Mensaje de estado, por ejemplo tras cambiar la contraseña --}}
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form method="POST" action="{{ route('login') }}">
+    <form method="POST" action="{{ route('login') }}" class="space-y-4">
+        {{-- @csrf añade el token que protege el formulario contra envíos falsos --}}
         @csrf
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+        <x-campo-texto nombre="email" tipo="email" etiqueta="Correo electrónico" icono="mail"
+                       :value="old('email')" placeholder="ej. nombre@restaurante.es"
+                       required autofocus autocomplete="username" />
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+        <x-campo-texto nombre="password" tipo="password" etiqueta="Contraseña" icono="lock"
+                       placeholder="Introduce tu contraseña"
+                       required autocomplete="current-password">
+            {{-- El enlace sale a la derecha de la etiqueta "Contraseña" --}}
+            <x-slot name="accion">
+                @if (Route::has('password.request'))
+                    <a href="{{ route('password.request') }}" class="text-label-md text-primary underline-offset-2 hover:underline">
+                        ¿Olvidaste tu contraseña?
+                    </a>
+                @endif
+            </x-slot>
+        </x-campo-texto>
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+        <div class="flex items-center pt-1">
+            <input id="remember_me" name="remember" type="checkbox"
+                   class="h-[18px] w-[18px] rounded-sm border-outline-variant text-primary-container focus:ring-primary-container cursor-pointer">
+            <label for="remember_me" class="ml-2.5 text-label-md text-on-surface-variant cursor-pointer select-none">
+                Mantener la sesión iniciada en este dispositivo
             </label>
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
+        <div class="pt-2">
+            <x-boton-primario class="w-full">
+                <x-icono nombre="login" class="text-xl" />
+                Iniciar sesión en MesaYa
+            </x-boton-primario>
         </div>
     </form>
 </x-guest-layout>
