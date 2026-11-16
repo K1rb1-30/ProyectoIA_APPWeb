@@ -15,7 +15,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+            // Primero los restaurantes, porque todo usuario necesita uno.
             RestaurantesSeeder::class,
+            // Cuentas fijas del equipo (Gabriel e Iván) para entrar siempre en local.
+            UsuariosAdminSeeder::class,
         ]);
     }
 }
