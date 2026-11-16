@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AlergenoController;
 use App\Http\Controllers\Admin\CategoriaController;
+use App\Http\Controllers\Admin\MesaController;
 use App\Http\Controllers\Admin\PlatoController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -48,6 +49,18 @@ Route::get('/camarero/mesas', function () {
 Route::get('/cocina/pedidos', function () {
     return view('cocina.pedidos');
 })->middleware(['auth', 'rol:cocina'])->name('cocina.pedidos');
+
+// Mesas y QR (rama 4). Solo para el admin. Como en la carta, los nombres
+// empiezan por "admin.mesas" para que el menú lateral marque "Mesas y QR".
+Route::middleware(['auth', 'verified', 'rol:admin'])->prefix('admin')->group(function () {
+    Route::get('/mesas', [MesaController::class, 'index'])->name('admin.mesas');
+    Route::get('/mesas/crear', [MesaController::class, 'create'])->name('admin.mesas.crear');
+    Route::get('/mesas/imprimir', [MesaController::class, 'imprimir'])->name('admin.mesas.imprimir');
+    Route::post('/mesas', [MesaController::class, 'store'])->name('admin.mesas.guardar');
+    Route::get('/mesas/{mesa}/editar', [MesaController::class, 'edit'])->name('admin.mesas.editar');
+    Route::put('/mesas/{mesa}', [MesaController::class, 'update'])->name('admin.mesas.actualizar');
+    Route::delete('/mesas/{mesa}', [MesaController::class, 'destroy'])->name('admin.mesas.borrar');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

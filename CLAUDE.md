@@ -59,6 +59,13 @@ Configura `APP_LOCALE=es` y `APP_FAKER_LOCALE=es_ES` en `.env.example`. Para tra
 - Cotejamiento `utf8mb4_unicode_ci` para que funcionen tildes, ñ y emojis.
 - Si no puedes conectar con MySQL, **no cambies a SQLite**: avísanos.
 
+### PHP en local (`php.ini`)
+En Windows el archivo suele ser `C:\php\php.ini` (compruébalo con `php --ini`). Son cambios del equipo de cada uno, no del proyecto: **no los hagas tú**; dinos qué línea cambiar y lo hacemos nosotros.
+- **Extensión GD activada:** la línea `;extension=gd` tiene que quedar como `extension=gd` (sin el `;`). `simplesoftwareio/simple-qrcode` la exige: sin ella `composer install` falla con *"requires ext-gd"*. Compruébalo con `php -m` (tiene que salir `gd`).
+- **OPcache desactivado en local:** la línea `;opcache.enable=1` tiene que quedar como `opcache.enable=0`. Con PHP 8.5.7, GD y OPcache a la vez, el servidor web (`php artisan serve` / `composer run dev`) da **error 500** en todas las páginas con *"Target class [config] does not exist"*, aunque `php artisan test` y la consola funcionen bien. El error real (`imagecreate()` llamado desde `mb_convert_encoding`) no llega al log de Laravel.
+- Después de cambiar `php.ini`, reinicia `composer run dev` y abre una terminal nueva.
+- Si los estilos no cargan y `public/hot` existe sin que Vite esté arrancado, ese archivo es un resto de un `npm run dev` anterior: se puede borrar (Git lo ignora).
+
 ## Roles
 | Rol (`users.rol`) | Login | Puede |
 |---|---|---|

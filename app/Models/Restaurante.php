@@ -25,4 +25,12 @@ class Restaurante extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    /**
+     * Las mesas del restaurante.
+     */
+    public function mesas(): HasMany
+    {
+        return $this->hasMany(Mesa::class);
+    }
 }

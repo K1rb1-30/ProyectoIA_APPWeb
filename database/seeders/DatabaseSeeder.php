@@ -23,6 +23,8 @@ class DatabaseSeeder extends Seeder
             AlergenosSeeder::class,
             // Carta de ejemplo de cada restaurante.
             CartaSeeder::class,
+            // Mesas de ejemplo de los dos restaurantes.
+            MesasSeeder::class,
         ]);
     }
 }

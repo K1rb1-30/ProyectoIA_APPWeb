@@ -19,7 +19,7 @@
     $menu = [
         ['texto' => 'Carta', 'icono' => 'restaurant_menu', 'ruta' => 'admin.carta'],
         ['texto' => 'Alérgenos', 'icono' => 'nutrition', 'ruta' => 'admin.alergenos'],
-        ['texto' => 'Mesas y QR', 'icono' => 'qr_code_2', 'ruta' => null],
+        ['texto' => 'Mesas y QR', 'icono' => 'qr_code_2', 'ruta' => 'admin.mesas'],
         ['texto' => 'Personal', 'icono' => 'badge', 'ruta' => null],
         ['texto' => 'Estadísticas', 'icono' => 'bar_chart', 'ruta' => null],
     ];
@@ -78,7 +78,8 @@
             <header class="flex flex-wrap items-center justify-between gap-space-md px-margin-md py-space-md bg-surface-container-lowest border-b border-outline-variant/30">
                 <h1 class="text-headline-md">{{ $titulo }}</h1>
 
-                <div class="flex items-center gap-space-md">
+                {{-- flex-wrap: en el móvil los botones bajan a otra línea en vez de salirse de la pantalla --}}
+                <div class="flex flex-wrap items-center gap-space-md">
                     {{ $acciones ?? '' }}
 
                     <x-selector-vista />
