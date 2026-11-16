@@ -1,3 +1,19 @@
+/*
+ * Fuentes servidas en local (decisión apuntada en docs/plan-de-trabajo.md).
+ * Vite copia los archivos .woff2 a public/build al compilar, así que la web
+ * no hace ninguna petición a Google Fonts.
+ * Los @import tienen que ir antes que las directivas de Tailwind.
+ */
+@import '@fontsource-variable/inter/wght.css';
+@import '@material-symbols/font-400/outlined.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    /* Efecto de pulsado: el botón baja 1 px al hacer clic (DESIGN.md). */
+    .pulsable:active {
+        transform: translateY(1px) scale(0.99);
+    }
+}
