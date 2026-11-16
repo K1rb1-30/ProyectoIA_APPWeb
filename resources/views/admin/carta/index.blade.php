@@ -46,8 +46,9 @@
         @endforeach
     </nav>
 
-    {{-- Tabla de platos --}}
-    <div class="bg-surface-container-lowest rounded-lg border border-outline-variant/30 shadow-nivel-1 overflow-x-auto">
+    {{-- Tabla de platos. "relative" hace que los textos sr-only (position: absolute) de la
+         tabla se queden dentro de esta caja con scroll; sin él ensanchaban toda la página en el móvil --}}
+    <div class="relative bg-surface-container-lowest rounded-lg border border-outline-variant/30 shadow-nivel-1 overflow-x-auto">
         @if ($platos->isEmpty())
             <div class="p-space-xl text-center text-secondary">
                 <x-icono nombre="restaurant" class="text-5xl" />

@@ -27,7 +27,8 @@
             <p class="text-body-lg">Todavía no hay mesas. Créalas desde el panel de Mesas y QR.</p>
         @endif
 
-        <div class="grid grid-cols-2 lg:grid-cols-3 print:grid-cols-2 gap-6">
+        {{-- Una columna en el móvil, dos o tres en pantallas grandes y siempre dos en el papel --}}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 print:grid-cols-2 gap-6">
             @foreach ($mesas as $mesa)
                 <div class="break-inside-avoid flex flex-col items-center gap-3 p-6 rounded-lg border-2 border-outline-variant/50 text-center">
                     <p class="text-label-lg text-secondary">{{ $mesa->restaurante->nombre }}</p>

@@ -14,11 +14,12 @@
     $precio = $plato->precio_centimos !== null ? number_format($plato->precio_centimos / 100, 2, ',', '') : '';
 @endphp
 
-<div class="grid gap-space-lg lg:grid-cols-2">
+{{-- grid-cols-1 (minmax(0, 1fr)) deja que la columna encoja en el móvil; sin él, el selector de foto la ensanchaba --}}
+<div class="grid grid-cols-1 gap-space-lg lg:grid-cols-2">
     <x-tarjeta class="space-y-space-md">
         <x-campo-texto nombre="nombre" etiqueta="Nombre del plato *" :value="old('nombre', $plato->nombre)" required maxlength="120" />
 
-        <div class="grid gap-space-md sm:grid-cols-2">
+        <div class="grid grid-cols-1 gap-space-md sm:grid-cols-2">
             <div>
                 <label for="categoria_id" class="block mb-1.5 text-label-md">Categoría *</label>
                 <select id="categoria_id" name="categoria_id" required class="{{ $claseCampo }}">
@@ -53,9 +54,9 @@
                         <x-icono nombre="add_a_photo" class="text-3xl" />
                     </div>
                 @endif
-                <div class="space-y-2 text-body-md">
+                <div class="min-w-0 space-y-2 text-body-md">
                     <input type="file" name="foto" accept="image/jpeg,image/png,image/webp"
-                           class="block text-body-md file:mr-3 file:px-4 file:py-2 file:rounded file:border-0 file:bg-secondary-container file:text-label-md">
+                           class="block w-full text-body-md file:mr-3 file:px-4 file:py-2 file:rounded file:border-0 file:bg-secondary-container file:text-label-md">
                     <p class="text-secondary">JPG, PNG o WebP de hasta 5 MB.</p>
                     @if ($plato->foto)
                         <label class="inline-flex items-center gap-2 text-error">

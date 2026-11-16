@@ -78,7 +78,8 @@
             <header class="flex flex-wrap items-center justify-between gap-space-md px-margin-md py-space-md bg-surface-container-lowest border-b border-outline-variant/30">
                 <h1 class="text-headline-md">{{ $titulo }}</h1>
 
-                <div class="flex items-center gap-space-md">
+                {{-- flex-wrap: en el móvil los botones bajan a otra línea en vez de salirse de la pantalla --}}
+                <div class="flex flex-wrap items-center gap-space-md">
                     {{ $acciones ?? '' }}
 
                     <x-selector-vista />
