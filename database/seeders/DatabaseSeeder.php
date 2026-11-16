@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
             RestaurantesSeeder::class,
             // Cuentas fijas del equipo (Gabriel e Iván) para entrar siempre en local.
             UsuariosAdminSeeder::class,
+            // Mesas de ejemplo de los dos restaurantes.
+            MesasSeeder::class,
         ]);
     }
 }
