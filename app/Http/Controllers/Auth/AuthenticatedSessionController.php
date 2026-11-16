@@ -28,7 +28,10 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        // Cada rol va a su pantalla: admin → panel, camarero → mesas,
+        // cocina → pedidos. No usamos redirect()->intended() porque podría
+        // mandar a un camarero a una página de admin y le saldría un 403.
+        return redirect()->route($request->user()->rutaDeInicio());
     }
 
     /**

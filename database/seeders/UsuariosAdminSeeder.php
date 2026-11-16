@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Restaurante;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -17,6 +18,15 @@ class UsuariosAdminSeeder extends Seeder
         if (app()->environment('production')) {
             return;
         }
+
+        // Las dos cuentas son admin de "La Tasca de Prueba", el primer
+        // restaurante de RestaurantesSeeder. firstOrCreate lo busca por el
+        // slug y, si este seeder se ejecuta solo (por ejemplo, en un test),
+        // lo crea para que el usuario tenga siempre un restaurante.
+        $restaurante = Restaurante::firstOrCreate(
+            ['slug' => 'la-tasca'],
+            ['nombre' => 'La Tasca de Prueba'],
+        );
 
         $usuarios = [
             ['name' => 'Gabriel', 'email' => 'gabriel@mesaya.com'],
@@ -34,11 +44,10 @@ class UsuariosAdminSeeder extends Seeder
                     // El modelo User cifra la contraseña solo (cast 'hashed').
                     'password' => '1234',
                     'email_verified_at' => now(),
+                    'rol' => 'admin',
+                    'restaurante_id' => $restaurante->id,
                 ],
             );
         }
-
-        // TODO rama 1 (restaurantes-y-roles): cuando exista la columna
-        // users.rol, añadir 'rol' => 'admin' y su restaurante_id.
     }
 }

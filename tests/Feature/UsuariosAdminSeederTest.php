@@ -16,8 +16,17 @@ class UsuariosAdminSeederTest extends TestCase
     {
         $this->seed(UsuariosAdminSeeder::class);
 
-        $this->assertDatabaseHas('users', ['email' => 'gabriel@mesaya.com']);
-        $this->assertDatabaseHas('users', ['email' => 'ivan@mesaya.com']);
+        $this->assertDatabaseHas('users', ['email' => 'gabriel@mesaya.com', 'rol' => 'admin']);
+        $this->assertDatabaseHas('users', ['email' => 'ivan@mesaya.com', 'rol' => 'admin']);
+    }
+
+    public function test_las_cuentas_pertenecen_a_la_tasca_de_prueba(): void
+    {
+        $this->seed(UsuariosAdminSeeder::class);
+
+        $ivan = User::where('email', 'ivan@mesaya.com')->first();
+
+        $this->assertSame('la-tasca', $ivan->restaurante->slug);
     }
 
     public function test_se_puede_ejecutar_dos_veces_sin_duplicar(): void
@@ -38,6 +47,7 @@ class UsuariosAdminSeederTest extends TestCase
         ]);
 
         $this->assertAuthenticated();
-        $respuesta->assertRedirect();
+        // Son admin, así que tras el login van al panel.
+        $respuesta->assertRedirect(route('dashboard'));
     }
 }

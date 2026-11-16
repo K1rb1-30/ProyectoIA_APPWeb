@@ -7,9 +7,21 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Panel del administrador.
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified', 'rol:admin'])->name('dashboard');
+
+// Pantallas provisionales: las ramas 5 (comandas del camarero) y 6 (pantalla
+// de cocina) rellenarán estas vistas y cambiarán la función por su controlador
+// sin tocar el nombre de la ruta, que es el que usa la redirección tras el login.
+Route::get('/camarero/mesas', function () {
+    return view('camarero.mesas');
+})->middleware(['auth', 'rol:camarero'])->name('camarero.mesas');
+
+Route::get('/cocina/pedidos', function () {
+    return view('cocina.pedidos');
+})->middleware(['auth', 'rol:cocina'])->name('cocina.pedidos');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

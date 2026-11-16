@@ -72,9 +72,25 @@ Se rellena en cada sesión de trabajo, no al final. Mínimo 15 entradas.
 - **Enlace:** PENDIENTE
 
 ### Entrada 9
+- **Fecha y autor:** 16/11/2026 – Gabriel
+- **Herramienta:** Claude Code
+- **Objetivo:** Rama 1 `feature/restaurantes-y-roles`: multi-restaurante, roles y aislamiento de datos
+- **Prompt:** "Somos la persona B y empezamos la rama 1 [...] Propón un plan con migraciones, modelo Restaurante, middleware ComprobarRol, trait con global scope, seeder, redirección tras el login y test base del golden test nº 6" + "OK, implementa"
+- **Resultado:** Migraciones `restaurantes` (nombre, slug único) y `rol` (enum) + `restaurante_id` (FK con borrado en cascada) en `users`. Modelo `Restaurante` y relaciones con `User`; método `User::rutaDeInicio()`. `RestauranteFactory` y estados `camarero()`/`cocina()` en `UserFactory`. Trait `App\Models\Concerns\PerteneceARestaurante` (global scope por el restaurante del usuario logueado y relleno de `restaurante_id` al crear). Middleware `ComprobarRol` con alias `rol`; `/dashboard` solo para admin; rutas provisionales `camarero.mesas` y `cocina.pedidos` con la vista `proximamente`. Tras el login cada rol va a su pantalla (sin `intended()`); el menú y la portada apuntan también a la pantalla de cada rol. `RestaurantesSeeder` con 2 restaurantes inventados y un usuario de cada rol. Tests nuevos: `AislamientoRestaurantesTest` (base del golden test nº 6, con tabla temporal de MySQL), `ComprobarRolTest` y `RedireccionTrasLoginTest`. `php artisan test`: 36 tests pasan. Incidencias: en este equipo faltaban `vendor/`, `public/build`, la contraseña de MySQL y `APP_KEY` en el `.env` (los rellenaron los alumnos); un `migrate:fresh --seed` lanzado por Claude borró y volvió a sembrar la base de desarrollo `proyectoIA`. No se ha actualizado el grafo porque graphify no está instalado en este equipo · ¿funcionó?: PENDIENTE DE REVISAR
+- **Enlace:** PENDIENTE
+
+### Entrada 10
 - **Fecha y autor:** 16/11/2026 – Iván
 - **Herramienta:** Claude Code
 - **Objetivo:** Tener dos cuentas fijas (Gabriel e Iván) para poder entrar siempre en local
 - **Prompt:** "Créame un seeder con dos usuarios admin para mi compañero y yo, con contraseña 1234 y correos gabriel@mesaya.com e ivan@mesaya.com, ficticio todo pero para poder entrar siempre"
 - **Resultado:** Rama `feature/usuarios-admin`. Nuevo `UsuariosAdminSeeder` (usa `updateOrCreate`, no se ejecuta en producción) llamado desde `DatabaseSeeder`, y `UsuariosAdminSeederTest` (3 tests: crea las cuentas, no duplica, se puede hacer login). El rol `admin` aún no se asigna porque la columna `users.rol` llega con la rama 1; queda un TODO. Rama 2 marcada como ✅ en el plan. `php artisan test`: 37 OK · ¿funcionó?: PENDIENTE DE REVISAR
 - **Enlace:** 816a37e · [PR #9](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/9)
+
+### Entrada 11
+- **Fecha y autor:** 16/11/2026 – Gabriel
+- **Herramienta:** Claude Code
+- **Objetivo:** Resolver los conflictos de la PR #9 (`feature/usuarios-admin`) tras mergear la rama 1
+- **Prompt:** "Arregla la pull request #9"
+- **Resultado:** Fusionado `main` en `feature/usuarios-admin`. Conflictos resueltos: `DatabaseSeeder` llama primero a `RestaurantesSeeder` y después a `UsuariosAdminSeeder` (se quita el "Test User" de Breeze); plan con las ramas 1 y 2 en ✅; en el registro la entrada de la rama 1 queda como la 9 y la de las cuentas fijas pasa a la 10. Hecho el `TODO` del seeder: las cuentas de Gabriel e Iván son `admin` de "La Tasca de Prueba" (se crea con `firstOrCreate` si no existe), porque desde la rama 1 `restaurante_id` es obligatorio y el seeder fallaba. `UsuariosAdminSeederTest` comprueba ahora el rol, el restaurante y que el login lleva al panel. `php artisan test`: 49 tests pasan · ¿funcionó?: PENDIENTE DE REVISAR
+- **Enlace:** PENDIENTE
