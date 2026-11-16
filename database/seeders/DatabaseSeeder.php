@@ -17,6 +17,9 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
+        // Cuentas fijas del equipo (Gabriel e Iván) para entrar siempre en local.
+        $this->call(UsuariosAdminSeeder::class);
+
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',

@@ -30,7 +30,7 @@ Estados: ⬜ pendiente · 🟡 en curso · 🔍 en revisión (PR abierta) · ✅
 | # | Rama | Depende de | Responsable | Estado | PR |
 |---|---|---|---|---|---|
 | 1 | `feature/restaurantes-y-roles` | — | | ⬜ | |
-| 2 | `feature/diseno-base` | — | Iván | 🔍 | [#7](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/7) |
+| 2 | `feature/diseno-base` | — | Iván | ✅ | [#7](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/7) |
 | 3 | `feature/gestion-carta` | 1, 2 | | ⬜ | |
 | 4 | `feature/mesas-qr` | 1, 2 | | ⬜ | |
 | 5 | `feature/comandas-camarero` | 3, 4 | | ⬜ | |
