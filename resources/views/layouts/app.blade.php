@@ -1,36 +1,23 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+{{--
+    Layout de las páginas con sesión iniciada que valen para cualquier rol
+    (panel de bienvenida y perfil): barra de navegación arriba y contenido.
+    Se usa con <x-app-layout> (lo trae Breeze: app/View/Components/AppLayout.php).
+    El slot "header" (opcional) es el título de la página.
+--}}
+<x-layouts.base>
+    <div class="min-h-screen">
+        @include('layouts.navigation')
 
-        <title>{{ config('app.name', 'MesaYa') }}</title>
+        @isset($header)
+            <header class="bg-surface-container-lowest border-b border-outline-variant/30">
+                <div class="max-w-[1280px] mx-auto px-margin-md py-space-lg">
+                    {{ $header }}
+                </div>
+            </header>
+        @endisset
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
-
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
-
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
-        </div>
-    </body>
-</html>
+        <main class="max-w-[1280px] mx-auto p-margin-md">
+            {{ $slot }}
+        </main>
+    </div>
+</x-layouts.base>
