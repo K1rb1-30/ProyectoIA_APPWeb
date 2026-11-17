@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Categoria;
 use App\Models\Mesa;
 use App\Models\Restaurante;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\View;
 
 /**
@@ -25,18 +26,24 @@ class CartaController extends Controller
 {
     public function show(string $slug, int $numero): View
     {
-        // 1. El restaurante del slug. Si no existe → 404.
-        $restaurante = Restaurante::where('slug', $slug)->firstOrFail();
+        // Restaurante y mesa del QR. Si no existen → 404 (ver Mesa::delQr).
+        $mesa = Mesa::delQr($slug, $numero);
 
-        // 2. La mesa con ese número DENTRO de ese restaurante. Si no existe → 404.
-        $mesa = Mesa::withoutGlobalScope('restaurante')
-            ->where('restaurante_id', $restaurante->id)
-            ->where('numero', $numero)
-            ->firstOrFail();
+        return view('cliente.carta', [
+            'restaurante' => $mesa->restaurante,
+            'mesa' => $mesa,
+            'categorias' => self::categoriasDisponibles($mesa->restaurante),
+        ]);
+    }
 
-        // 3. Categorías del restaurante con SOLO sus platos disponibles.
-        //    Los platos agotados no salen (golden test nº 5).
-        $categorias = Categoria::withoutGlobalScope('restaurante')
+    /**
+     * Categorías del restaurante con SOLO sus platos disponibles (golden
+     * test nº 5). Las categorías que se quedan sin platos no se devuelven.
+     * También la usa la pantalla "Mi pedido" (PedidoController).
+     */
+    public static function categoriasDisponibles(Restaurante $restaurante): Collection
+    {
+        return Categoria::withoutGlobalScope('restaurante')
             ->where('restaurante_id', $restaurante->id)
             ->with(['platos' => function ($consulta) use ($restaurante) {
                 $consulta->withoutGlobalScope('restaurante')
@@ -48,14 +55,7 @@ class CartaController extends Controller
             ->orderBy('orden')
             ->orderBy('nombre')
             ->get()
-            // Las categorías que se quedan sin platos disponibles no se muestran.
             ->filter(fn (Categoria $categoria) => $categoria->platos->isNotEmpty())
             ->values();
-
-        return view('cliente.carta', [
-            'restaurante' => $restaurante,
-            'mesa' => $mesa,
-            'categorias' => $categorias,
-        ]);
     }
 }

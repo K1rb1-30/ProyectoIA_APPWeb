@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\MesaController;
 use App\Http\Controllers\Admin\PlatoController;
 use App\Http\Controllers\Camarero\ComandaController;
 use App\Http\Controllers\Cliente\CartaController;
+use App\Http\Controllers\Cliente\PedidoController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -13,11 +14,23 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Carta pública del QR de cada mesa (rama 8). Sin login: la abre el cliente
-// desde el móvil. whereNumber hace que /mesa/abc dé 404 sin llegar al controlador.
-Route::get('/r/{slug}/mesa/{numero}', [CartaController::class, 'show'])
-    ->whereNumber('numero')
-    ->name('cliente.carta');
+// Pantallas públicas del cliente que entra por el QR de su mesa. Sin login.
+// whereNumber hace que /mesa/abc dé 404 sin llegar al controlador.
+Route::prefix('/r/{slug}/mesa/{numero}')->whereNumber('numero')->group(function () {
+    // Carta (rama 8).
+    Route::get('/', [CartaController::class, 'show'])->name('cliente.carta');
+
+    // Autopedido (rama 9): "Mi pedido", enviarlo a cocina y seguir su estado.
+    Route::get('/pedido', [PedidoController::class, 'create'])->name('cliente.pedido');
+    // throttle:10,1 → como mucho 10 envíos por minuto desde la misma IP. La
+    // ruta es pública y así nadie puede llenar la cocina de pedidos falsos.
+    Route::post('/pedido', [PedidoController::class, 'store'])
+        ->middleware('throttle:10,1')
+        ->name('cliente.pedido.enviar');
+    Route::get('/estado', [PedidoController::class, 'estado'])->name('cliente.estado');
+    // Lo consulta el JavaScript de la pantalla de estado cada 5 segundos.
+    Route::get('/estado/datos', [PedidoController::class, 'datosEstado'])->name('cliente.estado.datos');
+});
 
 // Panel del administrador.
 Route::get('/dashboard', function () {
