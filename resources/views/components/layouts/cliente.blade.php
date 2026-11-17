@@ -14,21 +14,23 @@
     - slot "barraFija" (opcional): barra pegada encima de la navegación,
       pensada para el botón del carrito.
 --}}
-@props(['restaurante' => null, 'mesa' => null, 'seccion' => 'carta', 'titulo' => null, 'enlaceCarta' => '#'])
+@props(['restaurante' => null, 'mesa' => null, 'seccion' => 'carta', 'titulo' => null, 'enlaceCarta' => '#', 'enlacePedido' => '#'])
 
 @php
-    // "enlaceCarta" es la URL de la carta de esta mesa (rama 8). Las de
-    // "Mi pedido" y "Cuenta" llegan con las ramas 9 y 10; hasta entonces, "#".
+    // Enlaces de la carta (rama 8) y de "Mi pedido" (rama 9) de esta mesa.
+    // "Cuenta" llega con la rama 10; hasta entonces, "#".
     $pestanas = [
         ['clave' => 'carta', 'texto' => 'Carta', 'icono' => 'restaurant_menu', 'enlace' => $enlaceCarta],
-        ['clave' => 'pedido', 'texto' => 'Mi pedido', 'icono' => 'receipt_long', 'enlace' => '#'],
+        ['clave' => 'pedido', 'texto' => 'Mi pedido', 'icono' => 'receipt_long', 'enlace' => $enlacePedido],
         ['clave' => 'cuenta', 'texto' => 'Cuenta', 'icono' => 'payments', 'enlace' => '#'],
     ];
 @endphp
 
 <x-layouts.base :titulo="$titulo ?? $restaurante">
-    {{-- 720 px es el ancho máximo de lectura que marca DESIGN.md --}}
-    <div class="min-h-screen max-w-[720px] mx-auto flex flex-col bg-background">
+    {{-- 720 px es el ancho máximo de lectura que marca DESIGN.md.
+         $attributes pasa aquí los atributos extra, como el x-data del carrito:
+         así el contenido y la barra fija de abajo comparten el mismo carrito. --}}
+    <div {{ $attributes->merge(['class' => 'min-h-screen max-w-[720px] mx-auto flex flex-col bg-background']) }}>
         {{-- Solo lo ve un admin que está probando la carta: franja para volver a su panel.
              El cliente real no inicia sesión, así que nunca la ve. --}}
         @if (Auth::user()?->rol === 'admin')
