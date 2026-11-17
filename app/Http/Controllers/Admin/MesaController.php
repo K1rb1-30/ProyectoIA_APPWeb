@@ -73,6 +73,13 @@ class MesaController extends Controller
 
     public function destroy(Mesa $mesa): RedirectResponse
     {
+        // Una mesa con pedidos no se borra: se perdería el historial (y MySQL
+        // tampoco lo deja, por el restrictOnDelete de pedidos.mesa_id).
+        if ($mesa->pedidos()->exists()) {
+            return redirect()->route('admin.mesas')
+                ->with('aviso', 'No se puede borrar la mesa '.$mesa->numero.' porque tiene pedidos.');
+        }
+
         $mesa->delete();
 
         return redirect()->route('admin.mesas')

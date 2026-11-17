@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AlergenoController;
 use App\Http\Controllers\Admin\CategoriaController;
 use App\Http\Controllers\Admin\MesaController;
 use App\Http\Controllers\Admin\PlatoController;
+use App\Http\Controllers\Camarero\ComandaController;
 use App\Http\Controllers\Cliente\CartaController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -46,12 +47,16 @@ Route::middleware(['auth', 'verified', 'rol:admin'])->prefix('admin')->group(fun
     Route::get('/alergenos', [AlergenoController::class, 'index'])->name('admin.alergenos');
 });
 
-// Pantallas provisionales: las ramas 5 (comandas del camarero) y 6 (pantalla
-// de cocina) rellenarán estas vistas y cambiarán la función por su controlador
-// sin tocar el nombre de la ruta, que es el que usa la redirección tras el login.
-Route::get('/camarero/mesas', function () {
-    return view('camarero.mesas');
-})->middleware(['auth', 'rol:camarero'])->name('camarero.mesas');
+// Comandas del camarero (rama 5). El nombre "camarero.mesas" no se cambia:
+// lo usa la redirección tras el login (User::rutaDeInicio).
+Route::middleware(['auth', 'rol:camarero'])->prefix('camarero')->group(function () {
+    Route::get('/mesas', [ComandaController::class, 'mesas'])->name('camarero.mesas');
+    Route::get('/mesas/{mesa}/comanda', [ComandaController::class, 'create'])->name('camarero.comanda.crear');
+    Route::post('/mesas/{mesa}/comanda', [ComandaController::class, 'store'])->name('camarero.comanda.guardar');
+});
+
+// Pantalla provisional: la rama 6 (pantalla de cocina) rellenará esta vista y
+// cambiará la función por su controlador sin tocar el nombre de la ruta.
 
 Route::get('/cocina/pedidos', function () {
     return view('cocina.pedidos');

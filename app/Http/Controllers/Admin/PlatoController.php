@@ -100,6 +100,13 @@ class PlatoController extends Controller
 
     public function destroy(Plato $plato): RedirectResponse
     {
+        // Un plato que ya se ha pedido no se borra: los pedidos lo necesitan
+        // (y MySQL tampoco lo deja, por el restrictOnDelete de lineas_pedido).
+        if ($plato->lineasPedido()->exists()) {
+            return redirect()->route('admin.carta')
+                ->with('aviso', "No se puede borrar «{$plato->nombre}» porque ya se ha pedido. Márcalo como no disponible.");
+        }
+
         $this->borrarFoto($plato);
         // Las filas de alergeno_plato se borran solas (cascadeOnDelete).
         $plato->delete();
