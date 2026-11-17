@@ -7,7 +7,8 @@
     - No cambia el rol de nadie en la base de datos: solo navega. El admin
       puede entrar en esas pantallas porque ComprobarRol siempre le deja pasar.
     - Al elegir una opción, el onchange lleva el navegador a esa URL.
-    - "Cliente" sale desactivado: la carta pública por QR llega con la rama 8.
+    - "Cliente" abre la carta pública (rama 8) de la primera mesa del
+      restaurante del admin. Si no tiene mesas, sale desactivado.
 --}}
 @php
     // Cada vista: texto, ruta y patrón de rutas que la marcan como elegida.
@@ -16,6 +17,12 @@
         ['texto' => 'Camarero', 'ruta' => 'camarero.mesas', 'patron' => ['camarero.*']],
         ['texto' => 'Cocina', 'ruta' => 'cocina.pedidos', 'patron' => ['cocina.*']],
     ];
+
+    // Primera mesa del restaurante del admin (el trait PerteneceARestaurante
+    // ya filtra por su restaurante). Solo se consulta si el usuario es admin.
+    $primeraMesa = Auth::user()?->rol === 'admin'
+        ? \App\Models\Mesa::orderBy('numero')->first()
+        : null;
 @endphp
 
 @if (Auth::user()?->rol === 'admin')
@@ -29,7 +36,13 @@
                     {{ $vista['texto'] }}
                 </option>
             @endforeach
-            <option value="" disabled>Cliente (próximamente)</option>
+            @if ($primeraMesa)
+                <option value="{{ $primeraMesa->urlQr() }}" @selected(request()->routeIs('cliente.*'))>
+                    Cliente (mesa {{ $primeraMesa->numero }})
+                </option>
+            @else
+                <option value="" disabled>Cliente (crea una mesa)</option>
+            @endif
         </select>
     </label>
 @endif
