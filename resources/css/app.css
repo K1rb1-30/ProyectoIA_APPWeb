@@ -13,7 +13,7 @@
 
 /*
  * Alpine quita el atributo x-cloak cuando arranca. Hasta entonces, lo que
- * lo lleva queda oculto: así no parpadean avisos que empiezan escondidos.
+ * lo lleva queda oculto: así no parpadean avisos ni los botones del carrito.
  */
 [x-cloak] {
     display: none !important;

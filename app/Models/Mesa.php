@@ -28,6 +28,28 @@ class Mesa extends Model
     }
 
     /**
+     * Busca la mesa de una URL de QR (/r/{slug}/mesa/{numero}) para las
+     * pantallas públicas del cliente. Si el restaurante o la mesa no
+     * existen, lanza un 404.
+     *
+     * Filtra A MANO por el restaurante del slug y quita el filtro del trait:
+     * en estas pantallas no suele haber nadie logueado, y si lo hay (un admin
+     * probando el QR) puede ser de otro restaurante.
+     */
+    public static function delQr(string $slug, int $numero): self
+    {
+        $restaurante = Restaurante::where('slug', $slug)->firstOrFail();
+
+        $mesa = static::withoutGlobalScope('restaurante')
+            ->where('restaurante_id', $restaurante->id)
+            ->where('numero', $numero)
+            ->firstOrFail();
+
+        // Dejamos el restaurante ya cargado para no volver a consultarlo.
+        return $mesa->setRelation('restaurante', $restaurante);
+    }
+
+    /**
      * URL absoluta a la que apunta el QR de la mesa: /r/{slug}/mesa/{numero}.
      *
      * Usa el nombre de la ruta pública de la carta (rama 8): si algún día

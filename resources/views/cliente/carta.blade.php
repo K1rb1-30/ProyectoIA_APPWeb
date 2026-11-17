@@ -3,14 +3,30 @@
     Variables: $restaurante, $mesa y $categorias (cada una con sus platos
     disponibles y los alérgenos de cada plato).
 
+    El carrito (rama 9) es el componente Alpine "carrito" (resources/js/carrito.js):
+    cada plato tiene "Añadir" o el contador −/+, y abajo sale "Ver pedido".
+
     Diferencias con la maqueta:
     - Los platos agotados NO salen (golden test nº 5), en vez de verse apagados.
-    - Sin botones "Añadir" ni barra "Ver pedido": llegan con la rama 9 (autopedido).
     - Sin buscador.
 --}}
+@php
+    $rutaMesa = ['slug' => $restaurante->slug, 'numero' => $mesa->numero];
+
+    // Datos para el carrito: clave de localStorage (una por restaurante y mesa)
+    // y precio de cada plato disponible { id: céntimos }.
+    // Js::from convierte el array de PHP en un objeto de JavaScript seguro.
+    $datosCarrito = 'carrito('.\Illuminate\Support\Js::from([
+        'clave' => 'carrito-'.$restaurante->slug.'-'.$mesa->numero,
+        'precios' => $categorias->flatMap->platos->pluck('precio_centimos', 'id'),
+    ]).')';
+@endphp
+
 <x-layouts.cliente :restaurante="$restaurante->nombre" :mesa="$mesa->numero" seccion="carta"
-                   :enlace-carta="route('cliente.carta', ['slug' => $restaurante->slug, 'numero' => $mesa->numero])"
-                   :titulo="'Carta · '.$restaurante->nombre">
+                   :enlace-carta="route('cliente.carta', $rutaMesa)"
+                   :enlace-pedido="route('cliente.pedido', $rutaMesa)"
+                   :titulo="'Carta · '.$restaurante->nombre"
+                   :x-data="$datosCarrito">
 
     @if ($categorias->isEmpty())
         <x-tarjeta class="text-center">
@@ -70,8 +86,26 @@
                                     @endif
                                 </div>
 
-                                <div class="mt-space-md pt-space-md border-t border-outline-variant/30">
+                                <div class="mt-space-md pt-space-md border-t border-outline-variant/30 flex items-center justify-between gap-space-md">
                                     <x-precio :centimos="$plato->precio_centimos" class="text-price-display" />
+
+                                    {{-- Si el plato no está en el carrito: botón "Añadir".
+                                         Si ya está: contador −/+ (x-show elige cuál se ve). --}}
+                                    <button type="button" x-show="cantidad({{ $plato->id }}) === 0" x-on:click="sumar({{ $plato->id }})"
+                                            class="pulsable inline-flex items-center gap-1 min-h-[48px] px-5 rounded bg-primary-container text-on-primary text-label-lg font-bold">
+                                        <x-icono nombre="add" class="text-xl" />
+                                        Añadir
+                                        <span class="sr-only">{{ $plato->nombre }}</span>
+                                    </button>
+
+                                    <div x-show="cantidad({{ $plato->id }}) > 0" x-cloak
+                                         class="inline-flex items-center gap-1 p-1 rounded-full border border-outline-variant/50">
+                                        <button type="button" x-on:click="restar({{ $plato->id }})" aria-label="Quitar una unidad de {{ $plato->nombre }}"
+                                                class="w-10 h-10 rounded-full bg-surface-container-low text-headline-sm">−</button>
+                                        <span class="w-8 text-center text-label-lg tabular-nums" x-text="cantidad({{ $plato->id }})"></span>
+                                        <button type="button" x-on:click="sumar({{ $plato->id }})" aria-label="Añadir una unidad de {{ $plato->nombre }}"
+                                                class="w-10 h-10 rounded-full bg-primary-container text-on-primary text-headline-sm">+</button>
+                                    </div>
                                 </div>
                             </x-tarjeta>
                         @endforeach
@@ -85,8 +119,23 @@
             <x-icono nombre="info" class="text-xl text-error" />
             <div>
                 <p class="text-label-lg">¿Intolerancias o peticiones especiales?</p>
-                <p class="text-secondary">Avisa al camarero y te asesoraremos.</p>
+                <p class="text-secondary">Puedes indicarlo con una nota en cada plato al revisar tu pedido.</p>
             </div>
         </div>
     @endif
+
+    {{-- Barra "Ver pedido": solo sale cuando hay algo en el carrito --}}
+    <x-slot name="barraFija">
+        <a href="{{ route('cliente.pedido', $rutaMesa) }}" x-show="articulos() > 0" x-cloak
+           class="pulsable flex items-center justify-between gap-space-md min-h-[56px] px-space-md rounded-lg bg-primary-container text-on-primary shadow-nivel-2">
+            <span class="flex items-center gap-3 text-label-lg font-bold">
+                <span class="inline-flex items-center justify-center min-w-8 h-8 px-2 rounded-full bg-white/25 tabular-nums" x-text="articulos()"></span>
+                Ver pedido
+            </span>
+            <span class="flex items-center gap-2 text-price-display">
+                <span x-text="euros(totalCentimos())"></span>
+                <x-icono nombre="arrow_forward" />
+            </span>
+        </a>
+    </x-slot>
 </x-layouts.cliente>
