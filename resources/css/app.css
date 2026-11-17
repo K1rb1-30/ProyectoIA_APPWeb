@@ -11,6 +11,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Alpine quita el atributo x-cloak cuando arranca. Hasta entonces, lo que
+ * lo lleva queda oculto: así no parpadean avisos que empiezan escondidos.
+ */
+[x-cloak] {
+    display: none !important;
+}
+
 @layer components {
     /* Efecto de pulsado: el botón baja 1 px al hacer clic (DESIGN.md). */
     .pulsable:active {

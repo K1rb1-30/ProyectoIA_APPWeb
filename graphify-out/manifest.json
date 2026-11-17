@@ -168,9 +168,9 @@
     "semantic_hash": ""
   },
   "routes/web.php": {
-    "mtime": 1794932562.1768866,
-    "seen": 1794932816.0826647,
-    "ast_hash": "99f115deebe467d9ea7a6be17634d92a",
+    "mtime": 1794934033.6611228,
+    "seen": 1794934229.6919053,
+    "ast_hash": "e3c5827e0d3b7291c3cf05ae6b3def39",
     "semantic_hash": ""
   },
   "tests/Feature/ExampleTest.php": {
@@ -234,9 +234,9 @@
     "semantic_hash": ""
   },
   "docs/registre-ia.md": {
-    "mtime": 1794931745.1955001,
-    "seen": 1794932816.082692,
-    "ast_hash": "b015c09c2c548c51485597810d67a8f6",
+    "mtime": 1794933877.517761,
+    "seen": 1794934229.6919374,
+    "ast_hash": "58fb65e69561f5250728ea3c8958c3b7",
     "semantic_hash": ""
   },
   "public/robots.txt": {
@@ -564,15 +564,15 @@
     "semantic_hash": ""
   },
   "resources/views/components/layouts/camarero.blade.php": {
-    "mtime": 1794932562.2162983,
-    "seen": 1794932816.0826461,
+    "mtime": 1794933578.1144013,
+    "seen": 1794934229.6918838,
     "ast_hash": "339c0b0f77663fbda0baf30186fbc6ed",
     "semantic_hash": ""
   },
   "resources/views/components/layouts/cliente.blade.php": {
-    "mtime": 1794850745.3115144,
-    "seen": 1794932816.0826468,
-    "ast_hash": "4bb653040eaeee6b5c43f78dc94e096e",
+    "mtime": 1794933877.518761,
+    "seen": 1794934229.6918848,
+    "ast_hash": "4c77c227d4d538e9b3c21998abf933ef",
     "semantic_hash": ""
   },
   "resources/views/components/layouts/cocina.blade.php": {
@@ -612,14 +612,14 @@
     "semantic_hash": ""
   },
   "docs/plan-de-trabajo.md": {
-    "mtime": 1794931745.1955001,
-    "seen": 1794932816.0826907,
-    "ast_hash": "4ca19503df8777672aff8a02b0032a12",
+    "mtime": 1794933877.517761,
+    "seen": 1794934229.6919365,
+    "ast_hash": "825ab7d9912b073e74dce2012a4f3d50",
     "semantic_hash": ""
   },
   "app/Acciones/CrearPedido.php": {
-    "mtime": 1794932507.3143158,
-    "seen": 1794932816.08255,
+    "mtime": 1794933578.1066606,
+    "seen": 1794934229.6917684,
     "ast_hash": "5ef3ef9f80674ba8e87cf9b13bbfe162",
     "semantic_hash": ""
   },
@@ -636,20 +636,20 @@
     "semantic_hash": ""
   },
   "app/Http/Controllers/Admin/MesaController.php": {
-    "mtime": 1794932635.4395404,
-    "seen": 1794932816.0825534,
+    "mtime": 1794933578.1066606,
+    "seen": 1794934229.691773,
     "ast_hash": "f6f2500cef5072cc75498ecace44137a",
     "semantic_hash": ""
   },
   "app/Http/Controllers/Admin/PlatoController.php": {
-    "mtime": 1794932635.4849563,
-    "seen": 1794932816.082554,
+    "mtime": 1794933578.107661,
+    "seen": 1794934229.691774,
     "ast_hash": "4c483f548fcf1a6f43012c7c1e1ae782",
     "semantic_hash": ""
   },
   "app/Http/Controllers/Camarero/ComandaController.php": {
-    "mtime": 1794932562.116512,
-    "seen": 1794932816.0825634,
+    "mtime": 1794933578.107661,
+    "seen": 1794934229.6917837,
     "ast_hash": "08cf1557c28494d85e81c6524de0c362",
     "semantic_hash": ""
   },
@@ -672,8 +672,8 @@
     "semantic_hash": ""
   },
   "app/Http/Requests/Camarero/ComandaRequest.php": {
-    "mtime": 1794932562.0797772,
-    "seen": 1794932816.0825698,
+    "mtime": 1794933578.107661,
+    "seen": 1794934229.6917937,
     "ast_hash": "f6c2af6dfa061c5d299b69356480aca9",
     "semantic_hash": ""
   },
@@ -696,26 +696,26 @@
     "semantic_hash": ""
   },
   "app/Models/LineaPedido.php": {
-    "mtime": 1794932486.455757,
-    "seen": 1794932816.082574,
+    "mtime": 1794933578.107661,
+    "seen": 1794934229.6917987,
     "ast_hash": "9b67bbfaaf6a240caa48a6f011f42973",
     "semantic_hash": ""
   },
   "app/Models/Mesa.php": {
-    "mtime": 1794932486.5244274,
-    "seen": 1794932816.0825746,
-    "ast_hash": "d87a30a141e27a97550e0263b1bd0dda",
+    "mtime": 1794933877.517761,
+    "seen": 1794934229.6917996,
+    "ast_hash": "b8615fabe0b5d2fdbcc479cc39cbf88b",
     "semantic_hash": ""
   },
   "app/Models/Pedido.php": {
-    "mtime": 1794932486.4244251,
-    "seen": 1794932816.0825756,
-    "ast_hash": "52f89ffff82ccd5931da1af912dcef26",
+    "mtime": 1794934016.7416706,
+    "seen": 1794934229.6918006,
+    "ast_hash": "cf6b276d87ca2ba9878d683665cfd444",
     "semantic_hash": ""
   },
   "app/Models/Plato.php": {
-    "mtime": 1794932507.2807796,
-    "seen": 1794932816.0825763,
+    "mtime": 1794933578.1091075,
+    "seen": 1794934229.6918013,
     "ast_hash": "832e0757bbbd77213ec8c40cc8a50bbf",
     "semantic_hash": ""
   },
@@ -792,14 +792,14 @@
     "semantic_hash": ""
   },
   "database/migrations/2026_11_17_000005_create_pedidos_table.php": {
-    "mtime": 1794932472.0399854,
-    "seen": 1794932816.0826066,
+    "mtime": 1794933578.1091075,
+    "seen": 1794934229.691837,
     "ast_hash": "7db0ecbe59d2b61f1b58ee20947ab9b2",
     "semantic_hash": ""
   },
   "database/migrations/2026_11_17_000006_create_lineas_pedido_table.php": {
-    "mtime": 1794932472.075575,
-    "seen": 1794932816.0826073,
+    "mtime": 1794933578.1091075,
+    "seen": 1794934229.691838,
     "ast_hash": "d1a2f14401870273b3bcb69b6f6645da",
     "semantic_hash": ""
   },
@@ -888,21 +888,21 @@
     "semantic_hash": ""
   },
   "resources/views/camarero/mesas.blade.php": {
-    "mtime": 1794932575.5098934,
-    "seen": 1794932816.0826333,
+    "mtime": 1794933578.1144013,
+    "seen": 1794934229.6918688,
     "ast_hash": "cb29cc3f1257a39e1323047781d44093",
     "semantic_hash": ""
   },
   "resources/views/camarero/nueva-comanda.blade.php": {
-    "mtime": 1794932625.9033008,
-    "seen": 1794932816.082634,
+    "mtime": 1794933578.1144013,
+    "seen": 1794934229.6918697,
     "ast_hash": "2da8014d9174aeb4a121732155cded6b",
     "semantic_hash": ""
   },
   "resources/views/cocina/pedidos.blade.php": {
-    "mtime": 1794850745.307176,
-    "seen": 1794932816.082635,
-    "ast_hash": "4fbe6689edc09337a479b18bfefb4682",
+    "mtime": 1794934139.5774703,
+    "seen": 1794934229.6918714,
+    "ast_hash": "dd5b606183fed846178de3fcafd47520",
     "semantic_hash": ""
   },
   "resources/views/components/errores-campo.blade.php": {
@@ -924,9 +924,9 @@
     "semantic_hash": ""
   },
   "resources/views/components/selector-vista.blade.php": {
-    "mtime": 1794931745.203005,
-    "seen": 1794932816.0826533,
-    "ast_hash": "fe1e36ea57d1b132e8decc9b123b7c4d",
+    "mtime": 1794933877.518761,
+    "seen": 1794934229.6918921,
+    "ast_hash": "4ffa601cb60eb5d70dcf20dd1f3f7953",
     "semantic_hash": ""
   },
   "tests/Feature/AislamientoRestaurantesTest.php": {
@@ -936,9 +936,9 @@
     "semantic_hash": ""
   },
   "tests/Feature/ComandasCamareroTest.php": {
-    "mtime": 1794932667.9618,
-    "seen": 1794932816.0826728,
-    "ast_hash": "7e63f7f660d61787b59e417f343b4b6d",
+    "mtime": 1794934112.9219582,
+    "seen": 1794934229.691915,
+    "ast_hash": "e1ef989806b62a275e76a0b0b0782735",
     "semantic_hash": ""
   },
   "tests/Feature/ComprobarRolTest.php": {
@@ -975,6 +975,36 @@
     "mtime": 1794850870.569179,
     "seen": 1794932816.082682,
     "ast_hash": "467539f37111dc18aa6d416f7d5f88e3",
+    "semantic_hash": ""
+  },
+  "app/Http/Controllers/Cliente/CartaController.php": {
+    "mtime": 1794933877.5167603,
+    "seen": 1794934229.6917849,
+    "ast_hash": "9c29e2368add1e1c42040d72ae66ef82",
+    "semantic_hash": ""
+  },
+  "app/Http/Controllers/Cocina/PedidoController.php": {
+    "mtime": 1794934033.6946328,
+    "seen": 1794934229.691786,
+    "ast_hash": "248497b02ff9e4f42e2fdce11c335242",
+    "semantic_hash": ""
+  },
+  "resources/views/cliente/carta.blade.php": {
+    "mtime": 1794933877.517761,
+    "seen": 1794934229.6918707,
+    "ast_hash": "78fcb84a572c37d5b40627fb0bf78c1f",
+    "semantic_hash": ""
+  },
+  "tests/Feature/CartaPublicaTest.php": {
+    "mtime": 1794933877.518761,
+    "seen": 1794934229.6919143,
+    "ast_hash": "903bdf67e2d36b2318c671c2d41602bd",
+    "semantic_hash": ""
+  },
+  "tests/Feature/PantallaCocinaTest.php": {
+    "mtime": 1794934112.9439592,
+    "seen": 1794934229.6919224,
+    "ast_hash": "820ce183abf2a7b3c7fa8335b3680515",
     "semantic_hash": ""
   },
   "package-lock.json": {

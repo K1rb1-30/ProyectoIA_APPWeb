@@ -34,7 +34,7 @@ Estados: ⬜ pendiente · 🟡 en curso · 🔍 en revisión (PR abierta) · ✅
 | 3 | `feature/gestion-carta` | 1, 2 | Iván | ✅ | [#10](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/10) |
 | 4 | `feature/mesas-qr` | 1, 2 | Gabriel | ✅ | [#12](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/12) |
 | 5 | `feature/comandas-camarero` | 3, 4 | Gabriel | ✅ | [#14](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/14) |
-| 6 | `feature/pantalla-cocina` | 5 | | ⬜ | |
+| 6 | `feature/pantalla-cocina` | 5 | Gabriel | 🟡 | |
 | 7 | `feature/avisos-camarero` | 6 | | ⬜ | |
 
 Al terminar la 7: entrada **v0.1** en `CHANGELOG.md` y etiqueta `v0.1`.
@@ -43,7 +43,7 @@ Al terminar la 7: entrada **v0.1** en `CHANGELOG.md` y etiqueta `v0.1`.
 
 | # | Rama | Depende de | Responsable | Estado | PR |
 |---|---|---|---|---|---|
-| 8 | `feature/carta-publica-qr` | 3, 4 | Iván | 🔍 | [#13](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/13) |
+| 8 | `feature/carta-publica-qr` | 3, 4 | Iván | ✅ | [#13](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/13) |
 | 9 | `feature/autopedido` | 5, 8 | | ⬜ | |
 | 10 | `feature/dividir-cuenta` | 5 | | ⬜ | |
 | 11 | `feature/pago-stripe` | 10 | | ⬜ | |
