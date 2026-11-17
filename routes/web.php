@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CategoriaController;
 use App\Http\Controllers\Admin\MesaController;
 use App\Http\Controllers\Admin\PlatoController;
 use App\Http\Controllers\Camarero\ComandaController;
+use App\Http\Controllers\Cocina\PedidoController;
 use App\Http\Controllers\Cliente\CartaController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -55,12 +56,14 @@ Route::middleware(['auth', 'rol:camarero'])->prefix('camarero')->group(function 
     Route::post('/mesas/{mesa}/comanda', [ComandaController::class, 'store'])->name('camarero.comanda.guardar');
 });
 
-// Pantalla provisional: la rama 6 (pantalla de cocina) rellenará esta vista y
-// cambiará la función por su controlador sin tocar el nombre de la ruta.
-
-Route::get('/cocina/pedidos', function () {
-    return view('cocina.pedidos');
-})->middleware(['auth', 'rol:cocina'])->name('cocina.pedidos');
+// Pantalla de cocina (rama 6). El nombre "cocina.pedidos" no se cambia: lo
+// usa la redirección tras el login (User::rutaDeInicio).
+Route::middleware(['auth', 'rol:cocina'])->prefix('cocina')->group(function () {
+    Route::get('/pedidos', [PedidoController::class, 'index'])->name('cocina.pedidos');
+    // JSON que consulta el tablero cada 5 s (polling).
+    Route::get('/pedidos/datos', [PedidoController::class, 'datos'])->name('cocina.pedidos.datos');
+    Route::patch('/pedidos/{pedido}/estado', [PedidoController::class, 'cambiarEstado'])->name('cocina.pedidos.estado');
+});
 
 // Mesas y QR (rama 4). Solo para el admin. Como en la carta, los nombres
 // empiezan por "admin.mesas" para que el menú lateral marque "Mesas y QR".
