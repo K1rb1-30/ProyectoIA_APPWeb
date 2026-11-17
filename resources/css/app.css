@@ -11,8 +11,10 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Alpine quita el atributo x-cloak al arrancar. Hasta entonces, los elementos
-   que lo llevan no se ven (evita que parpadeen botones del carrito al cargar). */
+/*
+ * Alpine quita el atributo x-cloak cuando arranca. Hasta entonces, lo que
+ * lo lleva queda oculto: así no parpadean avisos ni los botones del carrito.
+ */
 [x-cloak] {
     display: none !important;
 }

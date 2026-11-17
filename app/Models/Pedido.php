@@ -26,6 +26,59 @@ class Pedido extends Model
      */
     public const ESTADOS = ['pendiente', 'preparando', 'listo', 'servido'];
 
+    /**
+     * Único salto permitido desde cada estado. "servido" no está como clave
+     * porque es el final: desde ahí no se puede ir a ningún sitio.
+     */
+    public const SIGUIENTE_ESTADO = [
+        'pendiente' => 'preparando',
+        'preparando' => 'listo',
+        'listo' => 'servido',
+    ];
+
+    /**
+     * Estado al que puede pasar el pedido ahora, o null si ya está servido.
+     */
+    public function siguienteEstado(): ?string
+    {
+        return self::SIGUIENTE_ESTADO[$this->estado] ?? null;
+    }
+
+    /**
+     * Pasa el pedido a $nuevoEstado SOLO si es el siguiente del actual
+     * (pendiente → preparando → listo → servido).
+     *
+     * Devuelve true si lo ha cambiado y false si no estaba permitido (un salto
+     * como pendiente → listo, volver atrás o tocar un pedido ya servido). Si
+     * devuelve false, no se ha cambiado nada.
+     */
+    public function cambiarEstado(string $nuevoEstado): bool
+    {
+        $estadoActual = $this->estado;
+
+        if ($this->siguienteEstado() !== $nuevoEstado) {
+            return false;
+        }
+
+        // Guardamos con "where estado = <el que teníamos>". Si dos cocineros
+        // pulsan a la vez, el primero cambia la fila y el segundo ya no la
+        // encuentra con el estado antiguo: update() devuelve 0 filas y no se
+        // salta ningún paso.
+        $filasCambiadas = static::whereKey($this->id)
+            ->where('estado', $estadoActual)
+            ->update(['estado' => $nuevoEstado]);
+
+        if ($filasCambiadas === 0) {
+            return false;
+        }
+
+        // Actualizamos también el objeto que tenemos en memoria.
+        $this->estado = $nuevoEstado;
+        $this->syncOriginal();
+
+        return true;
+    }
+
     public function mesa(): BelongsTo
     {
         return $this->belongsTo(Mesa::class);

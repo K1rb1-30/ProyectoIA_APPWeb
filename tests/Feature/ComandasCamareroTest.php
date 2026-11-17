@@ -53,7 +53,8 @@ class ComandasCamareroTest extends TestCase
         return $this->actingAs($usuario)->post(route('camarero.comanda.guardar', $mesa), ['lineas' => $lineas]);
     }
 
-    // Golden test nº 1 (la parte de "aparece en cocina" llega con la rama 6).
+    // Golden test nº 1: enviar una comanda crea el pedido con sus líneas y
+    // aparece en cocina.
     public function test_enviar_una_comanda_crea_el_pedido_con_sus_lineas_en_pendiente(): void
     {
         $respuesta = $this->enviarComanda($this->camareroA, $this->mesaA, [
@@ -88,6 +89,18 @@ class ComandasCamareroTest extends TestCase
 
         // 2 × 8,50 + 1 × 6,00 = 23,00 €
         $this->assertSame(2300, $pedido->totalCentimos());
+
+        // ...y aparece en el JSON que consulta la pantalla de cocina (rama 6).
+        $cocinero = User::factory()->cocina()->create(['restaurante_id' => $this->restauranteA->id]);
+        $this->actingAs($cocinero)->getJson(route('cocina.pedidos.datos'))
+            ->assertOk()
+            ->assertJsonCount(1, 'pedidos')
+            ->assertJsonPath('pedidos.0.id', $pedido->id)
+            ->assertJsonPath('pedidos.0.mesa', 3)
+            ->assertJsonPath('pedidos.0.estado', 'pendiente')
+            ->assertJsonPath('pedidos.0.lineas.0.plato', 'Croquetas')
+            ->assertJsonPath('pedidos.0.lineas.0.cantidad', 2)
+            ->assertJsonPath('pedidos.0.lineas.0.notas', 'Sin cebolla');
     }
 
     public function test_la_mesa_pasa_a_ocupada(): void

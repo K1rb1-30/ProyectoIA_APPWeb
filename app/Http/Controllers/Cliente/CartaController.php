@@ -39,7 +39,7 @@ class CartaController extends Controller
     /**
      * Categorías del restaurante con SOLO sus platos disponibles (golden
      * test nº 5). Las categorías que se quedan sin platos no se devuelven.
-     * También la usa la pantalla "Mi pedido" (PedidoController).
+     * También la usa la pantalla "Mi pedido" (AutopedidoController).
      */
     public static function categoriasDisponibles(Restaurante $restaurante): Collection
     {

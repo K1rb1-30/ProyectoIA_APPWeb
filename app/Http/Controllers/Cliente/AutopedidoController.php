@@ -23,7 +23,7 @@ use Illuminate\View\View;
  *   SESIÓN del navegador los ids de los pedidos que ha hecho. La pantalla de
  *   estado solo enseña esos.
  */
-class PedidoController extends Controller
+class AutopedidoController extends Controller
 {
     // Clave de la sesión donde guardamos los ids de los pedidos del cliente.
     private const CLAVE_SESION = 'pedidos_cliente';
