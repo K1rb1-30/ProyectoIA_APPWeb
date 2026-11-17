@@ -4,12 +4,19 @@ use App\Http\Controllers\Admin\AlergenoController;
 use App\Http\Controllers\Admin\CategoriaController;
 use App\Http\Controllers\Admin\MesaController;
 use App\Http\Controllers\Admin\PlatoController;
+use App\Http\Controllers\Cliente\CartaController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Carta pública del QR de cada mesa (rama 8). Sin login: la abre el cliente
+// desde el móvil. whereNumber hace que /mesa/abc dé 404 sin llegar al controlador.
+Route::get('/r/{slug}/mesa/{numero}', [CartaController::class, 'show'])
+    ->whereNumber('numero')
+    ->name('cliente.carta');
 
 // Panel del administrador.
 Route::get('/dashboard', function () {
