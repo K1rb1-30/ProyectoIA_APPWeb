@@ -11,6 +11,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Alpine quita el atributo x-cloak al arrancar. Hasta entonces, los elementos
+   que lo llevan no se ven (evita que parpadeen botones del carrito al cargar). */
+[x-cloak] {
+    display: none !important;
+}
+
 @layer components {
     /* Efecto de pulsado: el botón baja 1 px al hacer clic (DESIGN.md). */
     .pulsable:active {
