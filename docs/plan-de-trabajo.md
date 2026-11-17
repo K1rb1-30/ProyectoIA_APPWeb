@@ -44,7 +44,7 @@ Al terminar la 7: entrada **v0.1** en `CHANGELOG.md` y etiqueta `v0.1`.
 | # | Rama | Depende de | Responsable | Estado | PR |
 |---|---|---|---|---|---|
 | 8 | `feature/carta-publica-qr` | 3, 4 | Iván | ✅ | [#13](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/13) |
-| 9 | `feature/autopedido` | 5, 8 | Iván | 🟡 | |
+| 9 | `feature/autopedido` | 5, 8 | Iván | 🔍 | [#16](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/16) |
 | 10 | `feature/dividir-cuenta` | 5 | | ⬜ | |
 | 11 | `feature/pago-stripe` | 10 | | ⬜ | |
 | 12 | `feature/efectivo-y-cierre` | 10 | | ⬜ | |
