@@ -13,10 +13,10 @@
 @props(['titulo' => 'Mesas', 'seccion' => 'mesas'])
 
 @php
-    // Pestañas de la barra inferior. Las rutas llegan con las ramas 5, 7 y 12;
-    // hasta entonces (null) apuntan a "#".
+    // Pestañas de la barra inferior. Las rutas de avisos y cobros llegan con
+    // las ramas 7 y 12; hasta entonces (null) apuntan a "#".
     $pestanas = [
-        ['clave' => 'mesas', 'texto' => 'Mesas', 'icono' => 'table_restaurant', 'ruta' => null],
+        ['clave' => 'mesas', 'texto' => 'Mesas', 'icono' => 'table_restaurant', 'ruta' => 'camarero.mesas'],
         ['clave' => 'avisos', 'texto' => 'Avisos', 'icono' => 'room_service', 'ruta' => null],
         ['clave' => 'cobros', 'texto' => 'Cobros', 'icono' => 'payments', 'ruta' => null],
         ['clave' => 'perfil', 'texto' => 'Perfil', 'icono' => 'account_circle', 'ruta' => 'profile.edit'],

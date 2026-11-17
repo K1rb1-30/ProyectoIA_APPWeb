@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
 
 // Plato de la carta. Usa PerteneceARestaurante para el aislamiento.
@@ -37,6 +38,15 @@ class Plato extends Model
     public function alergenos(): BelongsToMany
     {
         return $this->belongsToMany(Alergeno::class, 'alergeno_plato');
+    }
+
+    /**
+     * Líneas de pedido en las que se ha pedido este plato. Sirve para no
+     * dejar borrar un plato que ya forma parte de algún pedido.
+     */
+    public function lineasPedido(): HasMany
+    {
+        return $this->hasMany(LineaPedido::class);
     }
 
     /**
