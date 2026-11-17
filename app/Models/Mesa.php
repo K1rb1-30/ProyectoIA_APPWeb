@@ -30,11 +30,11 @@ class Mesa extends Model
     /**
      * URL absoluta a la que apunta el QR de la mesa: /r/{slug}/mesa/{numero}.
      *
-     * Se monta con url() porque la ruta pública todavía no existe (llega con
-     * la rama 8). Entonces se podrá cambiar por route() aquí, en un solo sitio.
+     * Usa el nombre de la ruta pública de la carta (rama 8): si algún día
+     * cambia la URL, el QR se actualiza solo.
      */
     public function urlQr(): string
     {
-        return url('/r/'.$this->restaurante->slug.'/mesa/'.$this->numero);
+        return route('cliente.carta', ['slug' => $this->restaurante->slug, 'numero' => $this->numero]);
     }
 }

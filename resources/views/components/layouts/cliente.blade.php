@@ -14,12 +14,13 @@
     - slot "barraFija" (opcional): barra pegada encima de la navegación,
       pensada para el botón del carrito.
 --}}
-@props(['restaurante' => null, 'mesa' => null, 'seccion' => 'carta', 'titulo' => null])
+@props(['restaurante' => null, 'mesa' => null, 'seccion' => 'carta', 'titulo' => null, 'enlaceCarta' => '#'])
 
 @php
-    // Las rutas públicas llegan con las ramas 8, 9 y 10; hasta entonces, "#".
+    // "enlaceCarta" es la URL de la carta de esta mesa (rama 8). Las de
+    // "Mi pedido" y "Cuenta" llegan con las ramas 9 y 10; hasta entonces, "#".
     $pestanas = [
-        ['clave' => 'carta', 'texto' => 'Carta', 'icono' => 'restaurant_menu', 'enlace' => '#'],
+        ['clave' => 'carta', 'texto' => 'Carta', 'icono' => 'restaurant_menu', 'enlace' => $enlaceCarta],
         ['clave' => 'pedido', 'texto' => 'Mi pedido', 'icono' => 'receipt_long', 'enlace' => '#'],
         ['clave' => 'cuenta', 'texto' => 'Cuenta', 'icono' => 'payments', 'enlace' => '#'],
     ];
@@ -28,6 +29,14 @@
 <x-layouts.base :titulo="$titulo ?? $restaurante">
     {{-- 720 px es el ancho máximo de lectura que marca DESIGN.md --}}
     <div class="min-h-screen max-w-[720px] mx-auto flex flex-col bg-background">
+        {{-- Solo lo ve un admin que está probando la carta: franja para volver a su panel.
+             El cliente real no inicia sesión, así que nunca la ve. --}}
+        @if (Auth::user()?->rol === 'admin')
+            <div class="flex justify-end px-margin py-1 bg-primary-fixed/40">
+                <x-selector-vista />
+            </div>
+        @endif
+
         <header class="sticky top-0 z-20 flex items-center gap-3 px-margin py-space-sm bg-surface-container-lowest border-b border-outline-variant/30">
             <x-logo />
             <div class="min-w-0">
