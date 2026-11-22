@@ -35,7 +35,7 @@ Estados: ⬜ pendiente · 🟡 en curso · 🔍 en revisión (PR abierta) · ✅
 | 4 | `feature/mesas-qr` | 1, 2 | Gabriel | ✅ | [#12](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/12) |
 | 5 | `feature/comandas-camarero` | 3, 4 | Gabriel | ✅ | [#14](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/14) |
 | 6 | `feature/pantalla-cocina` | 5 | Gabriel | ✅ | [#15](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/15) |
-| 7 | `feature/avisos-camarero` | 6 | Gabriel | 🟡 | |
+| 7 | `feature/avisos-camarero` | 6 | Gabriel | 🔍 | [#17](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/17) |
 
 Al terminar la 7: entrada **v0.1** en `CHANGELOG.md` y etiqueta `v0.1`.
 
