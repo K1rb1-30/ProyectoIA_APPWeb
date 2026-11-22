@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AlergenoController;
 use App\Http\Controllers\Admin\CategoriaController;
 use App\Http\Controllers\Admin\MesaController;
 use App\Http\Controllers\Admin\PlatoController;
+use App\Http\Controllers\Camarero\AvisoController;
 use App\Http\Controllers\Camarero\ComandaController;
 use App\Http\Controllers\Cliente\AutopedidoController;
 use App\Http\Controllers\Cliente\CartaController;
@@ -67,6 +68,11 @@ Route::middleware(['auth', 'rol:camarero'])->prefix('camarero')->group(function 
     Route::get('/mesas', [ComandaController::class, 'mesas'])->name('camarero.mesas');
     Route::get('/mesas/{mesa}/comanda', [ComandaController::class, 'create'])->name('camarero.comanda.crear');
     Route::post('/mesas/{mesa}/comanda', [ComandaController::class, 'store'])->name('camarero.comanda.guardar');
+
+    // Avisos de plato listo (rama 7): pantalla, JSON del polling y "servido".
+    Route::get('/avisos', [AvisoController::class, 'index'])->name('camarero.avisos');
+    Route::get('/avisos/datos', [AvisoController::class, 'datos'])->name('camarero.avisos.datos');
+    Route::patch('/avisos/{pedido}/servido', [AvisoController::class, 'servido'])->name('camarero.avisos.servido');
 });
 
 // Pantalla de cocina (rama 6). El nombre "cocina.pedidos" no se cambia: lo

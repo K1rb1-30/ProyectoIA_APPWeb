@@ -1,22 +1,22 @@
-# Graph Report - ProyectoIA_APPWeb  (2026-11-17)
+# Graph Report - ProyectoIA_APPWeb  (2026-11-22)
 
 ## Corpus Check
-- 167 files · ~45,176 words
+- 178 files · ~51,201 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 11 file(s) not represented in the graph (top: (none) 7, .example 1, .xml 1)
 
 ## Summary
-- 799 nodes · 1360 edges · 114 communities (31 shown, 83 thin omitted)
-- Extraction: 93% EXTRACTED · 7% INFERRED · 0% AMBIGUOUS · INFERRED: 90 edges (avg confidence: 0.94)
+- 872 nodes · 1539 edges · 111 communities (33 shown, 78 thin omitted)
+- Extraction: 93% EXTRACTED · 7% INFERRED · 0% AMBIGUOUS · INFERRED: 106 edges (avg confidence: 0.93)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `2c39ef03`
+- Built from commit: `5263309c`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
-- User
+- AutopedidoTest
 - composer.json
 - package.json
 - Illuminate\Database\Schema\Blueprint
@@ -24,7 +24,7 @@
 - Propuesta inicial: MesaYa
 - bootstrap/app.php
 - LoginRequest
-- Illuminate\Database\Eloquent\Model
+- Illuminate\Foundation\Testing\RefreshDatabase
 - Prompts por pantalla
 - README.md
 - 2. Qué incluye cada rama
@@ -33,7 +33,7 @@
 - ComponentesDisenoTest
 - Laravel Application
 - ExampleTest
-- App\Http\Controllers\Controller
+- web.php
 - Controller
 - .claude/CLAUDE.md
 - edit.blade.php
@@ -43,15 +43,15 @@
 - ComandasCamareroTest
 - Illuminate\View\View
 - GestionCartaTest
-- Illuminate\Http\RedirectResponse
-- MesasTest
+- NewPasswordController.php
+- PantallaCocinaTest
 - Illuminate\Http\Request
 - TestCase
 - PasswordResetTest.php
 - require-dev
 - scripts
-- ComprobarRolTest
-- PasswordController.php
+- [v0.1] – MVP – 22/11/2026
+- PasswordConfirmationTest
 - Entrada 9
 - Illuminate\View\Component
 - config
@@ -59,51 +59,46 @@
 - ProfileTest
 - CartaPublicaTest
 - AuthenticationTest
-- RedireccionTrasLoginTest
-- Illuminate\Foundation\Testing\RefreshDatabase
-- Restaurante
+- PasswordUpdateTest.php
 - psr-4
 - require
 - autoload-dev
 - extra
 - crear.blade.php
 - editar.blade.php
-- PlatoFactory.php
-- PedidoController
-- App\Models\Concerns\PerteneceARestaurante
 
 ## God Nodes (most connected - your core abstractions)
 1. `User` - 35 edges
-2. `Mesa` - 28 edges
+2. `Mesa` - 34 edges
 3. `Plato` - 24 edges
 4. `GestionCartaTest` - 24 edges
-5. `Pedido` - 22 edges
-6. `TestCase` - 22 edges
-7. `ComandasCamareroTest` - 21 edges
-8. `CartaPublicaTest` - 20 edges
-9. `PantallaCocinaTest` - 20 edges
-10. `Restaurante` - 20 edges
+5. `AutopedidoTest` - 23 edges
+6. `Registro de uso de IA` - 22 edges
+7. `Pedido` - 22 edges
+8. `TestCase` - 22 edges
+9. `ComandasCamareroTest` - 21 edges
+10. `PantallaCocinaTest` - 21 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `6. `feature/pantalla-cocina`` --references--> `Pedido`  [INFERRED]
   docs/plan-de-trabajo.md → app/Models/Pedido.php
-- `Entrada 14` --references--> `SelectorVistaTest`  [INFERRED]
-  docs/registre-ia.md → tests/Feature/SelectorVistaTest.php
+- `Entrada 20` --references--> `AutopedidoController`  [INFERRED]
+  docs/registre-ia.md → app/Http/Controllers/Cliente/AutopedidoController.php
 - `Entrada 18` --references--> `CartaController`  [INFERRED]
   docs/registre-ia.md → app/Http/Controllers/Cliente/CartaController.php
-- `Base de datos` --references--> `Mesa`  [INFERRED]
-  CLAUDE.md → app/Models/Mesa.php
+- `Entrada 20` --references--> `PedidoClienteRequest`  [INFERRED]
+  docs/registre-ia.md → app/Http/Requests/Cliente/PedidoClienteRequest.php
 - `Entrada 15` --references--> `Mesa`  [INFERRED]
   docs/registre-ia.md → app/Models/Mesa.php
 
 ## Import Cycles
 - None detected.
 
-## Communities (114 total, 83 thin omitted)
+## Communities (111 total, 78 thin omitted)
 
-### Community 0 - "User"
-Cohesion: 0.14
-Nodes (3): {closure#1}(), User, TODO en castellano (obligatorio)
+### Community 0 - "AutopedidoTest"
+Cohesion: 0.16
+Nodes (5): Entrada 20, Entrada 21, avisosCamarero(), carrito(), AutopedidoTest
 
 ### Community 1 - "composer.json"
 Cohesion: 0.22
@@ -115,11 +110,11 @@ Nodes (30): devDependencies, alpinejs@^3.4.2, autoprefixer@^10.4.2, concurrently
 
 ### Community 3 - "Illuminate\Database\Schema\Blueprint"
 Cohesion: 0.06
-Nodes (18): {closure#1}(), {closure#2}(), {closure#3}(), {closure#1}(), {closure#2}(), {closure#1}(), {closure#2}(), {closure#3}() (+10 more)
+Nodes (19): {closure#1}(), {closure#2}(), {closure#3}(), {closure#1}(), {closure#2}(), {closure#1}(), {closure#2}(), {closure#3}() (+11 more)
 
 ### Community 4 - "MesaYa — Instrucciones para Claude Code"
-Cohesion: 0.12
-Nodes (16): Comandos útiles, Cómo tienes que trabajar con nosotros, Diseño visual (obligatorio para cualquier vista), Documentación del repo, Funcionalidades y prioridad, Git y GitHub, Grafo del proyecto (graphify), MesaYa — Instrucciones para Claude Code (+8 more)
+Cohesion: 0.06
+Nodes (21): ComprobarRol, Comandos útiles, Cómo tienes que trabajar con nosotros, Diseño visual (obligatorio para cualquier vista), Documentación del repo, Funcionalidades y prioridad, Git y GitHub, Grafo del proyecto (graphify) (+13 more)
 
 ### Community 5 - "Propuesta inicial: MesaYa"
 Cohesion: 0.13
@@ -130,8 +125,12 @@ Cohesion: 0.32
 Nodes (3): {closure#1}(), {closure#2}(), {closure#3}()
 
 ### Community 7 - "LoginRequest"
-Cohesion: 0.10
-Nodes (4): CategoriaRequest, LoginRequest, ComandaRequest, ProfileUpdateRequest
+Cohesion: 0.11
+Nodes (4): CategoriaRequest, LoginRequest, PedidoClienteRequest, ProfileUpdateRequest
+
+### Community 8 - "Illuminate\Foundation\Testing\RefreshDatabase"
+Cohesion: 0.06
+Nodes (15): {closure#2}(), Alergeno, Categoria, {closure#1}(), PerteneceARestaurante, Mesa, Restaurante, User (+7 more)
 
 ### Community 9 - "Prompts por pantalla"
 Cohesion: 0.25
@@ -146,8 +145,8 @@ Cohesion: 0.09
 Nodes (21): 10. `feature/dividir-cuenta`, 11. `feature/pago-stripe`, 12. `feature/efectivo-y-cierre`, 13. `feature/estadisticas`, 1. Seguimiento, 2. `feature/diseno-base`, 2. Qué incluye cada rama, 3. Decisiones pendientes (+13 more)
 
 ### Community 13 - "Registro de uso de IA"
-Cohesion: 0.06
-Nodes (22): MesaFactory, AlergenosSeeder, CartaSeeder, DatabaseSeeder, MesasSeeder, RestaurantesSeeder, UsuariosAdminSeeder, 3. `feature/gestion-carta` (+14 more)
+Cohesion: 0.07
+Nodes (18): AlergenosSeeder, CartaSeeder, DatabaseSeeder, MesasSeeder, RestaurantesSeeder, 3. `feature/gestion-carta`, Entrada 1, Entrada 10 (+10 more)
 
 ### Community 14 - "ComponentesDisenoTest"
 Cohesion: 0.16
@@ -157,37 +156,37 @@ Nodes (3): Entrada 8, ComponentesDisenoTest, LayoutsTest
 Cohesion: 0.50
 Nodes (3): Agent Setup, Laravel Application, Prerequisites
 
+### Community 21 - "web.php"
+Cohesion: 0.11
+Nodes (3): AutopedidoController, {closure#2}(), CartaController
+
 ### Community 22 - "Controller"
-Cohesion: 0.13
-Nodes (6): ConfirmablePasswordController, EmailVerificationNotificationController, EmailVerificationPromptController, PasswordResetLinkController, VerifyEmailController, Controller
+Cohesion: 0.14
+Nodes (7): ConfirmablePasswordController, EmailVerificationNotificationController, EmailVerificationPromptController, PasswordController, PasswordResetLinkController, VerifyEmailController, Controller
 
 ### Community 34 - "edit.blade.php"
 Cohesion: 0.50
 Nodes (3): profile.partials.delete-user-form, profile.partials.update-password-form, profile.partials.update-profile-information-form
 
 ### Community 58 - "Pedido"
-Cohesion: 0.15
-Nodes (6): {closure#1}(), {closure#2}(), LineaPedido, {closure#1}(), Pedido, Entrada 17
+Cohesion: 0.09
+Nodes (10): AvisoController, {closure#1}(), {closure#2}(), {closure#1}(), {closure#2}(), PedidoController, LineaPedido, {closure#1}() (+2 more)
 
 ### Community 65 - "Plato"
-Cohesion: 0.19
+Cohesion: 0.17
 Nodes (4): PlatoController, PlatoRequest, Plato, Entrada 12
 
 ### Community 66 - "ComandasCamareroTest"
-Cohesion: 0.11
-Nodes (3): CrearPedido, ComandasCamareroTest, PantallaCocinaTest
+Cohesion: 0.10
+Nodes (5): CrearPedido, ComandaController, ComandaRequest, Entrada 17, ComandasCamareroTest
 
 ### Community 67 - "Illuminate\View\View"
-Cohesion: 0.20
-Nodes (3): MesaController, ComandaController, Mesa
-
-### Community 68 - "GestionCartaTest"
-Cohesion: 0.09
-Nodes (3): CategoriaController, Categoria, GestionCartaTest
+Cohesion: 0.17
+Nodes (4): AlergenoController, CategoriaController, MesaController, AuthenticatedSessionController
 
 ### Community 72 - "TestCase"
-Cohesion: 0.18
-Nodes (5): Entrada 6, PasswordConfirmationTest, RegistroDesactivadoTest, ExampleTest, TestCase
+Cohesion: 0.24
+Nodes (4): Entrada 6, RegistroDesactivadoTest, ExampleTest, TestCase
 
 ### Community 74 - "require-dev"
 Cohesion: 0.22
@@ -197,17 +196,21 @@ Nodes (9): require-dev, fakerphp/faker, laravel/breeze, laravel/pail, laravel/pa
 Cohesion: 0.22
 Nodes (9): scripts, dev, post-autoload-dump, post-create-project-cmd, post-root-package-install, post-update-cmd, pre-package-uninstall, setup (+1 more)
 
+### Community 76 - "[v0.1] – MVP – 22/11/2026"
+Cohesion: 0.40
+Nodes (4): Adelantado de la v1.0, Añadido, Changelog, [v0.1] – MVP – 22/11/2026
+
 ### Community 79 - "Entrada 9"
-Cohesion: 0.10
-Nodes (10): ComprobarRol, PerteneceARestaurante, Roles, UserFactory, 1. `feature/restaurantes-y-roles`, Entrada 13, Entrada 9, AislamientoRestaurantesTest (+2 more)
+Cohesion: 0.07
+Nodes (6): CategoriaFactory, PlatoFactory, RestauranteFactory, UserFactory, Entrada 9, AislamientoRestaurantesTest
 
 ### Community 81 - "config"
 Cohesion: 0.29
 Nodes (7): pestphp/pest-plugin, php-http/discovery, config, allow-plugins, optimize-autoloader, preferred-install, sort-packages
 
-### Community 88 - "Restaurante"
-Cohesion: 0.22
-Nodes (4): Restaurante, Base de datos, CategoriaFactory, RestauranteFactory
+### Community 84 - "CartaPublicaTest"
+Cohesion: 0.07
+Nodes (5): MesaFactory, Entrada 15, Entrada 18, CartaPublicaTest, MesasTest
 
 ### Community 89 - "psr-4"
 Cohesion: 0.40
@@ -227,23 +230,23 @@ Nodes (3): extra, laravel, dont-discover
 
 ## Knowledge Gaps
 - **6 isolated node(s):** `profile.partials.delete-user-form`, `profile.partials.update-password-form`, `profile.partials.update-profile-information-form`, `layouts.navigation`, `admin.carta._formulario` (+1 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 380 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **83 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 401 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **78 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `User` connect `User` to `Illuminate\View\View`, `GestionCartaTest`, `MesasTest`, `LoginRequest`, `Illuminate\Http\Request`, `Illuminate\Database\Eloquent\Model`, `TestCase`, `PasswordResetTest.php`, `UserFactory.php`, `Registro de uso de IA`, `Entrada 9`, `EmailVerificationTest.php`, `ProfileTest`, `AuthenticationTest`, `RedireccionTrasLoginTest`, `Illuminate\Foundation\Testing\RefreshDatabase`, `Restaurante`, `Pedido`?**
-  _High betweenness centrality (0.102) - this node is a cross-community bridge._
+- **Why does `User` connect `Illuminate\Foundation\Testing\RefreshDatabase` to `GestionCartaTest`, `NewPasswordController.php`, `LoginRequest`, `PasswordResetTest.php`, `Registro de uso de IA`, `PasswordConfirmationTest`, `Entrada 9`, `EmailVerificationTest.php`, `ProfileTest`, `CartaPublicaTest`, `web.php`, `AuthenticationTest`, `PasswordUpdateTest.php`, `Pedido`?**
+  _High betweenness centrality (0.090) - this node is a cross-community bridge._
 - **Are the 3 inferred relationships involving `User` (e.g. with `Base de datos` and `TODO en castellano (obligatorio)`) actually correct?**
   _`User` has 3 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `profile.partials.delete-user-form`, `profile.partials.update-password-form`, `profile.partials.update-profile-information-form` to the rest of the system?**
   _6 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `User` be split into smaller, more focused modules?**
-  _Cohesion score 0.14166666666666666 - nodes in this community are weakly interconnected._
-- **Why does `Mesa` connect `Illuminate\View\View` to `User`, `ComandasCamareroTest`, `Illuminate\Http\Request`, `Illuminate\Database\Eloquent\Model`, `Registro de uso de IA`, `Entrada 9`, `App\Models\Concerns\PerteneceARestaurante`, `Illuminate\Foundation\Testing\RefreshDatabase`, `Restaurante`?**
-  _High betweenness centrality (0.053) - this node is a cross-community bridge._
 - **Should `package.json` be split into smaller, more focused modules?**
-  _Cohesion score 0.07899159663865546 - nodes in this community are weakly interconnected._
-- **Why does `Pedido` connect `Pedido` to `User`, `ComandasCamareroTest`, `Illuminate\View\View`, `Illuminate\Database\Eloquent\Model`, `2. Qué incluye cada rama`, `PedidoController`, `App\Models\Concerns\PerteneceARestaurante`, `Restaurante`?**
-  _High betweenness centrality (0.049) - this node is a cross-community bridge._
+  _Cohesion score 0.08199643493761141 - nodes in this community are weakly interconnected._
+- **Why does `Mesa` connect `Illuminate\Foundation\Testing\RefreshDatabase` to `AutopedidoTest`, `ComandasCamareroTest`, `Illuminate\View\View`, `Illuminate\Http\Request`, `CartaPublicaTest`, `web.php`?**
+  _High betweenness centrality (0.073) - this node is a cross-community bridge._
+- **Should `Illuminate\Database\Schema\Blueprint` be split into smaller, more focused modules?**
+  _Cohesion score 0.05868118572292801 - nodes in this community are weakly interconnected._
+- **Why does `alpinejs` connect `package.json` to `AutopedidoTest`?**
+  _High betweenness centrality (0.057) - this node is a cross-community bridge._
