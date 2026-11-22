@@ -8,16 +8,21 @@
         </x-layouts.camarero>
 
     "seccion" marca qué pestaña de abajo está activa: mesas, avisos o cobros.
+
+    El div principal lleva el componente Alpine "avisosCamarero" (rama 7): cada
+    5 s pide los pedidos listos y pinta el contador de la pestaña «Avisos».
+    Como todo el contenido está dentro, la pantalla de avisos usa esos mismos
+    datos sin hacer otra consulta.
     El slot "acciones" (opcional) pone botones a la derecha de la cabecera.
 --}}
 @props(['titulo' => 'Mesas', 'seccion' => 'mesas'])
 
 @php
-    // Pestañas de la barra inferior. Las rutas de avisos y cobros llegan con
-    // las ramas 7 y 12; hasta entonces (null) apuntan a "#".
+    // Pestañas de la barra inferior. La ruta de cobros llega con la rama 12;
+    // hasta entonces (null) apunta a "#".
     $pestanas = [
         ['clave' => 'mesas', 'texto' => 'Mesas', 'icono' => 'table_restaurant', 'ruta' => 'camarero.mesas'],
-        ['clave' => 'avisos', 'texto' => 'Avisos', 'icono' => 'room_service', 'ruta' => null],
+        ['clave' => 'avisos', 'texto' => 'Avisos', 'icono' => 'room_service', 'ruta' => 'camarero.avisos'],
         ['clave' => 'cobros', 'texto' => 'Cobros', 'icono' => 'payments', 'ruta' => null],
         ['clave' => 'perfil', 'texto' => 'Perfil', 'icono' => 'account_circle', 'ruta' => 'profile.edit'],
     ];
@@ -25,7 +30,8 @@
 
 <x-layouts.base :titulo="$titulo">
     {{-- max-w-md centra la columna si se abre en una pantalla grande --}}
-    <div class="min-h-screen max-w-md mx-auto flex flex-col bg-background">
+    <div class="min-h-screen max-w-md mx-auto flex flex-col bg-background"
+         x-data="avisosCamarero({ urlDatos: @js(route('camarero.avisos.datos')), urlServido: @js(route('camarero.avisos.servido', '__ID__')) })">
         {{-- Solo lo ve el admin: una franja encima de la cabecera para volver al panel o ir a otra vista --}}
         @if (Auth::user()?->rol === 'admin')
             <div class="flex justify-end px-margin py-1 bg-primary-fixed/40">
@@ -65,7 +71,15 @@
                            'text-on-surface hover:bg-surface-container-low' => ! $activa,
                        ])
                        @if ($activa) aria-current="page" @endif>
-                        <x-icono :nombre="$pestana['icono']" />
+                        {{-- relative: para colocar el globo del contador encima del icono --}}
+                        <span class="relative">
+                            <x-icono :nombre="$pestana['icono']" />
+                            @if ($pestana['clave'] === 'avisos')
+                                <span x-show="pedidos.length > 0" x-cloak x-text="pedidos.length"
+                                      class="absolute -top-1.5 -right-2.5 min-w-[20px] h-5 px-1 rounded-full bg-error text-on-error text-[11px] font-bold leading-5 text-center"
+                                      aria-label="Pedidos listos para servir"></span>
+                            @endif
+                        </span>
                         {{ $pestana['texto'] }}
                     </a>
                 @endforeach
