@@ -48,7 +48,7 @@ Al terminar la 7: entrada **v0.1** en `CHANGELOG.md` y etiqueta `v0.1`.
 | 10 | `feature/dividir-cuenta` | 5 | Iván | ✅ | [#19](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/19) |
 | 11 | `feature/pago-stripe` | 10 | Gabriel | ✅ | [#21](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/21) |
 | 12 | `feature/efectivo-y-cierre` | 10 | Gabriel | ✅ | [#22](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/22) |
-| 13 | `feature/estadisticas` | 11, 12 | Gabriel | 🔍 | [#25](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/25) |
+| 13 | `feature/estadisticas` | 11, 12 | Gabriel | ✅ | [#25](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/25) |
 
 ### 🟠 Siguientes: mejoras propias (Iván, mientras Gabriel hace la 13)
 
@@ -62,6 +62,7 @@ No estaban en la propuesta: salen de probar la aplicación. No confundir con los
 |---|---|---|---|---|---|
 | 14 | `feature/platos-compartidos` | 10 | Iván | ✅ | [#24](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/24) |
 | 15 | `feature/pagar-al-pedir` | 9, 11, 12 y la 14 (orden) | Iván | ⬜ | |
+| 16 | `feature/pagina-inicio` | 2 | Gabriel | 🔍 | [#26](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/26) |
 
 ### Semana 4 — hasta el 07/12
 
@@ -187,6 +188,13 @@ La rama 5 necesita la 3 y la 4. Mientras tanto, la persona B puede cerrar la 1 c
   - Cómo apuntar que un pedido ya está pagado para que **no vuelva a entrar en la cuenta** de la mesa (probablemente un cambio de tabla: hay que acordarlo).
   - Si el autopedido sin pagar desaparece del todo o queda como opción.
 - **Test:** un pedido del cliente sin pagar no aparece en cocina; al pagarlo, sí, y no se cobra otra vez en la cuenta.
+
+### 16. `feature/pagina-inicio` 🟠
+- No estaba en el plan: sustituye la página `welcome` de Laravel en `/` por la página de inicio pública de MesaYa (ruta `inicio`), según la maqueta `landing/inicio/`.
+- Solo cuenta lo que la aplicación hace de verdad: se quitan las cifras y funciones inventadas de la maqueta (TicketBAI, Bizum, stock, soporte 24/7, precios...).
+- Botón «Acceso del personal» (login) o «Ir a mi pantalla» si ya hay sesión (`User::rutaDeInicio()`). «Ver una carta de ejemplo» solo si existe la mesa 1 de `la-tasca`.
+- Ilustraciones con HTML y Tailwind en lugar de las fotos externas de la maqueta. Páginas simples de privacidad y cookies.
+- **Test:** `/` responde sin login con MesaYa y el enlace al login; con sesión, enlace a la pantalla del rol; nada externo.
 
 ---
 
