@@ -54,9 +54,12 @@ Requisitos funcionales (RF) y no funcionales (RNF) de la aplicación. Salen de l
 | RF18 | El cliente añade platos a un carrito, escribe notas y envía el pedido a cocina. No se puede pedir un plato agotado. | Cliente | 🔵 | ✅ PR #16 |
 | RF19 | El cliente sigue el estado de sus pedidos en directo (polling cada 5 s). Solo ve los pedidos que ha hecho desde su móvil. | Cliente | 🔵 | ✅ PR #16 |
 | RF20 | El cliente pide la cuenta y la divide **a partes iguales** (el céntimo que sobra va a la primera parte) o **por platos**. La suma de las partes es siempre exactamente el total. | Cliente | 🔵 | ✅ PR #19 |
-| RF21 | Cada persona paga su parte con tarjeta (Stripe en **modo test**). | Cliente | 🔵 | 🔍 rama 11 |
-| RF22 | Cada persona puede elegir pagar en efectivo; la parte queda `pendiente_efectivo` hasta que el camarero confirma el cobro. | Cliente, camarero | 🔵 | ⏳ rama 12 |
-| RF23 | La mesa solo se cierra (vuelve a `libre`) cuando todas las partes de la cuenta están pagadas. | Camarero | 🔵 | ⏳ rama 12 |
+| RF21 | Cada persona paga su parte con tarjeta (Stripe en **modo test**). | Cliente | 🔵 | ✅ PR #21 |
+| RF22 | Cada persona puede elegir pagar en efectivo; la parte queda `pendiente_efectivo` hasta que el camarero confirma el cobro. | Cliente, camarero | 🔵 | 🔍 rama 12 |
+| RF23 | La mesa solo se cierra (vuelve a `libre`) cuando todas las partes de la cuenta están pagadas. | Camarero | 🔵 | 🔍 rama 12 |
+| RF30 | *(Añadido en la rama 12, no estaba en la propuesta.)* Si nadie pide la cuenta desde el QR, o hay pedidos hechos después de dividir, el camarero la divide a partes iguales desde el detalle de la mesa. | Camarero | 🔵 | 🔍 rama 12 |
+| RF31 | *(Añadido en la rama 12.)* El camarero cobra una parte en la mesa en efectivo (con el cálculo del cambio, que no se guarda) o con el TPV del bar (pago con tarjeta sin referencia de Stripe). | Camarero | 🔵 | 🔍 rama 12 |
+| RF32 | *(Añadido en la rama 12.)* Pestaña «Cobros» del camarero: partes que esperan cobro en efectivo y lo cobrado hoy (efectivo, Stripe y TPV). | Camarero | 🔵 | 🔍 rama 12 |
 
 ### Estadísticas (admin)
 

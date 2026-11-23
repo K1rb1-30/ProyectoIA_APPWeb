@@ -46,8 +46,8 @@ Al terminar la 7: entrada **v0.1** en `CHANGELOG.md` y etiqueta `v0.1`.
 | 8 | `feature/carta-publica-qr` | 3, 4 | Iván | ✅ | [#13](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/13) |
 | 9 | `feature/autopedido` | 5, 8 | Iván | ✅ | [#16](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/16) |
 | 10 | `feature/dividir-cuenta` | 5 | Iván | ✅ | [#19](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/19) |
-| 11 | `feature/pago-stripe` | 10 | Gabriel | 🔍 | [#21](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/21) |
-| 12 | `feature/efectivo-y-cierre` | 10 | | ⬜ | |
+| 11 | `feature/pago-stripe` | 10 | Gabriel | ✅ | [#21](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/21) |
+| 12 | `feature/efectivo-y-cierre` | 10 | Gabriel | 🟡 | |
 | 13 | `feature/estadisticas` | 11, 12 | | ⬜ | |
 
 ### Semana 4 — hasta el 07/12
@@ -150,6 +150,7 @@ La rama 5 necesita la 3 y la 4. Mientras tanto, la persona B puede cerrar la 1 c
 - La mesa solo se cierra cuando todas las partes están pagadas, y entonces vuelve a `libre`.
 - Vistas `cliente/pago-efectivo/` y `camarero/detalle-mesa/`.
 - **Test:** golden test nº 4 (pagos mixtos).
+- **Añadido al hacerla** (acordado el 23/11/2026): el camarero puede dividir la cuenta y cobrar en la mesa (efectivo con cálculo del cambio o TPV), y la pestaña «Cobros». Ver RF30 a RF32.
 
 ### 13. `feature/estadisticas`
 - Ventas por día, platos más pedidos y tarjeta frente a efectivo, con Chart.js.

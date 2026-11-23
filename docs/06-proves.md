@@ -2,7 +2,7 @@
 
 Cómo se prueba la aplicación y dónde está cada uno de los 6 *golden tests* que pide `CLAUDE.md`.
 
-**Estado a 23/11/2026:** 153 tests, todos en verde (ramas 1 a 10). El golden test nº 4 llega con la rama 12.
+**Estado a 23/11/2026:** 184 tests, todos en verde (ramas 1 a 12). Están los seis golden tests.
 
 ---
 
@@ -33,7 +33,7 @@ Cada test empieza con la base de datos vacía (`RefreshDatabase`) y crea sus pro
 | 1 (ampliado) | El pedido que hace el cliente desde el QR se crea sin usuario (`user_id` nulo) y con el precio del servidor | `tests/Feature/AutopedidoTest.php` | `test_el_cliente_envia_un_pedido_y_se_crea_con_sus_lineas` | ✅ |
 | 2 | No se puede pasar de `pendiente` a `listo` sin pasar por `preparando` | `tests/Feature/PantallaCocinaTest.php` | `test_no_se_puede_pasar_de_pendiente_a_listo` | ✅ |
 | 3 | Dividir la cuenta entre 3: la suma de las partes es exactamente el total (31,00 € → 10,34 + 10,33 + 10,33) | `tests/Unit/RepartoCuentaTest.php` y `tests/Feature/DividirCuentaTest.php` | `test_dividir_entre_3_la_suma_de_las_partes_es_exactamente_el_total` y `test_dividir_entre_3_crea_tres_partes_que_suman_el_total` | ✅ |
-| 4 | Pagos mixtos: la mesa solo se cierra cuando todo está pagado | — | — | ⏳ rama 12 |
+| 4 | Pagos mixtos: la mesa solo se cierra cuando todo está pagado (una parte con tarjeta y dos en efectivo) | `tests/Feature/EfectivoYCierreTest.php` | `test_pagos_mixtos_la_mesa_solo_se_cierra_cuando_todo_esta_pagado` | ✅ |
 | 5 | Un plato no disponible no aparece en la carta del QR… | `tests/Feature/CartaPublicaTest.php` | `test_un_plato_no_disponible_no_aparece_en_la_carta_del_qr` | ✅ |
 | 5 | …y no se puede pedir | `tests/Feature/AutopedidoTest.php` | `test_no_se_puede_pedir_un_plato_agotado` | ✅ |
 | 6 | Aislamiento SaaS: el restaurante A no ve datos del B | `tests/Feature/AislamientoRestaurantesTest.php` | `test_el_restaurante_a_no_ve_datos_del_restaurante_b` y siguientes | ✅ |
@@ -73,6 +73,8 @@ El golden test nº 6 también se repite en cada funcionalidad, porque cada panta
 | `AutopedidoTest` | 13 | Carrito, envío, estado y límite de envíos (golden nº 1 ampliado y nº 5) |
 | `DividirCuentaTest` · `Unit/RepartoCuentaTest` | 15 | División de la cuenta (golden nº 3) |
 | `PagoStripeTest` | 11 | Pago con tarjeta con Stripe **simulado** (`PasarelaStripe` con `$this->mock()`, sin llamar a Stripe): sesión pagada, no duplicar, sesión no pagada o de otra parte, otro restaurante, parte ya pagada, cancelar y clave que no es de test |
+| `EfectivoYCierreTest` | 12 | Efectivo y cierre (golden nº 4): transiciones de la parte, no cobrar dos veces, aislamiento del camarero, el cliente no puede marcar «pagado», pedidos fuera de la cuenta y dividir lo nuevo |
+| `CobroCamareroTest` | 8 | El camarero divide la cuenta, cobra en efectivo (pasando por `pendiente_efectivo`) o con TPV (sin referencia de Stripe), métodos no válidos, aislamiento y pestaña «Cobros» solo con datos de su restaurante |
 | `ExampleTest` (Feature y Unit) | 2 | Los de ejemplo de Laravel |
 
 ---
@@ -86,5 +88,6 @@ Además de los tests, cada rama se prueba a mano antes de abrir la PR (se apunta
 3. **Camarero** (`camarero@la-tasca.test`): llega el aviso de plato listo; marcarlo como servido.
 4. **Cliente**: pestaña «Cuenta», dividir entre 3 y comprobar que las partes suman el total.
 5. **Cliente**: en «Cuenta», pulsar «Tarjeta» en la persona 1 y pagar en Stripe con `4242 4242 4242 4242`, cualquier fecha futura y cualquier CVC. Vuelve a «¡Pago completado con éxito!» y la parte sale como pagada (necesita las claves test en el `.env`, ver `04-installacio.md`).
-6. ⏳ Pagar otra parte en efectivo (rama 12); la mesa se cierra al estar todo pagado.
+6. **Cliente**: pulsar «Efectivo» en otra parte; sale «Avisa al camarero». **Camarero**: en «Mesas», «Cuenta y cobro» de esa mesa, «Cobrar … en efectivo» y, cuando no falte nada, «Cerrar mesa y liberar». La mesa vuelve a «Libre».
+   - Con una comanda del camarero (sin QR): en el detalle, «Dividir» entre 2; a una persona «Cobrar con TPV» y a la otra «Cobrar efectivo» con 5 € entregados (debe salir «Cambio a devolver»). La pestaña «Cobros» lo muestra en «Cobrado hoy».
 7. **Admin** (`ivan@mesaya.com`): marcar un plato como agotado y comprobar que desaparece de la carta del QR.
