@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -40,6 +41,15 @@ class User extends Authenticatable
     public function restaurante(): BelongsTo
     {
         return $this->belongsTo(Restaurante::class);
+    }
+
+    /**
+     * Pedidos que ha tomado este usuario (comandas del camarero). Los que
+     * hace el cliente desde el QR tienen user_id nulo.
+     */
+    public function pedidos(): HasMany
+    {
+        return $this->hasMany(Pedido::class, 'user_id');
     }
 
     /**

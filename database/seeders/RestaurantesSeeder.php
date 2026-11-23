@@ -7,10 +7,11 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 
 /**
- * Crea 2 restaurantes inventados y, en cada uno, un usuario de cada rol.
+ * Crea 2 restaurantes inventados y, en cada uno, 6 empleados: un admin, tres
+ * camareros y dos personas de cocina.
  *
- * Los correos siguen el patrón <rol>@<slug>.test, por ejemplo
- * camarero@la-tasca.test. La contraseña de todos es la de desarrollo de
+ * Los correos siguen el patrón <usuario>@<slug>.test, por ejemplo
+ * camarero@la-tasca.test o camarero2@la-tasca.test. La contraseña de todos es la de desarrollo de
  * UserFactory. Son datos de prueba: nunca se usan en producción.
  */
 class RestaurantesSeeder extends Seeder
@@ -28,8 +29,20 @@ class RestaurantesSeeder extends Seeder
             // veces sin fallar por el slug repetido.
             $restaurante = Restaurante::firstOrCreate(['slug' => $datos['slug']], ['nombre' => $datos['nombre']]);
 
-            foreach (['admin', 'camarero', 'cocina'] as $rol) {
-                $email = $rol.'@'.$restaurante->slug.'.test';
+            // Un usuario de cada rol (admin@, camarero@, cocina@) y, para que la
+            // pantalla de Personal (rama 18) tenga varios empleados, dos
+            // camareros y una persona de cocina más (camarero2@, camarero3@, cocina2@).
+            $cuentas = [
+                'admin' => 'admin',
+                'camarero' => 'camarero',
+                'cocina' => 'cocina',
+                'camarero2' => 'camarero',
+                'camarero3' => 'camarero',
+                'cocina2' => 'cocina',
+            ];
+
+            foreach ($cuentas as $usuario => $rol) {
+                $email = $usuario.'@'.$restaurante->slug.'.test';
 
                 // Igual con los usuarios: solo se crean si no existen todavía.
                 if (User::where('email', $email)->exists()) {

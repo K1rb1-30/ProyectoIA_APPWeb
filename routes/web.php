@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CategoriaController;
 use App\Http\Controllers\Admin\EstadisticaController;
 use App\Http\Controllers\Admin\MesaController;
 use App\Http\Controllers\Admin\PanelController;
+use App\Http\Controllers\Admin\PersonalController;
 use App\Http\Controllers\Admin\PlatoController;
 use App\Http\Controllers\Camarero\AvisoController;
 use App\Http\Controllers\Camarero\CobroController;
@@ -18,6 +19,8 @@ use App\Http\Controllers\Cliente\PagoTarjetaController;
 use App\Http\Controllers\Cocina\PedidoController;
 use App\Http\Controllers\InicioController;
 use App\Http\Controllers\ProfileController;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 // Página de inicio pública de MesaYa (rama 16) y sus páginas legales simples.
@@ -72,6 +75,17 @@ Route::prefix('/r/{slug}/mesa/{numero}')->whereNumber('numero')->group(function 
     });
 });
 
+// {empleado} en las rutas de Personal (rama 18). User no usa el trait del
+// global scope (el login lo necesita sin filtro), así que aquí se busca a mano
+// solo entre los usuarios del restaurante del admin logueado. Si el id es de
+// otro restaurante (o no existe), firstOrFail da 404 antes del controlador.
+// Se ejecuta después del middleware auth, así que siempre hay usuario.
+Route::bind('empleado', function (string $id) {
+    return User::where('restaurante_id', Auth::user()?->restaurante_id)
+        ->whereKey($id)
+        ->firstOrFail();
+});
+
 // Panel del administrador (rama 17). Antes era /dashboard, la ruta que trae
 // Breeze (tarea previa P5): la dejamos como redirección para que un enlace
 // guardado no dé 404.
@@ -104,6 +118,14 @@ Route::middleware(['auth', 'verified', 'rol:admin'])->prefix('admin')->group(fun
 
     // Estadísticas (rama 13). Solo el admin: camarero y cocina reciben 403.
     Route::get('/estadisticas', [EstadisticaController::class, 'index'])->name('admin.estadisticas');
+
+    // Personal (rama 18): las cuentas de los empleados del restaurante.
+    Route::get('/personal', [PersonalController::class, 'index'])->name('admin.personal');
+    Route::get('/personal/crear', [PersonalController::class, 'create'])->name('admin.personal.crear');
+    Route::post('/personal', [PersonalController::class, 'store'])->name('admin.personal.guardar');
+    Route::get('/personal/{empleado}/editar', [PersonalController::class, 'edit'])->name('admin.personal.editar');
+    Route::put('/personal/{empleado}', [PersonalController::class, 'update'])->name('admin.personal.actualizar');
+    Route::delete('/personal/{empleado}', [PersonalController::class, 'destroy'])->name('admin.personal.borrar');
 });
 
 // Comandas del camarero (rama 5). El nombre "camarero.mesas" no se cambia:

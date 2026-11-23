@@ -63,6 +63,7 @@ No estaban en la propuesta: salen de probar la aplicación. No confundir con los
 | 14 | `feature/platos-compartidos` | 10 | Iván | ✅ | [#24](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/24) |
 | 15 | `feature/pagar-al-pedir` | 9, 11, 12 y la 14 (orden) | Iván | 🔍 | [#28](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/28) |
 | 16 | `feature/pagina-inicio` | 2 | Gabriel | ✅ | [#26](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/26) |
+| 18 | `feature/gestion-personal` | 1, 2 | Gabriel | 🔍 | [#30](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/30) |
 | 17 | `feature/panel-admin` | 3, 4, 13 | Gabriel | 🔍 | [#29](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/29) |
 
 ### Semana 4 — hasta el 07/12
@@ -199,6 +200,16 @@ La rama 5 necesita la 3 y la 4. Mientras tanto, la persona B puede cerrar la 1 c
 - Recargar la página de éxito no crea el pedido dos veces (la referencia de Stripe es única).
 
 **Tests:** sin pagar no se crea ningún pedido; al pagar, el pedido sale en cocina, la cuenta incluye la parte pagada y al dividir no se cobra otra vez; la mesa se cierra sin cobrar de nuevo; una sesión de Stripe no pagada, de otra mesa o de otro importe no crea nada; recargar no duplica; plato agotado mientras pagaba.
+
+### 18. `feature/gestion-personal` 🟠
+- No estaba en el plan: el admin gestiona las cuentas de sus empleados en `/admin/personal` (opción «Personal» del menú, que antes no llevaba a ningún sitio). Sin maqueta: sigue el estilo de `panelAdmin/carta/`.
+- `Admin\PersonalController` y Form Request `Admin\EmpleadoRequest`: nombre, correo (único en toda la tabla `users`, porque es el login), rol (`admin`, `camarero` o `cocina`) y contraseña con confirmación. Al editar, la contraseña vacía no se cambia; si se cambia, se cierran las sesiones abiertas de esa persona.
+- `restaurante_id` lo pone el controlador con el del admin, nunca el formulario. `email_verified_at` se rellena al crear.
+- **Aislamiento:** `User` no usa el trait (el login lo necesita sin filtro). El listado filtra con `where('restaurante_id', ...)` y `{empleado}` se busca con `Route::bind` en `routes/web.php`, que también filtra: el empleado de otro restaurante da 404.
+- **Seguridad:** el admin no puede borrarse ni quitarse su rol, y el restaurante nunca se queda sin admin.
+- **Pedidos al borrar (decidido el 23/11/2026, opción A):** se deja la clave foránea como está (`pedidos.user_id` con `nullOnDelete`). Los pedidos y las ventas se conservan; solo se pierde quién tomó la comanda. El aviso de borrar lo dice.
+- `RestaurantesSeeder`: 6 empleados por restaurante (un admin, tres camareros y dos de cocina).
+- **Tests:** crear un camarero que luego inicia sesión, editar sin contraseña, cambiarla (hash y sesiones), aislamiento A/B (404), no borrarse ni quitarse el rol, restaurante sin admin, roles (403), correo repetido, `restaurante_id` del formulario ignorado, borrar con pedidos y seeder.
 
 ### 17. `feature/panel-admin` 🟠
 - No estaba en el plan: sustituye la vista `dashboard` de Breeze («You're logged in!») por el panel principal del admin, según la maqueta `panelAdmin/panel/`, con su controlador `Admin\PanelController`.
