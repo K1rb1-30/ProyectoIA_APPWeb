@@ -71,7 +71,7 @@ Requisitos funcionales (RF) y no funcionales (RNF) de la aplicación. Salen de l
 
 | ID | Requisito | Rol | Prioridad | Estado |
 |---|---|---|---|---|
-| RF34 | *(Añadido en la rama 17, no estaba en la propuesta.)* Panel principal del admin en `/panel` (antes `/dashboard`, que ahora redirige): nombre del restaurante; ventas, pedidos y ticket medio de hoy; mesas libres y ocupadas con su cuadrícula; número de platos y de agotados con unos pocos platos y su interruptor de disponible; pedidos sin servir por estado. Solo datos reales del propio restaurante y mensajes en lugar de huecos si todavía no hay datos. | Admin | 🔵 | 🟡 rama 17 |
+| RF34 | *(Añadido en la rama 17, no estaba en la propuesta.)* Panel principal del admin en `/panel` (antes `/dashboard`, que ahora redirige): nombre del restaurante; ventas, pedidos y ticket medio de hoy; mesas libres y ocupadas con su cuadrícula; número de platos y de agotados con unos pocos platos y su interruptor de disponible; pedidos sin servir por estado. Solo datos reales del propio restaurante y mensajes en lugar de huecos si todavía no hay datos. | Admin | 🔵 | 🔍 PR #29 |
 
 ### Página pública
 
