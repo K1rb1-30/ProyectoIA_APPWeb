@@ -12,7 +12,8 @@
     verdad lo hace el servidor al pulsar "Dividir la cuenta".
 
     Fuera de la maqueta: IVA desglosado, factura con CIF y barra de progreso
-    de pago. Los botones de pagar llegan con las ramas 11 (tarjeta) y 12 (efectivo).
+    de pago. El botón "Tarjeta" lleva al pago con Stripe (rama 11); el de
+    efectivo llega con la rama 12.
 --}}
 @php
     $rutaMesa = ['slug' => $restaurante->slug, 'numero' => $mesa->numero];
@@ -85,21 +86,31 @@
                         <span class="flex items-center justify-center w-11 h-11 rounded-full bg-primary-container text-on-primary text-label-lg">P{{ $parte->persona }}</span>
                         <span class="flex-1">
                             <span class="block text-label-lg">Persona {{ $parte->persona }}</span>
-                            <span class="inline-flex items-center gap-1 text-label-md text-amber-700">
-                                <span class="w-2 h-2 rounded-full bg-estado-pendiente"></span>
-                                {{ $parte->estado === 'pagado' ? 'Pagado' : 'Pendiente de pago' }}
-                            </span>
+                            @if ($parte->estado === 'pagado')
+                                <span class="inline-flex items-center gap-1 text-label-md text-tertiary">
+                                    <span class="w-2 h-2 rounded-full bg-estado-listo"></span>
+                                    Pagado{{ $parte->metodo === 'tarjeta' ? ' con tarjeta' : '' }}
+                                </span>
+                            @else
+                                <span class="inline-flex items-center gap-1 text-label-md text-amber-700">
+                                    <span class="w-2 h-2 rounded-full bg-estado-pendiente"></span>
+                                    Pendiente de pago
+                                </span>
+                            @endif
                         </span>
                         <x-precio :centimos="$parte->importe_centimos" class="text-headline-md" />
-                        {{-- Pagar llega con las ramas 11 (tarjeta) y 12 (efectivo) --}}
-                        <div class="w-full grid grid-cols-2 gap-2">
-                            <button type="button" disabled class="min-h-[44px] rounded bg-primary-container/40 text-on-primary text-label-md cursor-not-allowed">
-                                Tarjeta · próximamente
-                            </button>
-                            <button type="button" disabled class="min-h-[44px] rounded border border-outline-variant/50 text-secondary text-label-md cursor-not-allowed">
-                                Efectivo · próximamente
-                            </button>
-                        </div>
+                        {{-- Solo se puede pagar una parte pendiente. Efectivo llega con la rama 12. --}}
+                        @if ($parte->estado === 'pendiente')
+                            <div class="w-full grid grid-cols-2 gap-2">
+                                <a href="{{ route('cliente.pago.tarjeta', $rutaMesa + ['parte' => $parte->id]) }}"
+                                   class="pulsable flex items-center justify-center gap-1 min-h-[44px] rounded bg-primary-container text-on-primary text-label-md">
+                                    <x-icono nombre="credit_card" class="text-lg" /> Tarjeta
+                                </a>
+                                <button type="button" disabled class="min-h-[44px] rounded border border-outline-variant/50 text-secondary text-label-md cursor-not-allowed">
+                                    Efectivo · próximamente
+                                </button>
+                            </div>
+                        @endif
                     </x-tarjeta>
                 @endforeach
             </div>
