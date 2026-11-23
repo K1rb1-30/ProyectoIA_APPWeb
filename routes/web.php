@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AlergenoController;
 use App\Http\Controllers\Admin\CategoriaController;
 use App\Http\Controllers\Admin\EstadisticaController;
 use App\Http\Controllers\Admin\MesaController;
+use App\Http\Controllers\Admin\PanelController;
 use App\Http\Controllers\Admin\PlatoController;
 use App\Http\Controllers\Camarero\AvisoController;
 use App\Http\Controllers\Camarero\CobroController;
@@ -71,10 +72,13 @@ Route::prefix('/r/{slug}/mesa/{numero}')->whereNumber('numero')->group(function 
     });
 });
 
-// Panel del administrador.
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified', 'rol:admin'])->name('dashboard');
+// Panel del administrador (rama 17). Antes era /dashboard, la ruta que trae
+// Breeze (tarea previa P5): la dejamos como redirección para que un enlace
+// guardado no dé 404.
+Route::get('/panel', PanelController::class)
+    ->middleware(['auth', 'verified', 'rol:admin'])
+    ->name('panel');
+Route::redirect('/dashboard', '/panel');
 
 // Gestión de la carta (rama 3). Solo para el admin. Los nombres de ruta
 // empiezan todos por "admin.carta" para que el menú lateral marque "Carta"

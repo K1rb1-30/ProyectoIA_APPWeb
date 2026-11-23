@@ -23,7 +23,7 @@ class RedireccionTrasLoginTest extends TestCase
     public function test_el_admin_va_al_panel(): void
     {
         $this->iniciarSesion(User::factory()->create())
-            ->assertRedirect(route('dashboard'));
+            ->assertRedirect(route('panel'));
     }
 
     public function test_el_camarero_va_a_las_mesas(): void
