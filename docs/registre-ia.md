@@ -184,6 +184,14 @@ Se rellena en cada sesión de trabajo, no al final. Mínimo 15 entradas.
 - **Enlace:** a4329c4
 
 ### Entrada 23
+- **Fecha y autor:** 23/11/2026 – Iván
+- **Herramienta:** Claude Code
+- **Objetivo:** Adelantar la documentación que no depende de las ramas 11, 12 y 13
+- **Prompt:** "Vamos con documentación, lo que veas que puedas hacer teniendo en cuenta que no están la 11, la 12 y la 13"
+- **Resultado:** Rama `feature/documentacion`. P1: corregida la propuesta (Laravel 13, MySQL también en local, nombre del compañero) con una nota de cambios. P2: `02-requisits.md` con 29 requisitos funcionales (estado y PR de cada uno) y 11 no funcionales. P3: `03-disseny.md` con la arquitectura, las decisiones, el diagrama entidad-relación (Mermaid, sacado de las migraciones reales), las tablas, los estados y la lista de rutas (sacada de `route:list`). `04-installacio.md`: requisitos y `php.ini`, bases de datos, `.env`, seeders y cuentas de prueba, `storage:link`, pasos después de cada `git pull` y tabla de problemas frecuentes (los que nos han pasado de verdad); el despliegue queda pendiente (P4). `06-proves.md`: cómo ejecutar los tests y dónde está cada golden test (el nº 4 pendiente de la rama 12). Plan actualizado (rama 10 en ✅). Solo documentación, sin cambios en el código; `php artisan test`: 153 OK · ¿funcionó?: PENDIENTE DE REVISAR
+- **Enlace:** 8382942
+
+### Entrada 24
 - **Fecha y autor:** 23/11/2026 – Gabriel
 - **Herramienta:** Claude Code
 - **Objetivo:** Rama 11 del plan: que el cliente pague su parte de la cuenta con tarjeta mediante Stripe Checkout en modo test
