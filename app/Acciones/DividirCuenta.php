@@ -90,7 +90,10 @@ class DividirCuenta
      * @param  int  $personas  Número de personas (solo para 'iguales').
      * @param  array<int, int>  $asignaciones  { idLinea: persona } (solo para 'platos').
      *
-     * @throws ValidationException si no hay nada que cobrar, ya hay pagos o
+     * Si la cuenta ya tiene pagos, solo divide los pedidos nuevos y añade sus
+     * partes detrás de las que había (rama 12).
+     *
+     * @throws ValidationException si no hay nada que cobrar, ya hay pagos y nada nuevo, o
      *                             faltan platos por asignar.
      */
     public function ejecutar(Mesa $mesa, string $modo, int $personas = 1, array $asignaciones = []): Cuenta
@@ -99,20 +102,21 @@ class DividirCuenta
         return DB::transaction(function () use ($mesa, $modo, $personas, $asignaciones) {
             $cuenta = self::cuentaAbierta($mesa);
 
-            // Si alguien ya ha pagado su parte (ramas 11 y 12), no se puede
-            // rehacer el reparto: cambiaría lo que ya se ha cobrado.
-            if ($cuenta && $cuenta->tienePagos()) {
-                throw ValidationException::withMessages([
-                    'cuenta' => 'La cuenta ya tiene pagos y no se puede volver a dividir.',
-                ]);
-            }
+            // Si alguien ya ha pagado su parte (o va a pagar en efectivo), no se
+            // puede rehacer el reparto: cambiaría lo que ya se ha cobrado.
+            // Rama 12: en ese caso solo se divide LO NUEVO (los pedidos hechos
+            // después de dividir) y se añade en partes nuevas, sin tocar las otras.
+            $soloLoNuevo = $cuenta && $cuenta->tienePagos();
 
-            $pedidos = self::pedidosDeLaMesa($mesa, $cuenta);
+            // Con null, pedidosDeLaMesa solo devuelve los pedidos sin cuenta.
+            $pedidos = self::pedidosDeLaMesa($mesa, $soloLoNuevo ? null : $cuenta);
             $lineas = $pedidos->flatMap->lineas;
 
             if ($lineas->isEmpty()) {
                 throw ValidationException::withMessages([
-                    'cuenta' => 'Esta mesa todavía no tiene nada que pagar.',
+                    'cuenta' => $soloLoNuevo
+                        ? 'La cuenta ya tiene pagos y no hay nada nuevo que dividir.'
+                        : 'Esta mesa todavía no tiene nada que pagar.',
                 ]);
             }
 
@@ -129,8 +133,16 @@ class DividirCuenta
                 throw new LogicException('La suma de las partes no coincide con el total de la cuenta.');
             }
 
-            // Creamos la cuenta o actualizamos la abierta con el total nuevo.
-            if ($cuenta) {
+            // Número de la primera persona nueva: 1, salvo al dividir lo nuevo,
+            // que sigue después de la última (si había 3, empieza en la 4).
+            $primeraPersona = 1;
+
+            if ($soloLoNuevo) {
+                // Las partes de antes se quedan igual; el total sube.
+                $primeraPersona = (int) $cuenta->partes()->max('persona') + 1;
+                $cuenta->update(['total_centimos' => $cuenta->total_centimos + $total]);
+            } elseif ($cuenta) {
+                // Creamos la cuenta o actualizamos la abierta con el total nuevo.
                 $cuenta->update(['total_centimos' => $total]);
                 // Borramos el reparto anterior para crear el nuevo.
                 $cuenta->partes()->delete();
@@ -148,12 +160,20 @@ class DividirCuenta
                 ->whereIn('id', $pedidos->pluck('id'))
                 ->update(['cuenta_id' => $cuenta->id]);
 
+            // $importes empieza en la persona 1; al dividir lo nuevo, se desplaza.
             foreach ($importes as $persona => $importe) {
                 $cuenta->partes()->create([
-                    'persona' => $persona,
+                    'persona' => $primeraPersona + $persona - 1,
                     'importe_centimos' => $importe,
                     'estado' => 'pendiente',
                 ]);
+            }
+
+            // Segunda comprobación, sobre lo guardado: TODAS las partes de la
+            // cuenta (las viejas y las nuevas) suman exactamente su total.
+            // Si no, la excepción deshace la transacción entera.
+            if ((int) $cuenta->partes()->sum('importe_centimos') !== $cuenta->total_centimos) {
+                throw new LogicException('La suma de las partes no coincide con el total de la cuenta.');
             }
 
             return $cuenta->load('partes');
