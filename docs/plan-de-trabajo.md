@@ -62,7 +62,7 @@ No estaban en la propuesta: salen de probar la aplicación. No confundir con los
 |---|---|---|---|---|---|
 | 14 | `feature/platos-compartidos` | 10 | Iván | ✅ | [#24](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/24) |
 | 15 | `feature/pagar-al-pedir` | 9, 11, 12 y la 14 (orden) | Iván | ⬜ | |
-| 16 | `feature/pagina-inicio` | 2 | Gabriel | 🟡 | |
+| 16 | `feature/pagina-inicio` | 2 | Gabriel | 🔍 | [#26](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/26) |
 
 ### Semana 4 — hasta el 07/12
 
