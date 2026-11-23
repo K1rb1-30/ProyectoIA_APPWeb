@@ -60,7 +60,7 @@ No estaban en la propuesta: salen de probar la aplicación. No confundir con los
 
 | # | Rama | Depende de | Responsable | Estado | PR |
 |---|---|---|---|---|---|
-| 14 | `feature/platos-compartidos` | 10 | Iván | 🟡 | |
+| 14 | `feature/platos-compartidos` | 10 | Iván | 🔍 | [#24](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/24) |
 | 15 | `feature/pagar-al-pedir` | 9, 11, 12 y la 14 (orden) | Iván | ⬜ | |
 
 ### Semana 4 — hasta el 07/12
