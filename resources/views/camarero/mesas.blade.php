@@ -1,7 +1,8 @@
 {{--
     Mesas del camarero (rama 5). Referencia: docs/design/DesignFrontend/camarero/mesas.
     De la maqueta solo están los contadores y el mapa de mesas. Los avisos de
-    plato listo llegan con la rama 7, y los totales y el cobro con las 10-12.
+    plato listo llegan con la rama 7. Desde la rama 12, cada mesa ocupada
+    enlaza a su detalle (cuenta, cobro en efectivo y cierre).
 --}}
 <x-layouts.camarero titulo="Mesas" seccion="mesas">
     <x-mensajes-sesion />
@@ -50,6 +51,13 @@
                         <x-icono :nombre="$libre ? 'person_add' : 'add_circle'" class="text-xl" />
                         {{ $libre ? 'Abrir mesa' : 'Añadir pedido' }}
                     </a>
+                    {{-- Rama 12: detalle con la cuenta, el cobro en efectivo y el cierre --}}
+                    @unless ($libre)
+                        <a href="{{ route('camarero.mesas.detalle', $mesa) }}"
+                           class="pulsable inline-flex items-center justify-center gap-1.5 min-h-[48px] px-3 rounded bg-primary-container text-on-primary text-label-lg font-bold">
+                            <x-icono nombre="receipt_long" class="text-xl" /> Cuenta y cobro
+                        </a>
+                    @endunless
                 </article>
             @endforeach
         </div>
