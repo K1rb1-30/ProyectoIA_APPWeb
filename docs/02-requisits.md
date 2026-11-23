@@ -65,7 +65,13 @@ Requisitos funcionales (RF) y no funcionales (RNF) de la aplicación. Salen de l
 
 | ID | Requisito | Rol | Prioridad | Estado |
 |---|---|---|---|---|
-| RF24 | El admin ve las ventas por día, los platos más pedidos y la proporción tarjeta / efectivo (Chart.js). | Admin | 🔵 | 🔍 rama 13 |
+| RF24 | El admin ve las ventas por día, los platos más pedidos y la proporción tarjeta / efectivo (Chart.js). | Admin | 🔵 | ✅ PR #25 |
+
+### Página pública
+
+| ID | Requisito | Rol | Prioridad | Estado |
+|---|---|---|---|---|
+| RF33 | *(Añadido en la rama 16, no estaba en la propuesta.)* Página de inicio pública en `/` que explica qué hace MesaYa (solo funciones reales), con «Acceso del personal» al login o a la pantalla de cada rol si ya hay sesión, y páginas simples de privacidad y cookies. | Todos | 🔵 | 🔍 rama 16 |
 
 ### Extras (🟣, solo si sobra tiempo)
 

@@ -2,7 +2,7 @@
 
 Cómo se prueba la aplicación y dónde está cada uno de los 6 *golden tests* que pide `CLAUDE.md`.
 
-**Estado a 23/11/2026:** 203 tests, todos en verde (ramas 1 a 14). Están los seis golden tests.
+**Estado a 23/11/2026:** 210 tests, todos en verde (ramas 1 a 14 y 16). Están los seis golden tests.
 
 ---
 
@@ -74,6 +74,7 @@ El golden test nº 6 también se repite en cada funcionalidad, porque cada panta
 | `DividirCuentaTest` · `Unit/RepartoCuentaTest` | 15 | División de la cuenta (golden nº 3) |
 | `PagoStripeTest` | 11 | Pago con tarjeta con Stripe **simulado** (`PasarelaStripe` con `$this->mock()`, sin llamar a Stripe): sesión pagada, no duplicar, sesión no pagada o de otra parte, otro restaurante, parte ya pagada, cancelar y clave que no es de test |
 | `EfectivoYCierreTest` | 12 | Efectivo y cierre (golden nº 4): transiciones de la parte, no cobrar dos veces, aislamiento del camarero, el cliente no puede marcar «pagado», pedidos fuera de la cuenta y dividir lo nuevo |
+| `InicioTest` | 7 | Página de inicio sin login (MesaYa y enlace al login), enlace a la pantalla de cada rol con sesión, nada de servidores externos, anclas del menú, sin textos inventados de la maqueta, botón de la carta de ejemplo y páginas de privacidad y cookies |
 | `EstadisticasTest` | 11 | Ventas por día, platos más pedidos, métodos de pago y resumen con datos conocidos (fecha fijada con `Carbon::setTestNow`), aislamiento A/B, mensaje sin datos, permisos (camarero y cocina 403) y seeder de demo cuadrado y sin duplicar |
 | `CobroCamareroTest` | 8 | El camarero divide la cuenta, cobra en efectivo (pasando por `pendiente_efectivo`) o con TPV (sin referencia de Stripe), métodos no válidos, aislamiento y pestaña «Cobros» solo con datos de su restaurante |
 | `ExampleTest` (Feature y Unit) | 2 | Los de ejemplo de Laravel |

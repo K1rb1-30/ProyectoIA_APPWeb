@@ -2,7 +2,7 @@
 
 Cómo está construida la aplicación: arquitectura, base de datos y rutas. El diseño **visual** (colores, pantallas) está en `docs/design/DesignFrontend/`.
 
-Estado a 23/11/2026: ramas 1 a 12 en `main` y la 13 (estadísticas) en revisión.
+Estado a 23/11/2026: ramas 1 a 14 en `main` y la 16 (página de inicio) en revisión.
 
 ---
 
@@ -171,6 +171,8 @@ erDiagram
 
 | Método | URL | Nombre | Qué hace |
 |---|---|---|---|
+| GET | `/` | `inicio` | Página de inicio pública de MesaYa (rama 16) |
+| GET | `/privacidad` · `/cookies` | `legal.privacidad` · `legal.cookies` | Páginas legales simples (rama 16) |
 | GET | `/r/{slug}/mesa/{numero}` | `cliente.carta` | Carta del QR (solo platos disponibles) |
 | GET | `/r/{slug}/mesa/{numero}/pedido` | `cliente.pedido` | «Mi pedido» (carrito) |
 | POST | `/r/{slug}/mesa/{numero}/pedido` | `cliente.pedido.enviar` | Envía el pedido a cocina (máx. 10/min) |
