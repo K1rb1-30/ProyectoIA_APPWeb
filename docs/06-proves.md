@@ -2,7 +2,7 @@
 
 Cómo se prueba la aplicación y dónde está cada uno de los 6 *golden tests* que pide `CLAUDE.md`.
 
-**Estado a 23/11/2026:** 203 tests, todos en verde (ramas 1 a 14). Están los seis golden tests.
+**Estado a 23/11/2026:** 216 tests, todos en verde (ramas 1 a 15). Están los seis golden tests.
 
 ---
 
@@ -30,7 +30,7 @@ Cada test empieza con la base de datos vacía (`RefreshDatabase`) y crea sus pro
 | Nº | Qué comprueba | Archivo | Test(s) | Estado |
 |---|---|---|---|---|
 | 1 | Enviar una comanda crea el `pedido` con sus `lineas_pedido` y aparece en cocina | `tests/Feature/ComandasCamareroTest.php` | `test_enviar_una_comanda_crea_el_pedido_con_sus_lineas_en_pendiente` | ✅ |
-| 1 (ampliado) | El pedido que hace el cliente desde el QR se crea sin usuario (`user_id` nulo) y con el precio del servidor | `tests/Feature/AutopedidoTest.php` | `test_el_cliente_envia_un_pedido_y_se_crea_con_sus_lineas` | ✅ |
+| 1 (ampliado) | El pedido que hace el cliente desde el QR se crea sin usuario (`user_id` nulo) y con el precio del servidor | `tests/Feature/AutopedidoTest.php` | `test_el_cliente_paga_su_pedido_y_se_crea_con_sus_lineas` | ✅ |
 | 2 | No se puede pasar de `pendiente` a `listo` sin pasar por `preparando` | `tests/Feature/PantallaCocinaTest.php` | `test_no_se_puede_pasar_de_pendiente_a_listo` | ✅ |
 | 3 | Dividir la cuenta entre 3: la suma de las partes es exactamente el total (31,00 € → 10,34 + 10,33 + 10,33) | `tests/Unit/RepartoCuentaTest.php` y `tests/Feature/DividirCuentaTest.php` | `test_dividir_entre_3_la_suma_de_las_partes_es_exactamente_el_total` y `test_dividir_entre_3_crea_tres_partes_que_suman_el_total` | ✅ |
 | 4 | Pagos mixtos: la mesa solo se cierra cuando todo está pagado (una parte con tarjeta y dos en efectivo) | `tests/Feature/EfectivoYCierreTest.php` | `test_pagos_mixtos_la_mesa_solo_se_cierra_cuando_todo_esta_pagado` | ✅ |
@@ -70,7 +70,8 @@ El golden test nº 6 también se repite en cada funcionalidad, porque cada panta
 | `PantallaCocinaTest` | 11 | Tablero de cocina y cambios de estado (golden nº 2) |
 | `AvisosCamareroTest` | 7 | Avisos de plato listo |
 | `CartaPublicaTest` | 12 | Carta por QR (golden nº 5) |
-| `AutopedidoTest` | 13 | Carrito, envío, estado y límite de envíos (golden nº 1 ampliado y nº 5) |
+| `AutopedidoTest` | 13 | Carrito, pago y envío, estado y límite de intentos (golden nº 1 ampliado y nº 5) |
+| `PagarAlPedirTest` | 13 | Rama 15: sin pago no hay pedido; pagado → cocina y parte pagada en la cuenta; no se cobra dos veces; sesiones de Stripe que no cuadran |
 | `DividirCuentaTest` · `Unit/RepartoCuentaTest` | 15 | División de la cuenta (golden nº 3) |
 | `PagoStripeTest` | 11 | Pago con tarjeta con Stripe **simulado** (`PasarelaStripe` con `$this->mock()`, sin llamar a Stripe): sesión pagada, no duplicar, sesión no pagada o de otra parte, otro restaurante, parte ya pagada, cancelar y clave que no es de test |
 | `EfectivoYCierreTest` | 12 | Efectivo y cierre (golden nº 4): transiciones de la parte, no cobrar dos veces, aislamiento del camarero, el cliente no puede marcar «pagado», pedidos fuera de la cuenta y dividir lo nuevo |

@@ -51,7 +51,7 @@ Requisitos funcionales (RF) y no funcionales (RNF) de la aplicación. Salen de l
 | ID | Requisito | Rol | Prioridad | Estado |
 |---|---|---|---|---|
 | RF17 | Al escanear el QR, el cliente ve la carta de ese restaurante con alérgenos y precios. **Los platos agotados no aparecen.** | Cliente | 🔵 | ✅ PR #13 |
-| RF18 | El cliente añade platos a un carrito, escribe notas y envía el pedido a cocina. No se puede pedir un plato agotado. | Cliente | 🔵 | ✅ PR #16 |
+| RF18 | El cliente añade platos a un carrito, escribe notas y envía el pedido a cocina. No se puede pedir un plato agotado. **Desde la rama 15, el pedido se paga con tarjeta al hacerlo** y no llega a cocina hasta que Stripe confirma el pago; lo pagado sale en la cuenta como ya pagado. Para pagar en efectivo, el cliente llama al camarero. | Cliente | 🔵 | ✅ PR #16 · 🟠 rama 15 |
 | RF19 | El cliente sigue el estado de sus pedidos en directo (polling cada 5 s). Solo ve los pedidos que ha hecho desde su móvil. | Cliente | 🔵 | ✅ PR #16 |
 | RF20 | El cliente pide la cuenta y la divide **a partes iguales** (el céntimo que sobra va a la primera parte) o **por platos**. La suma de las partes es siempre exactamente el total. | Cliente | 🔵 | ✅ PR #19 |
 | RF21 | Cada persona paga su parte con tarjeta (Stripe en **modo test**). | Cliente | 🔵 | ✅ PR #21 |
