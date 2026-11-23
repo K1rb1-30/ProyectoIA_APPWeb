@@ -15,12 +15,14 @@ use App\Http\Controllers\Cliente\CuentaController;
 use App\Http\Controllers\Cliente\PagoEfectivoController;
 use App\Http\Controllers\Cliente\PagoTarjetaController;
 use App\Http\Controllers\Cocina\PedidoController;
+use App\Http\Controllers\InicioController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Página de inicio pública de MesaYa (rama 16) y sus páginas legales simples.
+Route::get('/', InicioController::class)->name('inicio');
+Route::view('/privacidad', 'legal.privacidad')->name('legal.privacidad');
+Route::view('/cookies', 'legal.cookies')->name('legal.cookies');
 
 // Pantallas públicas del cliente que entra por el QR de su mesa. Sin login.
 // whereNumber hace que /mesa/abc dé 404 sin llegar al controlador.
