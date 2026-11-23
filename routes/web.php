@@ -9,6 +9,7 @@ use App\Http\Controllers\Camarero\ComandaController;
 use App\Http\Controllers\Cliente\AutopedidoController;
 use App\Http\Controllers\Cliente\CartaController;
 use App\Http\Controllers\Cliente\CuentaController;
+use App\Http\Controllers\Cliente\PagoTarjetaController;
 use App\Http\Controllers\Cocina\PedidoController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -39,6 +40,19 @@ Route::prefix('/r/{slug}/mesa/{numero}')->whereNumber('numero')->group(function 
     Route::post('/cuenta', [CuentaController::class, 'dividir'])
         ->middleware('throttle:20,1')
         ->name('cliente.cuenta.dividir');
+
+    // Pago con tarjeta (rama 11) de una parte de la cuenta, con Stripe Checkout.
+    // {parte} es el id de la parte; el controlador comprueba que sea de esta mesa.
+    Route::prefix('/cuenta/partes/{parte}')->whereNumber('parte')->group(function () {
+        Route::get('/tarjeta', [PagoTarjetaController::class, 'show'])->name('cliente.pago.tarjeta');
+        // Crea la sesión de Stripe. throttle: como mucho 10 por minuto y por IP.
+        Route::post('/tarjeta', [PagoTarjetaController::class, 'pagar'])
+            ->middleware('throttle:10,1')
+            ->name('cliente.pago.pagar');
+        // Stripe devuelve aquí al cliente después de pagar o de cancelar.
+        Route::get('/pagado', [PagoTarjetaController::class, 'exito'])->name('cliente.pago.exito');
+        Route::get('/cancelado', [PagoTarjetaController::class, 'cancelado'])->name('cliente.pago.cancelado');
+    });
 });
 
 // Panel del administrador.
