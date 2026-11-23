@@ -96,7 +96,7 @@ class DividirCuentaTest extends TestCase
             $asignaciones[$linea->id] = in_array($linea->plato->nombre, ['Croquetas', 'Caña']) ? 1 : 3;
         }
 
-        $this->post($this->ruta('cliente.cuenta.dividir'), ['modo' => 'platos', 'asignaciones' => $asignaciones])
+        $this->post($this->ruta('cliente.cuenta.dividir'), ['modo' => 'platos', 'personas' => 3, 'asignaciones' => $asignaciones])
             ->assertSessionHasNoErrors();
 
         $cuenta = $this->cuenta();
@@ -109,7 +109,7 @@ class DividirCuentaTest extends TestCase
     {
         $primeraLinea = $this->pedido->lineas->first();
 
-        $this->post($this->ruta('cliente.cuenta.dividir'), ['modo' => 'platos', 'asignaciones' => [$primeraLinea->id => 1]])
+        $this->post($this->ruta('cliente.cuenta.dividir'), ['modo' => 'platos', 'personas' => 2, 'asignaciones' => [$primeraLinea->id => 1]])
             ->assertSessionHasErrors('asignaciones');
 
         $this->assertSame(0, Cuenta::withoutGlobalScopes()->count());

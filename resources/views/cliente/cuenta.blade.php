@@ -156,10 +156,24 @@
                       return partes;
                   },
                   // { persona: céntimos } según los platos asignados.
+                  // Persona 0 = «Todos» (rama 14): se suma aparte y se reparte
+                  // entre todas, igual que importesPorPlatos() en PHP.
                   partesPorPlatos() {
                       const suma = {};
+                      let compartido = 0;
                       for (const [linea, persona] of Object.entries(this.asignaciones)) {
-                          suma[persona] = (suma[persona] ?? 0) + this.subtotales[linea];
+                          if (persona === 0) {
+                              compartido += this.subtotales[linea];
+                          } else {
+                              suma[persona] = (suma[persona] ?? 0) + this.subtotales[linea];
+                          }
+                      }
+                      if (compartido > 0) {
+                          const base = Math.floor(compartido / this.personas);
+                          for (let persona = 1; persona <= this.personas; persona++) {
+                              const parte = base + (persona === 1 ? compartido % this.personas : 0);
+                              suma[persona] = (suma[persona] ?? 0) + parte;
+                          }
                       }
                       return suma;
                   },
@@ -236,6 +250,8 @@
                             <select :name="modo === 'platos' ? 'asignaciones[{{ $linea->id }}]' : null"
                                     x-model.number="asignaciones[{{ $linea->id }}]"
                                     class="min-h-[44px] pl-3 pr-9 rounded border-outline-variant/50 text-label-md">
+                                {{-- 0 = plato compartido entre todos (rama 14) --}}
+                                <option value="0" :selected="asignaciones[{{ $linea->id }}] === 0">Todos (compartido)</option>
                                 <template x-for="numero in personas" :key="numero">
                                     <option :value="numero" x-text="'Persona ' + numero" :selected="asignaciones[{{ $linea->id }}] == numero"></option>
                                 </template>

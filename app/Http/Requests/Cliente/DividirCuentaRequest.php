@@ -7,7 +7,10 @@ use Illuminate\Foundation\Http\FormRequest;
 /**
  * Valida el formulario de dividir la cuenta:
  *  - modo=iguales&personas=3
- *  - modo=platos&asignaciones[12]=1&asignaciones[13]=2   (idLinea => persona)
+ *  - modo=platos&personas=3&asignaciones[12]=1&asignaciones[13]=0   (idLinea => persona)
+ *
+ * En "asignaciones", el 0 significa "Todos": el plato es compartido y se
+ * reparte entre todas las personas (rama 14).
  *
  * Que cada línea sea de esta mesa y esté asignada lo comprueba DividirCuenta.
  */
@@ -23,10 +26,20 @@ class DividirCuentaRequest extends FormRequest
     {
         return [
             'modo' => ['required', 'in:iguales,platos'],
-            // Entre 1 y 20 personas por mesa.
-            'personas' => ['required_if:modo,iguales', 'nullable', 'integer', 'min:1', 'max:20'],
+            // Entre 1 y 20 personas por mesa. También hace falta por platos:
+            // es el número de personas entre las que se reparte lo compartido.
+            'personas' => ['required', 'integer', 'min:1', 'max:20'],
             'asignaciones' => ['required_if:modo,platos', 'nullable', 'array'],
-            'asignaciones.*' => ['integer', 'min:1', 'max:20'],
+            // 0 = "Todos" (compartido). Nadie puede ser la persona 5 si hay 3:
+            // lte:personas compara con el número de personas enviado.
+            'asignaciones.*' => ['integer', 'min:0', 'lte:personas'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'asignaciones.*.lte' => 'Hay un plato asignado a una persona que no existe. Revisa el número de personas.',
         ];
     }
 
