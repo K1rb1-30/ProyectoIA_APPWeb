@@ -123,6 +123,7 @@ erDiagram
     partes_cuenta {
         bigint id PK
         bigint cuenta_id FK
+        bigint pedido_id FK "nullable: pedido pagado al pedir"
         tinyint persona "única por cuenta"
         int importe_centimos
         enum metodo "tarjeta|efectivo, nullable"
@@ -175,7 +176,9 @@ erDiagram
 | GET | `/privacidad` · `/cookies` | `legal.privacidad` · `legal.cookies` | Páginas legales simples (rama 16) |
 | GET | `/r/{slug}/mesa/{numero}` | `cliente.carta` | Carta del QR (solo platos disponibles) |
 | GET | `/r/{slug}/mesa/{numero}/pedido` | `cliente.pedido` | «Mi pedido» (carrito) |
-| POST | `/r/{slug}/mesa/{numero}/pedido` | `cliente.pedido.enviar` | Envía el pedido a cocina (máx. 10/min) |
+| POST | `/r/{slug}/mesa/{numero}/pedido` | `cliente.pedido.enviar` | Abre el pago con Stripe del pedido (máx. 10/min). Rama 15 |
+| GET | `/r/{slug}/mesa/{numero}/pedido/pagado` | `cliente.pedido.pagado` | Vuelta de Stripe: si está pagado, crea el pedido (llega a cocina) y su parte pagada en la cuenta |
+| GET | `/r/{slug}/mesa/{numero}/pedido/cancelado` | `cliente.pedido.cancelado` | Vuelta de Stripe sin pagar: no se crea nada |
 | GET | `/r/{slug}/mesa/{numero}/estado` | `cliente.estado` | Estado de los pedidos del cliente |
 | GET | `/r/{slug}/mesa/{numero}/estado/datos` | `cliente.estado.datos` | JSON para el polling |
 | GET | `/r/{slug}/mesa/{numero}/cuenta` | `cliente.cuenta` | Ver y dividir la cuenta |
