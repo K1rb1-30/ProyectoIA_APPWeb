@@ -222,3 +222,11 @@ Se rellena en cada sesión de trabajo, no al final. Mínimo 15 entradas.
 - **Prompt:** "Ponlo en algún lado como extras en el plan de trabajo" + "Que si el cliente quiere pedir tenga que pagarlo al momento y que le salga al camarero" + "Súbelo y ponlo como siguiente, con de qué dependen"
 - **Resultado:** Rama `feature/plan-mejoras`. Nueva sección «🟠 Siguientes: mejoras propias» en `docs/plan-de-trabajo.md` con la rama 14 `feature/platos-compartidos` (opción «Todos» al dividir por platos) y la 15 `feature/pagar-al-pedir` (el pedido del cliente se paga antes de ir a cocina y le sale al camarero; las comandas del camarero no cambian), su detalle y las decisiones pendientes. Las dos para Iván, se pueden empezar ya (no dependen de la 13) y en orden 14 → 15. Ramas 12 en ✅ y 13 en 🟡 para Gabriel. Primero se subió por error a la rama de la PR #20 (ya fusionada) sin preguntar; se rehízo en esta rama nueva · ¿funcionó?: PENDIENTE DE REVISAR
 - **Enlace:** PENDIENTE
+
+### Entrada 28
+- **Fecha y autor:** 23/11/2026 – Iván
+- **Herramienta:** Claude Code
+- **Objetivo:** Rama 14 (mejora propia): poder marcar platos como compartidos («Todos») al dividir la cuenta por platos
+- **Prompt:** "Empieza la 14" + "OK, adelante"
+- **Resultado:** Rama `feature/platos-compartidos`. `DividirCuentaRequest`: en `asignaciones` el 0 significa «Todos», `personas` pasa a ser obligatorio también por platos y nadie puede asignarse a una persona que no existe (`lte:personas`). `DividirCuenta::importesPorPlatos()`: suma primero todos los platos compartidos y reparte esa suma una sola vez con `repartirAPartesIguales` (el céntimo que sobra a la primera persona), para no cargar un céntimo de más a la persona 1 por cada plato; sigue funcionando con el «dividir lo nuevo» de la rama 12. Pantalla de la cuenta: opción «Todos (compartido)» y la vista previa con el mismo cálculo. Al probarlo en el navegador salió un fallo: unas comillas dobles en un comentario de JavaScript dentro de `x-data` cortaban el atributo y rompían el formulario; arreglado y cubierto con un test que lee el HTML como el navegador. 8 tests nuevos en `PlatosCompartidosTest` y 2 ajustados en `DividirCuentaTest`. `php artisan test`: 192 OK; `npm run build` OK; probado en el navegador (59,50 € entre 3 con un plato compartido: 55,50 + 2,00 + 2,00) · ¿funcionó?: PENDIENTE DE REVISAR
+- **Enlace:** 340eae6
