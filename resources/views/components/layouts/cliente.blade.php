@@ -17,12 +17,15 @@
 @props(['restaurante' => null, 'mesa' => null, 'seccion' => 'carta', 'titulo' => null, 'enlaceCarta' => '#', 'enlacePedido' => '#'])
 
 @php
-    // Enlaces de la carta (rama 8) y de "Mi pedido" (rama 9) de esta mesa.
-    // "Cuenta" llega con la rama 10; hasta entonces, "#".
+    // Enlaces de las pestañas: carta (rama 8), "Mi pedido" (rama 9) y cuenta
+    // (rama 10). Si la URL es de una mesa (/r/{slug}/mesa/{numero}/...), se
+    // sacan de ella; si no, se usan los que se pasen (o "#").
+    $rutaMesa = request()->route('slug') ? ['slug' => request()->route('slug'), 'numero' => request()->route('numero')] : null;
+
     $pestanas = [
-        ['clave' => 'carta', 'texto' => 'Carta', 'icono' => 'restaurant_menu', 'enlace' => $enlaceCarta],
-        ['clave' => 'pedido', 'texto' => 'Mi pedido', 'icono' => 'receipt_long', 'enlace' => $enlacePedido],
-        ['clave' => 'cuenta', 'texto' => 'Cuenta', 'icono' => 'payments', 'enlace' => '#'],
+        ['clave' => 'carta', 'texto' => 'Carta', 'icono' => 'restaurant_menu', 'enlace' => $rutaMesa ? route('cliente.carta', $rutaMesa) : $enlaceCarta],
+        ['clave' => 'pedido', 'texto' => 'Mi pedido', 'icono' => 'receipt_long', 'enlace' => $rutaMesa ? route('cliente.pedido', $rutaMesa) : $enlacePedido],
+        ['clave' => 'cuenta', 'texto' => 'Cuenta', 'icono' => 'payments', 'enlace' => $rutaMesa ? route('cliente.cuenta', $rutaMesa) : '#'],
     ];
 @endphp
 

@@ -8,6 +8,7 @@ use App\Http\Controllers\Camarero\AvisoController;
 use App\Http\Controllers\Camarero\ComandaController;
 use App\Http\Controllers\Cliente\AutopedidoController;
 use App\Http\Controllers\Cliente\CartaController;
+use App\Http\Controllers\Cliente\CuentaController;
 use App\Http\Controllers\Cocina\PedidoController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -32,6 +33,12 @@ Route::prefix('/r/{slug}/mesa/{numero}')->whereNumber('numero')->group(function 
     Route::get('/estado', [AutopedidoController::class, 'estado'])->name('cliente.estado');
     // Lo consulta el JavaScript de la pantalla de estado cada 5 segundos.
     Route::get('/estado/datos', [AutopedidoController::class, 'datosEstado'])->name('cliente.estado.datos');
+
+    // Cuenta (rama 10): ver el total y dividirlo a partes iguales o por platos.
+    Route::get('/cuenta', [CuentaController::class, 'show'])->name('cliente.cuenta');
+    Route::post('/cuenta', [CuentaController::class, 'dividir'])
+        ->middleware('throttle:20,1')
+        ->name('cliente.cuenta.dividir');
 });
 
 // Panel del administrador.
