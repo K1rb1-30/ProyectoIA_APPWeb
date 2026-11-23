@@ -50,6 +50,15 @@ Al terminar la 7: entrada **v0.1** en `CHANGELOG.md` y etiqueta `v0.1`.
 | 12 | `feature/efectivo-y-cierre` | 10 | Gabriel | 🔍 | [#22](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/22) |
 | 13 | `feature/estadisticas` | 11, 12 | | ⬜ | |
 
+### 🟠 Mejoras propias — al acabar las ramas 11, 12 y 13
+
+No estaban en la propuesta. Se hacen **solo cuando la v1.0 esté terminada**, y antes hay que hablarlas entre los dos. No confundir con los extras 🟣 de la propuesta.
+
+| # | Rama | Depende de | Responsable | Estado | PR |
+|---|---|---|---|---|---|
+| 14 | `feature/platos-compartidos` | 10 | | ⬜ | |
+| 15 | `feature/pagar-al-pedir` | 9, 11, 12 | | ⬜ | |
+
 ### Semana 4 — hasta el 07/12
 
 | Tarea | Responsable | Estado |
@@ -155,6 +164,24 @@ La rama 5 necesita la 3 y la 4. Mientras tanto, la persona B puede cerrar la 1 c
 ### 13. `feature/estadisticas`
 - Ventas por día, platos más pedidos y tarjeta frente a efectivo, con Chart.js.
 - Vista según `panelAdmin/estadisticas/`.
+
+### 14. `feature/platos-compartidos` 🟠
+- Al dividir la cuenta por platos, opción **«Todos»** en cada plato: se reparte a partes iguales entre todas las personas (el céntimo que sobra, a la primera).
+- Ahora cada plato va entero a una sola persona (decisión de la rama 10); lo normal en un bar es pedir algo para compartir.
+- Solo toca `DividirCuenta` y la pantalla de la cuenta.
+- **Test:** con platos compartidos, la suma de las partes sigue siendo exactamente el total.
+
+### 15. `feature/pagar-al-pedir` 🟠
+- **Problema:** el QR es una URL fija. Con una foto se puede pedir desde fuera del bar, o hacer pedidos de broma que la cocina prepara para nadie.
+- **Solución:** el pedido que hace el **cliente** desde el QR se **paga al momento**, antes de confirmarlo. Hasta que no está pagado no llega a cocina.
+- El pedido pagado **le sale al camarero** (en sus avisos o en la mesa), para que sepa que ese cliente ya ha pedido y pagado.
+- Las comandas que toma el **camarero** no cambian: se pagan al final con la cuenta, como ahora.
+- Reutiliza el pago con Stripe de la rama 11 y, si se permite efectivo, la confirmación del camarero de la rama 12.
+- **A decidir antes de empezar:**
+  - ¿Se puede pagar en efectivo al pedir? Entonces el pedido esperaría a que el camarero confirme el cobro antes de ir a cocina.
+  - Cómo apuntar que un pedido ya está pagado para que **no vuelva a entrar en la cuenta** de la mesa (probablemente un cambio de tabla: hay que acordarlo).
+  - Si el autopedido sin pagar desaparece del todo o queda como opción.
+- **Test:** un pedido del cliente sin pagar no aparece en cocina; al pagarlo, sí, y no se cobra otra vez en la cuenta.
 
 ---
 
