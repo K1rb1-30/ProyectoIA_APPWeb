@@ -116,6 +116,10 @@
                             'bg-surface-container-high' => $parte->estado === 'pendiente',
                         ])>P{{ $parte->persona }}</span>
                         <div class="flex-1 min-w-0">
+                            {{-- Rama 15: las partes de pedidos pagados al hacerlos se ven así --}}
+                            @if ($parte->pedido_id)
+                                <p class="text-label-md text-tertiary">{{ $parte->nombre() }}</p>
+                            @endif
                             <x-precio :centimos="$parte->importe_centimos" class="text-headline-sm font-bold" />
                             <p @class([
                                 'text-label-md',

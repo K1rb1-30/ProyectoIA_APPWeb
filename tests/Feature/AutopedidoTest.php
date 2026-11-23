@@ -7,11 +7,18 @@ use App\Models\Mesa;
 use App\Models\Pedido;
 use App\Models\Plato;
 use App\Models\Restaurante;
+use App\Servicios\PasarelaStripe;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Fakes\PasarelaStripeFalsa;
 use Tests\TestCase;
 
 /**
  * Rama 9: autopedido del cliente desde el QR (sin login).
+ *
+ * Desde la rama 15 el pedido se paga con tarjeta antes de ir a cocina, así
+ * que "enviar" es: pulsar «Pagar y enviar a cocina» y volver de Stripe con el
+ * pago hecho. Stripe es de mentira (PasarelaStripeFalsa). Lo propio del pago
+ * (cuenta, partes, errores de Stripe) está en PagarAlPedirTest.
  */
 class AutopedidoTest extends TestCase
 {
@@ -25,9 +32,14 @@ class AutopedidoTest extends TestCase
 
     private Plato $bravas;
 
+    private PasarelaStripeFalsa $stripe;
+
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->stripe = new PasarelaStripeFalsa;
+        $this->app->instance(PasarelaStripe::class, $this->stripe);
 
         $this->restaurante = Restaurante::factory()->create(['slug' => 'la-tasca']);
         $this->mesa = Mesa::factory()->create(['restaurante_id' => $this->restaurante->id, 'numero' => 5]);
@@ -41,18 +53,27 @@ class AutopedidoTest extends TestCase
         return route($nombre, ['slug' => 'la-tasca', 'numero' => $numero]);
     }
 
+    /** Pulsa «Pagar y enviar a cocina» (todavía no se crea nada). */
     private function enviar(array $lineas, int $numero = 5)
     {
         return $this->post($this->ruta('cliente.pedido.enviar', $numero), ['lineas' => $lineas]);
+    }
+
+    /** Paga en Stripe y vuelve: ahora sí se crea el pedido. */
+    private function pagarYEnviar(array $lineas, int $numero = 5)
+    {
+        $this->enviar($lineas, $numero)->assertRedirect();
+
+        return $this->get($this->ruta('cliente.pedido.pagado', $numero).'?session_id='.$this->stripe->ultimaSesion);
     }
 
     /*
      * Golden test nº 1 ampliado: el pedido que hace el cliente crea el
      * pedido (sin usuario) con sus líneas y el precio del momento.
      */
-    public function test_el_cliente_envia_un_pedido_y_se_crea_con_sus_lineas(): void
+    public function test_el_cliente_paga_su_pedido_y_se_crea_con_sus_lineas(): void
     {
-        $respuesta = $this->enviar([
+        $respuesta = $this->pagarYEnviar([
             ['plato_id' => $this->croquetas->id, 'cantidad' => 2, 'notas' => 'Sin cebolla'],
             ['plato_id' => $this->bravas->id, 'cantidad' => 1],
         ]);
@@ -75,9 +96,11 @@ class AutopedidoTest extends TestCase
 
     public function test_el_precio_es_el_del_servidor_aunque_el_cliente_mande_otro(): void
     {
-        // El formulario no manda precio; aunque se añada a mano, se ignora.
-        $this->enviar([['plato_id' => $this->croquetas->id, 'cantidad' => 1, 'precio_centimos' => 1]]);
+        // El formulario no manda precio; aunque se añada a mano, se ignora:
+        // Stripe cobra el precio del servidor.
+        $this->pagarYEnviar([['plato_id' => $this->croquetas->id, 'cantidad' => 1, 'precio_centimos' => 1]]);
 
+        $this->assertSame(850, $this->stripe->sesiones['cs_test_1']['importe']);
         $this->assertSame(850, Pedido::withoutGlobalScopes()->sole()->totalCentimos());
     }
 
@@ -93,6 +116,8 @@ class AutopedidoTest extends TestCase
             ->assertRedirect($this->ruta('cliente.pedido'))
             ->assertSessionHasErrors('lineas');
 
+        // Ni se va a Stripe ni se crea nada.
+        $this->assertSame([], $this->stripe->sesiones);
         $this->assertSame(0, Pedido::withoutGlobalScopes()->count());
     }
 
@@ -102,7 +127,7 @@ class AutopedidoTest extends TestCase
 
         $this->enviar([['plato_id' => $platoAjeno->id, 'cantidad' => 1]])->assertSessionHasErrors('lineas');
 
-        $this->assertSame(0, Pedido::withoutGlobalScopes()->count());
+        $this->assertSame([], $this->stripe->sesiones);
     }
 
     public function test_un_pedido_vacio_o_con_cantidades_raras_no_se_envia(): void
@@ -111,7 +136,7 @@ class AutopedidoTest extends TestCase
         $this->enviar([['plato_id' => $this->croquetas->id, 'cantidad' => 0]])->assertSessionHasErrors('lineas.0.cantidad');
         $this->enviar([['plato_id' => $this->croquetas->id, 'cantidad' => 100]])->assertSessionHasErrors('lineas.0.cantidad');
 
-        $this->assertSame(0, Pedido::withoutGlobalScopes()->count());
+        $this->assertSame([], $this->stripe->sesiones);
     }
 
     public function test_pedir_en_una_mesa_que_no_existe_da_404(): void
@@ -119,9 +144,9 @@ class AutopedidoTest extends TestCase
         $this->enviar([['plato_id' => $this->croquetas->id, 'cantidad' => 1]], 99)->assertNotFound();
     }
 
-    public function test_la_pantalla_de_estado_muestra_el_pedido_recien_enviado(): void
+    public function test_la_pantalla_de_estado_muestra_el_pedido_recien_pagado(): void
     {
-        $this->enviar([['plato_id' => $this->croquetas->id, 'cantidad' => 2]]);
+        $this->pagarYEnviar([['plato_id' => $this->croquetas->id, 'cantidad' => 2]]);
 
         $this->get($this->ruta('cliente.estado'))
             ->assertOk()
@@ -131,7 +156,8 @@ class AutopedidoTest extends TestCase
 
     public function test_otro_navegador_no_ve_los_pedidos_ajenos(): void
     {
-        $this->enviar([['plato_id' => $this->croquetas->id, 'cantidad' => 1]]);
+        $this->pagarYEnviar([['plato_id' => $this->croquetas->id, 'cantidad' => 1]]);
+        $this->assertSame(1, Pedido::withoutGlobalScopes()->count());
 
         // flushSession simula otro navegador: sin los ids guardados en sesión.
         $this->flushSession();
@@ -144,7 +170,7 @@ class AutopedidoTest extends TestCase
 
     public function test_un_pedido_de_otra_mesa_no_sale_aunque_este_en_la_sesion(): void
     {
-        $this->enviar([['plato_id' => $this->croquetas->id, 'cantidad' => 1]]);
+        $this->pagarYEnviar([['plato_id' => $this->croquetas->id, 'cantidad' => 1]]);
         Mesa::factory()->create(['restaurante_id' => $this->restaurante->id, 'numero' => 6]);
 
         // El pedido es de la mesa 5: en la pantalla de la mesa 6 no sale.
@@ -153,7 +179,7 @@ class AutopedidoTest extends TestCase
 
     public function test_los_datos_del_estado_cambian_cuando_cocina_avanza_el_pedido(): void
     {
-        $this->enviar([['plato_id' => $this->croquetas->id, 'cantidad' => 1]]);
+        $this->pagarYEnviar([['plato_id' => $this->croquetas->id, 'cantidad' => 1]]);
         $pedido = Pedido::withoutGlobalScopes()->sole();
 
         $this->getJson($this->ruta('cliente.estado.datos'))
@@ -173,7 +199,8 @@ class AutopedidoTest extends TestCase
         $this->get($this->ruta('cliente.pedido'))
             ->assertOk()
             ->assertSee('Mi pedido')
-            ->assertSee('Enviar a cocina')
+            ->assertSee('Pagar y enviar a cocina')
+            ->assertSee('Llama al camarero', false)
             ->assertSee('Croquetas'); // Viene en los datos de los platos para Alpine.
     }
 
@@ -184,7 +211,7 @@ class AutopedidoTest extends TestCase
         $this->get($this->ruta('cliente.pedido'))->assertOk()->assertDontSee('Bravas');
     }
 
-    public function test_no_se_pueden_enviar_mas_de_10_pedidos_por_minuto(): void
+    public function test_no_se_pueden_intentar_mas_de_10_pagos_por_minuto(): void
     {
         for ($i = 0; $i < 10; $i++) {
             $this->enviar([['plato_id' => $this->croquetas->id, 'cantidad' => 1]])->assertRedirect();
@@ -192,6 +219,6 @@ class AutopedidoTest extends TestCase
 
         // El undécimo, dentro del mismo minuto, se rechaza con 429 (demasiadas peticiones).
         $this->enviar([['plato_id' => $this->croquetas->id, 'cantidad' => 1]])->assertStatus(429);
-        $this->assertSame(10, Pedido::withoutGlobalScopes()->count());
+        $this->assertCount(10, $this->stripe->sesiones);
     }
 }
