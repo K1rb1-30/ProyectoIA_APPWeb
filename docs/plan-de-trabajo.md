@@ -61,7 +61,7 @@ No estaban en la propuesta: salen de probar la aplicación. No confundir con los
 | # | Rama | Depende de | Responsable | Estado | PR |
 |---|---|---|---|---|---|
 | 14 | `feature/platos-compartidos` | 10 | Iván | ✅ | [#24](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/24) |
-| 15 | `feature/pagar-al-pedir` | 9, 11, 12 y la 14 (orden) | Iván | ⬜ | |
+| 15 | `feature/pagar-al-pedir` | 9, 11, 12 y la 14 (orden) | Iván | 🟡 | |
 
 ### Semana 4 — hasta el 07/12
 
@@ -178,15 +178,25 @@ La rama 5 necesita la 3 y la 4. Mientras tanto, la persona B puede cerrar la 1 c
 
 ### 15. `feature/pagar-al-pedir` 🟠
 - **Problema:** el QR es una URL fija. Con una foto se puede pedir desde fuera del bar, o hacer pedidos de broma que la cocina prepara para nadie.
-- **Solución:** el pedido que hace el **cliente** desde el QR se **paga al momento**, antes de confirmarlo. Hasta que no está pagado no llega a cocina.
-- El pedido pagado **le sale al camarero** (en sus avisos o en la mesa), para que sepa que ese cliente ya ha pedido y pagado.
-- Las comandas que toma el **camarero** no cambian: se pagan al final con la cuenta, como ahora.
-- Reutiliza el pago con Stripe de la rama 11 y, si se permite efectivo, la confirmación del camarero de la rama 12.
-- **A decidir antes de empezar:**
-  - ¿Se puede pagar en efectivo al pedir? Entonces el pedido esperaría a que el camarero confirme el cobro antes de ir a cocina.
-  - Cómo apuntar que un pedido ya está pagado para que **no vuelva a entrar en la cuenta** de la mesa (probablemente un cambio de tabla: hay que acordarlo).
-  - Si el autopedido sin pagar desaparece del todo o queda como opción.
-- **Test:** un pedido del cliente sin pagar no aparece en cocina; al pagarlo, sí, y no se cobra otra vez en la cuenta.
+- **Solución:** el pedido que hace el **cliente** desde el QR se **paga con tarjeta al momento**. El pedido **no existe** (ni llega a cocina) hasta que Stripe confirma el pago.
+
+**Decisiones (23/11/2026)**
+1. **Efectivo:** el cliente no puede pagar en efectivo desde el móvil. En «Mi pedido» se le dice que, si quiere pagar en efectivo, **llame al camarero**, que le toma nota con una comanda normal (y se cobra con la cuenta, como ahora).
+2. **Cuenta:** lo pagado al pedir **sale en la cuenta como ya pagado** (para el camarero y para el cliente) y **no se vuelve a cobrar**.
+3. **El autopedido sin pagar desaparece del todo:** «Enviar a cocina» pasa a ser «Pagar y enviar a cocina».
+
+**Cómo se hace**
+- Al pulsar «Pagar y enviar a cocina», el servidor comprueba los platos (de este restaurante y disponibles), calcula el total con **sus** precios y abre una sesión de Stripe Checkout por ese importe. Las líneas del carrito se guardan en la sesión de Laravel, junto al id de la sesión de Stripe.
+- Al volver de Stripe, se **pregunta a Stripe** si está pagado (como en la rama 11). Si cuadra (pagado, importe, moneda y mesa), en una transacción:
+  1. se crea el pedido con `CrearPedido` (sin usuario), que llega a cocina;
+  2. se apunta en la **cuenta abierta** de la mesa (se crea si no hay) y el total de la cuenta sube;
+  3. se añade a la cuenta una **parte ya pagada** (`pagado`, tarjeta) por el importe del pedido, con su `Pago` y la referencia de Stripe.
+- Así **no hay que tocar** la división de la cuenta ni el cierre de la mesa (ramas 10 y 12): como la cuenta ya tiene una parte pagada, al dividir solo se reparte lo que falta, y la mesa se puede cerrar cuando todas las partes están pagadas.
+- **Cambio de tabla (acordado):** `partes_cuenta.pedido_id`, opcional, para saber que esa parte es un pedido pagado al pedir y mostrarlo así al camarero («Pedido #12 · pagado al pedir»).
+- Si al volver de Stripe un plato se ha agotado o ha cambiado de precio, no se crea el pedido y se avisa al cliente para que enseñe la referencia del pago al camarero (lo devuelve desde el panel de Stripe).
+- Recargar la página de éxito no crea el pedido dos veces (la referencia de Stripe es única).
+
+**Tests:** sin pagar no se crea ningún pedido; al pagar, el pedido sale en cocina, la cuenta incluye la parte pagada y al dividir no se cobra otra vez; la mesa se cierra sin cobrar de nuevo; una sesión de Stripe no pagada, de otra mesa o de otro importe no crea nada; recargar no duplica; plato agotado mientras pagaba.
 
 ---
 
