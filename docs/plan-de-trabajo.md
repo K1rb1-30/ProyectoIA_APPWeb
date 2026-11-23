@@ -48,7 +48,7 @@ Al terminar la 7: entrada **v0.1** en `CHANGELOG.md` y etiqueta `v0.1`.
 | 10 | `feature/dividir-cuenta` | 5 | Iván | ✅ | [#19](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/19) |
 | 11 | `feature/pago-stripe` | 10 | Gabriel | ✅ | [#21](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/21) |
 | 12 | `feature/efectivo-y-cierre` | 10 | Gabriel | ✅ | [#22](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/22) |
-| 13 | `feature/estadisticas` | 11, 12 | Gabriel | 🟡 | |
+| 13 | `feature/estadisticas` | 11, 12 | Gabriel | 🔍 | [#25](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/25) |
 
 ### 🟠 Siguientes: mejoras propias (Iván, mientras Gabriel hace la 13)
 
