@@ -1,7 +1,7 @@
 # Propuesta inicial: MesaYa
 
 **Módulo:** DAW M0617 – Vibe Coding I
-**Autores:** Iván Hernández García · [Nombre del compañero/a]
+**Autores:** Iván Hernández García · Gabriel
 **Fecha:** 10/11/2026
 **Presentación prevista:** semana del 7 de diciembre de 2026
 
@@ -75,9 +75,9 @@ Es **multi-restaurante**: varios locales pueden usar la misma aplicación y cada
 
 | Parte | Tecnología |
 |---|---|
-| Backend | Laravel 12 + Laravel Breeze (autenticación) |
-| Frontend | Blade + Tailwind CSS + Alpine.js |
-| Base de datos | MySQL (SQLite en local durante el desarrollo) |
+| Backend | Laravel 13 + Laravel Breeze (autenticación) |
+| Frontend | Blade + Tailwind CSS 3 + Alpine.js |
+| Base de datos | MySQL siempre, en local y en producción |
 | Pagos | Stripe Checkout en modo test |
 | Tiempo real | Polling con JavaScript cada pocos segundos |
 | Códigos QR | `simple-qrcode` |
@@ -116,3 +116,7 @@ Usaremos herramientas de IA (Claude) para generar y explicar código, redactar d
 | Errores de céntimos al dividir la cuenta | Trabajar con importes en céntimos (enteros) y un test que compruebe que la suma de las partes cuadra con el total |
 | Pagos reales por error | Stripe siempre en modo test y claves solo en `.env` |
 | Falta de tiempo | Priorizar MVP → v1.0 y dejar los extras como mejoras futuras |
+
+---
+
+> **Cambios respecto a la propuesta inicial** (23/11/2026): se usa **Laravel 13** (la versión estable al crear el proyecto) en lugar de Laravel 12, y **MySQL también en local** en lugar de SQLite, para trabajar igual que en producción. Breeze instala **Tailwind CSS 3**, la misma versión que usan las maquetas de diseño.

@@ -18,9 +18,9 @@ Estados: ⬜ pendiente · 🟡 en curso · 🔍 en revisión (PR abierta) · ✅
 
 | # | Tarea | Responsable | Estado |
 |---|---|---|---|
-| P1 | Corregir en `docs/01-proposta.md` "Laravel 12" → 13 y "SQLite en local" → MySQL siempre | | ⬜ |
-| P2 | Escribir `docs/02-requisits.md` (requisitos numerados RF1, RF2…) | | ⬜ |
-| P3 | Escribir `docs/03-disseny.md` (diagrama de tablas y lista de rutas) | | ⬜ |
+| P1 | Corregir en `docs/01-proposta.md` "Laravel 12" → 13 y "SQLite en local" → MySQL siempre | Iván | 🔍 [#20](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/20) |
+| P2 | Escribir `docs/02-requisits.md` (requisitos numerados RF1, RF2…) | Iván | 🔍 [#20](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/20) |
+| P3 | Escribir `docs/03-disseny.md` (diagrama de tablas y lista de rutas) | Iván | 🔍 [#20](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/20) |
 | P4 | Despliegue mínimo en Railway con MySQL (aunque solo enseñe el login) | | ⬜ |
 | P5 | Renombrar las rutas de Breeze `/dashboard` → `/panel` y `/profile` → `/perfil` | | ⬜ |
 | ✔ | Login con Breeze en castellano (PR #4) | Gabriel | ✅ |
@@ -45,7 +45,7 @@ Al terminar la 7: entrada **v0.1** en `CHANGELOG.md` y etiqueta `v0.1`.
 |---|---|---|---|---|---|
 | 8 | `feature/carta-publica-qr` | 3, 4 | Iván | ✅ | [#13](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/13) |
 | 9 | `feature/autopedido` | 5, 8 | Iván | ✅ | [#16](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/16) |
-| 10 | `feature/dividir-cuenta` | 5 | Iván | 🔍 | [#19](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/19) |
+| 10 | `feature/dividir-cuenta` | 5 | Iván | ✅ | [#19](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/19) |
 | 11 | `feature/pago-stripe` | 10 | | ⬜ | |
 | 12 | `feature/efectivo-y-cierre` | 10 | | ⬜ | |
 | 13 | `feature/estadisticas` | 11, 12 | | ⬜ | |
@@ -54,9 +54,9 @@ Al terminar la 7: entrada **v0.1** en `CHANGELOG.md` y etiqueta `v0.1`.
 
 | Tarea | Responsable | Estado |
 |---|---|---|
-| `docs/04-installacio.md` | | ⬜ |
+| `docs/04-installacio.md` (falta el despliegue, P4) | Iván | 🔍 [#20](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/20) |
 | `docs/05-manual-usuari.md` con capturas | | ⬜ |
-| `docs/06-proves.md` (los 6 golden tests y cómo ejecutarlos) | | ⬜ |
+| `docs/06-proves.md` (los 6 golden tests y cómo ejecutarlos; falta el nº 4, rama 12) | Iván | 🔍 [#20](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/20) |
 | Revisión de seguridad (secretos, aislamiento entre restaurantes, roles) | | ⬜ |
 | `CHANGELOG.md` v1.0 y etiqueta `v1.0` | | ⬜ |
 | Ensayo de la demo (flujo de la mesa 5) | | ⬜ |
