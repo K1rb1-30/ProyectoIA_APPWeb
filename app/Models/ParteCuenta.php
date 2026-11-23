@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\DB;
 // Los cambios de estado (rama 12) se hacen SOLO con pedirEfectivo(),
 // confirmarEfectivo(), cobrarEfectivoEnMesa(), pagarConTarjeta() y
 // pagarConTpv(). Nunca con update(['estado' => ...]).
-#[Fillable(['cuenta_id', 'persona', 'importe_centimos', 'metodo', 'estado'])]
+#[Fillable(['cuenta_id', 'pedido_id', 'persona', 'importe_centimos', 'metodo', 'estado'])]
 class ParteCuenta extends Model
 {
     // Sin esto, Laravel buscaría la tabla "parte_cuentas".
@@ -59,6 +59,26 @@ class ParteCuenta extends Model
     public function estaPagada(): bool
     {
         return $this->estado === 'pagado';
+    }
+
+    /**
+     * Pedido que el cliente pagó al hacerlo (rama 15). Null en las partes
+     * normales, las que salen de dividir la cuenta.
+     */
+    public function pedido(): BelongsTo
+    {
+        return $this->belongsTo(Pedido::class);
+    }
+
+    /**
+     * Cómo se llama la parte en la web: «Persona 3» o, si es un pedido pagado
+     * al hacerlo (rama 15), «Pedido #12 · pagado al pedir».
+     */
+    public function nombre(): string
+    {
+        return $this->pedido_id
+            ? "Pedido #{$this->pedido_id} · pagado al pedir"
+            : "Persona {$this->persona}";
     }
 
     /**
