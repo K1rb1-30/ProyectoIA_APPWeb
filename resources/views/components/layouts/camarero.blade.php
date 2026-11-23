@@ -18,14 +18,18 @@
 @props(['titulo' => 'Mesas', 'seccion' => 'mesas'])
 
 @php
-    // Pestañas de la barra inferior. La ruta de cobros llega con la rama 12;
-    // hasta entonces (null) apunta a "#".
+    // Pestañas de la barra inferior. "Cobros" llega con la rama 12.
     $pestanas = [
         ['clave' => 'mesas', 'texto' => 'Mesas', 'icono' => 'table_restaurant', 'ruta' => 'camarero.mesas'],
         ['clave' => 'avisos', 'texto' => 'Avisos', 'icono' => 'room_service', 'ruta' => 'camarero.avisos'],
-        ['clave' => 'cobros', 'texto' => 'Cobros', 'icono' => 'payments', 'ruta' => null],
+        ['clave' => 'cobros', 'texto' => 'Cobros', 'icono' => 'payments', 'ruta' => 'camarero.cobros'],
         ['clave' => 'perfil', 'texto' => 'Perfil', 'icono' => 'account_circle', 'ruta' => 'profile.edit'],
     ];
+
+    // Globo de «Cobros»: partes que esperan el cobro en efectivo. Se cuenta al
+    // cargar la página (sin polling). Con login, el filtro del trait deja solo
+    // las del restaurante del camarero.
+    $esperandoEfectivo = Auth::check() ? \App\Models\ParteCuenta::esperandoEfectivo()->count() : 0;
 @endphp
 
 <x-layouts.base :titulo="$titulo">
@@ -78,6 +82,10 @@
                                 <span x-show="pedidos.length > 0" x-cloak x-text="pedidos.length"
                                       class="absolute -top-1.5 -right-2.5 min-w-[20px] h-5 px-1 rounded-full bg-error text-on-error text-[11px] font-bold leading-5 text-center"
                                       aria-label="Pedidos listos para servir"></span>
+                            @endif
+                            @if ($pestana['clave'] === 'cobros' && $esperandoEfectivo > 0)
+                                <span class="absolute -top-1.5 -right-2.5 min-w-[20px] h-5 px-1 rounded-full bg-error text-on-error text-[11px] font-bold leading-5 text-center"
+                                      aria-label="Personas esperando para pagar en efectivo">{{ $esperandoEfectivo }}</span>
                             @endif
                         </span>
                         {{ $pestana['texto'] }}

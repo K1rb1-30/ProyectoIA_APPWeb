@@ -23,7 +23,15 @@ class CuentaController extends Controller
         $cuenta = DividirCuenta::cuentaAbierta($mesa)?->load('partes');
         $pedidos = DividirCuenta::pedidosDeLaMesa($mesa, $cuenta);
 
+        // Rama 12: si ya hay pagos, el formulario solo divide lo pedido
+        // después (los pedidos que aún no tienen cuenta).
+        $soloLoNuevo = $cuenta?->tienePagos() ?? false;
+        $pedidosFormulario = $soloLoNuevo ? $pedidos->whereNull('cuenta_id') : $pedidos;
+
         return view('cliente.cuenta', [
+            'soloLoNuevo' => $soloLoNuevo,
+            'lineasFormulario' => $pedidosFormulario->flatMap->lineas->values(),
+            'totalFormulario' => $pedidosFormulario->sum(fn (Pedido $pedido) => $pedido->totalCentimos()),
             'restaurante' => $mesa->restaurante,
             'mesa' => $mesa,
             'cuenta' => $cuenta,

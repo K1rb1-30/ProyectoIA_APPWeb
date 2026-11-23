@@ -5,10 +5,13 @@ use App\Http\Controllers\Admin\CategoriaController;
 use App\Http\Controllers\Admin\MesaController;
 use App\Http\Controllers\Admin\PlatoController;
 use App\Http\Controllers\Camarero\AvisoController;
+use App\Http\Controllers\Camarero\CobroController;
 use App\Http\Controllers\Camarero\ComandaController;
+use App\Http\Controllers\Camarero\DetalleMesaController;
 use App\Http\Controllers\Cliente\AutopedidoController;
 use App\Http\Controllers\Cliente\CartaController;
 use App\Http\Controllers\Cliente\CuentaController;
+use App\Http\Controllers\Cliente\PagoEfectivoController;
 use App\Http\Controllers\Cliente\PagoTarjetaController;
 use App\Http\Controllers\Cocina\PedidoController;
 use App\Http\Controllers\ProfileController;
@@ -52,6 +55,13 @@ Route::prefix('/r/{slug}/mesa/{numero}')->whereNumber('numero')->group(function 
         // Stripe devuelve aquí al cliente después de pagar o de cancelar.
         Route::get('/pagado', [PagoTarjetaController::class, 'exito'])->name('cliente.pago.exito');
         Route::get('/cancelado', [PagoTarjetaController::class, 'cancelado'])->name('cliente.pago.cancelado');
+
+        // Pago en efectivo (rama 12). El POST solo deja la parte en
+        // "pendiente_efectivo"; el cobro lo confirma el camarero.
+        Route::post('/efectivo', [PagoEfectivoController::class, 'elegir'])
+            ->middleware('throttle:10,1')
+            ->name('cliente.pago.efectivo.elegir');
+        Route::get('/efectivo', [PagoEfectivoController::class, 'show'])->name('cliente.pago.efectivo');
     });
 });
 
@@ -89,6 +99,19 @@ Route::middleware(['auth', 'rol:camarero'])->prefix('camarero')->group(function 
     Route::get('/mesas', [ComandaController::class, 'mesas'])->name('camarero.mesas');
     Route::get('/mesas/{mesa}/comanda', [ComandaController::class, 'create'])->name('camarero.comanda.crear');
     Route::post('/mesas/{mesa}/comanda', [ComandaController::class, 'store'])->name('camarero.comanda.guardar');
+
+    // Detalle de mesa, cobro en efectivo y cierre (rama 12). {mesa} se busca
+    // con el global scope: la mesa de otro restaurante da 404.
+    Route::get('/mesas/{mesa}', [DetalleMesaController::class, 'show'])->name('camarero.mesas.detalle');
+    Route::patch('/mesas/{mesa}/partes/{parte}/cobrar', [DetalleMesaController::class, 'cobrar'])
+        ->whereNumber('parte')
+        ->name('camarero.mesas.cobrar');
+    Route::post('/mesas/{mesa}/cerrar', [DetalleMesaController::class, 'cerrar'])->name('camarero.mesas.cerrar');
+    // El camarero divide la cuenta si nadie la ha pedido desde el QR.
+    Route::post('/mesas/{mesa}/dividir', [DetalleMesaController::class, 'dividir'])->name('camarero.mesas.dividir');
+
+    // Pestaña «Cobros»: efectivo pendiente y lo cobrado hoy.
+    Route::get('/cobros', [CobroController::class, 'index'])->name('camarero.cobros');
 
     // Avisos de plato listo (rama 7): pantalla, JSON del polling y "servido".
     Route::get('/avisos', [AvisoController::class, 'index'])->name('camarero.avisos');

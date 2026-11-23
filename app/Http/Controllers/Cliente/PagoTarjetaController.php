@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Cliente;
 
 use App\Http\Controllers\Controller;
 use App\Models\Mesa;
-use App\Models\Pago;
 use App\Models\ParteCuenta;
 use App\Servicios\PasarelaStripe;
 use Illuminate\Http\RedirectResponse;
@@ -133,20 +132,9 @@ class PagoTarjetaController extends Controller
                 && $sesion['importe_centimos'] === $parte->importe_centimos
                 && $sesion['moneda'] === 'eur';
 
-            if (! $sesionValida) {
-                return false;
-            }
-
-            Pago::create([
-                'parte_cuenta_id' => $parte->id,
-                'importe_centimos' => $parte->importe_centimos,
-                'metodo' => 'tarjeta',
-                'referencia_stripe' => $idSesion,
-            ]);
-
-            $parte->update(['metodo' => 'tarjeta', 'estado' => 'pagado']);
-
-            return true;
+            // pagarConTarjeta() (rama 12) hace el salto pendiente → pagado y
+            // crea el Pago. Es el único sitio donde una parte se paga con tarjeta.
+            return $sesionValida && $parte->pagarConTarjeta($idSesion);
         });
 
         if (! $confirmado) {
@@ -182,17 +170,11 @@ class PagoTarjetaController extends Controller
      * Busca la parte filtrando A MANO (no hay usuario logueado, así que el
      * filtro del trait PerteneceARestaurante no actúa): tiene que pertenecer a
      * una cuenta de ESTA mesa y de ESTE restaurante. Si no, devuelve null.
+     * El filtro está en ParteCuenta::deLaMesa() porque también lo usa el efectivo.
      */
     private function buscarParte(Mesa $mesa, int $idParte): ?ParteCuenta
     {
-        $soloEstaMesa = fn ($consulta) => $consulta->withoutGlobalScope('restaurante')
-            ->where('mesa_id', $mesa->id)
-            ->where('restaurante_id', $mesa->restaurante_id);
-
-        return ParteCuenta::whereKey($idParte)
-            ->whereHas('cuenta', $soloEstaMesa)
-            ->with(['cuenta' => $soloEstaMesa])
-            ->first();
+        return ParteCuenta::deLaMesa($mesa, $idParte);
     }
 
     /**

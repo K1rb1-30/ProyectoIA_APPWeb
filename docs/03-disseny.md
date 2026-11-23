@@ -2,7 +2,7 @@
 
 Cómo está construida la aplicación: arquitectura, base de datos y rutas. El diseño **visual** (colores, pantallas) está en `docs/design/DesignFrontend/`.
 
-Estado a 23/11/2026: ramas 1 a 10 en `main` y la 11 (Stripe) en revisión. Lo que llega con las ramas 12 (efectivo y cierre) y 13 (estadísticas) está marcado como ⏳.
+Estado a 23/11/2026: ramas 1 a 11 en `main` y la 12 (efectivo y cierre) en revisión. Lo que llega con la rama 13 (estadísticas) está marcado como ⏳.
 
 ---
 
@@ -149,15 +149,16 @@ erDiagram
 | `mesas` | `Mesa` | 4 | Número único por restaurante. |
 | `pedidos` | `Pedido` | 5 | `user_id` vacío si pide el cliente. `cuenta_id` se añade en la rama 10. |
 | `lineas_pedido` | `LineaPedido` | 5 | Guarda el precio del momento del pedido. |
-| `cuentas` | `Cuenta` | 10 | Pasa a `cerrada` cuando todo está pagado (⏳ rama 12). |
-| `partes_cuenta` | `ParteCuenta` | 10 | `metodo` vacío hasta pagar (⏳ ramas 11 y 12). |
+| `cuentas` | `Cuenta` | 10 | Pasa a `cerrada` con `Cuenta::cerrar()`, que solo cierra si todas las partes están pagadas y no hay pedidos fuera de la cuenta (rama 12). |
+| `partes_cuenta` | `ParteCuenta` | 10 | `metodo` vacío hasta pagar. Los cambios de estado solo se hacen con `pedirEfectivo()`, `confirmarEfectivo()` y `pagarConTarjeta()` (rama 12). |
 | `pagos` | `Pago` | 11 | Sin `restaurante_id`: queda aislada por parte → cuenta. `referencia_stripe` es el id de la sesión de Stripe Checkout y es **única** (la misma sesión no se registra dos veces). No se puede borrar una parte con pagos. |
 
 ### Estados y reglas
 
 - **Pedido:** `pendiente` → `preparando` → `listo` → `servido`. Solo se avanza un paso cada vez (`Pedido::cambiarEstado()`); **no se puede saltar de `pendiente` a `listo`**.
-- **Mesa:** `libre` → `ocupada` al hacer el primer pedido → `libre` al cerrar la cuenta (⏳ rama 12).
-- **Parte de la cuenta:** `pendiente` → `pagado` (tarjeta) o `pendiente` → `pendiente_efectivo` → `pagado` (efectivo).
+- **Mesa:** `libre` → `ocupada` al hacer el primer pedido → `libre` cuando el camarero cierra la cuenta (botón «Cerrar mesa y liberar», rama 12).
+- **Parte de la cuenta:** `pendiente` → `pagado` (tarjeta) o `pendiente` → `pendiente_efectivo` → `pagado` (efectivo). El cliente solo puede llegar a `pendiente_efectivo`; el `pagado` en efectivo lo pone el camarero. Si el camarero cobra en efectivo en la mesa sin que el cliente haya elegido nada (`cobrarEfectivoEnMesa()`), hace los dos pasos seguidos. El TPV del bar (`pagarConTpv()`) va de `pendiente` a `pagado` con `metodo = tarjeta` y un `Pago` **sin** `referencia_stripe`: así se distingue de Stripe. Una parte pagada no se vuelve a cobrar.
+- **Pedidos después de dividir:** si la cuenta ya tiene pagos, `DividirCuenta` solo divide lo nuevo y añade partes detrás de las que había (personas 4, 5…). Mientras haya pedidos fuera de la cuenta, la mesa no se puede cerrar.
 - **Reparto a partes iguales:** división entera y el céntimo que sobra a la primera parte. Ejemplo: 31,00 € entre 3 → 10,34 + 10,33 + 10,33.
 - **La suma de las partes es siempre exactamente el total** (`DividirCuenta` lo comprueba antes de guardar).
 
@@ -180,6 +181,8 @@ erDiagram
 | POST | `/r/{slug}/mesa/{numero}/cuenta/partes/{parte}/tarjeta` | `cliente.pago.pagar` | Crea la sesión de Stripe Checkout y redirige a Stripe (máx. 10/min) |
 | GET | `/r/{slug}/mesa/{numero}/cuenta/partes/{parte}/pagado` | `cliente.pago.exito` | Vuelta de Stripe: consulta la sesión y, si está pagada, guarda el pago |
 | GET | `/r/{slug}/mesa/{numero}/cuenta/partes/{parte}/cancelado` | `cliente.pago.cancelado` | Vuelta de Stripe sin pagar: la parte sigue pendiente |
+| POST | `/r/{slug}/mesa/{numero}/cuenta/partes/{parte}/efectivo` | `cliente.pago.efectivo.elegir` | El cliente elige efectivo: `pendiente` → `pendiente_efectivo` (máx. 10/min) |
+| GET | `/r/{slug}/mesa/{numero}/cuenta/partes/{parte}/efectivo` | `cliente.pago.efectivo` | Pantalla «Avisa al camarero, vendrá a cobrarte» |
 
 ### Admin (`auth` + `rol:admin`)
 
@@ -203,6 +206,11 @@ erDiagram
 | GET · POST | `/camarero/mesas/{mesa}/comanda` | `camarero.comanda.crear` · `camarero.comanda.guardar` |
 | GET | `/camarero/avisos` · `/camarero/avisos/datos` | `camarero.avisos` · `camarero.avisos.datos` |
 | PATCH | `/camarero/avisos/{pedido}/servido` | `camarero.avisos.servido` |
+| GET | `/camarero/mesas/{mesa}` | `camarero.mesas.detalle` |
+| PATCH | `/camarero/mesas/{mesa}/partes/{parte}/cobrar` | `camarero.mesas.cobrar` |
+| POST | `/camarero/mesas/{mesa}/cerrar` | `camarero.mesas.cerrar` |
+| POST | `/camarero/mesas/{mesa}/dividir` | `camarero.mesas.dividir` |
+| GET | `/camarero/cobros` | `camarero.cobros` |
 
 ### Cocina (`auth` + `rol:cocina`)
 
