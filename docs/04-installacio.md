@@ -87,6 +87,25 @@ DB_PASSWORD=
 
 Los tests usan la base de datos `proyectoIA_test`, que ya está configurada en `phpunit.xml`.
 
+### Claves de Stripe (modo test)
+
+El pago con tarjeta usa Stripe Checkout **siempre en modo de prueba**: no se cobra nada de verdad.
+
+1. Crea una cuenta gratuita en [stripe.com](https://stripe.com). No hace falta activar los pagos reales.
+2. En el panel, activa **«Modo de prueba»** y ve a *Desarrolladores → Claves de API*.
+3. Copia las dos claves en tu `.env`:
+
+```env
+STRIPE_KEY=pk_test_...
+STRIPE_SECRET=sk_test_...
+```
+
+4. Ejecuta `php artisan config:clear`.
+
+> ⚠️ **Nunca claves `pk_live_` ni `sk_live_`.** La aplicación se niega a usar una clave secreta que no empiece por `sk_test_`. No hacen falta webhooks: funciona también en `localhost`.
+
+Para pagar, usa la tarjeta de prueba `4242 4242 4242 4242`, cualquier fecha futura y cualquier CVC. Los tests no necesitan estas claves: simulan Stripe.
+
 ---
 
 ## 5. Tablas, datos de prueba y fotos
@@ -157,6 +176,7 @@ Más detalles en `06-proves.md`.
 | La página sale sin estilos | Existe `public/hot` de un `npm run dev` anterior y Vite no está arrancado | Arranca `composer run dev` o borra `public/hot` (Git lo ignora) |
 | `php artisan db:seed` falla por un dato repetido | Seeders antiguos | Los seeders actuales se pueden repetir. Para empezar de cero: `php artisan migrate:fresh --seed` (⚠️ **borra todos los datos**) |
 | *«could not find driver»* | Falta `pdo_mysql` | Quita el `;` de `extension=pdo_mysql` |
+| Al pagar con tarjeta: *«Ahora mismo no se puede pagar con tarjeta»* | Faltan las claves de Stripe en el `.env` o no son de modo test | Pon `STRIPE_KEY` y `STRIPE_SECRET` (`pk_test_`/`sk_test_`) y ejecuta `php artisan config:clear` |
 
 ---
 

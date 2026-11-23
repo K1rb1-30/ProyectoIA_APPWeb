@@ -2,7 +2,7 @@
 
 Cómo está construida la aplicación: arquitectura, base de datos y rutas. El diseño **visual** (colores, pantallas) está en `docs/design/DesignFrontend/`.
 
-Estado a 23/11/2026: ramas 1 a 10 en `main`. Lo que llega con las ramas 11 (Stripe), 12 (efectivo y cierre) y 13 (estadísticas) está marcado como ⏳.
+Estado a 23/11/2026: ramas 1 a 10 en `main` y la 11 (Stripe) en revisión. Lo que llega con las ramas 12 (efectivo y cierre) y 13 (estadísticas) está marcado como ⏳.
 
 ---
 
@@ -54,6 +54,7 @@ erDiagram
     mesas ||--o{ cuentas : "se cobra en"
     cuentas |o--o{ pedidos : incluye
     cuentas ||--|{ partes_cuenta : "se divide en"
+    partes_cuenta ||--o{ pagos : "se paga con"
 
     restaurantes {
         bigint id PK
@@ -126,6 +127,13 @@ erDiagram
         enum metodo "tarjeta|efectivo, nullable"
         enum estado "pendiente|pendiente_efectivo|pagado"
     }
+    pagos {
+        bigint id PK
+        bigint parte_cuenta_id FK
+        int importe_centimos
+        enum metodo "tarjeta|efectivo"
+        string referencia_stripe "única, nullable"
+    }
 ```
 
 ### Tablas
@@ -143,7 +151,7 @@ erDiagram
 | `lineas_pedido` | `LineaPedido` | 5 | Guarda el precio del momento del pedido. |
 | `cuentas` | `Cuenta` | 10 | Pasa a `cerrada` cuando todo está pagado (⏳ rama 12). |
 | `partes_cuenta` | `ParteCuenta` | 10 | `metodo` vacío hasta pagar (⏳ ramas 11 y 12). |
-| `pagos` | `Pago` | ⏳ 11 | `parte_cuenta_id`, `importe_centimos`, `metodo`, `referencia_stripe`. |
+| `pagos` | `Pago` | 11 | Sin `restaurante_id`: queda aislada por parte → cuenta. `referencia_stripe` es el id de la sesión de Stripe Checkout y es **única** (la misma sesión no se registra dos veces). No se puede borrar una parte con pagos. |
 
 ### Estados y reglas
 
@@ -168,6 +176,10 @@ erDiagram
 | GET | `/r/{slug}/mesa/{numero}/estado/datos` | `cliente.estado.datos` | JSON para el polling |
 | GET | `/r/{slug}/mesa/{numero}/cuenta` | `cliente.cuenta` | Ver y dividir la cuenta |
 | POST | `/r/{slug}/mesa/{numero}/cuenta` | `cliente.cuenta.dividir` | Divide la cuenta (máx. 20/min) |
+| GET | `/r/{slug}/mesa/{numero}/cuenta/partes/{parte}/tarjeta` | `cliente.pago.tarjeta` | Resumen de la parte antes de pagar con tarjeta |
+| POST | `/r/{slug}/mesa/{numero}/cuenta/partes/{parte}/tarjeta` | `cliente.pago.pagar` | Crea la sesión de Stripe Checkout y redirige a Stripe (máx. 10/min) |
+| GET | `/r/{slug}/mesa/{numero}/cuenta/partes/{parte}/pagado` | `cliente.pago.exito` | Vuelta de Stripe: consulta la sesión y, si está pagada, guarda el pago |
+| GET | `/r/{slug}/mesa/{numero}/cuenta/partes/{parte}/cancelado` | `cliente.pago.cancelado` | Vuelta de Stripe sin pagar: la parte sigue pendiente |
 
 ### Admin (`auth` + `rol:admin`)
 
@@ -212,6 +224,7 @@ erDiagram
 ```
 app/
   Acciones/             CrearPedido, DividirCuenta
+  Servicios/            PasarelaStripe (único sitio que habla con Stripe)
   Http/Controllers/     Admin/, Camarero/, Cocina/, Cliente/
   Http/Middleware/      ComprobarRol
   Http/Requests/        validación de cada formulario

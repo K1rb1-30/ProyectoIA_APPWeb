@@ -222,9 +222,9 @@
     "semantic_hash": ""
   },
   "docs/01-proposta.md": {
-    "mtime": 1794333409.5476384,
-    "seen": 1795451346.5022151,
-    "ast_hash": "8ce6aad6b1fc4a27f910d36eedd34804",
+    "mtime": 1795452891.9049587,
+    "seen": 1795452985.6504204,
+    "ast_hash": "4f7d83d56961b9ad38192c0979eee60c",
     "semantic_hash": ""
   },
   "docs/design/prompts.md": {
@@ -234,9 +234,9 @@
     "semantic_hash": ""
   },
   "docs/registre-ia.md": {
-    "mtime": 1795451333.549268,
-    "seen": 1795451346.5022192,
-    "ast_hash": "e77a3c5c849139913b59067df0cabc12",
+    "mtime": 1795452984.158223,
+    "seen": 1795452985.650428,
+    "ast_hash": "c0d0f262da18010b9d6f95ea5a8ac5bc",
     "semantic_hash": ""
   },
   "public/robots.txt": {
@@ -612,9 +612,9 @@
     "semantic_hash": ""
   },
   "docs/plan-de-trabajo.md": {
-    "mtime": 1795451333.177111,
-    "seen": 1795451346.502218,
-    "ast_hash": "ef3cab348b0bb99e531118a4d58be502",
+    "mtime": 1795452903.4914718,
+    "seen": 1795452985.650427,
+    "ast_hash": "ee9897218d6eefd679e2d3eb93cc0e04",
     "semantic_hash": ""
   },
   "app/Acciones/CrearPedido.php": {
@@ -1179,6 +1179,30 @@
     "mtime": 1795450822.08834,
     "seen": 1795451346.5022051,
     "ast_hash": "21cfd7f06f2f1bec4d6544b039b71463",
+    "semantic_hash": ""
+  },
+  "docs/02-requisits.md": {
+    "mtime": 1795452936.2408636,
+    "seen": 1795452985.650422,
+    "ast_hash": "df8223ba4a1de1685dd99771b8d7eac3",
+    "semantic_hash": ""
+  },
+  "docs/03-disseny.md": {
+    "mtime": 1795452936.239866,
+    "seen": 1795452985.6504233,
+    "ast_hash": "0a6ba87fd9d5b764bf0d935eaedc8f68",
+    "semantic_hash": ""
+  },
+  "docs/04-installacio.md": {
+    "mtime": 1795452936.2408636,
+    "seen": 1795452985.6504242,
+    "ast_hash": "93eae23e9096563c7b96e9b020a1a141",
+    "semantic_hash": ""
+  },
+  "docs/06-proves.md": {
+    "mtime": 1795452936.2408636,
+    "seen": 1795452985.6504252,
+    "ast_hash": "8ed25ff3c644d583af9171b91ebecdca",
     "semantic_hash": ""
   },
   "package-lock.json": {
