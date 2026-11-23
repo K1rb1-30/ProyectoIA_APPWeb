@@ -47,17 +47,21 @@ Al terminar la 7: entrada **v0.1** en `CHANGELOG.md` y etiqueta `v0.1`.
 | 9 | `feature/autopedido` | 5, 8 | Iván | ✅ | [#16](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/16) |
 | 10 | `feature/dividir-cuenta` | 5 | Iván | ✅ | [#19](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/19) |
 | 11 | `feature/pago-stripe` | 10 | Gabriel | ✅ | [#21](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/21) |
-| 12 | `feature/efectivo-y-cierre` | 10 | Gabriel | 🔍 | [#22](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/22) |
-| 13 | `feature/estadisticas` | 11, 12 | | ⬜ | |
+| 12 | `feature/efectivo-y-cierre` | 10 | Gabriel | ✅ | [#22](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/22) |
+| 13 | `feature/estadisticas` | 11, 12 | Gabriel | 🟡 | |
 
-### 🟠 Mejoras propias — al acabar las ramas 11, 12 y 13
+### 🟠 Siguientes: mejoras propias (Iván, mientras Gabriel hace la 13)
 
-No estaban en la propuesta. Se hacen **solo cuando la v1.0 esté terminada**, y antes hay que hablarlas entre los dos. No confundir con los extras 🟣 de la propuesta.
+No estaban en la propuesta: salen de probar la aplicación. No confundir con los extras 🟣 de la propuesta.
+
+- Las dos **se pueden empezar ya**: sus dependencias (9, 10, 11 y 12) están en `main` y **no dependen de la 13**.
+- **Orden: primero la 14 y luego la 15.** Las dos tocan la cuenta de la mesa, así que mejor una detrás de otra para no pisarse.
+- No tocan las estadísticas, así que se pueden hacer a la vez que la 13 de Gabriel.
 
 | # | Rama | Depende de | Responsable | Estado | PR |
 |---|---|---|---|---|---|
-| 14 | `feature/platos-compartidos` | 10 | | ⬜ | |
-| 15 | `feature/pagar-al-pedir` | 9, 11, 12 | | ⬜ | |
+| 14 | `feature/platos-compartidos` | 10 | Iván | ⬜ | |
+| 15 | `feature/pagar-al-pedir` | 9, 11, 12 y la 14 (orden) | Iván | ⬜ | |
 
 ### Semana 4 — hasta el 07/12
 
@@ -76,7 +80,8 @@ Es el de `docs/01-proposta.md`. Cambiadlo si queréis, pero apuntadlo aquí.
 
 - **Persona A:** 2 → 3 → 4 → 8 → 9 → 10, manual de usuario y capturas.
 - **Persona B:** 1 → 5 → 6 → 7 → 11 → 12, despliegue, pruebas y CHANGELOG.
-- **La 13 (estadísticas)** la coge quien acabe antes.
+- **La 13 (estadísticas)**: Gabriel.
+- **Mejoras 14 → 15**: Iván, a la vez que la 13.
 
 La rama 5 necesita la 3 y la 4. Mientras tanto, la persona B puede cerrar la 1 con sus tests y hacer el despliegue (P4).
 
