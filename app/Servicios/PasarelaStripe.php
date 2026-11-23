@@ -56,10 +56,41 @@ class PasarelaStripe
     }
 
     /**
+     * Crea una sesión de Stripe Checkout para pagar un PEDIDO del cliente antes
+     * de mandarlo a cocina (rama 15). Igual que crearSesion(), pero el importe
+     * es el total del pedido y en los metadatos guardamos la mesa.
+     *
+     * @return array{id: string, url: string}
+     */
+    public function crearSesionPedido(int $importeCentimos, int $mesaId, string $concepto, string $urlExito, string $urlCancelar): array
+    {
+        $sesion = $this->cliente()->checkout->sessions->create([
+            'mode' => 'payment',
+            'line_items' => [[
+                'quantity' => 1,
+                'price_data' => [
+                    'currency' => 'eur',
+                    'unit_amount' => $importeCentimos,
+                    'product_data' => ['name' => $concepto],
+                ],
+            ]],
+            'success_url' => $urlExito,
+            'cancel_url' => $urlCancelar,
+            // Al volver comprobamos que la sesión es de un pedido y de ESTA mesa.
+            'metadata' => ['tipo' => 'pedido', 'mesa_id' => (string) $mesaId],
+            'locale' => 'es',
+        ]);
+
+        return ['id' => $sesion->id, 'url' => $sesion->url];
+    }
+
+    /**
      * Pregunta a Stripe cómo está una sesión. Es lo que hace fiable el pago:
      * no basta con que el cliente llegue a la URL de éxito (se puede escribir a mano).
      *
-     * @return array{pagada: bool, parte_cuenta_id: int|null, importe_centimos: int, moneda: string}
+     * "tipo" y "mesa_id" solo vienen en las sesiones de pedidos (rama 15).
+     *
+     * @return array{pagada: bool, parte_cuenta_id: int|null, importe_centimos: int, moneda: string, tipo: string|null, mesa_id: int|null}
      */
     public function consultarSesion(string $idSesion): array
     {
@@ -68,7 +99,7 @@ class PasarelaStripe
         } catch (InvalidRequestException) {
             // El id no existe en Stripe (por ejemplo, alguien lo ha escrito a
             // mano en la URL): lo tratamos como una sesión NO pagada.
-            return ['pagada' => false, 'parte_cuenta_id' => null, 'importe_centimos' => 0, 'moneda' => ''];
+            return ['pagada' => false, 'parte_cuenta_id' => null, 'importe_centimos' => 0, 'moneda' => '', 'tipo' => null, 'mesa_id' => null];
         }
 
         return [
@@ -76,6 +107,8 @@ class PasarelaStripe
             'parte_cuenta_id' => isset($sesion->metadata['parte_cuenta_id']) ? (int) $sesion->metadata['parte_cuenta_id'] : null,
             'importe_centimos' => (int) $sesion->amount_total,
             'moneda' => (string) $sesion->currency,
+            'tipo' => $sesion->metadata['tipo'] ?? null,
+            'mesa_id' => isset($sesion->metadata['mesa_id']) ? (int) $sesion->metadata['mesa_id'] : null,
         ];
     }
 
