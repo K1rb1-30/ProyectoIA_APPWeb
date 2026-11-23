@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 // Para crear un pedido no se usa Pedido::create() directamente: se usa la
 // clase App\Acciones\CrearPedido, que valida los platos y crea las líneas
 // dentro de una transacción.
-#[Fillable(['restaurante_id', 'mesa_id', 'user_id', 'estado'])]
+#[Fillable(['restaurante_id', 'mesa_id', 'user_id', 'cuenta_id', 'estado'])]
 class Pedido extends Model
 {
     use PerteneceARestaurante;
@@ -91,6 +91,14 @@ class Pedido extends Model
     public function usuario(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * Cuenta en la que se cobra este pedido (null hasta que se divide la cuenta).
+     */
+    public function cuenta(): BelongsTo
+    {
+        return $this->belongsTo(Cuenta::class);
     }
 
     public function lineas(): HasMany
