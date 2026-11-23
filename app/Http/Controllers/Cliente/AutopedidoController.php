@@ -2,23 +2,29 @@
 
 namespace App\Http\Controllers\Cliente;
 
-use App\Acciones\CrearPedido;
+use App\Acciones\PagarPedido;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cliente\PedidoClienteRequest;
 use App\Models\Mesa;
+use App\Models\Pago;
 use App\Models\Pedido;
+use App\Servicios\PasarelaStripe;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
+use Throwable;
 
 /**
  * Autopedido del cliente desde el QR (rama 9). Pantallas públicas, sin login.
  *
  * - El carrito vive en el navegador del cliente (localStorage, ver
  *   resources/js/carrito.js). El servidor solo se entera al enviar.
- * - Para crear el pedido se usa CrearPedido (rama 5), con usuario null.
+ * - Rama 15: el pedido se PAGA con tarjeta (Stripe) antes de ir a cocina. No
+ *   existe ningún pedido del cliente sin pagar. Para crearlo se usa
+ *   PagarPedido, que a su vez usa CrearPedido (rama 5) con usuario null.
  * - Para que nadie pueda ver pedidos ajenos cambiando la URL, guardamos en la
  *   SESIÓN del navegador los ids de los pedidos que ha hecho. La pantalla de
  *   estado solo enseña esos.
@@ -27,6 +33,16 @@ class AutopedidoController extends Controller
 {
     // Clave de la sesión donde guardamos los ids de los pedidos del cliente.
     private const CLAVE_SESION = 'pedidos_cliente';
+
+    // Carritos que se están pagando en Stripe, por id de sesión de Stripe (rama 15).
+    private const CLAVE_POR_PAGAR = 'pedidos_por_pagar';
+
+    // Laravel nos pasa estas clases. En los tests, PasarelaStripe se cambia
+    // por una simulada con $this->mock() y no se llama a Stripe de verdad.
+    public function __construct(
+        private PasarelaStripe $pasarela,
+        private PagarPedido $pagarPedido,
+    ) {}
 
     /**
      * Pantalla "Mi pedido": lista del carrito, notas y botón de enviar.
@@ -56,23 +72,106 @@ class AutopedidoController extends Controller
     }
 
     /**
-     * Envía el pedido a cocina.
+     * "Pagar y enviar a cocina" (rama 15). Ya NO crea el pedido: calcula el
+     * total con los precios del servidor, abre el pago con Stripe y guarda el
+     * carrito en la sesión hasta que el cliente vuelva. El pedido solo se crea
+     * en pagado(), cuando Stripe confirma el cobro.
      */
-    public function store(PedidoClienteRequest $request, string $slug, int $numero, CrearPedido $crearPedido): RedirectResponse
+    public function store(PedidoClienteRequest $request, string $slug, int $numero): RedirectResponse
     {
         $mesa = Mesa::delQr($slug, $numero);
+        $lineas = array_values($request->validated('lineas'));
 
-        // $usuario = null: lo pide el cliente, no un camarero. Si algún plato
-        // no existe, es de otro restaurante o se ha agotado, CrearPedido lanza
-        // un error de validación y Laravel vuelve a "Mi pedido" con el aviso.
-        $pedido = $crearPedido->ejecutar($mesa, array_values($request->validated('lineas')), null);
+        // Si algún plato no se puede pedir, error de validación → vuelve a "Mi pedido".
+        $total = $this->pagarPedido->calcularTotal($mesa, $lineas);
 
-        // Apuntamos el pedido en la sesión de este navegador.
+        $rutaMesa = ['slug' => $slug, 'numero' => $numero];
+        // {CHECKOUT_SESSION_ID} va a mano: Stripe lo cambia por el id de la sesión.
+        $urlExito = route('cliente.pedido.pagado', $rutaMesa).'?session_id={CHECKOUT_SESSION_ID}';
+        $urlCancelar = route('cliente.pedido.cancelado', $rutaMesa);
+        $concepto = "{$mesa->restaurante->nombre} · Mesa {$mesa->numero} · Pedido";
+
+        try {
+            $sesion = $this->pasarela->crearSesionPedido($total, $mesa->id, $concepto, $urlExito, $urlCancelar);
+        } catch (Throwable $error) {
+            report($error);
+
+            return redirect()->route('cliente.pedido', $rutaMesa)
+                ->withErrors(['pago' => 'Ahora mismo no se puede pagar con tarjeta. Llama al camarero y te toma nota.']);
+        }
+
+        // Guardamos el carrito y su total con el id de la sesión de Stripe.
+        $request->session()->put(self::CLAVE_POR_PAGAR.'.'.$sesion['id'], [
+            'mesa_id' => $mesa->id,
+            'lineas' => $lineas,
+            'total' => $total,
+        ]);
+
+        return redirect()->away($sesion['url']);
+    }
+
+    /**
+     * Stripe vuelve aquí con ?session_id=... cuando el pago ha ido bien.
+     * Llegar aquí no demuestra nada (la URL se puede escribir a mano): por eso
+     * preguntamos a Stripe antes de crear el pedido.
+     */
+    public function pagado(Request $request, string $slug, int $numero): RedirectResponse
+    {
+        $mesa = Mesa::delQr($slug, $numero);
+        $rutaMesa = ['slug' => $slug, 'numero' => $numero];
+        $idSesion = (string) $request->query('session_id', '');
+        $porPagar = $idSesion !== '' ? $request->session()->get(self::CLAVE_POR_PAGAR.'.'.$idSesion) : null;
+
+        // Ya confirmado antes (se ha recargado la página): vamos al estado.
+        if ($idSesion !== '' && Pago::where('referencia_stripe', $idSesion)->exists()) {
+            return redirect()->route('cliente.estado', $rutaMesa);
+        }
+
+        $sesion = $porPagar ? $this->pasarela->consultarSesion($idSesion) : null;
+
+        // Todo tiene que cuadrar: pagada, de un pedido, de ESTA mesa, por el
+        // total que calculamos nosotros y en euros.
+        $valida = $sesion
+            && $sesion['pagada']
+            && ($sesion['tipo'] ?? null) === 'pedido'
+            && ($sesion['mesa_id'] ?? null) === $mesa->id
+            && $porPagar['mesa_id'] === $mesa->id
+            && $sesion['importe_centimos'] === $porPagar['total']
+            && $sesion['moneda'] === 'eur';
+
+        if (! $valida) {
+            return redirect()->route('cliente.pedido', $rutaMesa)
+                ->withErrors(['pago' => 'No hemos podido confirmar el pago con Stripe. Tu pedido no se ha enviado.']);
+        }
+
+        // Crea el pedido, lo apunta en la cuenta y marca su parte como pagada.
+        // Si la carta ha cambiado mientras pagaba, lanza un error de validación.
+        // Lo capturamos para volver a "Mi pedido": si dejáramos que Laravel
+        // hiciera "volver atrás", al venir de Stripe volvería a la web de Stripe.
+        try {
+            $pedido = $this->pagarPedido->confirmar($mesa, $porPagar['lineas'], $idSesion, $sesion['importe_centimos']);
+        } catch (ValidationException $error) {
+            return redirect()->route('cliente.pedido', $rutaMesa)->withErrors($error->errors());
+        }
+
+        $request->session()->forget(self::CLAVE_POR_PAGAR.'.'.$idSesion);
         $request->session()->push(self::CLAVE_SESION, $pedido->id);
 
         // "vaciarCarrito" avisa a la pantalla de estado de que borre el carrito.
-        return redirect()->route('cliente.estado', ['slug' => $slug, 'numero' => $numero])
-            ->with('vaciarCarrito', true);
+        return redirect()->route('cliente.estado', $rutaMesa)
+            ->with('vaciarCarrito', true)
+            ->with('pedidoPagado', true);
+    }
+
+    /**
+     * El cliente ha vuelto de Stripe sin pagar: no se crea nada y conserva el carrito.
+     */
+    public function cancelado(string $slug, int $numero): RedirectResponse
+    {
+        Mesa::delQr($slug, $numero);
+
+        return redirect()->route('cliente.pedido', ['slug' => $slug, 'numero' => $numero])
+            ->with('estado', 'Has cancelado el pago. Tu pedido no se ha enviado a cocina.');
     }
 
     /**
