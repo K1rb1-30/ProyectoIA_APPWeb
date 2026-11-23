@@ -72,6 +72,7 @@ El golden test nº 6 también se repite en cada funcionalidad, porque cada panta
 | `CartaPublicaTest` | 12 | Carta por QR (golden nº 5) |
 | `AutopedidoTest` | 13 | Carrito, envío, estado y límite de envíos (golden nº 1 ampliado y nº 5) |
 | `DividirCuentaTest` · `Unit/RepartoCuentaTest` | 15 | División de la cuenta (golden nº 3) |
+| `PagoStripeTest` | 11 | Pago con tarjeta con Stripe **simulado** (`PasarelaStripe` con `$this->mock()`, sin llamar a Stripe): sesión pagada, no duplicar, sesión no pagada o de otra parte, otro restaurante, parte ya pagada, cancelar y clave que no es de test |
 | `ExampleTest` (Feature y Unit) | 2 | Los de ejemplo de Laravel |
 
 ---
@@ -84,5 +85,6 @@ Además de los tests, cada rama se prueba a mano antes de abrir la PR (se apunta
 2. **Cocina** (`cocina@la-tasca.test`): el pedido sale en «Pendiente». Pasarlo a «Preparando» y a «Listo».
 3. **Camarero** (`camarero@la-tasca.test`): llega el aviso de plato listo; marcarlo como servido.
 4. **Cliente**: pestaña «Cuenta», dividir entre 3 y comprobar que las partes suman el total.
-5. ⏳ Pagar una parte con tarjeta (rama 11) y otra en efectivo (rama 12); la mesa se cierra al estar todo pagado.
-6. **Admin** (`ivan@mesaya.com`): marcar un plato como agotado y comprobar que desaparece de la carta del QR.
+5. **Cliente**: en «Cuenta», pulsar «Tarjeta» en la persona 1 y pagar en Stripe con `4242 4242 4242 4242`, cualquier fecha futura y cualquier CVC. Vuelve a «¡Pago completado con éxito!» y la parte sale como pagada (necesita las claves test en el `.env`, ver `04-installacio.md`).
+6. ⏳ Pagar otra parte en efectivo (rama 12); la mesa se cierra al estar todo pagado.
+7. **Admin** (`ivan@mesaya.com`): marcar un plato como agotado y comprobar que desaparece de la carta del QR.

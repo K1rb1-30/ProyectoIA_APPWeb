@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 // Lo que paga cada persona de una cuenta (rama 10).
 //
@@ -28,5 +29,18 @@ class ParteCuenta extends Model
     public function cuenta(): BelongsTo
     {
         return $this->belongsTo(Cuenta::class);
+    }
+
+    /**
+     * Pagos de esta parte (rama 11). Normalmente uno solo.
+     */
+    public function pagos(): HasMany
+    {
+        return $this->hasMany(Pago::class);
+    }
+
+    public function estaPagada(): bool
+    {
+        return $this->estado === 'pagado';
     }
 }

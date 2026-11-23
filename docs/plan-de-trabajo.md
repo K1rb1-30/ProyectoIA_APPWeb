@@ -46,7 +46,7 @@ Al terminar la 7: entrada **v0.1** en `CHANGELOG.md` y etiqueta `v0.1`.
 | 8 | `feature/carta-publica-qr` | 3, 4 | Iván | ✅ | [#13](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/13) |
 | 9 | `feature/autopedido` | 5, 8 | Iván | ✅ | [#16](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/16) |
 | 10 | `feature/dividir-cuenta` | 5 | Iván | ✅ | [#19](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/19) |
-| 11 | `feature/pago-stripe` | 10 | | ⬜ | |
+| 11 | `feature/pago-stripe` | 10 | Gabriel | 🔍 | [#21](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/21) |
 | 12 | `feature/efectivo-y-cierre` | 10 | | ⬜ | |
 | 13 | `feature/estadisticas` | 11, 12 | | ⬜ | |
 
@@ -164,7 +164,7 @@ La rama 5 necesita la 3 y la 4. Mientras tanto, la persona B puede cerrar la 1 c
 | Tema | Opciones | Decisión |
 |---|---|---|
 | PDF de los QR | `barryvdh/laravel-dompdf` (sirve también para el ticket PDF de los extras) **o** una página imprimible con "Guardar como PDF" del navegador | **Página imprimible** (16/11/2026), en `/mesas/imprimir`. Motivos: no añade ninguna librería, reutiliza Blade y Tailwind (con `print:`) y es más fácil de explicar. Inconveniente: no se descarga un `.pdf` con un clic; se elige "Guardar como PDF" en el diálogo de imprimir. Si se hace el ticket PDF de los extras, se vuelve a decidir. |
-| Stripe | `stripe/stripe-php` | |
+| Stripe | `stripe/stripe-php` | **`stripe/stripe-php` ^23** (23/11/2026), con Stripe Checkout en modo test y sin webhooks: el pago se confirma consultando la sesión al volver a la URL de éxito. Motivos: es el SDK oficial, evita escribir a mano las llamadas HTTP y la página de la tarjeta la pone Stripe (los datos de la tarjeta no pasan por nuestro servidor). Todo el uso está en `App\Servicios\PasarelaStripe`, que en los tests se simula. |
 | Gráficos | Chart.js por npm (ya está en el stack) | |
 | Fuentes e iconos | Google Fonts **o** archivos servidos en local | **En local** (16/11/2026), con los paquetes npm `@fontsource-variable/inter` y `@material-symbols/font-400`. Motivos: la demo no depende del wifi y la carta pública no envía la IP del cliente a Google. Vite las empaqueta en `npm run build`. |
 
