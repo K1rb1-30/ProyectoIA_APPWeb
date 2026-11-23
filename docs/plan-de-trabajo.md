@@ -47,7 +47,7 @@ Al terminar la 7: entrada **v0.1** en `CHANGELOG.md` y etiqueta `v0.1`.
 | 9 | `feature/autopedido` | 5, 8 | Iván | ✅ | [#16](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/16) |
 | 10 | `feature/dividir-cuenta` | 5 | Iván | ✅ | [#19](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/19) |
 | 11 | `feature/pago-stripe` | 10 | Gabriel | ✅ | [#21](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/21) |
-| 12 | `feature/efectivo-y-cierre` | 10 | Gabriel | 🟡 | |
+| 12 | `feature/efectivo-y-cierre` | 10 | Gabriel | 🔍 | [#22](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/22) |
 | 13 | `feature/estadisticas` | 11, 12 | | ⬜ | |
 
 ### Semana 4 — hasta el 07/12
