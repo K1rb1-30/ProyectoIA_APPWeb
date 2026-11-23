@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AlergenoController;
 use App\Http\Controllers\Admin\CategoriaController;
+use App\Http\Controllers\Admin\EstadisticaController;
 use App\Http\Controllers\Admin\MesaController;
 use App\Http\Controllers\Admin\PlatoController;
 use App\Http\Controllers\Camarero\AvisoController;
@@ -91,6 +92,9 @@ Route::middleware(['auth', 'verified', 'rol:admin'])->prefix('admin')->group(fun
 
     // Alérgenos (solo consulta)
     Route::get('/alergenos', [AlergenoController::class, 'index'])->name('admin.alergenos');
+
+    // Estadísticas (rama 13). Solo el admin: camarero y cocina reciben 403.
+    Route::get('/estadisticas', [EstadisticaController::class, 'index'])->name('admin.estadisticas');
 });
 
 // Comandas del camarero (rama 5). El nombre "camarero.mesas" no se cambia:

@@ -2,7 +2,7 @@
 
 Cómo está construida la aplicación: arquitectura, base de datos y rutas. El diseño **visual** (colores, pantallas) está en `docs/design/DesignFrontend/`.
 
-Estado a 23/11/2026: ramas 1 a 11 en `main` y la 12 (efectivo y cierre) en revisión. Lo que llega con la rama 13 (estadísticas) está marcado como ⏳.
+Estado a 23/11/2026: ramas 1 a 12 en `main` y la 13 (estadísticas) en revisión.
 
 ---
 
@@ -28,6 +28,7 @@ Estado a 23/11/2026: ramas 1 a 11 en `main` y la 12 (efectivo y cierre) en revis
 - **Un solo sitio para las reglas de dinero y pedidos.** `CrearPedido` (comanda del camarero y autopedido) y `DividirCuenta` (reparto de la cuenta) trabajan dentro de transacciones: o se guarda todo, o nada.
 - **Dinero en céntimos** (enteros) en todas las columnas `_centimos`.
 - **Tiempo real con polling:** las pantallas de cocina, avisos del camarero y estado del pedido piden datos JSON cada ~5 s.
+- **Estadísticas con consultas agregadas** (`App\Estadisticas\EstadisticasRestaurante`): un método por gráfico, cada uno con una consulta `SUM` / `COUNT` / `GROUP BY`. `pagos` no tiene `restaurante_id`, así que se llega al restaurante con `pagos → partes_cuenta → cuentas` y se filtra a mano por `cuentas.restaurante_id` (el global scope no actúa en consultas con `DB::table()` y joins). Ventas = pagos. Zona horaria `Europe/Madrid`.
 - **Carrito del cliente en `localStorage`:** la base de datos no se toca hasta que se envía el pedido.
 - **QR en PDF con página imprimible** (`/admin/mesas/imprimir` y «Guardar como PDF» del navegador), sin librerías de PDF.
 
@@ -195,6 +196,7 @@ erDiagram
 | PATCH | `/admin/carta/platos/{plato}/disponibilidad` | `admin.carta.disponibilidad` |
 | GET · POST · PUT · DELETE | `/admin/carta/categorias[/{categoria}]` | `admin.carta.categorias[.guardar/.actualizar/.borrar]` |
 | GET | `/admin/alergenos` | `admin.alergenos` |
+| GET | `/admin/estadisticas` | `admin.estadisticas` |
 | GET · POST · PUT · DELETE | `/admin/mesas[/crear, /{mesa}, /{mesa}/editar]` | `admin.mesas[.crear/.guardar/.editar/.actualizar/.borrar]` |
 | GET | `/admin/mesas/imprimir` | `admin.mesas.imprimir` |
 
@@ -233,6 +235,7 @@ erDiagram
 app/
   Acciones/             CrearPedido, DividirCuenta
   Servicios/            PasarelaStripe (único sitio que habla con Stripe)
+  Estadisticas/         EstadisticasRestaurante (cálculos de las estadísticas)
   Http/Controllers/     Admin/, Camarero/, Cocina/, Cliente/
   Http/Middleware/      ComprobarRol
   Http/Requests/        validación de cada formulario

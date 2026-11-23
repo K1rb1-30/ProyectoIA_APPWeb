@@ -21,7 +21,7 @@
         ['texto' => 'Alérgenos', 'icono' => 'nutrition', 'ruta' => 'admin.alergenos'],
         ['texto' => 'Mesas y QR', 'icono' => 'qr_code_2', 'ruta' => 'admin.mesas'],
         ['texto' => 'Personal', 'icono' => 'badge', 'ruta' => null],
-        ['texto' => 'Estadísticas', 'icono' => 'bar_chart', 'ruta' => null],
+        ['texto' => 'Estadísticas', 'icono' => 'bar_chart', 'ruta' => 'admin.estadisticas'],
     ];
 @endphp
 
