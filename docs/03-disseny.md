@@ -143,7 +143,7 @@ erDiagram
 | Tabla | Modelo | Rama | Notas |
 |---|---|---|---|
 | `restaurantes` | `Restaurante` | 1 | El `slug` sale en la URL del QR, por eso es único. |
-| `users` | `User` | Laravel + 1 | Se añaden `rol` y `restaurante_id`. No usa el trait (Laravel la consulta para saber quién está logueado). |
+| `users` | `User` | Laravel + 1 | Se añaden `rol` y `restaurante_id`. Desde la rama 18 los crea el admin en Personal; el filtro por restaurante se escribe a mano (`Route::bind('empleado')` y `where`). No usa el trait (Laravel la consulta para saber quién está logueado). |
 | `categorias` | `Categoria` | 3 | No se puede borrar si tiene platos. |
 | `platos` | `Plato` | 3 | Foto en `storage/app/public/platos`. |
 | `alergenos` | `Alergeno` | 3 | Los 14 legales, **comunes a todos los restaurantes** (sin `restaurante_id`). Los crea `AlergenosSeeder`. |
@@ -205,6 +205,7 @@ erDiagram
 | GET | `/admin/estadisticas` | `admin.estadisticas` |
 | GET · POST · PUT · DELETE | `/admin/mesas[/crear, /{mesa}, /{mesa}/editar]` | `admin.mesas[.crear/.guardar/.editar/.actualizar/.borrar]` |
 | GET | `/admin/mesas/imprimir` | `admin.mesas.imprimir` |
+| GET · POST · PUT · DELETE | `/admin/personal[/crear, /{empleado}, /{empleado}/editar]` | `admin.personal[.crear/.guardar/.editar/.actualizar/.borrar]` (rama 18). `{empleado}` se busca con `Route::bind` filtrando por el restaurante del admin: el de otro restaurante da 404 |
 
 ### Camarero (`auth` + `rol:camarero`)
 

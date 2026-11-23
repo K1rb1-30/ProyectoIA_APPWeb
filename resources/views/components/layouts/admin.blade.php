@@ -21,7 +21,7 @@
         ['texto' => 'Carta', 'icono' => 'restaurant_menu', 'ruta' => 'admin.carta'],
         ['texto' => 'Alérgenos', 'icono' => 'nutrition', 'ruta' => 'admin.alergenos'],
         ['texto' => 'Mesas y QR', 'icono' => 'qr_code_2', 'ruta' => 'admin.mesas'],
-        ['texto' => 'Personal', 'icono' => 'badge', 'ruta' => null],
+        ['texto' => 'Personal', 'icono' => 'badge', 'ruta' => 'admin.personal'],
         ['texto' => 'Estadísticas', 'icono' => 'bar_chart', 'ruta' => 'admin.estadisticas'],
     ];
 @endphp
