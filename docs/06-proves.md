@@ -2,7 +2,7 @@
 
 Cómo se prueba la aplicación y dónde está cada uno de los 6 *golden tests* que pide `CLAUDE.md`.
 
-**Estado a 23/11/2026:** 184 tests, todos en verde (ramas 1 a 12). Están los seis golden tests.
+**Estado a 23/11/2026:** 195 tests, todos en verde (ramas 1 a 13). Están los seis golden tests.
 
 ---
 
@@ -74,6 +74,7 @@ El golden test nº 6 también se repite en cada funcionalidad, porque cada panta
 | `DividirCuentaTest` · `Unit/RepartoCuentaTest` | 15 | División de la cuenta (golden nº 3) |
 | `PagoStripeTest` | 11 | Pago con tarjeta con Stripe **simulado** (`PasarelaStripe` con `$this->mock()`, sin llamar a Stripe): sesión pagada, no duplicar, sesión no pagada o de otra parte, otro restaurante, parte ya pagada, cancelar y clave que no es de test |
 | `EfectivoYCierreTest` | 12 | Efectivo y cierre (golden nº 4): transiciones de la parte, no cobrar dos veces, aislamiento del camarero, el cliente no puede marcar «pagado», pedidos fuera de la cuenta y dividir lo nuevo |
+| `EstadisticasTest` | 11 | Ventas por día, platos más pedidos, métodos de pago y resumen con datos conocidos (fecha fijada con `Carbon::setTestNow`), aislamiento A/B, mensaje sin datos, permisos (camarero y cocina 403) y seeder de demo cuadrado y sin duplicar |
 | `CobroCamareroTest` | 8 | El camarero divide la cuenta, cobra en efectivo (pasando por `pendiente_efectivo`) o con TPV (sin referencia de Stripe), métodos no válidos, aislamiento y pestaña «Cobros» solo con datos de su restaurante |
 | `ExampleTest` (Feature y Unit) | 2 | Los de ejemplo de Laravel |
 
@@ -91,3 +92,4 @@ Además de los tests, cada rama se prueba a mano antes de abrir la PR (se apunta
 6. **Cliente**: pulsar «Efectivo» en otra parte; sale «Avisa al camarero». **Camarero**: en «Mesas», «Cuenta y cobro» de esa mesa, «Cobrar … en efectivo» y, cuando no falte nada, «Cerrar mesa y liberar». La mesa vuelve a «Libre».
    - Con una comanda del camarero (sin QR): en el detalle, «Dividir» entre 2; a una persona «Cobrar con TPV» y a la otra «Cobrar efectivo» con 5 € entregados (debe salir «Cambio a devolver»). La pestaña «Cobros» lo muestra en «Cobrado hoy».
 7. **Admin** (`ivan@mesaya.com`): marcar un plato como agotado y comprobar que desaparece de la carta del QR.
+8. **Admin**: «Estadísticas» en el menú lateral. Con el seeder de demo (`php artisan db:seed --class=VentasDemoSeeder`) se ven las barras de 30 días, el top de platos y el circular de tarjeta/efectivo, con los importes en euros.

@@ -47,8 +47,8 @@ Al terminar la 7: entrada **v0.1** en `CHANGELOG.md` y etiqueta `v0.1`.
 | 9 | `feature/autopedido` | 5, 8 | Iván | ✅ | [#16](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/16) |
 | 10 | `feature/dividir-cuenta` | 5 | Iván | ✅ | [#19](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/19) |
 | 11 | `feature/pago-stripe` | 10 | Gabriel | ✅ | [#21](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/21) |
-| 12 | `feature/efectivo-y-cierre` | 10 | Gabriel | 🔍 | [#22](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/22) |
-| 13 | `feature/estadisticas` | 11, 12 | | ⬜ | |
+| 12 | `feature/efectivo-y-cierre` | 10 | Gabriel | ✅ | [#22](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/22) |
+| 13 | `feature/estadisticas` | 11, 12 | Gabriel | 🟡 | |
 
 ### Semana 4 — hasta el 07/12
 
@@ -166,7 +166,7 @@ La rama 5 necesita la 3 y la 4. Mientras tanto, la persona B puede cerrar la 1 c
 |---|---|---|
 | PDF de los QR | `barryvdh/laravel-dompdf` (sirve también para el ticket PDF de los extras) **o** una página imprimible con "Guardar como PDF" del navegador | **Página imprimible** (16/11/2026), en `/mesas/imprimir`. Motivos: no añade ninguna librería, reutiliza Blade y Tailwind (con `print:`) y es más fácil de explicar. Inconveniente: no se descarga un `.pdf` con un clic; se elige "Guardar como PDF" en el diálogo de imprimir. Si se hace el ticket PDF de los extras, se vuelve a decidir. |
 | Stripe | `stripe/stripe-php` | **`stripe/stripe-php` ^23** (23/11/2026), con Stripe Checkout en modo test y sin webhooks: el pago se confirma consultando la sesión al volver a la URL de éxito. Motivos: es el SDK oficial, evita escribir a mano las llamadas HTTP y la página de la tarjeta la pone Stripe (los datos de la tarjeta no pasan por nuestro servidor). Todo el uso está en `App\Servicios\PasarelaStripe`, que en los tests se simula. |
-| Gráficos | Chart.js por npm (ya está en el stack) | |
+| Gráficos | Chart.js por npm (ya está en el stack) | **`chart.js` ^4** por npm (23/11/2026), empaquetado con Vite y sin CDN, en una entrada aparte (`resources/js/estadisticas.js`) que solo carga la pantalla de estadísticas. Se registran solo las piezas que se usan (barras y circular). Además, la zona horaria de la app pasa a `Europe/Madrid` (`APP_TIMEZONE`), para que las ventas «de hoy» y por día cuenten los días como en el restaurante. |
 | Fuentes e iconos | Google Fonts **o** archivos servidos en local | **En local** (16/11/2026), con los paquetes npm `@fontsource-variable/inter` y `@material-symbols/font-400`. Motivos: la demo no depende del wifi y la carta pública no envía la IP del cliente a Google. Vite las empaqueta en `npm run build`. |
 
 ---

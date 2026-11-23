@@ -73,6 +73,7 @@ php artisan key:generate
 Abre `.env` y pon la contraseña de **tu** MySQL en `DB_PASSWORD`. El resto ya viene preparado:
 
 ```env
+APP_TIMEZONE=Europe/Madrid
 APP_LOCALE=es
 APP_FAKER_LOCALE=es_ES
 DB_CONNECTION=mysql
@@ -115,7 +116,7 @@ php artisan migrate --seed
 php artisan storage:link
 ```
 
-- `migrate --seed` crea las tablas y carga los datos de prueba: 2 restaurantes, sus usuarios, los 14 alérgenos, una carta de ejemplo y mesas.
+- `migrate --seed` crea las tablas y carga los datos de prueba: 2 restaurantes, sus usuarios, los 14 alérgenos, una carta de ejemplo, mesas y **ventas de ejemplo de los últimos 30 días** para las estadísticas (`VentasDemoSeeder`, no se ejecuta en producción). Si ya tenías la base de datos, cárgalas con `php artisan db:seed --class=VentasDemoSeeder`; si el restaurante ya tiene pagos de días anteriores, no añade nada.
 - `storage:link` enlaza `public/storage` con `storage/app/public`, para que se vean las **fotos de los platos**. Solo hay que hacerlo una vez.
 
 ### Cuentas de prueba
