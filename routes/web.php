@@ -30,11 +30,14 @@ Route::prefix('/r/{slug}/mesa/{numero}')->whereNumber('numero')->group(function 
 
     // Autopedido (rama 9): "Mi pedido", enviarlo a cocina y seguir su estado.
     Route::get('/pedido', [AutopedidoController::class, 'create'])->name('cliente.pedido');
-    // throttle:10,1 → como mucho 10 envíos por minuto desde la misma IP. La
-    // ruta es pública y así nadie puede llenar la cocina de pedidos falsos.
+    // Rama 15: "Pagar y enviar a cocina" abre el pago con Stripe. El pedido
+    // solo se crea al volver de Stripe con el pago confirmado (pagado).
+    // throttle:10,1 → como mucho 10 intentos por minuto desde la misma IP.
     Route::post('/pedido', [AutopedidoController::class, 'store'])
         ->middleware('throttle:10,1')
         ->name('cliente.pedido.enviar');
+    Route::get('/pedido/pagado', [AutopedidoController::class, 'pagado'])->name('cliente.pedido.pagado');
+    Route::get('/pedido/cancelado', [AutopedidoController::class, 'cancelado'])->name('cliente.pedido.cancelado');
     Route::get('/estado', [AutopedidoController::class, 'estado'])->name('cliente.estado');
     // Lo consulta el JavaScript de la pantalla de estado cada 5 segundos.
     Route::get('/estado/datos', [AutopedidoController::class, 'datosEstado'])->name('cliente.estado.datos');
