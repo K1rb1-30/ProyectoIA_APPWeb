@@ -94,7 +94,7 @@
                     <x-tarjeta class="flex flex-wrap items-center gap-space-md">
                         <span class="flex items-center justify-center w-11 h-11 rounded-full bg-primary-container text-on-primary text-label-lg">P{{ $parte->persona }}</span>
                         <span class="flex-1">
-                            <span class="block text-label-lg">Persona {{ $parte->persona }}</span>
+                            <span class="block text-label-lg">{{ $parte->nombre() }}</span>
                             @if ($parte->estado === 'pagado')
                                 <span class="inline-flex items-center gap-1 text-label-md text-tertiary">
                                     <span class="w-2 h-2 rounded-full bg-estado-listo"></span>

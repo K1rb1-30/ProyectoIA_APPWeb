@@ -4,7 +4,7 @@
     solo los disponibles).
 
     Los platos del carrito los pinta Alpine (componente "carrito", resources/js/carrito.js)
-    con x-for. Al pulsar "Enviar a cocina" se envía un formulario normal con
+    con x-for. Al pulsar "Pagar y enviar a cocina" (rama 15) se envía un formulario normal con
     campos ocultos lineas[0][plato_id], lineas[0][cantidad], lineas[0][notas]...
 
     Diferencias con la maqueta: sin comentarios para toda la mesa, comensales
@@ -31,6 +31,14 @@
     </script>
 
     <h1 class="text-headline-lg mb-space-md">Mi pedido</h1>
+
+    {{-- Aviso al volver de Stripe sin pagar (rama 15) --}}
+    @if (session('estado'))
+        <div role="status" class="mb-space-md flex items-center gap-2 px-4 py-3 rounded bg-amber-50 text-amber-900 text-body-md">
+            <x-icono nombre="info" class="text-xl" />
+            {{ session('estado') }}
+        </div>
+    @endif
 
     {{-- Errores al enviar (por ejemplo, un plato que se ha agotado mientras tanto) --}}
     @if ($errors->any())
@@ -126,20 +134,25 @@
                 <span class="text-headline-sm">Total</span>
                 <span class="text-headline-md text-primary" x-text="euros(totalCentimos())"></span>
             </div>
-            <p class="mt-1 text-label-md font-normal text-secondary">IVA incluido. Se paga al pedir la cuenta.</p>
+            <p class="mt-1 text-label-md font-normal text-secondary">IVA incluido. Se paga ahora con tarjeta.</p>
         </x-tarjeta>
 
-        <p class="mt-space-md flex items-center gap-2 text-body-md text-secondary">
+        {{-- Rama 15: el pedido se paga al hacerlo. En efectivo, con el camarero. --}}
+        <p class="mt-space-md flex items-start gap-2 text-body-md text-secondary">
             <x-icono nombre="verified_user" class="text-tertiary" />
-            Tu pedido va directo a la pantalla de cocina.
+            <span>Pagas con tarjeta en la página segura de Stripe (modo de prueba) y, en cuanto se confirma el pago, tu pedido llega a cocina.</span>
+        </p>
+        <p class="mt-space-sm flex items-start gap-2 text-body-md text-secondary">
+            <x-icono nombre="payments" class="text-primary" />
+            <span>¿Prefieres pagar en efectivo? <strong class="text-on-surface">Llama al camarero</strong> y él te toma nota.</span>
         </p>
 
         <div class="sticky bottom-[72px] mt-space-md">
             <button type="submit" x-bind:disabled="enviando"
                     class="pulsable w-full flex items-center justify-between gap-space-md min-h-[56px] px-space-md rounded-lg bg-primary-container text-on-primary shadow-nivel-2 disabled:opacity-60">
                 <span class="flex items-center gap-2 text-label-lg font-bold">
-                    <x-icono nombre="restaurant" />
-                    <span x-text="enviando ? 'Enviando…' : 'Enviar a cocina'">Enviar a cocina</span>
+                    <x-icono nombre="credit_card" />
+                    <span x-text="enviando ? 'Abriendo el pago…' : 'Pagar y enviar a cocina'">Pagar y enviar a cocina</span>
                 </span>
                 <span class="px-3 py-1 rounded-full bg-white/25 text-price-display" x-text="euros(totalCentimos())"></span>
             </button>
