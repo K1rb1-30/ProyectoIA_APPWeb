@@ -65,7 +65,10 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    // MesaYa (rama 13): hora de España, para que "ventas de hoy" y las ventas
+    // por día cuenten los días como en el restaurante (un pago a las 00:30 es
+    // del día nuevo). Se puede cambiar con APP_TIMEZONE en el .env.
+    'timezone' => env('APP_TIMEZONE', 'Europe/Madrid'),
 
     /*
     |--------------------------------------------------------------------------
