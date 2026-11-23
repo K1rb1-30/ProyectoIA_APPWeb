@@ -194,7 +194,8 @@ erDiagram
 
 | Método | URL | Nombre |
 |---|---|---|
-| GET | `/dashboard` | `dashboard` |
+| GET | `/panel` | `panel` (panel del admin, rama 17) |
+| GET | `/dashboard` | — (redirige a `/panel`) |
 | GET | `/admin/carta` | `admin.carta` |
 | GET · POST | `/admin/carta/platos/crear` · `/admin/carta/platos` | `admin.carta.crear` · `admin.carta.guardar` |
 | GET · PUT · DELETE | `/admin/carta/platos/{plato}/editar` · `/admin/carta/platos/{plato}` | `admin.carta.editar` · `.actualizar` · `.borrar` |

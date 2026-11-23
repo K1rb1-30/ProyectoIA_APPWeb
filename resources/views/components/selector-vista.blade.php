@@ -13,7 +13,7 @@
 @php
     // Cada vista: texto, ruta y patrón de rutas que la marcan como elegida.
     $vistas = [
-        ['texto' => 'Administración', 'ruta' => 'dashboard', 'patron' => ['dashboard', 'admin.*']],
+        ['texto' => 'Administración', 'ruta' => 'panel', 'patron' => ['panel', 'admin.*']],
         ['texto' => 'Camarero', 'ruta' => 'camarero.mesas', 'patron' => ['camarero.*']],
         ['texto' => 'Cocina', 'ruta' => 'cocina.pedidos', 'patron' => ['cocina.*']],
     ];

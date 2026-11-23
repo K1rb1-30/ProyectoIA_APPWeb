@@ -143,7 +143,7 @@ class CartaPublicaTest extends TestCase
         $admin = User::factory()->create(['restaurante_id' => $this->restaurante->id]);
 
         $this->actingAs($admin)
-            ->get('/dashboard')
+            ->get('/panel')
             ->assertOk()
             ->assertSee('Cliente (mesa 5)')
             ->assertSee($this->urlCarta());
@@ -154,7 +154,7 @@ class CartaPublicaTest extends TestCase
         $adminSinMesas = User::factory()->create();
 
         $this->actingAs($adminSinMesas)
-            ->get('/dashboard')
+            ->get('/panel')
             ->assertOk()
             ->assertSee('Cliente (crea una mesa)');
     }

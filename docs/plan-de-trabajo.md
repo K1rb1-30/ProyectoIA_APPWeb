@@ -22,7 +22,7 @@ Estados: ⬜ pendiente · 🟡 en curso · 🔍 en revisión (PR abierta) · ✅
 | P2 | Escribir `docs/02-requisits.md` (requisitos numerados RF1, RF2…) | Iván | 🔍 [#20](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/20) |
 | P3 | Escribir `docs/03-disseny.md` (diagrama de tablas y lista de rutas) | Iván | 🔍 [#20](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/20) |
 | P4 | Despliegue mínimo en Railway con MySQL (aunque solo enseñe el login) | | ⬜ |
-| P5 | Renombrar las rutas de Breeze `/dashboard` → `/panel` y `/profile` → `/perfil` | | ⬜ |
+| P5 | Renombrar las rutas de Breeze `/dashboard` → `/panel` y `/profile` → `/perfil` | Gabriel | 🟡 `/panel` hecho en la rama 17 (`/dashboard` redirige); falta `/profile` → `/perfil` |
 | ✔ | Login con Breeze en castellano (PR #4) | Gabriel | ✅ |
 
 ### 🟢 MVP (v0.1) — objetivo: 23/11
@@ -63,6 +63,7 @@ No estaban en la propuesta: salen de probar la aplicación. No confundir con los
 | 14 | `feature/platos-compartidos` | 10 | Iván | ✅ | [#24](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/24) |
 | 15 | `feature/pagar-al-pedir` | 9, 11, 12 y la 14 (orden) | Iván | 🔍 | [#28](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/28) |
 | 16 | `feature/pagina-inicio` | 2 | Gabriel | ✅ | [#26](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/26) |
+| 17 | `feature/panel-admin` | 3, 4, 13 | Gabriel | 🔍 | [#29](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/29) |
 
 ### Semana 4 — hasta el 07/12
 
@@ -198,6 +199,16 @@ La rama 5 necesita la 3 y la 4. Mientras tanto, la persona B puede cerrar la 1 c
 - Recargar la página de éxito no crea el pedido dos veces (la referencia de Stripe es única).
 
 **Tests:** sin pagar no se crea ningún pedido; al pagar, el pedido sale en cocina, la cuenta incluye la parte pagada y al dividir no se cobra otra vez; la mesa se cierra sin cobrar de nuevo; una sesión de Stripe no pagada, de otra mesa o de otro importe no crea nada; recargar no duplica; plato agotado mientras pagaba.
+
+### 17. `feature/panel-admin` 🟠
+- No estaba en el plan: sustituye la vista `dashboard` de Breeze («You're logged in!») por el panel principal del admin, según la maqueta `panelAdmin/panel/`, con su controlador `Admin\PanelController`.
+- **Tarea previa P5 (parte):** la ruta pasa de `/dashboard` (nombre `dashboard`) a `/panel` (nombre `panel`). `/dashboard` redirige a `/panel`. `/profile` → `/perfil` queda para otra rama.
+- Cuatro tarjetas: ventas de hoy (con «vs. ayer»), pedidos de hoy y ticket medio (de `EstadisticasRestaurante::resumenDeHoy()`), mesas ocupadas y pedidos en curso por estado.
+- Carta: número de platos y de agotados y 5 platos (los agotados primero) con precio, alérgenos e interruptor de disponible (ruta `admin.carta.disponibilidad`, que vuelve al panel).
+- Mesas: libres, ocupadas y cuadrícula (hasta 24), con enlaces a Mesas y QR y a imprimir los QR.
+- Solo datos reales: se quita de la maqueta lo que la app no hace (PRO, buscador, notificaciones, configuración, soporte, personal en turno, reglamento de alérgenos, contadores del menú...). El «tiempo medio de cocina» no se puede calcular: no se guarda cuándo pasa un pedido a `listo`.
+- Las cifras se piden ya contadas (`COUNT`, `SUM`, `GROUP BY`): unas 10 consultas, que no crecen con los datos.
+- **Tests:** cifras de hoy con datos conocidos, aislamiento A/B, camarero y cocina reciben 403, restaurante vacío, el interruptor vuelve al panel, `/dashboard` redirige y el número de consultas no crece con los datos.
 
 ### 16. `feature/pagina-inicio` 🟠
 - No estaba en el plan: sustituye la página `welcome` de Laravel en `/` por la página de inicio pública de MesaYa (ruta `inicio`), según la maqueta `landing/inicio/`.

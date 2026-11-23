@@ -16,14 +16,14 @@ class ComprobarRolTest extends TestCase
     {
         $admin = User::factory()->create();
 
-        $this->actingAs($admin)->get('/dashboard')->assertOk();
+        $this->actingAs($admin)->get('/panel')->assertOk();
     }
 
     public function test_un_camarero_no_puede_entrar_en_el_panel_de_admin(): void
     {
         $camarero = User::factory()->camarero()->create();
 
-        $this->actingAs($camarero)->get('/dashboard')->assertForbidden();
+        $this->actingAs($camarero)->get('/panel')->assertForbidden();
     }
 
     public function test_el_camarero_puede_entrar_en_sus_mesas(): void
@@ -52,7 +52,7 @@ class ComprobarRolTest extends TestCase
     {
         $cocina = User::factory()->cocina()->create();
 
-        $this->actingAs($cocina)->get('/dashboard')->assertForbidden();
+        $this->actingAs($cocina)->get('/panel')->assertForbidden();
     }
 
     public function test_un_invitado_es_enviado_al_login(): void

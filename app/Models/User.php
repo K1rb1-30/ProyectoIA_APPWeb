@@ -51,7 +51,7 @@ class User extends Authenticatable
         return match ($this->rol) {
             'camarero' => 'camarero.mesas',
             'cocina' => 'cocina.pedidos',
-            default => 'dashboard',
+            default => 'panel',
         };
     }
 }

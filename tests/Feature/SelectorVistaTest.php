@@ -16,7 +16,7 @@ class SelectorVistaTest extends TestCase
     {
         $admin = User::factory()->create();
 
-        $this->actingAs($admin)->get('/dashboard')
+        $this->actingAs($admin)->get('/panel')
             ->assertOk()
             ->assertSee('Ver como')
             ->assertSee(route('camarero.mesas'))

@@ -48,6 +48,6 @@ class UsuariosAdminSeederTest extends TestCase
 
         $this->assertAuthenticated();
         // Son admin, así que tras el login van al panel.
-        $respuesta->assertRedirect(route('dashboard'));
+        $respuesta->assertRedirect(route('panel'));
     }
 }

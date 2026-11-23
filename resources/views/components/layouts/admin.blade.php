@@ -17,6 +17,7 @@
     // Las ramas 3, 4 y 13 crearán esas rutas: mientras no existan (null),
     // el enlace apunta a "#". Al crear una ruta, poned aquí su nombre.
     $menu = [
+        ['texto' => 'Panel', 'icono' => 'space_dashboard', 'ruta' => 'panel'],
         ['texto' => 'Carta', 'icono' => 'restaurant_menu', 'ruta' => 'admin.carta'],
         ['texto' => 'Alérgenos', 'icono' => 'nutrition', 'ruta' => 'admin.alergenos'],
         ['texto' => 'Mesas y QR', 'icono' => 'qr_code_2', 'ruta' => 'admin.mesas'],
@@ -29,7 +30,7 @@
     <div class="min-h-screen lg:flex">
         {{-- Menú lateral --}}
         <aside class="lg:w-72 lg:shrink-0 lg:min-h-screen flex flex-col gap-space-lg p-space-md bg-surface-container-lowest border-b lg:border-b-0 lg:border-r border-outline-variant/30">
-            <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-2 pt-2">
+            <a href="{{ route('panel') }}" class="flex items-center gap-3 px-2 pt-2">
                 <x-logo />
                 <span>
                     <span class="block text-headline-sm font-bold">{{ config('app.name', 'MesaYa') }}</span>

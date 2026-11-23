@@ -34,7 +34,7 @@ class InicioTest extends TestCase
         $casos = [
             'camarero.mesas' => User::factory()->camarero()->create(['restaurante_id' => $restaurante->id]),
             'cocina.pedidos' => User::factory()->cocina()->create(['restaurante_id' => $restaurante->id]),
-            'dashboard' => User::factory()->create(['restaurante_id' => $restaurante->id]), // admin
+            'panel' => User::factory()->create(['restaurante_id' => $restaurante->id]), // admin
         ];
 
         foreach ($casos as $ruta => $usuario) {
