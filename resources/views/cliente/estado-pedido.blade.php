@@ -66,8 +66,10 @@
                     <span class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-tertiary-fixed/50 text-tertiary">
                         <x-icono nombre="check_circle" class="text-4xl" />
                     </span>
-                    <h1 class="mt-space-sm text-headline-lg">¡Pedido enviado a cocina!</h1>
+                    <h1 class="mt-space-sm text-headline-lg">¡Pedido pagado y enviado a cocina!</h1>
                     <p class="mt-1 text-body-md text-secondary">Mesa {{ $mesa->numero }} · Pedido #{{ $pedidos->first()->id }} a las {{ $pedidos->first()->created_at->format('H:i') }} h</p>
+                    {{-- Rama 15: ya está pagado, no se cobra otra vez en la cuenta --}}
+                    <p class="mt-1 text-body-md text-tertiary">Pagado con tarjeta: no se te volverá a cobrar en la cuenta.</p>
                 </x-tarjeta>
             @else
                 <h1 class="text-headline-lg">Tus pedidos</h1>
