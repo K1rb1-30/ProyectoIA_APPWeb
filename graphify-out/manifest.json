@@ -234,9 +234,9 @@
     "semantic_hash": ""
   },
   "docs/registre-ia.md": {
-    "mtime": 1795457213.2872455,
-    "seen": 1795457215.5267627,
-    "ast_hash": "d1be69720cb698333dc246de6154ac87",
+    "mtime": 1795457688.1064658,
+    "seen": 1795457689.7610612,
+    "ast_hash": "82197c01e452a195ebb446097c9cb69f",
     "semantic_hash": ""
   },
   "public/robots.txt": {
@@ -612,9 +612,9 @@
     "semantic_hash": ""
   },
   "docs/plan-de-trabajo.md": {
-    "mtime": 1795457197.1820362,
-    "seen": 1795457215.526762,
-    "ast_hash": "7cd90000e7f0e76934b18570247cc2cc",
+    "mtime": 1795457658.4477482,
+    "seen": 1795457689.7610602,
+    "ast_hash": "bc54cbb781c9c40c1ddbcdb575a4f371",
     "semantic_hash": ""
   },
   "app/Acciones/CrearPedido.php": {
@@ -1074,9 +1074,9 @@
     "semantic_hash": ""
   },
   "app/Acciones/DividirCuenta.php": {
-    "mtime": 1795456721.1285436,
-    "seen": 1795457215.5265462,
-    "ast_hash": "90ee1f60213c3be07d812c777f898ce5",
+    "mtime": 1795457641.0392375,
+    "seen": 1795457689.760849,
+    "ast_hash": "8729e84aae67bbccf263c1c06316272d",
     "semantic_hash": ""
   },
   "app/Http/Controllers/Cliente/CuentaController.php": {
@@ -1092,9 +1092,9 @@
     "semantic_hash": ""
   },
   "app/Http/Requests/Cliente/DividirCuentaRequest.php": {
-    "mtime": 1795450822.073559,
-    "seen": 1795451346.5019872,
-    "ast_hash": "fa3628f6c679e208a3e041b5149aafab",
+    "mtime": 1795457641.0392375,
+    "seen": 1795457689.7608824,
+    "ast_hash": "fea5a9bf1b092787d43a64bb8f89bed9",
     "semantic_hash": ""
   },
   "app/Models/Cuenta.php": {
@@ -1146,9 +1146,9 @@
     "semantic_hash": ""
   },
   "resources/views/cliente/cuenta.blade.php": {
-    "mtime": 1795456721.1414561,
-    "seen": 1795457215.5266793,
-    "ast_hash": "1ea17e78b8e04297bf54a5d195078c77",
+    "mtime": 1795457641.0402377,
+    "seen": 1795457689.7609763,
+    "ast_hash": "a82a8b7f0f023d73fa59482317ea2e7a",
     "semantic_hash": ""
   },
   "resources/views/cliente/pago-completado.blade.php": {
@@ -1164,9 +1164,9 @@
     "semantic_hash": ""
   },
   "tests/Feature/DividirCuentaTest.php": {
-    "mtime": 1795450822.0873356,
-    "seen": 1795451346.502187,
-    "ast_hash": "2ed275a5d9be3546cb3bea837c36c622",
+    "mtime": 1795457641.0417101,
+    "seen": 1795457689.7610312,
+    "ast_hash": "2853af40c544b715213a2fb0334934d2",
     "semantic_hash": ""
   },
   "tests/Feature/PagoStripeTest.php": {
@@ -1200,9 +1200,9 @@
     "semantic_hash": ""
   },
   "docs/06-proves.md": {
-    "mtime": 1795457197.1830366,
-    "seen": 1795457215.5267599,
-    "ast_hash": "e4b6373ac5cf8da0a9f76ff95686eb63",
+    "mtime": 1795457688.1049864,
+    "seen": 1795457689.7610583,
+    "ast_hash": "692093b2758827574c2abbf2bccbc4eb",
     "semantic_hash": ""
   },
   "app/Http/Controllers/Camarero/DetalleMesaController.php": {
@@ -1299,6 +1299,12 @@
     "mtime": 1795457123.9793766,
     "seen": 1795457215.526736,
     "ast_hash": "0cfa1e239c8d107a6f4d71f5deb3b0c8",
+    "semantic_hash": ""
+  },
+  "tests/Feature/PlatosCompartidosTest.php": {
+    "mtime": 1795457641.0417101,
+    "seen": 1795457689.7610404,
+    "ast_hash": "cffa346603e53e55c03c60209ebcfa82",
     "semantic_hash": ""
   },
   "package-lock.json": {

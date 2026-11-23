@@ -2,7 +2,7 @@
 
 Cómo se prueba la aplicación y dónde está cada uno de los 6 *golden tests* que pide `CLAUDE.md`.
 
-**Estado a 23/11/2026:** 195 tests, todos en verde (ramas 1 a 13). Están los seis golden tests.
+**Estado a 23/11/2026:** 203 tests, todos en verde (ramas 1 a 14). Están los seis golden tests.
 
 ---
 

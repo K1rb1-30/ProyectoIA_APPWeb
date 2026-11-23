@@ -17,11 +17,12 @@ use LogicException;
  * Dos formas de dividir:
  *  - 'iguales': el total entre N personas. El céntimo que sobra va a la primera.
  *  - 'platos':  cada línea de pedido se asigna entera a una persona, y cada
- *               persona paga la suma de sus líneas.
+ *               persona paga la suma de sus líneas. Con la persona 0 ("Todos",
+ *               rama 14) el plato es compartido y se reparte entre las N personas.
  *
  * Uso:
  *   (new DividirCuenta)->ejecutar($mesa, 'iguales', 3);
- *   (new DividirCuenta)->ejecutar($mesa, 'platos', 0, [idLinea => persona, ...]);
+ *   (new DividirCuenta)->ejecutar($mesa, 'platos', 3, [idLinea => persona (0 = todos), ...]);
  */
 class DividirCuenta
 {
@@ -124,7 +125,7 @@ class DividirCuenta
 
             // Importes por persona: [persona => céntimos].
             $importes = $modo === 'platos'
-                ? $this->importesPorPlatos($lineas, $asignaciones)
+                ? $this->importesPorPlatos($lineas, $asignaciones, $personas)
                 : array_combine(range(1, $personas), self::repartirAPartesIguales($total, $personas));
 
             // Comprobación de seguridad (regla de CLAUDE.md): la suma de las
@@ -181,15 +182,24 @@ class DividirCuenta
     }
 
     /**
-     * Reparto por platos: cada línea va entera a una persona.
+     * Reparto por platos: cada línea va entera a una persona, salvo las
+     * compartidas (persona 0 = "Todos", rama 14).
+     *
+     * Las compartidas se SUMAN primero y esa suma se reparte una sola vez entre
+     * las $personas con repartirAPartesIguales (el céntimo que sobra va a la
+     * primera). Si repartiéramos cada plato por separado, la persona 1 se
+     * llevaría un céntimo de más por cada plato compartido.
+     *
      * Las personas se renumeran 1, 2, 3... en orden, para que no queden huecos
-     * (si se asigna a las personas 1 y 3, quedan como 1 y 2).
+     * (si se asigna a las personas 1 y 3, quedan como 1 y 2). Con platos
+     * compartidos no hay huecos: todas las personas pagan algo.
      *
      * @return array<int, int> [persona => céntimos]
      */
-    private function importesPorPlatos($lineas, array $asignaciones): array
+    private function importesPorPlatos($lineas, array $asignaciones, int $personas): array
     {
         $porPersona = [];
+        $compartido = 0;
 
         foreach ($lineas as $linea) {
             if (! isset($asignaciones[$linea->id])) {
@@ -198,7 +208,22 @@ class DividirCuenta
                 ]);
             }
             $persona = (int) $asignaciones[$linea->id];
-            $porPersona[$persona] = ($porPersona[$persona] ?? 0) + $linea->subtotalCentimos();
+
+            if ($persona === 0) {
+                // "Todos": lo apartamos para repartirlo al final.
+                $compartido += $linea->subtotalCentimos();
+            } else {
+                $porPersona[$persona] = ($porPersona[$persona] ?? 0) + $linea->subtotalCentimos();
+            }
+        }
+
+        // Repartimos lo compartido entre las personas 1..N y se lo sumamos a
+        // lo que ya paga cada una por sus platos.
+        if ($compartido > 0) {
+            foreach (self::repartirAPartesIguales($compartido, $personas) as $indice => $parte) {
+                $persona = $indice + 1;
+                $porPersona[$persona] = ($porPersona[$persona] ?? 0) + $parte;
+            }
         }
 
         ksort($porPersona);
