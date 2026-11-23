@@ -25,6 +25,10 @@ class DatabaseSeeder extends Seeder
             CartaSeeder::class,
             // Mesas de ejemplo de los dos restaurantes.
             MesasSeeder::class,
+            // Ventas de ejemplo de los últimos 30 días, para las estadísticas
+            // (rama 13). Va al final porque usa las mesas y la carta. No se
+            // ejecuta en producción.
+            VentasDemoSeeder::class,
         ]);
     }
 }
