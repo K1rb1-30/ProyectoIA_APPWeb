@@ -6,26 +6,29 @@
       $lineas          líneas de los pedidos que entran en la cuenta
       $totalCentimos   total de esas líneas
       $hayPedidosNuevos  true si hay pedidos hechos después de dividir
+      $soloLoNuevo     true si ya hay pagos: el formulario solo divide lo nuevo (rama 12)
+      $lineasFormulario, $totalFormulario  lo que divide el formulario
 
     El formulario usa Alpine solo para ENSEÑAR el reparto antes de enviarlo
     (mismo cálculo que DividirCuenta::repartirAPartesIguales). El reparto de
     verdad lo hace el servidor al pulsar "Dividir la cuenta".
 
     Fuera de la maqueta: IVA desglosado, factura con CIF y barra de progreso
-    de pago. El botón "Tarjeta" lleva al pago con Stripe (rama 11); el de
-    efectivo llega con la rama 12.
+    de pago. "Tarjeta" lleva al pago con Stripe (rama 11) y "Efectivo" deja la
+    parte esperando al camarero (rama 12).
 --}}
 @php
     $rutaMesa = ['slug' => $restaurante->slug, 'numero' => $mesa->numero];
 
     // { idLinea: subtotal en céntimos }, para calcular el reparto por platos.
-    $subtotales = $lineas->mapWithKeys(fn ($linea) => [$linea->id => $linea->subtotalCentimos()]);
+    $subtotales = $lineasFormulario->mapWithKeys(fn ($linea) => [$linea->id => $linea->subtotalCentimos()]);
 
     // Al abrir: tantas personas como partes tenga la cuenta (o 2 si no hay).
-    $personasIniciales = $cuenta?->partes->count() ?: 2;
+    // Al dividir solo lo nuevo, empieza en 1.
+    $personasIniciales = $soloLoNuevo ? 1 : ($cuenta?->partes->count() ?: 2);
 
     // Al abrir en modo "por platos", todas las líneas empiezan en la persona 1.
-    $asignacionesIniciales = $lineas->mapWithKeys(fn ($linea) => [$linea->id => 1]);
+    $asignacionesIniciales = $lineasFormulario->mapWithKeys(fn ($linea) => [$linea->id => 1]);
 @endphp
 
 <x-layouts.cliente :restaurante="$restaurante->nombre" :mesa="$mesa->numero" seccion="cuenta"
@@ -73,7 +76,13 @@
         @if ($hayPedidosNuevos)
             <div role="status" class="mb-space-md flex gap-2 px-4 py-3 rounded bg-amber-50 text-amber-900 text-body-md">
                 <x-icono nombre="warning" class="text-xl" />
-                <span>Habéis pedido algo después de dividir la cuenta. Volved a dividirla para incluirlo.</span>
+                <span>
+                    @if ($soloLoNuevo)
+                        Habéis pedido algo después de dividir la cuenta. Como ya hay pagos, dividid abajo solo lo nuevo.
+                    @else
+                        Habéis pedido algo después de dividir la cuenta. Volved a dividirla para incluirlo.
+                    @endif
+                </span>
             </div>
         @endif
 
@@ -89,7 +98,12 @@
                             @if ($parte->estado === 'pagado')
                                 <span class="inline-flex items-center gap-1 text-label-md text-tertiary">
                                     <span class="w-2 h-2 rounded-full bg-estado-listo"></span>
-                                    Pagado{{ $parte->metodo === 'tarjeta' ? ' con tarjeta' : '' }}
+                                    {{ $parte->textoEstado() }}
+                                </span>
+                            @elseif ($parte->estado === 'pendiente_efectivo')
+                                <span class="inline-flex items-center gap-1 text-label-md text-amber-700">
+                                    <x-icono nombre="room_service" class="text-base" />
+                                    Efectivo: el camarero vendrá a cobrar
                                 </span>
                             @else
                                 <span class="inline-flex items-center gap-1 text-label-md text-amber-700">
@@ -99,29 +113,38 @@
                             @endif
                         </span>
                         <x-precio :centimos="$parte->importe_centimos" class="text-headline-md" />
-                        {{-- Solo se puede pagar una parte pendiente. Efectivo llega con la rama 12. --}}
+                        {{-- Solo se puede elegir cómo pagar una parte pendiente. --}}
                         @if ($parte->estado === 'pendiente')
                             <div class="w-full grid grid-cols-2 gap-2">
                                 <a href="{{ route('cliente.pago.tarjeta', $rutaMesa + ['parte' => $parte->id]) }}"
                                    class="pulsable flex items-center justify-center gap-1 min-h-[44px] rounded bg-primary-container text-on-primary text-label-md">
                                     <x-icono nombre="credit_card" class="text-lg" /> Tarjeta
                                 </a>
-                                <button type="button" disabled class="min-h-[44px] rounded border border-outline-variant/50 text-secondary text-label-md cursor-not-allowed">
-                                    Efectivo · próximamente
-                                </button>
+                                {{-- Formulario POST porque cambia el estado (pendiente → pendiente_efectivo) --}}
+                                <form method="POST" action="{{ route('cliente.pago.efectivo.elegir', $rutaMesa + ['parte' => $parte->id]) }}">
+                                    @csrf
+                                    <button type="submit" class="pulsable w-full flex items-center justify-center gap-1 min-h-[44px] rounded border border-outline-variant/50 bg-surface-container-lowest text-label-md">
+                                        <x-icono nombre="payments" class="text-lg" /> Efectivo
+                                    </button>
+                                </form>
                             </div>
+                        @elseif ($parte->estado === 'pendiente_efectivo')
+                            <a href="{{ route('cliente.pago.efectivo', $rutaMesa + ['parte' => $parte->id]) }}"
+                               class="w-full text-center text-label-md text-primary hover:underline">Ver el aviso de pago en efectivo</a>
                         @endif
                     </x-tarjeta>
                 @endforeach
             </div>
         @endif
 
-        {{-- Formulario para dividir (o volver a dividir) --}}
+        {{-- Formulario para dividir (o volver a dividir, o dividir solo lo nuevo).
+             Si ya hay pagos y no hay nada nuevo, no se enseña: no hay nada que dividir. --}}
+        @if ($lineasFormulario->isNotEmpty())
         <form method="POST" action="{{ route('cliente.cuenta.dividir', $rutaMesa) }}"
               x-data="{
                   modo: @js(old('modo', 'iguales')),
                   personas: {{ (int) old('personas', $personasIniciales) }},
-                  total: {{ $totalCentimos }},
+                  total: {{ $totalFormulario }},
                   subtotales: @js($subtotales),
                   asignaciones: @js((object) $asignacionesIniciales->all()),
                   enviando: false,
@@ -154,7 +177,7 @@
             @csrf
             <input type="hidden" name="modo" :value="modo">
 
-            <h2 class="text-headline-sm mb-space-sm">{{ $cuenta ? 'Volver a dividir' : '¿Cómo pagáis?' }}</h2>
+            <h2 class="text-headline-sm mb-space-sm">{{ $soloLoNuevo ? 'Dividir lo pedido después' : ($cuenta ? 'Volver a dividir' : '¿Cómo pagáis?') }}</h2>
 
             {{-- Selector de modo --}}
             <div class="grid grid-cols-2 gap-1 p-1 mb-space-md rounded-lg bg-surface-container-low" role="tablist">
@@ -201,7 +224,7 @@
 
             {{-- Por platos: cada línea con un selector de persona --}}
             <div x-show="modo === 'platos'" x-cloak class="space-y-space-sm mb-space-md">
-                @foreach ($lineas as $linea)
+                @foreach ($lineasFormulario as $linea)
                     <x-tarjeta class="flex items-center justify-between gap-space-md">
                         <span class="min-w-0">
                             <span class="block text-label-lg">{{ $linea->cantidad }}× {{ $linea->plato?->nombre ?? 'Plato' }}</span>
@@ -232,8 +255,9 @@
             <button type="submit" x-bind:disabled="enviando"
                     class="pulsable w-full flex items-center justify-center gap-2 min-h-[56px] rounded-lg bg-primary-container text-on-primary text-label-lg font-bold shadow-nivel-2 disabled:opacity-60">
                 <x-icono nombre="call_split" />
-                <span x-text="enviando ? 'Dividiendo…' : @js($cuenta ? 'Volver a dividir la cuenta' : 'Dividir la cuenta')"></span>
+                <span x-text="enviando ? 'Dividiendo…' : @js($soloLoNuevo ? 'Dividir lo nuevo' : ($cuenta ? 'Volver a dividir la cuenta' : 'Dividir la cuenta'))"></span>
             </button>
         </form>
+        @endif
     @endif
 </x-layouts.cliente>
