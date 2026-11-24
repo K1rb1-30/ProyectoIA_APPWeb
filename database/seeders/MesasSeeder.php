@@ -7,7 +7,8 @@ use Illuminate\Database\Seeder;
 
 /**
  * Crea mesas de ejemplo en los restaurantes de RestaurantesSeeder:
- * 8 en La Tasca y 6 en Bar El Rincón, numeradas desde el 1 en cada uno
+ * 8 en La Tasca, 6 en Bar El Rincón, 14 en la Marisquería O Porto y 5 en el
+ * Café Central, numeradas desde el 1 en cada uno
  * (así se ve que el número se puede repetir entre restaurantes).
  * Un par de mesas empiezan ocupadas para que se vean los dos estados.
  */
@@ -18,6 +19,10 @@ class MesasSeeder extends Seeder
         $mesasPorRestaurante = [
             'la-tasca' => ['total' => 8, 'ocupadas' => [2, 5]],
             'bar-el-rincon' => ['total' => 6, 'ocupadas' => [3]],
+            // Cada local con un tamaño distinto: la marisquería es grande y
+            // la cafetería pequeña.
+            'marisqueria-o-porto' => ['total' => 14, 'ocupadas' => []],
+            'cafe-central' => ['total' => 5, 'ocupadas' => []],
         ];
 
         foreach ($mesasPorRestaurante as $slug => $datos) {

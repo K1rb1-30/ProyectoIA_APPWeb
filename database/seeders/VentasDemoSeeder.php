@@ -46,7 +46,8 @@ class VentasDemoSeeder extends Seeder
 
         $this->faker = fake('es_ES');
 
-        foreach (Restaurante::whereIn('slug', ['la-tasca', 'bar-el-rincon'])->get() as $restaurante) {
+        // Todos los restaurantes de ejemplo (los cuatro de RestaurantesSeeder).
+        foreach (Restaurante::all() as $restaurante) {
             // Sin login, el global scope del trait no filtra: filtramos a mano.
             $mesas = Mesa::where('restaurante_id', $restaurante->id)->get();
             $platos = Plato::where('restaurante_id', $restaurante->id)->where('disponible', true)->get();

@@ -29,6 +29,9 @@ class DatabaseSeeder extends Seeder
             // (rama 13). Va al final porque usa las mesas y la carta. No se
             // ejecuta en producción.
             VentasDemoSeeder::class,
+            // Servicio en marcha: pedidos en cocina, avisos, cuentas a medio
+            // cobrar y una mesa lista para cerrar. No se ejecuta en producción.
+            PedidosEnCursoSeeder::class,
         ]);
     }
 }
