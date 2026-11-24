@@ -55,13 +55,14 @@
             type="{{ $tipo }}"
             @if ($esContrasena) x-bind:type="visible ? 'text' : 'password'" @endif
             {{ $attributes->class([
-                'block w-full min-h-[48px] py-3 rounded bg-surface-container-lowest text-on-surface text-body-md shadow-sm transition-colors placeholder:text-secondary/60 focus:border-primary-container focus:ring-1 focus:ring-primary-container',
+                // Borde de 1,5 px; al enfocar, borde y anillo naranjas (sin halo difuminado).
+                'block w-full min-h-[48px] py-3 rounded border-[1.5px] bg-surface-container-lowest text-on-surface text-body-lg transition-colors placeholder:text-secondary/70 focus:border-primary-container focus:ring-1 focus:ring-primary-container',
                 'pl-11' => $icono,
                 'pl-4' => ! $icono,
                 'pr-11' => $esContrasena,
                 'pr-4' => ! $esContrasena,
                 'border-error' => $errores,
-                'border-outline-variant/50' => ! $errores,
+                'border-secondary-fixed-dim' => ! $errores,
             ]) }}
         />
 

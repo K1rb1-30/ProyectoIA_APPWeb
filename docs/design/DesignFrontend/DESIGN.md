@@ -1,220 +1,87 @@
----
-name: Warm Iberian Modernism
-colors:
-  surface: '#f9f9ff'
-  surface-dim: '#d3daea'
-  surface-bright: '#f9f9ff'
-  surface-container-lowest: '#ffffff'
-  surface-container-low: '#f0f3ff'
-  surface-container: '#e7eefe'
-  surface-container-high: '#e2e8f8'
-  surface-container-highest: '#dce2f3'
-  on-surface: '#151c27'
-  on-surface-variant: '#584237'
-  inverse-surface: '#2a313d'
-  inverse-on-surface: '#ebf1ff'
-  outline: '#8c7164'
-  outline-variant: '#e0c0b1'
-  surface-tint: '#9d4300'
-  primary: '#9d4300'
-  on-primary: '#ffffff'
-  primary-container: '#f97316'
-  on-primary-container: '#582200'
-  inverse-primary: '#ffb690'
-  secondary: '#555f6f'
-  on-secondary: '#ffffff'
-  secondary-container: '#d6e0f3'
-  on-secondary-container: '#596373'
-  tertiary: '#006c49'
-  on-tertiary: '#ffffff'
-  tertiary-container: '#00b07a'
-  on-tertiary-container: '#003b26'
-  error: '#ba1a1a'
-  on-error: '#ffffff'
-  error-container: '#ffdad6'
-  on-error-container: '#93000a'
-  primary-fixed: '#ffdbca'
-  primary-fixed-dim: '#ffb690'
-  on-primary-fixed: '#341100'
-  on-primary-fixed-variant: '#783200'
-  secondary-fixed: '#d9e3f6'
-  secondary-fixed-dim: '#bdc7d9'
-  on-secondary-fixed: '#121c2a'
-  on-secondary-fixed-variant: '#3d4756'
-  tertiary-fixed: '#6ffbbe'
-  tertiary-fixed-dim: '#4edea3'
-  on-tertiary-fixed: '#002113'
-  on-tertiary-fixed-variant: '#005236'
-  background: '#f9f9ff'
-  on-background: '#151c27'
-  surface-variant: '#dce2f3'
-typography:
-  display-hero:
-    fontFamily: Inter
-    fontSize: 40px
-    fontWeight: '800'
-    lineHeight: 48px
-    letterSpacing: -0.02em
-  display-hero-mobile:
-    fontFamily: Inter
-    fontSize: 30px
-    fontWeight: '800'
-    lineHeight: 36px
-    letterSpacing: -0.015em
-  headline-lg:
-    fontFamily: Inter
-    fontSize: 28px
-    fontWeight: '700'
-    lineHeight: 34px
-    letterSpacing: -0.01em
-  headline-md:
-    fontFamily: Inter
-    fontSize: 22px
-    fontWeight: '700'
-    lineHeight: 28px
-    letterSpacing: -0.01em
-  headline-sm:
-    fontFamily: Inter
-    fontSize: 18px
-    fontWeight: '600'
-    lineHeight: 24px
-  body-lg:
-    fontFamily: Inter
-    fontSize: 16px
-    fontWeight: '400'
-    lineHeight: 24px
-  body-md:
-    fontFamily: Inter
-    fontSize: 14px
-    fontWeight: '400'
-    lineHeight: 20px
-  label-lg:
-    fontFamily: Inter
-    fontSize: 15px
-    fontWeight: '600'
-    lineHeight: 20px
-    letterSpacing: 0.01em
-  label-md:
-    fontFamily: Inter
-    fontSize: 13px
-    fontWeight: '600'
-    lineHeight: 18px
-    letterSpacing: 0.01em
-  label-sm:
-    fontFamily: Inter
-    fontSize: 11px
-    fontWeight: '700'
-    lineHeight: 14px
-    letterSpacing: 0.03em
-  price-display:
-    fontFamily: Inter
-    fontSize: 18px
-    fontWeight: '700'
-    lineHeight: 22px
-    letterSpacing: -0.01em
-rounded:
-  sm: 0.25rem
-  DEFAULT: 0.5rem
-  md: 0.75rem
-  lg: 1rem
-  xl: 1.5rem
-  full: 9999px
-spacing:
-  gutter: 1rem
-  gutter-md: 1.5rem
-  margin: 1rem
-  margin-md: 1.5rem
-  margin-lg: 2.5rem
-  space-xs: 0.25rem
-  space-sm: 0.5rem
-  space-md: 1rem
-  space-lg: 1.5rem
-  space-xl: 2rem
----
+# Sistema de diseño de MesaYa: «Comanda impresa»
 
-## Brand & Style
-The design system reflects the warmth, conviviality, and efficiency of contemporary Spanish gastronomy. It merges modern culinary culture with seamless digital table service.
+Rediseño de noviembre de 2026 (rama 19, `feature/rediseno-base`). Sustituye al sistema «Warm Iberian Modernism» de las maquetas de Google Stitch.
 
-- **Brand Personality**: Hospitable, energetic, lucid, and dependable. The visual tone mirrors a buzzing tapas bar curated with Scandinavian clarity—warm light, terracotta, and crisp ceramics.
-- **Target Audience**: Diners ordering at the table, venue waitstaff monitoring fulfillment, and kitchen operators managing real-time orders.
-- **Design Movement**: Warm Minimalist Tactile. Flat, airy foundational surfaces balanced by substantial, physical touch targets, deliberate warm micro-shadows, and unmistakable state signaling.
-- **Emotional Response**: Appetite-stimulating reassurance, speed, and effortless comfort under variable lighting conditions.
+**Por qué se cambió:** las maquetas de Stitch tenían rasgos típicos de una web hecha con IA: portada centrada con un brillo de fondo, etiquetas en forma de pastilla encima de cada título, iconos dentro de cuadraditos de color, bloques de tres o cuatro tarjetas iguales y barras de color a la izquierda de las tarjetas. Además, la jerarquía era plana: todo pesaba lo mismo.
 
-## Colors
-The palette grounds vibrant citrus warmth within deep stone and culinary status tones.
+**La idea:** que la web se parezca a lo que se usa de verdad en un bar: la comanda y el ticket impresos. Tinta casi negra sobre papel, cifras en letra de máquina y un solo color de acento.
 
-- **Primary (`#F97316`)**: Represents brand vitality, primary call-to-actions, cart badges, and order completion flows.
-- **Secondary (`#1F2937`)**: Dark charcoal slate used for high-contrast headlines, primary button text when inverted, and structural navigational anchors.
-- **Tertiary & Status Accents**:
-  - `Ready / Paid` (`#10B981`): Success, bill settled, dish ready for pickup.
-  - `Pending / Waiting` (`#F59E0B`): Server call, payment requested, awaiting kitchen confirmation.
-  - `Preparing` (`#3B82F6`): Kitchen active state, bar ticket in progress.
-- **Neutral Stone Scale**:
-  - Base canvas: `#FAFAF9` (warm alabaster).
-  - Elevated surfaces: `#FFFFFF` (crisp ceramic white).
-  - Borders & Dividers: `#E7E5E4` (soft stone).
-  - Subdued / Secondary text: `#6B7280` (balanced slate).
+Los valores están definidos una sola vez en `tailwind.config.js`. **Los nombres de los colores son los de Stitch** (`primary-container`, `secondary`, `outline-variant`...) para no tener que cambiar todas las vistas; solo han cambiado sus valores.
 
-## Typography
-Typographic treatment utilizes Inter across all weights to deliver maximum scanning speed in low-light and high-movement restaurant settings.
+> Las capturas `screen.png` y los `code.html` de cada carpeta son del diseño **anterior**. Sirven para ver qué contenido lleva cada pantalla, no su aspecto. El aspecto nuevo de las pantallas principales está en el lienzo del rediseño (pedid el enlace a Gabriel).
 
-- **Price Formatting**: Prices always appear with a comma decimal delimiter, a non-breaking space, and the Euro sign (e.g., `12,50 €`). Numbers use tabular figures (`font-variant-numeric: tabular-nums`) to ensure vertical visual alignment in itemized receipts and order cards.
-- **Hierarchy Strategy**: Section headings pair heavy weights (`700`/`800`) with tighter tracking, creating clear architectural breaks across long dining menus.
+## Color
 
-## Layout & Spacing
-A fluid layout constrained to a maximum reading container width of 720px on mobile guest experiences, expanding to a responsive multi-column layout on staff tablet terminals.
+| Uso | Clase de Tailwind | Valor |
+|---|---|---|
+| Fondo de la página («papel») | `bg-background` / `bg-surface` | `#F5F4F0` |
+| Superficies (tarjetas, campos) | `bg-surface-container-lowest` | `#FFFFFF` |
+| Texto principal («tinta») | `text-on-surface` | `#1A1A1A` |
+| Texto secundario | `text-secondary` | `#5F5E5A` (6:1 sobre el fondo) |
+| Líneas finas (filetes) | `border-outline-variant` | `#DAD7CF` |
+| Bordes de campos | `border-secondary-fixed-dim` | `#CFCCC4` |
+| Acento «pimentón»: botón principal | `bg-primary-container` | `#C2410C` (blanco encima: 5,2:1) |
+| Hover del botón y enlaces de acento | `bg-primary` / `text-primary` | `#9A3412` |
+| Fondo naranja muy claro (notas de cocina) | `bg-primary-fixed` | `#FDECE2` |
+| Pagado, disponible, listo | `text-tertiary` / `bg-tertiary-container` | `#166534` / `#15803D` |
+| Error, agotado | `text-error` / `bg-error-container` | `#B42318` / `#FDE7E4` |
 
-- **Breakpoints**:
-  - `Mobile` (< 768px): Single-column, edge-to-edge card flow with `1rem` outer canvas margin. Bottom-sheet navigation and anchored sticky CTAs.
-  - `Tablet / POS` (768px - 1024px): 8-column layout with split-screen split: menu browser (5 cols) and sticky table order rail (3 cols).
-  - `Desktop / Station` (> 1024px): 12-column fixed grid with max-width `1280px`.
-- **Rhythm**: All interactive target bounds maintain a strict 8px vertical grid. Spacing between menu items is locked to `space-md` (16px) to avoid selection errors during quick scrolling.
+Estados de los pedidos (`bg-estado-*`): pendiente `#D97706`, preparando `#2563EB`, listo `#15803D`, servido `#8C8A84`. Se diferencian también en claridad, no solo en el tono.
 
-## Elevation & Depth
-Depth mimics physical serving ware resting over pale wooden tables. Visual separation relies on delicate ambient light rather than harsh structural borders.
+**Normas:**
+- **Un solo botón naranja por pantalla**, para la acción principal. Las demás acciones van en negro, con borde o como enlace.
+- El color **nunca va solo**: un estado siempre lleva su palabra («Pendiente», «Listo»).
+- Nada de degradados.
 
-- **Level 0 (Canvas)**: Background surface in `#FAFAF9`. No elevation.
-- **Level 1 (Menu & Food Cards)**: Pure white `#FFFFFF` surface with an ambient shadow: `0 2px 8px -2px rgba(31, 41, 55, 0.05), 0 1px 3px 0 rgba(31, 41, 55, 0.03)` alongside a subtle `1px` inner border tint of `#E7E5E4`.
-- **Level 2 (Active Sheets, Sticky Bottom Bars, Modals)**: Lifted surface elevated by `0 12px 24px -6px rgba(31, 41, 55, 0.12), 0 4px 8px -2px rgba(31, 41, 55, 0.04)`.
-- **Active / Pressed Elements**: Buttons depress physically on `:active` with an internal inset tint and a transform drop of `translateY(1px)`.
+## Tipografía
 
-## Shapes
-Forms prioritize organic, approachable curvature referencing Mediterranean ceramics.
+- **Schibsted Grotesk** para todo el texto (`font-sans`, la de por defecto).
+- **IBM Plex Mono** para las cifras que se leen como en un ticket: precios destacados, totales, números de mesa, horas y números de pedido (`font-mono`). El componente `x-precio` ya lleva `tabular-nums`, que alinea las cifras en columna.
+- Las dos se sirven en local con los paquetes de `@fontsource` (sin llamadas a Google).
 
-- **Base Radius (`rounded-2xl` equivalent)**: Applied to all product cards, modal sheets, and food photography frames (16px base / `1rem`).
-- **Interactive Targets**: Buttons and text inputs use soft pill-adjacent curvature (12px to full-round for tags).
-- **Allergen Badges & Status Indicators**: Fully rounded capsules (`9999px`) to immediately distinguish informational status from tap-oriented functional cards.
+| Clase | Tamaño / interlineado | Grosor | Para |
+|---|---|---|---|
+| `text-display-hero` | 56 / 58 px | 800 | Título de la portada (escritorio) |
+| `text-display-hero-mobile` | 38 / 40 px | 800 | Título de la portada (móvil) |
+| `text-headline-lg` | 32 / 36 px | 800 | Título de la pantalla |
+| `text-headline-md` | 24 / 30 px | 700 | Título de sección |
+| `text-headline-sm` | 18 / 24 px | 700 | Nombre de un elemento (plato, mesa) |
+| `text-body-lg` | 17 / 26 px | 400 | Texto destacado |
+| `text-body-md` | 15 / 22 px | 400 | Texto normal |
+| `text-label-lg` / `-md` / `-sm` | 15 / 14 / 12 px | 600 | Botones, etiquetas de campo, datos pequeños |
+| `text-price-display` | 18 px | 600 | Precios |
 
-## Components
+Los títulos llevan el espaciado entre letras negativo (más apretados). Así se distinguen mejor del texto normal.
 
-### Buttons
-- **Touch Standard**: All primary interactive touch targets maintain a minimum vertical height of 48px (`min-height: 48px`).
-- **Primary Action**: Background `#F97316`, text `#FFFFFF`, font-weight 600. High tactile feedback with micro-scale press transitions.
-- **Secondary Action**: Background `#FFFFFF`, border `1.5px solid #E7E5E4`, text `#1F2937`.
-- **Floating Cart Button**: Anchored full-width bottom bar (minus padding), containing total order tally, live badge count, and localized checkout value.
+## Jerarquía
 
-### Menu Item Cards
-- Surface `#FFFFFF`, rounded corners `rounded-2xl`, internal padding `space-md`.
-- Layout: Horizontal split with item title, description (`#6B7280`), allergen badges, and price (`#1F2937`) on the left, paired with an 88x88px rounded square image and quick-add (`+`) floating trigger on the right.
+1. **Un dato principal por pantalla**, en grande. Ejemplos: «Ventas cobradas» en el panel, «Falta por cobrar» en el detalle de mesa, el total en la cuenta del cliente. Los datos secundarios van al lado, más pequeños.
+2. **Títulos alineados a la izquierda.** Nada de bloques centrados con un texto encima del título.
+3. **Listas en filas separadas por líneas finas**, no en tarjetas apiladas. Una línea gruesa (2 px, tinta) bajo el título de cada sección.
+4. **Tarjetas solo para agrupar de verdad** (un formulario, un resumen). Borde fino, sin sombra marcada.
+5. **Iconos solo cuando ayudan** (volver, añadir). Nunca dentro de un cuadradito de color decorativo.
 
-### Chips & Category Navigation
-- Horizontally scrollable pill tabs (`min-height: 40px`).
-- Inactive state: `#FAFAF9` with `#6B7280` text.
-- Active state: `#1F2937` with `#FFFFFF` text, providing visual contrast against the vibrant primary orange.
+## Forma y espacio
 
-### Allergen & Dietary Badges
-- Micro-capsules (`padding: 2px 8px`, `font-size: 11px`, `font-weight: 700`).
-- Neutral dietary badges (Gluten-Free, Vegan): `#F3F4F6` background, `#374151` text.
-- Critical allergen warnings (Nuts, Shellfish): `#FEF2F2` background, `#B91C1C` text.
+- Radios pequeños: `rounded-sm` 2 px, `rounded` 6 px, `rounded-md`/`rounded-lg` 8 px, `rounded-xl` 12 px. `rounded-full` solo para puntos de estado e interruptores.
+- Sombras casi invisibles: `shadow-nivel-1` (tarjetas) y `shadow-nivel-2` (barras fijas de abajo y modales).
+- Espaciados con nombre, iguales que antes: `space-xs` 4 px · `space-sm` 8 px · `space-md` 16 px · `space-lg` 24 px · `space-xl` 32 px.
+- Zonas táctiles de **48 px de alto como mínimo** (44 px en botones pequeños de iconos).
 
-### Status Indicators
-- Table status and kitchen tracking cards feature a solid 4px left-side accent bar matching status colors:
-  - Ready/Paid: `#10B981`
-  - Pending/Waiting: `#F59E0B`
-  - Preparing: `#3B82F6`
+## Componentes (`resources/views/components/`)
 
-### Quantity Stepper
-- Compact inline counter with 48x48px hit areas for decrement (`-`) and increment (`+`), with large bold counts in `#1F2937`.
+| Componente | Aspecto |
+|---|---|
+| `x-boton-primario` | Fondo pimentón, texto blanco en negrita. Al pulsar baja 1 px (`pulsable`). |
+| `x-boton-secundario` | Sin relleno, borde de tinta de 1,5 px. |
+| `x-boton-peligro` | Fondo rojo, para borrar. |
+| `x-chip-estado` | Punto de color + palabra, sin cápsula. Servido y libre llevan el punto hueco. |
+| `x-badge-alergeno` | Etiqueta con borde fino y esquinas casi rectas. `critico` la pinta en rojo. |
+| `x-tarjeta` | Superficie blanca, borde fino, esquinas de 6 px. |
+| `x-campo-texto` | 48 px de alto, borde de 1,5 px; al enfocar, borde y anillo naranjas. |
+| `x-logo` | Cuadrado de tinta con «M» y un punto naranja. |
+| `x-precio` | `12,50 €` con cifras tabulares. |
 
-### Input Fields & Special Requests
-- Minimum height of 48px, background `#FFFFFF`, border `1px solid #E7E5E4`, focused border `2px solid #F97316` with zero outer glow.
+## Formato de los precios
+
+Coma decimal, espacio que no se parte y símbolo del euro: `12,50 €`. Lo hace siempre `x-precio` a partir de los céntimos.
