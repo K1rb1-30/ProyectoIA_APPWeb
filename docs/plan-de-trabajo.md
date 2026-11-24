@@ -66,7 +66,8 @@ No estaban en la propuesta: salen de probar la aplicación. No confundir con los
 | 18 | `feature/gestion-personal` | 1, 2 | Gabriel | 🔍 | [#30](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/30) |
 | 17 | `feature/panel-admin` | 3, 4, 13 | Gabriel | 🔍 | [#29](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/29) |
 | 19 | `feature/rediseno-base` | 2 | Gabriel | ✅ | [#31](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/31) |
-| 20 | `feature/rediseno-cocina-camarero` | 19 | Gabriel | 🔍 | [#33](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/33) |
+| 20 | `feature/rediseno-cocina-camarero` | 19 | Gabriel | ✅ | [#33](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/33) |
+| 21 | `feature/rediseno-publico` | 19 | Gabriel | 🟡 | |
 
 ### Semana 4 — hasta el 07/12
 
@@ -244,6 +245,14 @@ La rama 5 necesita la 3 y la 4. Mientras tanto, la persona B puede cerrar la 1 c
 - Solo cambia el HTML y las clases: la lógica de Alpine, los formularios y las rutas son los mismos.
 - **Test:** los que ya había siguen pasando (se mantienen todos los textos que comprueban).
 
+
+### 21. `feature/rediseno-publico` 🟠
+- Tercera rama del rediseño: páginas sin sesión.
+- Portada: título «La mesa pide. La cocina se entera. La cuenta cuadra.» alineado a la izquierda y, al lado, una comanda impresa de ejemplo con la cuenta dividida entre 3 (misma regla del céntimo que la app). «Cómo funciona» en lista numerada con líneas; roles en columnas sin iconos; panel en franja oscura. Se mantiene «Pide desde tu mesa» (lo comprueba `InicioTest`).
+- Layout público con el nombre en texto («MesaYa.») y pie en una línea. `boton-acceso` sin iconos.
+- Login y pantallas de Breeze: panel de tinta sin degradados ni tarjetas, título «Acceso del personal», campos sin iconos y botón «Entrar».
+- Páginas legales: solo cambia su marco (`pagina-legal`); el texto es el mismo.
+- **Test:** los que ya había siguen pasando.
 ---
 
 ## 3. Decisiones pendientes

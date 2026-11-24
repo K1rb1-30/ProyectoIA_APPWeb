@@ -1,17 +1,20 @@
 {{--
-    Layout de las páginas públicas de MesaYa (rama 16): inicio, privacidad y
-    cookies. Referencia: docs/design/DesignFrontend/landing/inicio.
+    Layout de las páginas públicas de MesaYa (rama 16, rediseño en la rama 21):
+    inicio, privacidad y cookies.
     No se usa el de invitado porque ese es la pantalla partida del login.
 
     Uso: <x-layouts.publico titulo="Privacidad"> ...contenido... </x-layouts.publico>
 
-    - Cabecera fija con el logo, las anclas de la página de inicio (se ocultan
+    - Cabecera con el nombre, las anclas de la página de inicio (se ocultan
       en el móvil para que no haya scroll horizontal) y el botón de acceso.
     - Botón de acceso: sin sesión lleva al login; con sesión, a la pantalla de
       cada rol (User::rutaDeInicio()).
-    - Pie con las mismas anclas y las páginas legales.
+    - Pie con las páginas legales.
     Los enlaces usan route('inicio').'#ancla' para que funcionen también desde
     privacidad y cookies.
+
+    Rediseño «Comanda impresa»: el logo es solo texto («MesaYa.» con el punto
+    naranja) y la cabecera no lleva fondo ni sombra: se integra en la página.
 --}}
 @props(['titulo' => null])
 
@@ -19,31 +22,24 @@
     $anclas = [
         ['texto' => 'Cómo funciona', 'ancla' => 'como-funciona'],
         ['texto' => 'Cocina y sala', 'ancla' => 'cocina-y-sala'],
-        ['texto' => 'Panel del restaurante', 'ancla' => 'panel'],
+        ['texto' => 'Panel', 'ancla' => 'panel'],
     ];
     $usuario = Auth::user();
 @endphp
 
 <x-layouts.base :titulo="$titulo">
-    {{-- overflow-x-hidden: los brillos decorativos no pueden crear scroll lateral en el móvil --}}
     <div class="min-h-screen flex flex-col overflow-x-hidden">
-        <header class="sticky top-0 z-30 bg-surface-container-lowest/90 backdrop-blur border-b border-outline-variant/30">
-            <div class="max-w-6xl mx-auto flex items-center justify-between gap-space-md px-4 sm:px-margin-md h-16">
-                <a href="{{ route('inicio') }}" class="flex items-center gap-2.5 min-w-0">
-                    <x-logo />
-                    <span class="min-w-0">
-                        <span class="block text-headline-sm font-extrabold leading-tight">MesaYa</span>
-                        <span class="hidden sm:block text-label-sm text-secondary">Comandas y cartas QR</span>
-                    </span>
-                </a>
+        <header class="sticky top-0 z-30 bg-background/95 backdrop-blur border-b border-outline-variant">
+            <div class="max-w-6xl mx-auto flex items-center gap-space-lg px-4 sm:px-8 h-16">
+                <a href="{{ route('inicio') }}" class="text-headline-md font-extrabold tracking-tight">MesaYa<span class="text-primary-container">.</span></a>
 
-                <nav class="hidden md:flex items-center gap-space-lg" aria-label="Secciones">
+                <nav class="hidden md:flex items-center gap-space-lg flex-1" aria-label="Secciones">
                     @foreach ($anclas as $ancla)
-                        <a href="{{ route('inicio') }}#{{ $ancla['ancla'] }}" class="text-label-lg text-on-surface-variant hover:text-primary">{{ $ancla['texto'] }}</a>
+                        <a href="{{ route('inicio') }}#{{ $ancla['ancla'] }}" class="text-label-lg text-on-surface-variant hover:text-on-surface">{{ $ancla['texto'] }}</a>
                     @endforeach
                 </nav>
 
-                <x-boton-acceso :usuario="$usuario" class="shrink-0" />
+                <x-boton-acceso :usuario="$usuario" class="ml-auto shrink-0" />
             </div>
         </header>
 
@@ -51,38 +47,11 @@
             {{ $slot }}
         </main>
 
-        <footer class="border-t border-outline-variant/30 bg-surface-container-lowest">
-            <div class="max-w-6xl mx-auto px-4 sm:px-margin-md py-space-xl grid gap-space-lg sm:grid-cols-2 lg:grid-cols-4">
-                <div class="lg:col-span-2 space-y-3">
-                    <div class="flex items-center gap-2.5">
-                        <x-logo />
-                        <span class="text-headline-sm font-extrabold">MesaYa</span>
-                    </div>
-                    <p class="max-w-sm text-body-md text-secondary">
-                        Carta por QR, pedidos a cocina y cuenta dividida para bares y restaurantes.
-                    </p>
-                </div>
-                <div>
-                    <p class="text-label-lg mb-2">La aplicación</p>
-                    <ul class="space-y-1.5 text-body-md text-secondary">
-                        @foreach ($anclas as $ancla)
-                            <li><a href="{{ route('inicio') }}#{{ $ancla['ancla'] }}" class="hover:text-primary">{{ $ancla['texto'] }}</a></li>
-                        @endforeach
-                        <li><a href="{{ $usuario ? route($usuario->rutaDeInicio()) : route('login') }}" class="hover:text-primary">{{ $usuario ? 'Ir a mi pantalla' : 'Acceso del personal' }}</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <p class="text-label-lg mb-2">Legal</p>
-                    <ul class="space-y-1.5 text-body-md text-secondary">
-                        <li><a href="{{ route('legal.privacidad') }}" class="hover:text-primary">Privacidad</a></li>
-                        <li><a href="{{ route('legal.cookies') }}" class="hover:text-primary">Cookies</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="border-t border-outline-variant/30">
-                <p class="max-w-6xl mx-auto px-4 sm:px-margin-md py-space-md text-label-sm text-secondary">
-                    © {{ date('Y') }} MesaYa · Práctica de DAW (M0617 – Vibe Coding I).
-                </p>
+        <footer class="border-t border-outline-variant">
+            <div class="max-w-6xl mx-auto flex flex-wrap items-center gap-x-space-lg gap-y-2 px-4 sm:px-8 py-space-lg text-body-md text-secondary">
+                <span class="flex-1 min-w-[220px]">© {{ date('Y') }} MesaYa · Práctica de DAW (M0617 – Vibe Coding I)</span>
+                <a href="{{ route('legal.privacidad') }}" class="inline-flex items-center min-h-[44px] hover:text-on-surface">Privacidad</a>
+                <a href="{{ route('legal.cookies') }}" class="inline-flex items-center min-h-[44px] hover:text-on-surface">Cookies</a>
             </div>
         </footer>
     </div>

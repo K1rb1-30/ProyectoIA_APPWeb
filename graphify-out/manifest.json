@@ -138,8 +138,8 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1795537496.2275312,
-    "seen": 1795537666.2739854,
+    "mtime": 1795538850.430373,
+    "seen": 1795539120.6587265,
     "ast_hash": "a6b4ef8ece947244fe5534fd524e735f",
     "semantic_hash": ""
   },
@@ -228,9 +228,9 @@
     "semantic_hash": ""
   },
   "docs/registre-ia.md": {
-    "mtime": 1795538645.683405,
-    "seen": 1795538647.3890696,
-    "ast_hash": "530851334fd9a91c88de5f25a3dd9588",
+    "mtime": 1795539118.9597824,
+    "seen": 1795539120.6588492,
+    "ast_hash": "d74159ee4dc7d2d3fcf12cba2756ca56",
     "semantic_hash": ""
   },
   "public/robots.txt": {
@@ -354,33 +354,33 @@
     "semantic_hash": ""
   },
   "resources/views/auth/confirm-password.blade.php": {
-    "mtime": 1794850745.305023,
-    "seen": 1795537666.2740035,
-    "ast_hash": "e3e74ec9ce9f707a22a2cfe04e61c8f6",
+    "mtime": 1795538944.4523876,
+    "seen": 1795539120.6587472,
+    "ast_hash": "0814e136017c8733a96760dd4f234dad",
     "semantic_hash": ""
   },
   "resources/views/auth/forgot-password.blade.php": {
-    "mtime": 1794850745.3061714,
-    "seen": 1795537666.2740045,
-    "ast_hash": "f8d8d1bf61568b136e73dabd7ada92d7",
+    "mtime": 1795538944.5180085,
+    "seen": 1795539120.6587481,
+    "ast_hash": "1f839c64061b81cf63d8b0174bef66ba",
     "semantic_hash": ""
   },
   "resources/views/auth/login.blade.php": {
-    "mtime": 1794850745.3061714,
-    "seen": 1795537666.2740052,
-    "ast_hash": "6f93503208a4485dfe0c1fbca6dfd184",
+    "mtime": 1795538937.1132553,
+    "seen": 1795539120.658749,
+    "ast_hash": "2cea94c9904ba0b5fc5238183ad27dd6",
     "semantic_hash": ""
   },
   "resources/views/auth/reset-password.blade.php": {
-    "mtime": 1794850745.3061714,
-    "seen": 1795537666.2740061,
-    "ast_hash": "afbe8aed7d1af0ebb71b19c2214b4027",
+    "mtime": 1795538944.4708385,
+    "seen": 1795539120.65875,
+    "ast_hash": "ef2245f2e17c05c7358e481f5a6aee50",
     "semantic_hash": ""
   },
   "resources/views/auth/verify-email.blade.php": {
-    "mtime": 1794850745.3061714,
-    "seen": 1795537666.274007,
-    "ast_hash": "41021e3dd1bacada2f50769beffab0be",
+    "mtime": 1795538944.4868522,
+    "seen": 1795539120.6587508,
+    "ast_hash": "65d9c5703f12a97de7f6d21b31e84a00",
     "semantic_hash": ""
   },
   "resources/views/components/auth-session-status.blade.php": {
@@ -402,9 +402,9 @@
     "semantic_hash": ""
   },
   "resources/views/layouts/guest.blade.php": {
-    "mtime": 1794850745.3141897,
-    "seen": 1795537666.2740443,
-    "ast_hash": "87eb09a0bc43816d4cf3f4acec652e69",
+    "mtime": 1795538937.068248,
+    "seen": 1795539120.6587896,
+    "ast_hash": "cc9aaaedb25f1da5cc0ae54c154b9f96",
     "semantic_hash": ""
   },
   "resources/views/layouts/navigation.blade.php": {
@@ -444,8 +444,8 @@
     "semantic_hash": ""
   },
   "tailwind.config.js": {
-    "mtime": 1795537474.014659,
-    "seen": 1795537666.274054,
+    "mtime": 1795538850.4356575,
+    "seen": 1795539120.6588004,
     "ast_hash": "7cf64935418e837f04c8e055e4427177",
     "semantic_hash": ""
   },
@@ -498,38 +498,38 @@
     "semantic_hash": ""
   },
   "resources/views/components/badge-alergeno.blade.php": {
-    "mtime": 1795537521.583896,
-    "seen": 1795537666.2740214,
+    "mtime": 1795538850.433177,
+    "seen": 1795539120.6587658,
     "ast_hash": "5bd5983051a0c33977601f39e709826e",
     "semantic_hash": ""
   },
   "resources/views/components/boton-peligro.blade.php": {
-    "mtime": 1795537521.497509,
-    "seen": 1795537666.274023,
+    "mtime": 1795538850.433177,
+    "seen": 1795539120.6587677,
     "ast_hash": "b90436a1da2dd9a705471e84aa56bf52",
     "semantic_hash": ""
   },
   "resources/views/components/boton-primario.blade.php": {
-    "mtime": 1795537521.4096406,
-    "seen": 1795537666.274024,
+    "mtime": 1795538850.433177,
+    "seen": 1795539120.6587684,
     "ast_hash": "5ce7a66c4178a812d86267885c2e9d10",
     "semantic_hash": ""
   },
   "resources/views/components/boton-secundario.blade.php": {
-    "mtime": 1795537521.4560704,
-    "seen": 1795537666.274025,
+    "mtime": 1795538850.433177,
+    "seen": 1795539120.6587694,
     "ast_hash": "60bb77f81dfaa2933d99ce97eb84867f",
     "semantic_hash": ""
   },
   "resources/views/components/campo-texto.blade.php": {
-    "mtime": 1795537528.8346293,
-    "seen": 1795537666.2740257,
+    "mtime": 1795538850.434182,
+    "seen": 1795539120.65877,
     "ast_hash": "5dd5ee106f5ef4251a0ca8e6fce5e853",
     "semantic_hash": ""
   },
   "resources/views/components/chip-estado.blade.php": {
-    "mtime": 1795537521.5414884,
-    "seen": 1795537666.2740269,
+    "mtime": 1795538850.434182,
+    "seen": 1795539120.6587713,
     "ast_hash": "669812d481f5e512a074159a09dc3145",
     "semantic_hash": ""
   },
@@ -552,8 +552,8 @@
     "semantic_hash": ""
   },
   "resources/views/components/layouts/camarero.blade.php": {
-    "mtime": 1795538335.405189,
-    "seen": 1795538647.388995,
+    "mtime": 1795538850.434182,
+    "seen": 1795539120.6587768,
     "ast_hash": "c1bc9578f2f438d902ebf820d213d810",
     "semantic_hash": ""
   },
@@ -564,14 +564,14 @@
     "semantic_hash": ""
   },
   "resources/views/components/layouts/cocina.blade.php": {
-    "mtime": 1795538110.852903,
-    "seen": 1795538647.3889966,
+    "mtime": 1795538850.434182,
+    "seen": 1795539120.658779,
     "ast_hash": "1c0c818f896df1543640df6a7a2bd876",
     "semantic_hash": ""
   },
   "resources/views/components/logo.blade.php": {
-    "mtime": 1795537521.667997,
-    "seen": 1795537666.2740352,
+    "mtime": 1795538850.434182,
+    "seen": 1795539120.6587806,
     "ast_hash": "751c587895981e7ed03beb03b7c54b72",
     "semantic_hash": ""
   },
@@ -582,8 +582,8 @@
     "semantic_hash": ""
   },
   "resources/views/components/tarjeta.blade.php": {
-    "mtime": 1795537521.6279457,
-    "seen": 1795537666.2740414,
+    "mtime": 1795538850.4356575,
+    "seen": 1795539120.658787,
     "ast_hash": "9dbf91d47feead43f074f8122ab4f0d0",
     "semantic_hash": ""
   },
@@ -600,9 +600,9 @@
     "semantic_hash": ""
   },
   "docs/plan-de-trabajo.md": {
-    "mtime": 1795538620.8644602,
-    "seen": 1795538647.3890688,
-    "ast_hash": "5d93506c584d6d80c8dedd5f95054515",
+    "mtime": 1795539118.9402733,
+    "seen": 1795539120.6588485,
+    "ast_hash": "9009f7e5864aa51b63408bf04c236ebe",
     "semantic_hash": ""
   },
   "app/Acciones/CrearPedido.php": {
@@ -876,20 +876,20 @@
     "semantic_hash": ""
   },
   "resources/views/camarero/mesas.blade.php": {
-    "mtime": 1795538499.2596483,
-    "seen": 1795538647.3889716,
+    "mtime": 1795538850.4317384,
+    "seen": 1795539120.6587543,
     "ast_hash": "114493b8ff19be5c5eb261ffcd9b3990",
     "semantic_hash": ""
   },
   "resources/views/camarero/nueva-comanda.blade.php": {
-    "mtime": 1795538535.5488937,
-    "seen": 1795538647.3889723,
+    "mtime": 1795538850.4317384,
+    "seen": 1795539120.6587553,
     "ast_hash": "996302dfc4f0c09816a60e4dcc4b6596",
     "semantic_hash": ""
   },
   "resources/views/cocina/pedidos.blade.php": {
-    "mtime": 1795538297.06366,
-    "seen": 1795538647.3889813,
+    "mtime": 1795538850.4317384,
+    "seen": 1795539120.6587641,
     "ast_hash": "7fefffbe39d2fc7cdf1fee1772b978e5",
     "semantic_hash": ""
   },
@@ -1026,8 +1026,8 @@
     "semantic_hash": ""
   },
   "resources/views/camarero/avisos.blade.php": {
-    "mtime": 1795538335.4965885,
-    "seen": 1795538647.3889682,
+    "mtime": 1795538850.430373,
+    "seen": 1795539120.6587515,
     "ast_hash": "799eebf019e1b32bc7a2b31e34a8c098",
     "semantic_hash": ""
   },
@@ -1206,8 +1206,8 @@
     "semantic_hash": ""
   },
   "resources/views/camarero/detalle-mesa.blade.php": {
-    "mtime": 1795538428.287959,
-    "seen": 1795538647.3889706,
+    "mtime": 1795538850.4317384,
+    "seen": 1795539120.6587536,
     "ast_hash": "5d320faaf572752c7899c2cee1b4e4e0",
     "semantic_hash": ""
   },
@@ -1230,14 +1230,14 @@
     "semantic_hash": ""
   },
   "resources/views/camarero/cobros.blade.php": {
-    "mtime": 1795538348.1612775,
-    "seen": 1795538647.3889694,
+    "mtime": 1795538850.430373,
+    "seen": 1795539120.6587524,
     "ast_hash": "3728974d192d87f3a744bbfb5858dcad",
     "semantic_hash": ""
   },
   "resources/views/camarero/partes/cobro-efectivo.blade.php": {
-    "mtime": 1795538360.0731668,
-    "seen": 1795538647.3889732,
+    "mtime": 1795538850.4317384,
+    "seen": 1795539120.658756,
     "ast_hash": "adfcab0629a561e085cab9e8d75ef322",
     "semantic_hash": ""
   },
@@ -1302,27 +1302,27 @@
     "semantic_hash": ""
   },
   "resources/views/components/boton-acceso.blade.php": {
-    "mtime": 1795535283.1052125,
-    "seen": 1795537666.274022,
-    "ast_hash": "fb819cd331ff83d22de1f14ae401b05d",
+    "mtime": 1795538877.6179671,
+    "seen": 1795539120.6587665,
+    "ast_hash": "38f9795c10a9247068e287d52a4cd42a",
     "semantic_hash": ""
   },
   "resources/views/components/layouts/publico.blade.php": {
-    "mtime": 1795535283.106216,
-    "seen": 1795537666.2740345,
-    "ast_hash": "3c943c99754ae890e512995c6d2d323b",
+    "mtime": 1795538877.572791,
+    "seen": 1795539120.6587796,
+    "ast_hash": "8b8f6434501f4c0c73d45c96c016feea",
     "semantic_hash": ""
   },
   "resources/views/components/pagina-legal.blade.php": {
-    "mtime": 1795535283.1072798,
-    "seen": 1795537666.274038,
-    "ast_hash": "ae8d36ca761a17ba1ce712f8492b711f",
+    "mtime": 1795538953.8807807,
+    "seen": 1795539120.6587832,
+    "ast_hash": "803af93f749fa17f495aa65cf93c4237",
     "semantic_hash": ""
   },
   "resources/views/inicio.blade.php": {
-    "mtime": 1795535283.1082838,
-    "seen": 1795537666.2740424,
-    "ast_hash": "1761982bfc22536a69424e8eb1d8fe77",
+    "mtime": 1795538991.8079543,
+    "seen": 1795539120.6587877,
+    "ast_hash": "159dc48e599748d2dd6a8fadd56ebbb9",
     "semantic_hash": ""
   },
   "resources/views/legal/cookies.blade.php": {
@@ -1416,8 +1416,8 @@
     "semantic_hash": ""
   },
   "package-lock.json": {
-    "mtime": 1795537496.2489936,
-    "seen": 1795537666.2741013,
+    "mtime": 1795538850.430373,
+    "seen": 1795539120.6588514,
     "ast_hash": "78ec866477038b2ee028d498b8728389",
     "semantic_hash": ""
   }
