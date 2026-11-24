@@ -210,9 +210,9 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1794333409.5414393,
-    "seen": 1795537666.2740922,
-    "ast_hash": "d2661a31fed7f254f5b7d3b6fe19330a",
+    "mtime": 1795541779.8414967,
+    "seen": 1795542167.7023501,
+    "ast_hash": "8793df311316695c961e498ce6edf163",
     "semantic_hash": ""
   },
   "docs/01-proposta.md": {
@@ -228,9 +228,9 @@
     "semantic_hash": ""
   },
   "docs/registre-ia.md": {
-    "mtime": 1795541521.486301,
-    "seen": 1795541523.3097062,
-    "ast_hash": "40b3a7e9d143aaab0d645d793e41224e",
+    "mtime": 1795542166.0061677,
+    "seen": 1795542167.702358,
+    "ast_hash": "69a7a7b11c95b31508764f24586a7064",
     "semantic_hash": ""
   },
   "public/robots.txt": {
@@ -396,8 +396,8 @@
     "semantic_hash": ""
   },
   "resources/views/layouts/app.blade.php": {
-    "mtime": 1795539661.924999,
-    "seen": 1795541523.3096404,
+    "mtime": 1795541779.854757,
+    "seen": 1795542167.7022982,
     "ast_hash": "7ab7ecf1aa5e401cc19b92ff3b111db8",
     "semantic_hash": ""
   },
@@ -408,32 +408,32 @@
     "semantic_hash": ""
   },
   "resources/views/layouts/navigation.blade.php": {
-    "mtime": 1795539661.9239993,
-    "seen": 1795541523.3096423,
+    "mtime": 1795541779.854757,
+    "seen": 1795542167.7022998,
     "ast_hash": "0f8c4342ffb12e71fe8e01d802db0168",
     "semantic_hash": ""
   },
   "resources/views/profile/edit.blade.php": {
-    "mtime": 1795539661.924999,
-    "seen": 1795541523.309645,
+    "mtime": 1795541779.854757,
+    "seen": 1795542167.7023027,
     "ast_hash": "a2083419d64eb9c406b9de8f9598b32f",
     "semantic_hash": ""
   },
   "resources/views/profile/partials/delete-user-form.blade.php": {
-    "mtime": 1795539661.8870702,
-    "seen": 1795541523.309646,
+    "mtime": 1795541779.854757,
+    "seen": 1795542167.7023034,
     "ast_hash": "e9d0018484c0234c45261636058e563d",
     "semantic_hash": ""
   },
   "resources/views/profile/partials/update-password-form.blade.php": {
-    "mtime": 1795539661.889489,
-    "seen": 1795541523.3096468,
+    "mtime": 1795541779.8562605,
+    "seen": 1795542167.7023044,
     "ast_hash": "1413dffae6798580f5373509acbe6300",
     "semantic_hash": ""
   },
   "resources/views/profile/partials/update-profile-information-form.blade.php": {
-    "mtime": 1795539661.889489,
-    "seen": 1795541523.3096476,
+    "mtime": 1795541779.8562605,
+    "seen": 1795542167.7023053,
     "ast_hash": "f6af10fcfdfb96cc665c01a7865bf1a1",
     "semantic_hash": ""
   },
@@ -540,8 +540,8 @@
     "semantic_hash": ""
   },
   "resources/views/components/layouts/admin.blade.php": {
-    "mtime": 1795539295.357195,
-    "seen": 1795541523.3096263,
+    "mtime": 1795541779.8537571,
+    "seen": 1795542167.7022843,
     "ast_hash": "8057cff0432aa8ac1c8bfb634a3306a2",
     "semantic_hash": ""
   },
@@ -558,9 +558,9 @@
     "semantic_hash": ""
   },
   "resources/views/components/layouts/cliente.blade.php": {
-    "mtime": 1795450822.0849888,
-    "seen": 1795537666.2740326,
-    "ast_hash": "13a9b21f9ff7bf192924e0dd4654bdd0",
+    "mtime": 1795542058.882383,
+    "seen": 1795542167.702287,
+    "ast_hash": "9802afd713aa7e32f2c59ad11c434727",
     "semantic_hash": ""
   },
   "resources/views/components/layouts/cocina.blade.php": {
@@ -600,9 +600,9 @@
     "semantic_hash": ""
   },
   "docs/plan-de-trabajo.md": {
-    "mtime": 1795541521.4671528,
-    "seen": 1795541523.3097053,
-    "ast_hash": "8575e560f04a9eed37797c979ce13701",
+    "mtime": 1795542166.0051677,
+    "seen": 1795542167.702357,
+    "ast_hash": "f820a9e1dd5e44cb0dfa4ca6d07a002d",
     "semantic_hash": ""
   },
   "app/Acciones/CrearPedido.php": {
@@ -822,14 +822,14 @@
     "semantic_hash": ""
   },
   "resources/views/admin/alergenos/index.blade.php": {
-    "mtime": 1795539567.256023,
-    "seen": 1795541523.3095849,
+    "mtime": 1795541779.8507571,
+    "seen": 1795542167.7022436,
     "ast_hash": "4fd869dbf405caa1a8a14fbc9c653718",
     "semantic_hash": ""
   },
   "resources/views/admin/carta/_formulario.blade.php": {
-    "mtime": 1795539529.3074784,
-    "seen": 1795541523.3095858,
+    "mtime": 1795541779.8507571,
+    "seen": 1795542167.7022445,
     "ast_hash": "b1b6a57794b10016f9ad2b14a8a11d4b",
     "semantic_hash": ""
   },
@@ -846,20 +846,20 @@
     "semantic_hash": ""
   },
   "resources/views/admin/carta/index.blade.php": {
-    "mtime": 1795539504.2898736,
-    "seen": 1795541523.3095887,
+    "mtime": 1795541779.851757,
+    "seen": 1795542167.7022474,
     "ast_hash": "cb4960b61f3edbbe19de142b3b19635c",
     "semantic_hash": ""
   },
   "resources/views/admin/categorias/index.blade.php": {
-    "mtime": 1795539504.716057,
-    "seen": 1795541523.3095899,
+    "mtime": 1795541779.851757,
+    "seen": 1795542167.702248,
     "ast_hash": "7e8a876b1bce7a6d7fc8755aba690ccf",
     "semantic_hash": ""
   },
   "resources/views/admin/mesas/formulario.blade.php": {
-    "mtime": 1795539597.7162375,
-    "seen": 1795541523.3095918,
+    "mtime": 1795541779.851757,
+    "seen": 1795542167.70225,
     "ast_hash": "011b21854b4994e41aa3969d3b42dc70",
     "semantic_hash": ""
   },
@@ -870,8 +870,8 @@
     "semantic_hash": ""
   },
   "resources/views/admin/mesas/index.blade.php": {
-    "mtime": 1795539567.2110808,
-    "seen": 1795541523.309594,
+    "mtime": 1795541779.852757,
+    "seen": 1795542167.7022521,
     "ast_hash": "4d0ef32e3dbc603df3579c32222ea302",
     "semantic_hash": ""
   },
@@ -912,8 +912,8 @@
     "semantic_hash": ""
   },
   "resources/views/components/selector-vista.blade.php": {
-    "mtime": 1795539468.2272706,
-    "seen": 1795541523.3096375,
+    "mtime": 1795541779.854757,
+    "seen": 1795542167.7022953,
     "ast_hash": "0ca74e3b380be5f8b598250c2fb07948",
     "semantic_hash": ""
   },
@@ -978,9 +978,9 @@
     "semantic_hash": ""
   },
   "resources/views/cliente/carta.blade.php": {
-    "mtime": 1795450822.0825226,
-    "seen": 1795537666.2740133,
-    "ast_hash": "031d4716832d7388308b56c64f64e447",
+    "mtime": 1795541830.1985455,
+    "seen": 1795542167.7022665,
+    "ast_hash": "33fcff1e32cf1f1ce2ca586baf106e31",
     "semantic_hash": ""
   },
   "tests/Feature/CartaPublicaTest.php": {
@@ -1032,15 +1032,15 @@
     "semantic_hash": ""
   },
   "resources/views/cliente/estado-pedido.blade.php": {
-    "mtime": 1795535283.1052125,
-    "seen": 1795537666.274015,
-    "ast_hash": "165561f77dcc55e1f409ddeb32832485",
+    "mtime": 1795541911.9244323,
+    "seen": 1795542167.7022681,
+    "ast_hash": "68578eddc07e2ebc7f573f2f141e8383",
     "semantic_hash": ""
   },
   "resources/views/cliente/mi-pedido.blade.php": {
-    "mtime": 1795535283.1052125,
-    "seen": 1795537666.274016,
-    "ast_hash": "21429eb217f0cd9ad0351ae39c2fea54",
+    "mtime": 1795541857.289515,
+    "seen": 1795542167.702269,
+    "ast_hash": "e302244473967b52d9770ba88eb13ddd",
     "semantic_hash": ""
   },
   "tests/Feature/AutopedidoTest.php": {
@@ -1134,21 +1134,21 @@
     "semantic_hash": ""
   },
   "resources/views/cliente/cuenta.blade.php": {
-    "mtime": 1795535283.1042137,
-    "seen": 1795537666.2740142,
-    "ast_hash": "3705c0108f8cb3177957577e6a71fc10",
+    "mtime": 1795542076.9214466,
+    "seen": 1795542167.7022674,
+    "ast_hash": "746f07f6f37dc6b754dfc089c7cbe841",
     "semantic_hash": ""
   },
   "resources/views/cliente/pago-completado.blade.php": {
-    "mtime": 1795453133.889417,
-    "seen": 1795537666.274017,
-    "ast_hash": "4bb4f7bc3d8148be5811666988882e1e",
+    "mtime": 1795542003.6193142,
+    "seen": 1795542167.7022703,
+    "ast_hash": "c1f9de656c92058c4e82f4d95b5e3710",
     "semantic_hash": ""
   },
   "resources/views/cliente/pago-tarjeta.blade.php": {
-    "mtime": 1795453133.889417,
-    "seen": 1795537666.2740188,
-    "ast_hash": "9300f05a099197dd0ef078525cea519b",
+    "mtime": 1795542003.5254626,
+    "seen": 1795542167.702272,
+    "ast_hash": "9e3c62c88e0604bf00efdd887bb2b11e",
     "semantic_hash": ""
   },
   "tests/Feature/DividirCuentaTest.php": {
@@ -1212,9 +1212,9 @@
     "semantic_hash": ""
   },
   "resources/views/cliente/pago-efectivo.blade.php": {
-    "mtime": 1795456721.1414561,
-    "seen": 1795537666.2740178,
-    "ast_hash": "a4049e6ec28352f3b855e1eacfa70dcc",
+    "mtime": 1795542003.5715675,
+    "seen": 1795542167.702271,
+    "ast_hash": "81c1c631866b1f194ee23447c3833c8e",
     "semantic_hash": ""
   },
   "tests/Feature/EfectivoYCierreTest.php": {
@@ -1266,20 +1266,20 @@
     "semantic_hash": ""
   },
   "resources/js/estadisticas.js": {
-    "mtime": 1795539613.7447329,
-    "seen": 1795541523.3095834,
+    "mtime": 1795541779.8507571,
+    "seen": 1795542167.7022421,
     "ast_hash": "673808782455e771cc4835e658dabef0",
     "semantic_hash": ""
   },
   "resources/views/admin/estadisticas.blade.php": {
-    "mtime": 1795539647.5715117,
-    "seen": 1795541523.3095908,
+    "mtime": 1795541779.851757,
+    "seen": 1795542167.7022493,
     "ast_hash": "4eacb2dc28625e13af283deb61bf9de3",
     "semantic_hash": ""
   },
   "resources/views/components/estadisticas-vacio.blade.php": {
-    "mtime": 1795539647.518628,
-    "seen": 1795541523.3096247,
+    "mtime": 1795541779.8537571,
+    "seen": 1795542167.7022822,
     "ast_hash": "82b5ace2f3f1f559d6298eb23a01a1ea",
     "semantic_hash": ""
   },
@@ -1362,8 +1362,8 @@
     "semantic_hash": ""
   },
   "resources/views/admin/panel.blade.php": {
-    "mtime": 1795539459.6895373,
-    "seen": 1795541523.3095946,
+    "mtime": 1795541779.852757,
+    "seen": 1795542167.7022529,
     "ast_hash": "5a6f27b1ba02b96f9864c37b9d56001f",
     "semantic_hash": ""
   },
@@ -1398,14 +1398,14 @@
     "semantic_hash": ""
   },
   "resources/views/admin/personal/formulario.blade.php": {
-    "mtime": 1795539597.734835,
-    "seen": 1795541523.3095956,
+    "mtime": 1795541779.852757,
+    "seen": 1795542167.7022538,
     "ast_hash": "6028a1dd0ca23506d99fae9937fcd7cc",
     "semantic_hash": ""
   },
   "resources/views/admin/personal/index.blade.php": {
-    "mtime": 1795539586.8686445,
-    "seen": 1795541523.3095963,
+    "mtime": 1795541779.8537571,
+    "seen": 1795542167.7022545,
     "ast_hash": "b44d5e4632ef0320635cff67846698be",
     "semantic_hash": ""
   },
