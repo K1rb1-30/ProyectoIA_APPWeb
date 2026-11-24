@@ -109,11 +109,13 @@ Reglas:
 - URL fija del QR: `/r/{slug}/mesa/{numero}`.
 
 ## Diseño visual (obligatorio para cualquier vista)
-El diseño de la web está en `docs/design/DesignFrontend/` (maquetas hechas con Google Stitch).
-- **Antes de crear o modificar una vista Blade**, lee `docs/design/DesignFrontend/README.md` (índice de pantallas) y `docs/design/DesignFrontend/DESIGN.md` (colores, tipografía y componentes).
-- Cada pantalla tiene su carpeta `<rol>/<pantalla>/` con `screen.png` (captura) y `code.html` (maqueta HTML + Tailwind). La vista tiene que parecerse a la captura.
-- Las maquetas son solo referencia: no se enlazan ni se sirven desde la aplicación. Los colores y tamaños se definen una vez en `tailwind.config.js` (Breeze instala Tailwind 3, el mismo que usan las maquetas).
-- Si una pantalla no tiene maqueta, sigue el estilo de la más parecida y avisa.
+La web sigue el sistema de diseño **«Comanda impresa»** (rediseño de noviembre de 2026, ramas 19 a 23). **Manda `docs/design/DesignFrontend/DESIGN.md`**.
+- **Antes de crear o modificar una vista Blade**, lee `docs/design/DesignFrontend/DESIGN.md` (colores, tipografía, jerarquía y componentes) y mira una vista ya rediseñada del mismo rol para copiar su estructura.
+- Las carpetas `<rol>/<pantalla>/` de `docs/design/DesignFrontend/` (con `screen.png` y `code.html`) son del **diseño anterior** de Google Stitch: sirven para saber **qué contenido** lleva cada pantalla, **no su aspecto**. No copies sus clases.
+- Normas que no se saltan: un solo botón naranja (`bg-primary-container`) por pantalla; un dato principal en grande; listas en filas con líneas en vez de tarjetas apiladas; títulos alineados a la izquierda; estados con punto + palabra; sin iconos decorativos, pastillas-etiqueta, degradados ni brillos.
+- Usa los componentes de `resources/views/components/` (`x-boton-primario`, `x-chip-estado`, `x-precio`, `x-campo-texto`...) y las clases de `tailwind.config.js`. Las cifras de ticket (precios destacados, totales, números de mesa, horas) van con `font-mono`.
+- Los colores y tamaños se definen una vez en `tailwind.config.js` (Tailwind 3). No escribas colores sueltos (`#...`) en las vistas.
+- Si una pantalla es nueva, sigue el estilo de la vista rediseñada más parecida y avisa.
 
 ## Funcionalidades y prioridad
 🟢 **MVP (v0.1):** login y roles, multi-restaurante, carta (CRUD + foto + disponibilidad), alérgenos, mesas y QR en PDF, comanda del camarero, pantalla de cocina, aviso de plato listo.

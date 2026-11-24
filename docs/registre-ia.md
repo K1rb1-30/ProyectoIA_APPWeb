@@ -310,3 +310,11 @@ Se rellena en cada sesión de trabajo, no al final. Mínimo 15 entradas.
 - **Prompt:** "Sí, empieza, ya he mergeado la PR anterior para que puedas continuar"
 - **Resultado:** Rama `feature/rediseno-cliente` desde `main` actualizado. Rehechos `layouts/cliente` (mesa en letra de ticket, nombre del restaurante grande solo en la carta, pestaña activa con raya naranja), `cliente/carta` (filas con línea de puntos hasta el precio, alérgenos como texto), `cliente/mi-pedido` (filas, total grande, un solo botón naranja), `cliente/pago-tarjeta`, `cliente/pago-efectivo` y `cliente/pago-completado` (importe como dato principal, justificante con aspecto de ticket). En `cliente/estado-pedido` y `cliente/cuenta` solo se han cambiado clases y quitado iconos y tarjetas; la lógica de Alpine (polling, reparto) es la misma. Se mantienen los textos que comprueban los tests. `php artisan test`: 244 OK; `npm run build` OK; grafo actualizado. Revisado en el navegador a 375 px: carta (añadir platos y barra «Ver pedido»), mi pedido, cuenta de la mesa 3 en los dos modos de reparto y estado sin pedidos. Al revisarlo se arregló que hubiera dos títulos igual de grandes en «Mi pedido» y que «personas» no cupiera en el contador. Las pantallas de pago no se han visto en el navegador (harían falta una cuenta dividida y un pago de Stripe); las cubren los tests · ¿funcionó?: PENDIENTE DE REVISAR
 - **Enlace:** a761305 · [PR #36](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/36)
+
+### Entrada 39
+- **Fecha y autor:** 24/11/2026 – Gabriel
+- **Herramienta:** Claude Code
+- **Objetivo:** Actualizar la sección «Diseño visual» de `CLAUDE.md` para que mande el nuevo sistema «Comanda impresa» y no las capturas de Stitch
+- **Prompt:** "Sí, actualízala"
+- **Resultado:** Rama `feature/actualizar-claude-md`, sacada de `feature/rediseno-cliente` (PR #36) para que el registro no choque. En `CLAUDE.md`: manda `DESIGN.md`; las carpetas de maquetas de Stitch quedan como referencia de contenido, no de aspecto; se resumen las normas del rediseño (un botón naranja por pantalla, un dato principal, filas en vez de tarjetas, títulos a la izquierda, punto + palabra, sin iconos decorativos ni degradados, `font-mono` para cifras, sin colores sueltos en las vistas). Sin cambios de código: no hace falta pasar los tests · ¿funcionó?: PENDIENTE DE REVISAR
+- **Enlace:** PENDIENTE
