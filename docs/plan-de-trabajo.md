@@ -69,7 +69,7 @@ No estaban en la propuesta: salen de probar la aplicación. No confundir con los
 | 20 | `feature/rediseno-cocina-camarero` | 19 | Gabriel | ✅ | [#33](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/33) |
 | 21 | `feature/rediseno-publico` | 19 | Gabriel | ✅ | [#34](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/34) |
 | 22 | `feature/rediseno-admin` | 19 | Gabriel | ✅ | [#35](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/35) |
-| 23 | `feature/rediseno-cliente` | 19 | Gabriel | 🟡 | |
+| 23 | `feature/rediseno-cliente` | 19 | Gabriel | 🔍 | [#36](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/36) |
 
 ### Semana 4 — hasta el 07/12
 
