@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AlergenoController;
 use App\Http\Controllers\Admin\CategoriaController;
 use App\Http\Controllers\Admin\EstadisticaController;
 use App\Http\Controllers\Admin\MesaController;
+use App\Http\Controllers\Admin\CambiarRestauranteController;
 use App\Http\Controllers\Admin\PanelController;
 use App\Http\Controllers\Admin\PersonalController;
 use App\Http\Controllers\Admin\PlatoController;
@@ -93,6 +94,12 @@ Route::get('/panel', PanelController::class)
     ->middleware(['auth', 'verified', 'rol:admin'])
     ->name('panel');
 Route::redirect('/dashboard', '/panel');
+
+// Cambiar de restaurante: solo las cuentas marcadas (equipo y profesor). El
+// controlador da 403 a cualquier otro admin.
+Route::post('/panel/restaurante', CambiarRestauranteController::class)
+    ->middleware(['auth', 'verified', 'rol:admin'])
+    ->name('panel.restaurante');
 
 // Gestión de la carta (rama 3). Solo para el admin. Los nombres de ruta
 // empiezan todos por "admin.carta" para que el menú lateral marque "Carta"
