@@ -68,7 +68,8 @@ No estaban en la propuesta: salen de probar la aplicación. No confundir con los
 | 19 | `feature/rediseno-base` | 2 | Gabriel | ✅ | [#31](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/31) |
 | 20 | `feature/rediseno-cocina-camarero` | 19 | Gabriel | ✅ | [#33](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/33) |
 | 21 | `feature/rediseno-publico` | 19 | Gabriel | ✅ | [#34](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/34) |
-| 22 | `feature/rediseno-admin` | 19 | Gabriel | 🔍 | [#35](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/35) |
+| 22 | `feature/rediseno-admin` | 19 | Gabriel | ✅ | [#35](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/35) |
+| 23 | `feature/rediseno-cliente` | 19 | Gabriel | 🔍 | [#36](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/36) |
 
 ### Semana 4 — hasta el 07/12
 
@@ -261,6 +262,14 @@ La rama 5 necesita la 3 y la 4. Mientras tanto, la persona B puede cerrar la 1 c
 - Panel y estadísticas: una franja con las ventas de hoy en grande y el resto de cifras al lado (antes, cuatro tarjetas iguales); secciones con una raya gruesa bajo el título en vez de tarjetas. Colores y letra de los gráficos de Chart.js adaptados.
 - Carta (pestañas de categoría y tabla sin caja), categorías, formulario de plato, mesas y QR (cuadrícula con líneas finas y el número en grande), alérgenos (lista en dos columnas) y personal (tabla sin cápsulas de rol). Formularios de mesa y empleado y perfil sin iconos en campos ni botones.
 - Se mantienen todos los textos que comprueban los tests (por ejemplo «Ticket medio: 12,50 €», que en el panel queda en un texto solo para lectores de pantalla).
+- **Test:** los que ya había siguen pasando.
+
+### 23. `feature/rediseno-cliente` 🟠
+- Quinta y última rama del rediseño: pantallas del cliente que entra por el QR.
+- Layout del cliente: la mesa en pequeño y en letra de ticket, el restaurante en grande (solo en la carta; en el resto de pantallas manda su propio título) y la pestaña activa con raya naranja.
+- Carta como una carta impresa: título grande por categoría y cada plato en una fila con línea de puntos hasta el precio; alérgenos como texto («Contiene: …»).
+- Mi pedido, estado del pedido, cuenta y pagos: filas con líneas en vez de tarjetas; el total o el importe de tu parte es el dato principal, en grande; pedidos y justificante con aspecto de ticket; sin iconos decorativos.
+- Solo cambian el HTML y las clases: la lógica de Alpine (carrito, polling, vista previa del reparto) y los formularios son los mismos.
 - **Test:** los que ya había siguen pasando.
 ---
 

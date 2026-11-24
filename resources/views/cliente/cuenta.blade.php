@@ -1,5 +1,8 @@
 {{--
-    "Pedir la cuenta y dividir" del cliente (rama 10). Maqueta: cliente/dividir-cuenta.
+    "Pedir la cuenta y dividir" del cliente (rama 10, rediseño en la rama 23).
+    Rediseño «Comanda impresa»: el total de la mesa es el dato principal (grande
+    y en letra de ticket); las personas y los platos van en filas con línea, no
+    en tarjetas; sin iconos decorativos.
     Variables:
       $restaurante, $mesa
       $cuenta          cuenta abierta con sus partes, o null si aún no se ha dividido
@@ -37,15 +40,13 @@
     <h1 class="text-headline-lg mb-space-md">Pedir la cuenta</h1>
 
     @if (session('estado'))
-        <div role="status" class="mb-space-md flex items-center gap-2 px-4 py-3 rounded bg-tertiary-fixed/40 text-on-tertiary-fixed-variant text-body-md">
-            <x-icono nombre="check_circle" class="text-xl" />
+        <div role="status" class="mb-space-md px-4 py-3 rounded bg-tertiary-fixed text-on-tertiary-fixed-variant text-body-md">
             {{ session('estado') }}
         </div>
     @endif
 
     @if ($errors->any())
-        <div role="alert" class="mb-space-md flex gap-2 px-4 py-3 rounded bg-error-container text-on-error-container text-body-md">
-            <x-icono nombre="error" class="text-xl" />
+        <div role="alert" class="mb-space-md px-4 py-3 rounded bg-error-container text-on-error-container text-body-md">
             <ul>
                 @foreach ($errors->all() as $mensaje)
                     <li>{{ $mensaje }}</li>
@@ -55,27 +56,19 @@
     @endif
 
     @if ($lineas->isEmpty())
-        <x-tarjeta class="text-center">
-            <x-icono nombre="receipt_long" class="text-5xl text-secondary" />
-            <p class="mt-2 text-body-lg">Todavía no hay nada que pagar en esta mesa.</p>
-            <a href="{{ route('cliente.carta', $rutaMesa) }}" class="mt-2 inline-block text-label-lg text-primary hover:underline">Ver la carta</a>
-        </x-tarjeta>
+        <div class="py-space-lg">
+            <p class="text-headline-sm">Todavía no hay nada que pagar en esta mesa.</p>
+            <a href="{{ route('cliente.carta', $rutaMesa) }}" class="mt-space-md inline-flex items-center min-h-[48px] px-5 rounded border-[1.5px] border-on-surface text-label-lg font-bold">Ver la carta</a>
+        </div>
     @else
         {{-- Total de la mesa --}}
-        <x-tarjeta class="mb-space-md">
-            <p class="text-label-sm uppercase text-secondary">Total mesa {{ $mesa->numero }}</p>
-            <div class="flex items-end justify-between gap-space-md">
-                <x-precio :centimos="$totalCentimos" class="text-[34px] leading-none font-extrabold" />
-                <span class="px-3 py-1 rounded-full bg-secondary-container text-label-md">
-                    {{ $lineas->sum('cantidad') }} artículos
-                </span>
-            </div>
-            <p class="mt-1 text-label-md font-normal text-secondary">IVA incluido.</p>
-        </x-tarjeta>
+        <section class="mb-space-lg pb-space-md border-b-2 border-on-surface" aria-label="Total de la mesa">
+            <x-precio :centimos="$totalCentimos" class="block font-mono text-[52px] leading-none font-semibold tracking-tight" />
+            <p class="mt-2 text-body-md text-secondary">Total mesa {{ $mesa->numero }} · IVA incluido · {{ $lineas->sum('cantidad') }} artículos</p>
+        </section>
 
         @if ($hayPedidosNuevos)
-            <div role="status" class="mb-space-md flex gap-2 px-4 py-3 rounded bg-amber-50 text-amber-900 text-body-md">
-                <x-icono nombre="warning" class="text-xl" />
+            <div role="status" class="mb-space-md px-4 py-3 rounded bg-amber-50 text-amber-900 text-body-md">
                 <span>
                     @if ($soloLoNuevo)
                         Habéis pedido algo después de dividir la cuenta. Como ya hay pagos, dividid abajo solo lo nuevo.
@@ -88,53 +81,43 @@
 
         {{-- Partes ya creadas --}}
         @if ($cuenta)
-            <h2 class="text-headline-sm mb-space-sm">Lo que paga cada persona</h2>
-            <div class="space-y-space-sm mb-space-lg">
+            <h2 class="text-headline-sm">Lo que paga cada persona</h2>
+            <ul class="mb-space-xl">
                 @foreach ($cuenta->partes as $parte)
-                    <x-tarjeta class="flex flex-wrap items-center gap-space-md">
-                        <span class="flex items-center justify-center w-11 h-11 rounded-full bg-primary-container text-on-primary text-label-lg">P{{ $parte->persona }}</span>
+                    <li class="flex flex-wrap items-center gap-x-space-md gap-y-3 py-4 border-b border-outline-variant">
                         <span class="flex-1">
                             <span class="block text-label-lg">{{ $parte->nombre() }}</span>
                             @if ($parte->estado === 'pagado')
-                                <span class="inline-flex items-center gap-1 text-label-md text-tertiary">
-                                    <span class="w-2 h-2 rounded-full bg-estado-listo"></span>
-                                    {{ $parte->textoEstado() }}
-                                </span>
+                                <span class="block text-label-md text-tertiary">{{ $parte->textoEstado() }}</span>
                             @elseif ($parte->estado === 'pendiente_efectivo')
-                                <span class="inline-flex items-center gap-1 text-label-md text-amber-700">
-                                    <x-icono nombre="room_service" class="text-base" />
-                                    Efectivo: el camarero vendrá a cobrar
-                                </span>
+                                <span class="block text-label-md text-amber-800">Efectivo: el camarero vendrá a cobrar</span>
                             @else
-                                <span class="inline-flex items-center gap-1 text-label-md text-amber-700">
-                                    <span class="w-2 h-2 rounded-full bg-estado-pendiente"></span>
-                                    Pendiente de pago
-                                </span>
+                                <span class="block text-label-md font-normal text-secondary">Pendiente de pago</span>
                             @endif
                         </span>
-                        <x-precio :centimos="$parte->importe_centimos" class="text-headline-md" />
+                        <x-precio :centimos="$parte->importe_centimos" @class(['font-mono text-headline-sm', 'line-through text-secondary font-normal' => $parte->estado === 'pagado']) />
                         {{-- Solo se puede elegir cómo pagar una parte pendiente. --}}
                         @if ($parte->estado === 'pendiente')
                             <div class="w-full grid grid-cols-2 gap-2">
                                 <a href="{{ route('cliente.pago.tarjeta', $rutaMesa + ['parte' => $parte->id]) }}"
-                                   class="pulsable flex items-center justify-center gap-1 min-h-[44px] rounded bg-primary-container text-on-primary text-label-md">
-                                    <x-icono nombre="credit_card" class="text-lg" /> Tarjeta
+                                   class="pulsable flex items-center justify-center min-h-[48px] rounded bg-on-surface text-surface-container-lowest text-label-lg font-bold">
+                                    Tarjeta
                                 </a>
                                 {{-- Formulario POST porque cambia el estado (pendiente → pendiente_efectivo) --}}
                                 <form method="POST" action="{{ route('cliente.pago.efectivo.elegir', $rutaMesa + ['parte' => $parte->id]) }}">
                                     @csrf
-                                    <button type="submit" class="pulsable w-full flex items-center justify-center gap-1 min-h-[44px] rounded border border-outline-variant/50 bg-surface-container-lowest text-label-md">
-                                        <x-icono nombre="payments" class="text-lg" /> Efectivo
+                                    <button type="submit" class="pulsable w-full min-h-[48px] rounded border-[1.5px] border-on-surface text-label-lg font-bold">
+                                        Efectivo
                                     </button>
                                 </form>
                             </div>
                         @elseif ($parte->estado === 'pendiente_efectivo')
                             <a href="{{ route('cliente.pago.efectivo', $rutaMesa + ['parte' => $parte->id]) }}"
-                               class="w-full text-center text-label-md text-primary hover:underline">Ver el aviso de pago en efectivo</a>
+                               class="inline-flex items-center min-h-[44px] text-label-md underline underline-offset-2">Ver el aviso de pago en efectivo</a>
                         @endif
-                    </x-tarjeta>
+                    </li>
                 @endforeach
-            </div>
+            </ul>
         @endif
 
         {{-- Formulario para dividir (o volver a dividir, o dividir solo lo nuevo).
@@ -194,62 +177,61 @@
             <h2 class="text-headline-sm mb-space-sm">{{ $soloLoNuevo ? 'Dividir lo pedido después' : ($cuenta ? 'Volver a dividir' : '¿Cómo pagáis?') }}</h2>
 
             {{-- Selector de modo --}}
-            <div class="grid grid-cols-2 gap-1 p-1 mb-space-md rounded-lg bg-surface-container-low" role="tablist">
+            {{-- Dos botones pegados con borde de tinta: el elegido va relleno --}}
+            <div class="grid grid-cols-2 mb-space-md rounded border-[1.5px] border-on-surface overflow-hidden" role="tablist">
                 <button type="button" role="tab" x-on:click="modo = 'iguales'" :aria-selected="modo === 'iguales'"
-                        :class="modo === 'iguales' ? 'bg-inverse-surface text-inverse-on-surface' : 'text-on-surface'"
-                        class="flex items-center justify-center gap-2 min-h-[48px] rounded text-label-lg">
-                    <x-icono nombre="group" class="text-xl" /> A partes iguales
+                        :class="modo === 'iguales' ? 'bg-on-surface text-surface-container-lowest' : 'text-on-surface'"
+                        class="min-h-[48px] text-label-lg">
+                    A partes iguales
                 </button>
                 <button type="button" role="tab" x-on:click="modo = 'platos'" :aria-selected="modo === 'platos'"
-                        :class="modo === 'platos' ? 'bg-inverse-surface text-inverse-on-surface' : 'text-on-surface'"
-                        class="flex items-center justify-center gap-2 min-h-[48px] rounded text-label-lg">
-                    <x-icono nombre="restaurant" class="text-xl" /> Por platos
+                        :class="modo === 'platos' ? 'bg-on-surface text-surface-container-lowest' : 'text-on-surface'"
+                        class="min-h-[48px] text-label-lg">
+                    Por platos
                 </button>
             </div>
 
             {{-- Número de personas (sirve para los dos modos) --}}
-            <x-tarjeta class="mb-space-md flex items-center justify-between gap-space-md">
+            <div class="mb-space-md flex items-center justify-between gap-space-md">
                 <div>
                     <p class="text-label-lg">Número de personas</p>
                     <p class="text-body-md text-secondary" x-show="modo === 'iguales'">Divide <span x-text="euros(total)"></span> a partes iguales</p>
                     <p class="text-body-md text-secondary" x-show="modo === 'platos'" x-cloak>Elige quién paga cada plato</p>
                 </div>
-                <div class="inline-flex items-center gap-1 p-1 rounded-lg border border-outline-variant/50">
-                    <button type="button" x-on:click="restar()" aria-label="Una persona menos" class="w-11 h-11 rounded bg-surface-container-low text-headline-sm">−</button>
-                    <span class="w-12 text-center">
-                        <span class="block text-headline-sm tabular-nums" x-text="personas"></span>
-                        <span class="block text-label-sm text-secondary">personas</span>
+                <div class="inline-flex items-center shrink-0 rounded border-[1.5px] border-on-surface">
+                    <button type="button" x-on:click="restar()" aria-label="Una persona menos" class="w-12 h-12 text-headline-sm">−</button>
+                    <span class="w-16 text-center">
+                        <span class="block font-mono text-headline-sm tabular-nums" x-text="personas"></span>
+                        <span class="block text-label-sm font-normal text-secondary">personas</span>
                     </span>
-                    <button type="button" x-on:click="sumar()" aria-label="Una persona más" class="w-11 h-11 rounded bg-surface-container-low text-headline-sm">+</button>
+                    <button type="button" x-on:click="sumar()" aria-label="Una persona más" class="w-12 h-12 bg-on-surface text-surface-container-lowest text-headline-sm">+</button>
                 </div>
                 <input type="hidden" name="personas" :value="personas">
-            </x-tarjeta>
+            </div>
 
             {{-- A partes iguales: vista previa del reparto --}}
             <div x-show="modo === 'iguales'">
-                <div class="mb-space-md flex gap-2 px-4 py-3 rounded bg-primary-fixed/30 text-body-md">
-                    <x-icono nombre="balance" class="text-xl text-primary" />
-                    <span>
-                        Reparto de céntimos:
-                        <span class="font-semibold" x-text="partesIguales().map(c => euros(c)).join(' + ') + ' = ' + euros(total)"></span>
-                    </span>
+                {{-- Vista previa del reparto, en letra de ticket --}}
+                <div class="mb-space-md px-4 py-3 bg-surface-container-lowest text-body-md">
+                    <span class="block text-label-md font-normal text-secondary">Reparto (el céntimo que sobra va a la persona 1)</span>
+                    <span class="block font-mono" x-text="partesIguales().map(c => euros(c)).join(' + ') + ' = ' + euros(total)"></span>
                 </div>
             </div>
 
             {{-- Por platos: cada línea con un selector de persona --}}
-            <div x-show="modo === 'platos'" x-cloak class="space-y-space-sm mb-space-md">
+            <div x-show="modo === 'platos'" x-cloak class="mb-space-md border-t border-outline-variant">
                 @foreach ($lineasFormulario as $linea)
-                    <x-tarjeta class="flex items-center justify-between gap-space-md">
+                    <div class="flex items-center justify-between gap-space-md py-3 border-b border-outline-variant">
                         <span class="min-w-0">
                             <span class="block text-label-lg">{{ $linea->cantidad }}× {{ $linea->plato?->nombre ?? 'Plato' }}</span>
-                            <x-precio :centimos="$linea->subtotalCentimos()" class="text-body-md text-secondary" />
+                            <x-precio :centimos="$linea->subtotalCentimos()" class="font-mono text-body-md text-secondary" />
                         </span>
                         <label class="shrink-0">
                             <span class="sr-only">Quién paga {{ $linea->plato?->nombre }}</span>
                             {{-- name solo en modo platos: en modo iguales no se envía --}}
                             <select :name="modo === 'platos' ? 'asignaciones[{{ $linea->id }}]' : null"
                                     x-model.number="asignaciones[{{ $linea->id }}]"
-                                    class="min-h-[44px] pl-3 pr-9 rounded border-outline-variant/50 text-label-md">
+                                    class="min-h-[44px] pl-3 pr-9 rounded border-[1.5px] border-secondary-fixed-dim text-label-md focus:border-primary-container focus:ring-1 focus:ring-primary-container">
                                 {{-- 0 = plato compartido entre todos (rama 14) --}}
                                 <option value="0" :selected="asignaciones[{{ $linea->id }}] === 0">Todos (compartido)</option>
                                 <template x-for="numero in personas" :key="numero">
@@ -257,20 +239,19 @@
                                 </template>
                             </select>
                         </label>
-                    </x-tarjeta>
+                    </div>
                 @endforeach
 
                 {{-- Vista previa: cuánto paga cada persona --}}
-                <div class="px-4 py-3 rounded bg-primary-fixed/30 text-body-md">
+                <div class="mt-space-md px-4 py-3 bg-surface-container-lowest text-body-md">
                     <template x-for="[persona, centimos] in Object.entries(partesPorPlatos())" :key="persona">
-                        <p class="flex justify-between"><span x-text="'Persona ' + persona"></span><span class="font-semibold" x-text="euros(centimos)"></span></p>
+                        <p class="flex justify-between"><span x-text="'Persona ' + persona"></span><span class="font-mono" x-text="euros(centimos)"></span></p>
                     </template>
                 </div>
             </div>
 
             <button type="submit" x-bind:disabled="enviando"
-                    class="pulsable w-full flex items-center justify-center gap-2 min-h-[56px] rounded-lg bg-primary-container text-on-primary text-label-lg font-bold shadow-nivel-2 disabled:opacity-60">
-                <x-icono nombre="call_split" />
+                    class="pulsable w-full flex items-center justify-center min-h-[56px] rounded bg-primary-container text-on-primary text-label-lg font-bold shadow-nivel-2 hover:bg-primary disabled:opacity-60">
                 <span x-text="enviando ? 'Dividiendo…' : @js($soloLoNuevo ? 'Dividir lo nuevo' : ($cuenta ? 'Volver a dividir la cuenta' : 'Dividir la cuenta'))"></span>
             </button>
         </form>
