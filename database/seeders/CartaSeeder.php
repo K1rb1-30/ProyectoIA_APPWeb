@@ -29,13 +29,23 @@ class CartaSeeder extends Seeder
             'Raciones' => [
                 ['Calamares a la romana', 'Anillas de calamar rebozadas con limón.', 1200, ['Gluten', 'Moluscos', 'Huevos']],
                 ['Tortilla de patatas', 'Tortilla jugosa con cebolla, para compartir.', 950, ['Huevos']],
+                ['Pulpo a la gallega', 'Pulpo cocido con pimentón, aceite y cachelos.', 1650, ['Moluscos']],
             ],
             'Bebidas' => [
                 ['Caña de cerveza', 'Cerveza de barril, 200 ml.', 250, ['Gluten']],
                 ['Agua mineral', 'Botella de 50 cl.', 180, []],
                 ['Café con leche', 'Café espresso con leche.', 160, ['Lácteos']],
             ],
+            'Postres' => [
+                ['Flan casero', 'Flan de huevo con caramelo.', 450, ['Huevos', 'Lácteos']],
+                ['Tarta de queso', 'Tarta de queso cremosa al horno.', 550, ['Gluten', 'Huevos', 'Lácteos']],
+                ['Crema catalana', 'Crema con azúcar quemado por encima.', 500, ['Huevos', 'Lácteos']],
+            ],
         ];
+
+        // Platos que se crean agotados, para que en la demo se vea que no
+        // salen en la carta del QR y salen en gris en la comanda del camarero.
+        $agotados = ['Pulpo a la gallega'];
 
         // Tabla nombre => id de los alérgenos, para no consultar en cada plato.
         $idsAlergenos = Alergeno::pluck('id', 'nombre');
@@ -56,7 +66,7 @@ class CartaSeeder extends Seeder
                             'categoria_id' => $categoria->id,
                             'descripcion' => $descripcion,
                             'precio_centimos' => $precio,
-                            'disponible' => true,
+                            'disponible' => ! in_array($nombre, $agotados),
                         ],
                     );
 
