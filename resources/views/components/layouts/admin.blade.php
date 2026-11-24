@@ -1,104 +1,108 @@
 {{--
-    Layout del panel de administración (escritorio): menú lateral fijo a la
-    izquierda, barra superior y contenido. Referencia: panelAdmin/panel.
+    Layout del panel de administración (escritorio): menú lateral a la
+    izquierda y contenido a la derecha.
 
     Uso:
         <x-layouts.admin titulo="Carta">
             <x-slot name="acciones"> <x-boton-primario>Añadir plato</x-boton-primario> </x-slot>
+            <x-slot name="subtitulo">24 platos</x-slot>   (opcional)
             ...contenido de la página...
         </x-layouts.admin>
 
-    El slot "acciones" (opcional) pone botones a la derecha de la barra superior.
+    - "acciones" (opcional) pone botones a la derecha del título.
+    - "subtitulo" (opcional) pone una línea pequeña debajo del título.
+
+    Rediseño «Comanda impresa» (rama 22): el título de la página va en grande
+    encima del contenido (antes iba en una barra superior), el menú es solo
+    texto (sin iconos) y la opción activa es un bloque de tinta.
 --}}
 @props(['titulo' => 'Panel'])
 
 @php
     // Opciones del menú lateral. "ruta" es el nombre de la ruta de Laravel.
-    // Las ramas 3, 4 y 13 crearán esas rutas: mientras no existan (null),
-    // el enlace apunta a "#". Al crear una ruta, poned aquí su nombre.
     $menu = [
-        ['texto' => 'Panel', 'icono' => 'space_dashboard', 'ruta' => 'panel'],
-        ['texto' => 'Carta', 'icono' => 'restaurant_menu', 'ruta' => 'admin.carta'],
-        ['texto' => 'Alérgenos', 'icono' => 'nutrition', 'ruta' => 'admin.alergenos'],
-        ['texto' => 'Mesas y QR', 'icono' => 'qr_code_2', 'ruta' => 'admin.mesas'],
-        ['texto' => 'Personal', 'icono' => 'badge', 'ruta' => 'admin.personal'],
-        ['texto' => 'Estadísticas', 'icono' => 'bar_chart', 'ruta' => 'admin.estadisticas'],
+        ['texto' => 'Panel', 'ruta' => 'panel'],
+        ['texto' => 'Carta', 'ruta' => 'admin.carta'],
+        ['texto' => 'Alérgenos', 'ruta' => 'admin.alergenos'],
+        ['texto' => 'Mesas y QR', 'ruta' => 'admin.mesas'],
+        ['texto' => 'Personal', 'ruta' => 'admin.personal'],
+        ['texto' => 'Estadísticas', 'ruta' => 'admin.estadisticas'],
     ];
+    $usuario = Auth::user();
 @endphp
 
 <x-layouts.base :titulo="$titulo">
     <div class="min-h-screen lg:flex">
-        {{-- Menú lateral --}}
-        <aside class="lg:w-72 lg:shrink-0 lg:min-h-screen flex flex-col gap-space-lg p-space-md bg-surface-container-lowest border-b lg:border-b-0 lg:border-r border-outline-variant/30">
-            <a href="{{ route('panel') }}" class="flex items-center gap-3 px-2 pt-2">
-                <x-logo />
-                <span>
-                    <span class="block text-headline-sm font-bold">{{ config('app.name', 'MesaYa') }}</span>
-                    <span class="block text-label-md font-normal text-secondary">Panel de administración</span>
-                </span>
-            </a>
+        {{-- Menú lateral. En pantallas pequeñas se queda arriba y las opciones bajan de línea --}}
+        <aside class="lg:w-60 lg:shrink-0 lg:min-h-screen flex flex-col gap-space-lg px-space-md py-space-lg border-b lg:border-b-0 lg:border-r border-outline-variant">
+            <div class="px-3">
+                <a href="{{ route('panel') }}" class="text-headline-md font-extrabold tracking-tight">{{ config('app.name', 'MesaYa') }}<span class="text-primary-container">.</span></a>
+                @if ($usuario?->restaurante)
+                    <p class="mt-0.5 text-body-md text-secondary">{{ $usuario->restaurante->nombre }}</p>
+                @endif
+            </div>
 
-            <nav class="flex flex-row flex-wrap lg:flex-col gap-1" aria-label="Menú principal">
+            <nav class="flex flex-row flex-wrap lg:flex-col gap-0.5" aria-label="Menú principal">
                 @foreach ($menu as $opcion)
                     @php
                         // La opción está activa si estamos en su ruta o en una de sus subrutas.
-                        $activa = $opcion['ruta'] && request()->routeIs($opcion['ruta'].'*');
+                        $activa = request()->routeIs($opcion['ruta'].'*');
                     @endphp
-                    <a href="{{ $opcion['ruta'] ? route($opcion['ruta']) : '#' }}"
+                    <a href="{{ route($opcion['ruta']) }}"
                        @class([
-                           'flex items-center gap-3 min-h-[48px] px-4 rounded text-label-lg transition-colors',
-                           'bg-primary text-on-primary' => $activa,
-                           'text-on-surface hover:bg-surface-container-low' => ! $activa,
+                           'flex items-center min-h-[44px] px-3 rounded text-label-lg transition-colors',
+                           'bg-on-surface text-surface-container-lowest' => $activa,
+                           'font-medium text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface' => ! $activa,
                        ])
                        @if ($activa) aria-current="page" @endif>
-                        <x-icono :nombre="$opcion['icono']" class="text-xl" />
                         {{ $opcion['texto'] }}
                     </a>
                 @endforeach
             </nav>
 
-            {{-- Parte de abajo: perfil y cerrar sesión --}}
-            <div class="lg:mt-auto flex flex-row flex-wrap lg:flex-col gap-1 pt-space-md border-t border-outline-variant/30">
-                <a href="{{ route('profile.edit') }}" class="flex items-center gap-3 min-h-[48px] px-4 rounded text-label-lg text-secondary hover:bg-surface-container-low transition-colors">
-                    <x-icono nombre="account_circle" class="text-xl" />
-                    Perfil
-                </a>
-                {{-- Cerrar sesión va por POST (con @csrf) para que nadie pueda cerrarla con un simple enlace --}}
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="w-full flex items-center gap-3 min-h-[48px] px-4 rounded text-label-lg text-secondary hover:bg-surface-container-low transition-colors">
-                        <x-icono nombre="logout" class="text-xl" />
-                        Cerrar sesión
-                    </button>
-                </form>
+            {{-- Parte de abajo: quién eres, vista, perfil y cerrar sesión --}}
+            <div class="lg:mt-auto px-3 pt-space-md border-t border-outline-variant text-body-md">
+                @if ($usuario)
+                    <p class="text-label-lg">{{ $usuario->name }}</p>
+                    <p class="text-secondary">Administración</p>
+                @endif
+                <div class="mt-space-sm">
+                    <x-selector-vista />
+                </div>
+                <div class="mt-space-sm flex flex-wrap items-center gap-x-3">
+                    <a href="{{ route('profile.edit') }}" class="inline-flex items-center min-h-[44px] text-secondary hover:text-on-surface">Perfil</a>
+                    <span class="text-outline-variant" aria-hidden="true">·</span>
+                    {{-- Cerrar sesión va por POST (con @csrf) para que nadie pueda cerrarla con un simple enlace --}}
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="inline-flex items-center min-h-[44px] text-secondary underline underline-offset-2 hover:text-on-surface">Cerrar sesión</button>
+                    </form>
+                </div>
             </div>
         </aside>
 
-        <div class="flex-1 min-w-0 flex flex-col">
-            {{-- Barra superior --}}
-            <header class="flex flex-wrap items-center justify-between gap-space-md px-margin-md py-space-md bg-surface-container-lowest border-b border-outline-variant/30">
-                <h1 class="text-headline-md">{{ $titulo }}</h1>
-
-                {{-- flex-wrap: en el móvil los botones bajan a otra línea en vez de salirse de la pantalla --}}
-                <div class="flex flex-wrap items-center gap-space-md">
-                    {{ $acciones ?? '' }}
-
-                    <x-selector-vista />
-
-                    @auth
-                        <div class="text-right">
-                            <span class="block text-label-lg">{{ Auth::user()->name }}</span>
-                            <span class="block text-label-md font-normal text-secondary">Administración</span>
+        {{-- Contenido: ancho máximo de 1180 px --}}
+        <main class="flex-1 min-w-0 px-4 sm:px-8 lg:px-12 py-space-xl">
+            <div class="max-w-[1180px]">
+                {{-- Título de la página en grande y, a la derecha, sus acciones --}}
+                <header class="flex flex-wrap items-end justify-between gap-space-md mb-space-xl">
+                    <div>
+                        <h1 class="text-[clamp(2rem,3.5vw,2.75rem)] leading-none tracking-[-0.04em] font-extrabold">{{ $titulo }}</h1>
+                        @isset($subtitulo)
+                            <p class="mt-2.5 text-body-lg text-secondary">{{ $subtitulo }}</p>
+                        @endisset
+                    </div>
+                    @isset($acciones)
+                        {{-- flex-wrap: en el móvil los botones bajan a otra línea en vez de salirse de la pantalla --}}
+                        <div class="flex flex-wrap items-center gap-space-sm">
+                            {{ $acciones }}
                         </div>
-                    @endauth
-                </div>
-            </header>
+                    @endisset
+                </header>
 
-            {{-- Contenido: ancho máximo de 1280 px, como indica DESIGN.md --}}
-            <main class="flex-1 w-full max-w-[1280px] mx-auto p-margin-md lg:p-margin-lg">
                 <x-mensajes-sesion />
                 {{ $slot }}
-            </main>
-        </div>
+            </div>
+        </main>
     </div>
 </x-layouts.base>

@@ -23,10 +23,16 @@ import {
 // y Vite deja fuera el resto de la librería (el archivo pesa menos).
 Chart.register(BarController, BarElement, CategoryScale, LinearScale, DoughnutController, ArcElement, Tooltip);
 
-// Colores del diseño (tailwind.config.js).
-const NARANJA = '#f97316'; // primary-container
-const AZUL_CLARO = '#d6e0f3'; // secondary-container
-const OSCURO = '#2a313d'; // inverse-surface
+// Colores del diseño «Comanda impresa» (tailwind.config.js).
+const NARANJA = '#c2410c'; // primary-container
+const GRIS_CLARO = '#cfccc4'; // secondary-fixed-dim
+const OSCURO = '#1a1a1a'; // on-surface / inverse-surface
+const GRIS_TEXTO = '#5f5e5a'; // secondary
+
+// Letras de los ejes: la misma de las cifras de la web (IBM Plex Mono), en gris.
+Chart.defaults.font.family = '"IBM Plex Mono", ui-monospace, monospace';
+Chart.defaults.font.size = 12;
+Chart.defaults.color = GRIS_TEXTO;
 
 // 1250 → "12,50 €". Igual que el componente <x-precio> de Blade.
 const formatoEuros = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' });
@@ -50,9 +56,9 @@ function graficoVentasPorDia(canvas, filas) {
             datasets: [{
                 label: 'Ventas',
                 data: totales, // en céntimos
-                // Naranja si el día supera la media; azul claro si no (como la maqueta).
-                backgroundColor: totales.map((total) => (total > media ? NARANJA : AZUL_CLARO)),
-                borderRadius: 6,
+                // Naranja si el día supera la media; gris claro si no.
+                backgroundColor: totales.map((total) => (total > media ? NARANJA : GRIS_CLARO)),
+                borderRadius: 2,
             }],
         },
         options: {
@@ -62,6 +68,8 @@ function graficoVentasPorDia(canvas, filas) {
                     beginAtZero: true,
                     // Las marcas del eje se enseñan en euros.
                     ticks: { callback: (valor) => euros(valor) },
+                    grid: { color: '#e6e3dc' }, // líneas de fondo muy suaves
+                    border: { display: false },
                 },
                 x: { grid: { display: false } },
             },

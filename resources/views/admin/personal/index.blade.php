@@ -4,11 +4,12 @@
     Variables: $empleados (con pedidos_count).
 --}}
 @php
-    // Texto y colores de cada rol. Las clases van enteras para que Tailwind las encuentre.
+    // Texto de cada rol. Rediseño (rama 22): el rol va como texto normal, sin
+    // cápsula de color; la tabla ya deja claro qué columna es.
     $roles = [
-        'admin' => ['texto' => 'Administración', 'clases' => 'bg-primary-fixed text-on-primary-fixed-variant'],
-        'camarero' => ['texto' => 'Camarero', 'clases' => 'bg-tertiary-fixed/50 text-on-tertiary-fixed-variant'],
-        'cocina' => ['texto' => 'Cocina', 'clases' => 'bg-secondary-container text-on-secondary-fixed-variant'],
+        'admin' => 'Administración',
+        'camarero' => 'Camarero',
+        'cocina' => 'Cocina',
     ];
 @endphp
 
@@ -16,42 +17,38 @@
     <x-slot name="acciones">
         {{-- Enlace con aspecto de botón (un <button> dentro de un <a> no es HTML válido) --}}
         <a href="{{ route('admin.personal.crear') }}"
-           class="pulsable inline-flex items-center justify-center gap-2 min-h-[48px] px-5 py-3 rounded bg-primary-container text-on-primary text-label-lg font-bold shadow-sm transition hover:bg-primary">
-            <x-icono nombre="person_add" class="text-xl" />
+           class="pulsable inline-flex items-center justify-center min-h-[48px] px-6 rounded bg-primary-container text-on-primary text-label-lg font-bold hover:bg-primary">
             Añadir empleado
         </a>
     </x-slot>
 
-    <x-tarjeta class="mb-space-lg">
-        <p class="text-body-md text-secondary">
-            Cada persona entra con su correo y su contraseña, y ve solo las pantallas de su rol.
-            No hay registro público: las cuentas se crean aquí.
-        </p>
-    </x-tarjeta>
+    <p class="mb-space-lg max-w-3xl text-body-md text-secondary">
+        Cada persona entra con su correo y su contraseña, y ve solo las pantallas de su rol.
+        No hay registro público: las cuentas se crean aquí.
+    </p>
 
     {{-- "relative": los textos sr-only de la tabla se quedan dentro de la caja con scroll --}}
-    <div class="relative bg-surface-container-lowest rounded-lg border border-outline-variant/30 shadow-nivel-1 overflow-x-auto">
+    <div class="relative overflow-x-auto">
         @if ($empleados->isEmpty())
-            <div class="p-space-xl text-center text-secondary">
-                <x-icono nombre="badge" class="text-5xl" />
-                <p class="mt-2 text-body-lg">Todavía no hay empleados.</p>
-                <a href="{{ route('admin.personal.crear') }}" class="mt-2 inline-block text-label-lg text-primary hover:underline">Añadir el primero</a>
+            <div class="py-space-xl text-center">
+                <p class="text-body-lg text-secondary">Todavía no hay empleados.</p>
+                <a href="{{ route('admin.personal.crear') }}" class="mt-space-md inline-flex items-center min-h-[48px] px-6 rounded border-[1.5px] border-on-surface text-label-lg font-bold hover:bg-surface-container-lowest">Añadir el primero</a>
             </div>
         @else
             <table class="w-full min-w-[640px] text-left">
-                <thead class="bg-surface-container-low text-label-md text-secondary">
-                    <tr>
-                        <th scope="col" class="px-4 py-3">Nombre</th>
-                        <th scope="col" class="px-4 py-3">Correo electrónico</th>
-                        <th scope="col" class="px-4 py-3">Rol</th>
-                        <th scope="col" class="px-4 py-3"><span class="sr-only">Acciones</span></th>
+                <thead class="text-label-md text-secondary">
+                    <tr class="border-b-2 border-on-surface">
+                        <th scope="col" class="py-3 pr-4 font-medium">Nombre</th>
+                        <th scope="col" class="py-3 px-4 font-medium">Correo electrónico</th>
+                        <th scope="col" class="py-3 px-4 font-medium">Rol</th>
+                        <th scope="col" class="py-3 pl-4"><span class="sr-only">Acciones</span></th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-outline-variant/30">
+                <tbody class="divide-y divide-outline-variant">
                     @foreach ($empleados as $empleado)
                         @php
                             $soyYo = $empleado->is(auth()->user());
-                            $rol = $roles[$empleado->rol] ?? ['texto' => $empleado->rol, 'clases' => 'bg-gray-100 text-gray-700'];
+                            $rol = $roles[$empleado->rol] ?? $empleado->rol;
 
                             // Texto del confirm() de borrar. Si tiene pedidos, se avisa de lo que pasa con ellos.
                             $pregunta = "¿Seguro que quieres eliminar a «{$empleado->name}»? Ya no podrá iniciar sesión.";
@@ -60,22 +57,19 @@
                             }
                         @endphp
                         <tr class="align-middle">
-                            <td class="px-4 py-3">
+                            <td class="py-3.5 pr-4">
                                 <span class="text-label-lg">{{ $empleado->name }}</span>
                                 @if ($soyYo)
-                                    <span class="ml-1 px-2 py-0.5 rounded-full bg-inverse-surface text-inverse-on-surface text-label-sm">Tú</span>
+                                    <span class="ml-1.5 text-label-md font-normal text-secondary">(Tú)</span>
                                 @endif
                             </td>
-                            <td class="px-4 py-3 text-body-md">{{ $empleado->email }}</td>
-                            <td class="px-4 py-3">
-                                <span class="inline-block px-3 py-1 rounded-full text-label-md {{ $rol['clases'] }}">{{ $rol['texto'] }}</span>
-                            </td>
-                            <td class="px-4 py-3">
+                            <td class="py-3.5 px-4 font-mono text-label-md font-normal">{{ $empleado->email }}</td>
+                            <td class="py-3.5 px-4 text-body-md">{{ $rol }}</td>
+                            <td class="py-3.5 pl-4">
                                 <div class="flex items-center justify-end gap-1">
-                                    <a href="{{ route('admin.personal.editar', $empleado) }}" title="Editar"
-                                       class="inline-flex items-center justify-center w-11 h-11 rounded text-secondary hover:bg-surface-container-low hover:text-primary">
-                                        <x-icono nombre="edit" />
-                                        <span class="sr-only">Editar {{ $empleado->name }}</span>
+                                    <a href="{{ route('admin.personal.editar', $empleado) }}"
+                                       class="inline-flex items-center min-h-[44px] px-2 text-label-lg underline underline-offset-4 hover:text-primary">
+                                        Editar<span class="sr-only"> {{ $empleado->name }}</span>
                                     </a>
                                     {{-- Tu propia cuenta no se puede borrar: no sale el botón (y el controlador tampoco lo deja) --}}
                                     @unless ($soyYo)
