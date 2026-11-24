@@ -228,9 +228,9 @@
     "semantic_hash": ""
   },
   "docs/registre-ia.md": {
-    "mtime": 1795537652.3437264,
-    "seen": 1795537666.2740993,
-    "ast_hash": "f5ca0d8c9e5c0f6663111b1e21ed74ba",
+    "mtime": 1795538645.683405,
+    "seen": 1795538647.3890696,
+    "ast_hash": "530851334fd9a91c88de5f25a3dd9588",
     "semantic_hash": ""
   },
   "public/robots.txt": {
@@ -552,9 +552,9 @@
     "semantic_hash": ""
   },
   "resources/views/components/layouts/camarero.blade.php": {
-    "mtime": 1795456721.1414561,
-    "seen": 1795537666.2740319,
-    "ast_hash": "e38ac1accc3313f897e9f59dede357da",
+    "mtime": 1795538335.405189,
+    "seen": 1795538647.388995,
+    "ast_hash": "c1bc9578f2f438d902ebf820d213d810",
     "semantic_hash": ""
   },
   "resources/views/components/layouts/cliente.blade.php": {
@@ -564,9 +564,9 @@
     "semantic_hash": ""
   },
   "resources/views/components/layouts/cocina.blade.php": {
-    "mtime": 1794931745.202005,
-    "seen": 1795537666.2740335,
-    "ast_hash": "7d2142cc4189f25f1dbb980811eb5235",
+    "mtime": 1795538110.852903,
+    "seen": 1795538647.3889966,
+    "ast_hash": "1c0c818f896df1543640df6a7a2bd876",
     "semantic_hash": ""
   },
   "resources/views/components/logo.blade.php": {
@@ -600,9 +600,9 @@
     "semantic_hash": ""
   },
   "docs/plan-de-trabajo.md": {
-    "mtime": 1795537604.434901,
-    "seen": 1795537666.2740984,
-    "ast_hash": "c02216eb34102046547c2dcebb939cac",
+    "mtime": 1795538620.8644602,
+    "seen": 1795538647.3890688,
+    "ast_hash": "5d93506c584d6d80c8dedd5f95054515",
     "semantic_hash": ""
   },
   "app/Acciones/CrearPedido.php": {
@@ -876,21 +876,21 @@
     "semantic_hash": ""
   },
   "resources/views/camarero/mesas.blade.php": {
-    "mtime": 1795456721.1404555,
-    "seen": 1795537666.2740107,
-    "ast_hash": "e1e9bf2720c28effebd336cc0671a7af",
+    "mtime": 1795538499.2596483,
+    "seen": 1795538647.3889716,
+    "ast_hash": "114493b8ff19be5c5eb261ffcd9b3990",
     "semantic_hash": ""
   },
   "resources/views/camarero/nueva-comanda.blade.php": {
-    "mtime": 1794933578.1144013,
-    "seen": 1795537666.2740114,
-    "ast_hash": "2da8014d9174aeb4a121732155cded6b",
+    "mtime": 1795538535.5488937,
+    "seen": 1795538647.3889723,
+    "ast_hash": "996302dfc4f0c09816a60e4dcc4b6596",
     "semantic_hash": ""
   },
   "resources/views/cocina/pedidos.blade.php": {
-    "mtime": 1795450822.0839846,
-    "seen": 1795537666.2740195,
-    "ast_hash": "dd5b606183fed846178de3fcafd47520",
+    "mtime": 1795538297.06366,
+    "seen": 1795538647.3889813,
+    "ast_hash": "7fefffbe39d2fc7cdf1fee1772b978e5",
     "semantic_hash": ""
   },
   "resources/views/components/errores-campo.blade.php": {
@@ -1026,9 +1026,9 @@
     "semantic_hash": ""
   },
   "resources/views/camarero/avisos.blade.php": {
-    "mtime": 1795450822.0825226,
-    "seen": 1795537666.2740078,
-    "ast_hash": "fd256467a351a0f8a07331ecd94ffdd6",
+    "mtime": 1795538335.4965885,
+    "seen": 1795538647.3889682,
+    "ast_hash": "799eebf019e1b32bc7a2b31e34a8c098",
     "semantic_hash": ""
   },
   "resources/views/cliente/estado-pedido.blade.php": {
@@ -1206,9 +1206,9 @@
     "semantic_hash": ""
   },
   "resources/views/camarero/detalle-mesa.blade.php": {
-    "mtime": 1795535283.1042137,
-    "seen": 1795537666.2740097,
-    "ast_hash": "9356c996f03034a59e9fff910c8d209c",
+    "mtime": 1795538428.287959,
+    "seen": 1795538647.3889706,
+    "ast_hash": "5d320faaf572752c7899c2cee1b4e4e0",
     "semantic_hash": ""
   },
   "resources/views/cliente/pago-efectivo.blade.php": {
@@ -1230,15 +1230,15 @@
     "semantic_hash": ""
   },
   "resources/views/camarero/cobros.blade.php": {
-    "mtime": 1795456721.139454,
-    "seen": 1795537666.2740085,
-    "ast_hash": "53d4311cf87dcd497e35cdf29f591b17",
+    "mtime": 1795538348.1612775,
+    "seen": 1795538647.3889694,
+    "ast_hash": "3728974d192d87f3a744bbfb5858dcad",
     "semantic_hash": ""
   },
   "resources/views/camarero/partes/cobro-efectivo.blade.php": {
-    "mtime": 1795456721.1404555,
-    "seen": 1795537666.2740123,
-    "ast_hash": "337e305ab9eef53db90f256981841ef8",
+    "mtime": 1795538360.0731668,
+    "seen": 1795538647.3889732,
+    "ast_hash": "adfcab0629a561e085cab9e8d75ef322",
     "semantic_hash": ""
   },
   "tests/Feature/CobroCamareroTest.php": {

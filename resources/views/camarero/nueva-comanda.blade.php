@@ -1,6 +1,5 @@
 {{--
-    Nueva comanda del camarero (rama 5). Referencia: docs/design/DesignFrontend/camarero/nueva-comanda.
-    No están (de momento) los comensales, las notas rápidas en chips ni el buscador.
+    Nueva comanda del camarero (rama 5, rediseño en la rama 20).
 
     Cómo funciona:
     - Alpine guarda en "cantidades" cuántas unidades lleva cada plato ({ idPlato: cantidad }).
@@ -9,6 +8,10 @@
       así solo llegan al servidor los platos pedidos.
     - El total de abajo lo calcula Alpine solo para enseñarlo. El servidor no se
       fía de él: vuelve a coger los precios de la base de datos.
+
+    Rediseño «Comanda impresa»: la mesa elegida va como título; los platos,
+    en filas separadas por líneas (no en tarjetas) para que quepan más en
+    la pantalla; las pestañas de categoría se marcan con una raya naranja.
 --}}
 @php
     // Precio de cada plato disponible, para que Alpine calcule el total.
@@ -22,47 +25,39 @@
     $cantidades = collect($lineasAnteriores)->mapWithKeys(fn ($linea, $id) => [$id => (int) ($linea['cantidad'] ?? 0)]);
 @endphp
 
-<x-layouts.camarero titulo="Nueva comanda" seccion="mesas">
+{{-- El título de la pantalla es la mesa: es lo que el camarero tiene que comprobar antes de enviar --}}
+<x-layouts.camarero :titulo="'Mesa '.$mesa->numero" seccion="mesas">
     <x-slot:acciones>
         <a href="{{ route('camarero.mesas') }}" aria-label="Volver a mesas"
-           class="pulsable inline-flex items-center justify-center w-10 h-10 rounded bg-surface-container-low hover:bg-surface-container">
+           class="pulsable inline-flex items-center justify-center w-11 h-11 rounded border-[1.5px] border-secondary-fixed-dim hover:bg-surface-container-low">
             <x-icono nombre="arrow_back" />
         </a>
     </x-slot:acciones>
 
+    {{-- Subtítulo: qué se está haciendo y el estado de la mesa --}}
+    <div class="flex items-baseline justify-between gap-space-md mb-space-md">
+        <h2 class="text-headline-sm">Nueva comanda</h2>
+        <x-chip-estado :estado="$mesa->estado" />
+    </div>
+
     {{-- Selector de mesa: cada ficha lleva a la comanda de esa mesa --}}
     <section class="mb-space-md">
-        <p class="text-label-md text-secondary uppercase tracking-wider mb-2">Seleccionar mesa</p>
+        <p class="text-label-md text-secondary mb-2">Cambiar de mesa</p>
         <div class="flex gap-2 overflow-x-auto pb-1.5 -mx-margin px-margin">
             @foreach ($mesas as $otraMesa)
                 @php $seleccionada = $otraMesa->is($mesa); @endphp
                 <a href="{{ route('camarero.comanda.crear', $otraMesa) }}"
                    @if ($seleccionada) aria-current="page" @endif
+                   aria-label="Mesa {{ $otraMesa->numero }}, {{ $otraMesa->estado }}"
                    @class([
-                       'pulsable shrink-0 px-3.5 py-2 rounded-md border shadow-sm',
-                       'bg-on-surface text-surface-container-lowest border-on-surface ring-2 ring-primary-container' => $seleccionada,
-                       'bg-surface-container-lowest border-surface-container-highest' => ! $seleccionada,
-                   ])>
-                    <span class="block text-headline-sm font-bold leading-none">M{{ $otraMesa->numero }}</span>
-                    <span @class([
-                        'block text-label-sm mt-1',
-                        'text-surface-container-lowest' => $seleccionada,
-                        'text-tertiary' => ! $seleccionada && $otraMesa->estado === 'libre',
-                        'text-primary' => ! $seleccionada && $otraMesa->estado === 'ocupada',
-                    ])>{{ $seleccionada ? 'Seleccionada' : ucfirst($otraMesa->estado) }}</span>
-                </a>
+                       'pulsable shrink-0 inline-flex items-center justify-center min-w-[48px] h-12 px-2 rounded font-mono text-label-lg',
+                       'bg-on-surface text-surface-container-lowest' => $seleccionada,
+                       'border-[1.5px] border-secondary-fixed-dim bg-surface-container-lowest' => ! $seleccionada && $otraMesa->estado === 'libre',
+                       'bg-surface-container-high' => ! $seleccionada && $otraMesa->estado === 'ocupada',
+                   ])>{{ $otraMesa->numero }}</a>
             @endforeach
         </div>
     </section>
-
-    {{-- Tarjeta de la mesa elegida --}}
-    <x-tarjeta class="flex items-center gap-3 mb-space-md">
-        <span class="flex items-center justify-center w-12 h-12 rounded-md bg-primary-fixed text-primary text-headline-md font-bold">{{ $mesa->numero }}</span>
-        <div>
-            <h2 class="text-headline-md">Mesa {{ $mesa->numero }}</h2>
-            <x-chip-estado :estado="$mesa->estado" class="mt-1" />
-        </div>
-    </x-tarjeta>
 
     {{-- Errores de validación (por ejemplo, un plato que se ha agotado mientras tanto) --}}
     @if ($errors->any())
@@ -95,19 +90,20 @@
                           .reduce((suma, [id, n]) => suma + n * (this.precios[id] ?? 0), 0)
                   },
                   euros(centimos) {
-                      return (centimos / 100).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €'
+                      return (centimos / 100).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €'
                   },
               }">
             @csrf
 
-            {{-- Pestañas de categorías --}}
-            <nav class="flex gap-2 overflow-x-auto pb-2 mb-space-sm -mx-margin px-margin" aria-label="Categorías">
+            {{-- Pestañas de categorías: la activa lleva una raya naranja debajo --}}
+            <nav class="flex gap-space-lg overflow-x-auto -mx-margin px-margin border-b border-outline-variant" aria-label="Categorías">
                 @foreach ($categorias as $categoria)
                     <button type="button" x-on:click="categoria = {{ $categoria->id }}"
-                            class="pulsable shrink-0 px-4 py-2 rounded-full border text-label-md shadow-sm"
+                            class="shrink-0 min-h-[44px] -mb-px border-b-[3px] text-label-lg"
                             :class="categoria === {{ $categoria->id }}
-                                ? 'bg-on-surface text-surface-container-lowest border-on-surface'
-                                : 'bg-surface-container-lowest text-secondary border-surface-container-highest'">
+                                ? 'border-primary-container text-on-surface'
+                                : 'border-transparent text-secondary'"
+                            :aria-pressed="categoria === {{ $categoria->id }}">
                         {{ $categoria->nombre }}
                     </button>
                 @endforeach
@@ -116,31 +112,29 @@
             {{-- Platos. Los de otras categorías se ocultan con x-show, pero
                  siguen dentro del formulario y se envían igual. --}}
             @foreach ($categorias as $categoria)
-                <div x-show="categoria === {{ $categoria->id }}" class="space-y-2.5">
+                <ul x-show="categoria === {{ $categoria->id }}">
                     @foreach ($categoria->platos as $plato)
                         @if ($plato->disponible)
-                            <article class="relative overflow-hidden bg-surface-container-lowest rounded-lg border border-surface-container-highest shadow-sm p-3">
-                                {{-- Franja naranja a la izquierda cuando el plato está en la comanda --}}
-                                <div class="absolute inset-y-0 left-0 w-1 bg-primary-container" x-show="cantidad({{ $plato->id }}) > 0"></div>
-
-                                <div class="flex items-center justify-between gap-3 pl-1">
+                            <li class="py-3 border-b border-outline-variant">
+                                <div class="flex items-center justify-between gap-3">
                                     <div class="flex-1 min-w-0">
                                         <h3 class="text-headline-sm truncate">{{ $plato->nombre }}</h3>
-                                        <div class="flex flex-wrap items-center gap-1.5 mt-1">
-                                            <x-precio :centimos="$plato->precio_centimos" class="text-price-display text-primary" />
+                                        <p class="mt-0.5 flex flex-wrap items-center gap-1.5">
+                                            <x-precio :centimos="$plato->precio_centimos" class="font-mono text-body-md text-secondary" />
                                             @foreach ($plato->alergenos as $alergeno)
                                                 <x-badge-alergeno>{{ $alergeno->nombre }}</x-badge-alergeno>
                                             @endforeach
-                                        </div>
+                                        </p>
                                     </div>
 
-                                    {{-- Botones − / + --}}
-                                    <div class="flex items-center bg-surface-container-low rounded-md p-1 border border-surface-container-highest shrink-0">
+                                    {{-- Botones − / +. El borde se oscurece cuando el plato ya está en la comanda --}}
+                                    <div class="flex items-center rounded border-[1.5px] shrink-0"
+                                         :class="cantidad({{ $plato->id }}) > 0 ? 'border-on-surface' : 'border-secondary-fixed-dim'">
                                         <button type="button" x-on:click="restar({{ $plato->id }})" aria-label="Quitar uno de {{ $plato->nombre }}"
-                                                class="pulsable w-10 h-10 rounded bg-surface-container-lowest font-bold text-xl shadow-sm">−</button>
-                                        <span class="w-8 text-center text-headline-sm font-bold tabular-nums" x-text="cantidad({{ $plato->id }})" aria-live="polite">0</span>
+                                                class="pulsable w-11 h-11 text-headline-sm">−</button>
+                                        <span class="w-8 text-center font-mono text-label-lg tabular-nums" x-text="cantidad({{ $plato->id }})" aria-live="polite">0</span>
                                         <button type="button" x-on:click="sumar({{ $plato->id }})" aria-label="Añadir uno de {{ $plato->nombre }}"
-                                                class="pulsable w-10 h-10 rounded bg-primary-container text-on-primary font-bold text-xl shadow-sm">+</button>
+                                                class="pulsable w-11 h-11 bg-on-surface text-surface-container-lowest text-headline-sm">+</button>
                                     </div>
                                 </div>
 
@@ -149,58 +143,40 @@
                                 <input type="hidden" name="lineas[{{ $plato->id }}][cantidad]" :value="cantidad({{ $plato->id }})" :disabled="cantidad({{ $plato->id }}) === 0">
 
                                 {{-- Nota para cocina: solo aparece si el plato está en la comanda --}}
-                                <div x-show="cantidad({{ $plato->id }}) > 0" class="mt-2 pl-1">
+                                <div x-show="cantidad({{ $plato->id }}) > 0" class="mt-2">
                                     <label for="notas-{{ $plato->id }}" class="sr-only">Notas para cocina de {{ $plato->nombre }}</label>
                                     <input type="text" id="notas-{{ $plato->id }}" name="lineas[{{ $plato->id }}][notas]" maxlength="255"
                                            value="{{ $lineasAnteriores[$plato->id]['notas'] ?? '' }}"
                                            :disabled="cantidad({{ $plato->id }}) === 0"
                                            placeholder="Nota para cocina (sin cebolla, muy hecho...)"
-                                           class="w-full rounded border-outline-variant/60 bg-surface-container-low text-body-md focus:border-primary-container focus:ring-primary-container">
+                                           class="w-full min-h-[44px] rounded border-0 bg-primary-fixed text-on-primary-fixed-variant text-body-md placeholder:text-on-primary-fixed-variant/60 focus:ring-2 focus:ring-primary-container">
                                 </div>
-                            </article>
+                            </li>
                         @else
-                            {{-- Plato agotado: en gris, tachado y sin botones --}}
-                            <article class="bg-surface-container-low rounded-lg border border-surface-container-highest/60 opacity-60 p-3">
-                                <div class="flex items-center justify-between gap-3 pl-1">
-                                    <div class="flex-1 min-w-0">
-                                        <h3 class="text-headline-sm text-secondary line-through truncate">{{ $plato->nombre }}</h3>
-                                        <div class="flex items-center gap-2 mt-1">
-                                            <x-precio :centimos="$plato->precio_centimos" class="text-price-display text-secondary" />
-                                            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-label-sm bg-error-container text-on-error-container">
-                                                <x-icono nombre="block" class="text-sm" /> Agotado
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <span class="h-10 px-4 inline-flex items-center rounded bg-surface-container-highest text-secondary text-label-md">No disp.</span>
-                                </div>
-                            </article>
+                            {{-- Plato agotado: tachado, en gris y sin botones --}}
+                            <li class="py-3 border-b border-outline-variant">
+                                <h3 class="text-headline-sm text-secondary line-through truncate">{{ $plato->nombre }}</h3>
+                                <p class="mt-0.5 flex items-center gap-2 text-body-md">
+                                    <x-precio :centimos="$plato->precio_centimos" class="font-mono text-secondary" />
+                                    <span class="font-semibold text-error">Agotado</span>
+                                </p>
+                            </li>
                         @endif
                     @endforeach
-                </div>
+                </ul>
             @endforeach
 
             {{-- Hueco para que la barra de envío no tape el último plato --}}
             <div class="h-24"></div>
 
-            {{-- Barra fija de abajo con el total y el botón de enviar. Va justo
-                 encima de la barra de navegación del layout (77 px de alto). --}}
-            <div class="fixed inset-x-0 bottom-[77px] z-10">
+            {{-- Barra fija de abajo: un solo botón naranja con el número de platos y el total.
+                 Va justo encima de la barra de navegación del layout (65 px de alto). --}}
+            <div class="fixed inset-x-0 bottom-[65px] z-10">
                 <div class="max-w-md mx-auto px-margin pb-2">
-                    <div class="flex items-center justify-between gap-3 bg-surface-container-lowest border border-surface-container-highest rounded-lg p-2.5 shadow-nivel-2">
-                        <div class="pl-2">
-                            <p class="flex items-center gap-1.5 text-headline-sm font-bold tabular-nums">
-                                <span class="w-2.5 h-2.5 rounded-full bg-primary-container"></span>
-                                <span x-text="euros(totalCentimos())">0,00 €</span>
-                            </p>
-                            <p class="text-label-sm text-secondary">
-                                <span x-text="articulos()">0</span> artículos · Mesa {{ $mesa->numero }}
-                            </p>
-                        </div>
-                        <x-boton-primario class="flex-1 max-w-[220px]" x-bind:disabled="articulos() === 0">
-                            <x-icono nombre="local_fire_department" class="text-xl" />
-                            Enviar a cocina
-                        </x-boton-primario>
-                    </div>
+                    <x-boton-primario class="w-full justify-between shadow-nivel-2" x-bind:disabled="articulos() === 0">
+                        <span>Enviar a cocina · <span class="font-mono" x-text="articulos()">0</span></span>
+                        <span class="font-mono" x-text="euros(totalCentimos())">0,00 €</span>
+                    </x-boton-primario>
                 </div>
             </div>
         </form>

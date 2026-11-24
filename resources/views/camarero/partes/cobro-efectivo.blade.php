@@ -31,20 +31,21 @@
     @method('PATCH')
     <input type="hidden" name="metodo" value="{{ $metodo }}">
 
-    <div class="mt-space-sm p-3 rounded bg-amber-50 border border-amber-200">
+    {{-- Rediseño: caja gris claro con los billetes rápidos y el cambio en letra de ticket --}}
+    <div class="mt-space-sm p-3 rounded bg-surface-container-low">
         <label class="block text-label-md" for="entregado-{{ $parte->id }}">Entregado por el cliente</label>
         <div class="mt-1 flex flex-wrap gap-2">
             <input id="entregado-{{ $parte->id }}" type="text" inputmode="decimal" x-model="entregado" placeholder="0,00"
-                   class="w-24 min-h-[44px] rounded border-outline-variant/50 text-body-lg tabular-nums">
+                   class="w-24 min-h-[44px] rounded border-[1.5px] border-secondary-fixed-dim font-mono text-body-lg tabular-nums focus:border-primary-container focus:ring-1 focus:ring-primary-container">
             <button type="button" x-on:click="entregado = (importe / 100).toFixed(2).replace('.', ',')"
-                    class="min-h-[44px] px-3 rounded border border-outline-variant/50 bg-surface-container-lowest text-label-md">Exacto</button>
+                    class="min-h-[44px] px-3 rounded border-[1.5px] border-secondary-fixed-dim bg-surface-container-lowest text-label-md">Exacto</button>
             @foreach ($billetes as $billete)
                 <button type="button" x-on:click="entregado = '{{ $billete }}'"
-                        class="min-h-[44px] px-3 rounded border border-outline-variant/50 bg-surface-container-lowest text-label-md">{{ $billete }} €</button>
+                        class="min-h-[44px] px-3 rounded border-[1.5px] border-secondary-fixed-dim bg-surface-container-lowest font-mono text-label-md">{{ $billete }} €</button>
             @endforeach
         </div>
         <p class="mt-2 text-label-lg" x-show="cambio() !== null && cambio() >= 0" x-cloak>
-            Cambio a devolver: <span class="text-primary" x-text="euros(cambio())"></span>
+            Cambio a devolver: <span class="font-mono text-headline-sm" x-text="euros(cambio())"></span>
         </p>
         <p class="mt-2 text-label-md text-error" x-show="cambio() !== null && cambio() < 0" x-cloak>
             Falta dinero: <span x-text="euros(-cambio())"></span>
@@ -52,8 +53,8 @@
     </div>
 
     <button type="submit" x-bind:disabled="enviando || (cambio() !== null && cambio() < 0)"
-            class="pulsable mt-space-sm w-full flex items-center justify-center gap-2 min-h-[48px] px-3 rounded-lg bg-primary-container text-on-primary text-label-lg font-bold disabled:opacity-60">
-        <x-icono nombre="point_of_sale" />
+            class="pulsable mt-space-sm w-full flex items-center justify-center gap-2 min-h-[48px] px-3 rounded bg-on-surface text-surface-container-lowest text-label-lg font-bold hover:bg-on-surface-variant disabled:opacity-60">
+        {{-- Botón de tinta (no naranja): en el detalle de mesa puede haber varios a la vez --}}
         {{-- Texto normal (no <x-precio>) para que parta bien la línea en el móvil --}}
         <span>Cobrar {{ number_format($importe / 100, 2, ',', '.') }} € en efectivo</span>
     </button>
