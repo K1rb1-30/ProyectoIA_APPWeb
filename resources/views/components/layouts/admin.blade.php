@@ -37,7 +37,11 @@
         <aside class="lg:w-60 lg:shrink-0 lg:min-h-screen flex flex-col gap-space-lg px-space-md py-space-lg border-b lg:border-b-0 lg:border-r border-outline-variant">
             <div class="px-3">
                 <a href="{{ route('panel') }}" class="text-headline-md font-extrabold tracking-tight">{{ config('app.name', 'MesaYa') }}<span class="text-primary-container">.</span></a>
-                @if ($usuario?->restaurante)
+                {{-- Las cuentas que pueden cambiar de restaurante ven un desplegable;
+                     el resto, solo el nombre de su restaurante. --}}
+                @if ($usuario?->puedeCambiarDeRestaurante())
+                    <x-selector-restaurante class="mt-1" />
+                @elseif ($usuario?->restaurante)
                     <p class="mt-0.5 text-body-md text-secondary">{{ $usuario->restaurante->nombre }}</p>
                 @endif
             </div>

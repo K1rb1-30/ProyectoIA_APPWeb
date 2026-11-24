@@ -6,7 +6,8 @@ use App\Models\Restaurante;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
-// Crea las cuentas fijas del equipo para poder entrar siempre en local.
+// Crea las cuentas fijas del equipo (Gabriel e Iván) y del profesor para
+// poder entrar siempre en local. Las tres pueden cambiar de restaurante.
 // Los correos son ficticios y la contraseña es de prueba: este seeder
 // NO se ejecuta en producción (ver la comprobación de abajo).
 class UsuariosAdminSeeder extends Seeder
@@ -19,7 +20,7 @@ class UsuariosAdminSeeder extends Seeder
             return;
         }
 
-        // Las dos cuentas son admin de "La Tasca de Prueba", el primer
+        // Las tres cuentas son admin de "La Tasca de Prueba", el primer
         // restaurante de RestaurantesSeeder. firstOrCreate lo busca por el
         // slug y, si este seeder se ejecuta solo (por ejemplo, en un test),
         // lo crea para que el usuario tenga siempre un restaurante.
@@ -31,13 +32,15 @@ class UsuariosAdminSeeder extends Seeder
         $usuarios = [
             ['name' => 'Gabriel', 'email' => 'gabriel@mesaya.com'],
             ['name' => 'Iván', 'email' => 'ivan@mesaya.com'],
+            // Cuenta para que el profesor pueda entrar a revisar la aplicación.
+            ['name' => 'Profesor', 'email' => 'profesor@mesaya.com'],
         ];
 
         foreach ($usuarios as $usuario) {
             // updateOrCreate busca por el correo: si el usuario ya existe lo
             // actualiza y si no lo crea. Así el seeder se puede ejecutar
             // varias veces sin fallar por el correo repetido.
-            User::updateOrCreate(
+            $cuenta = User::updateOrCreate(
                 ['email' => $usuario['email']],
                 [
                     'name' => $usuario['name'],
@@ -48,6 +51,10 @@ class UsuariosAdminSeeder extends Seeder
                     'restaurante_id' => $restaurante->id,
                 ],
             );
+
+            // Estas tres cuentas pueden cambiar de restaurante desde el panel.
+            // forceFill porque la columna no está en Fillable (a propósito).
+            $cuenta->forceFill(['puede_cambiar_restaurante' => true])->save();
         }
     }
 }

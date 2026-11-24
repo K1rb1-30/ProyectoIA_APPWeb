@@ -32,7 +32,19 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            // Ojo: NO está en Fillable a propósito. Así ningún formulario
+            // (por ejemplo, el de Personal) puede activarlo: solo el seeder.
+            'puede_cambiar_restaurante' => 'boolean',
         ];
+    }
+
+    /**
+     * True si este usuario puede pasar de un restaurante a otro desde el
+     * panel (cuentas del equipo y del profesor). Tiene que ser admin.
+     */
+    public function puedeCambiarDeRestaurante(): bool
+    {
+        return $this->rol === 'admin' && $this->puede_cambiar_restaurante;
     }
 
     /**
