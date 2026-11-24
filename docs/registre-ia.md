@@ -317,4 +317,4 @@ Se rellena en cada sesión de trabajo, no al final. Mínimo 15 entradas.
 - **Objetivo:** Actualizar la sección «Diseño visual» de `CLAUDE.md` para que mande el nuevo sistema «Comanda impresa» y no las capturas de Stitch
 - **Prompt:** "Sí, actualízala"
 - **Resultado:** Rama `feature/actualizar-claude-md`, sacada de `feature/rediseno-cliente` (PR #36) para que el registro no choque. En `CLAUDE.md`: manda `DESIGN.md`; las carpetas de maquetas de Stitch quedan como referencia de contenido, no de aspecto; se resumen las normas del rediseño (un botón naranja por pantalla, un dato principal, filas en vez de tarjetas, títulos a la izquierda, punto + palabra, sin iconos decorativos ni degradados, `font-mono` para cifras, sin colores sueltos en las vistas). Sin cambios de código: no hace falta pasar los tests · ¿funcionó?: PENDIENTE DE REVISAR
-- **Enlace:** PENDIENTE
+- **Enlace:** 7c7797a
