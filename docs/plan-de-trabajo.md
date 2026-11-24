@@ -65,7 +65,8 @@ No estaban en la propuesta: salen de probar la aplicación. No confundir con los
 | 16 | `feature/pagina-inicio` | 2 | Gabriel | ✅ | [#26](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/26) |
 | 18 | `feature/gestion-personal` | 1, 2 | Gabriel | 🔍 | [#30](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/30) |
 | 17 | `feature/panel-admin` | 3, 4, 13 | Gabriel | 🔍 | [#29](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/29) |
-| 19 | `feature/rediseno-base` | 2 | Gabriel | 🔍 | [#31](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/31) |
+| 19 | `feature/rediseno-base` | 2 | Gabriel | ✅ | [#31](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/31) |
+| 20 | `feature/rediseno-cocina-camarero` | 19 | Gabriel | 🔍 | [#33](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/33) |
 
 ### Semana 4 — hasta el 07/12
 
@@ -235,6 +236,13 @@ La rama 5 necesita la 3 y la 4. Mientras tanto, la persona B puede cerrar la 1 c
 - Fuentes en local: Schibsted Grotesk (texto) e IBM Plex Mono (cifras). Sustituyen a Inter.
 - Componentes: botones, `chip-estado` (punto + palabra), `badge-alergeno`, `tarjeta`, `logo` y `campo-texto`. `DESIGN.md` reescrito.
 - **Test:** los que ya había siguen pasando (no cambia ningún texto ni la lógica).
+
+### 20. `feature/rediseno-cocina-camarero` 🟠
+- Segunda rama del rediseño. Sale de la 19 (necesita sus colores y componentes): hasta que se mergee #31, su PR también enseña esos cambios.
+- Cocina: barra de tinta, columnas con el número de pedidos en grande, pedidos como tickets blancos en letra de ticket, tiempo en rojo a partir de 10 min y nota resaltada en naranja claro.
+- Camarero: título grande, pestaña activa con raya naranja; mesas ocupadas en tinta y libres en blanco; nueva comanda con la mesa como título y platos en filas; detalle de mesa con «Falta por cobrar» como dato principal; avisos y cobros en filas.
+- Solo cambia el HTML y las clases: la lógica de Alpine, los formularios y las rutas son los mismos.
+- **Test:** los que ya había siguen pasando (se mantienen todos los textos que comprueban).
 
 ---
 

@@ -14,27 +14,28 @@
 @php
     // Una entrada por columna. Las clases van escritas enteras (no montadas
     // con variables) porque Tailwind solo genera las que encuentra tal cual.
+    // Rediseño «Comanda impresa»: el color del estado solo va en la raya gruesa
+    // bajo el título de la columna; los tickets son todos blancos.
     $columnas = [
         [
-            'estado' => 'pendiente', 'titulo' => 'Pendiente',
-            'punto' => 'bg-estado-pendiente', 'borde' => 'border-b-estado-pendiente',
-            'contador' => 'bg-estado-pendiente/15 text-amber-800', 'tarjeta' => 'border-l-estado-pendiente',
-            'boton' => 'bg-primary-container text-on-primary hover:bg-primary',
-            'textoBoton' => 'Empezar a preparar', 'iconoBoton' => 'play_arrow',
+            'estado' => 'pendiente', 'titulo' => 'Pendientes',
+            'borde' => 'border-b-estado-pendiente',
+            // Empezar: botón de tinta, la acción más frecuente.
+            'boton' => 'bg-on-surface text-surface-container-lowest hover:bg-on-surface-variant',
+            'textoBoton' => 'Empezar a preparar',
         ],
         [
             'estado' => 'preparando', 'titulo' => 'Preparando',
-            'punto' => 'bg-estado-preparando', 'borde' => 'border-b-estado-preparando',
-            'contador' => 'bg-estado-preparando/15 text-blue-800', 'tarjeta' => 'border-l-estado-preparando',
-            'boton' => 'bg-tertiary text-on-tertiary hover:bg-on-tertiary-fixed-variant',
-            'textoBoton' => 'Marcar como listo', 'iconoBoton' => 'check_circle',
+            'borde' => 'border-b-estado-preparando',
+            'boton' => 'bg-tertiary-container text-on-tertiary hover:bg-tertiary',
+            'textoBoton' => 'Marcar como listo',
         ],
         [
-            'estado' => 'listo', 'titulo' => 'Listo',
-            'punto' => 'bg-estado-listo', 'borde' => 'border-b-estado-listo',
-            'contador' => 'bg-estado-listo/15 text-emerald-800', 'tarjeta' => 'border-l-estado-listo',
-            'boton' => 'bg-inverse-surface text-inverse-on-surface hover:bg-on-surface',
-            'textoBoton' => 'Servido', 'iconoBoton' => 'done_all',
+            'estado' => 'listo', 'titulo' => 'Listos para servir',
+            'borde' => 'border-b-estado-listo',
+            // Servido: con borde, porque el pedido ya casi no necesita atención.
+            'boton' => 'border-[1.5px] border-on-surface text-on-surface hover:bg-surface-container-low',
+            'textoBoton' => 'Servido',
         ],
     ];
 @endphp
@@ -149,70 +150,56 @@
     <div x-data="tableroCocina(@js($pedidos), @js(route('cocina.pedidos.datos')), @js(route('cocina.pedidos.estado', '__ID__')))">
         {{-- Avisos: sin conexión (polling) y cambio rechazado --}}
         <div x-cloak x-show="sinConexion" role="status"
-             class="flex items-center gap-2 mb-space-md px-4 py-3 rounded bg-amber-50 text-amber-900 text-body-md">
+             class="flex items-center gap-2 mx-margin mt-space-md px-4 py-3 rounded bg-amber-50 text-amber-900 text-body-md">
             <x-icono nombre="wifi_off" class="text-xl" />
             Sin conexión con el servidor. Reintentando cada 5 segundos…
         </div>
         <div x-cloak x-show="error" role="alert"
-             class="flex items-center justify-between gap-2 mb-space-md px-4 py-3 rounded bg-error-container text-on-error-container text-body-md">
+             class="flex items-center justify-between gap-2 mx-margin mt-space-md px-4 py-3 rounded bg-error-container text-on-error-container text-body-md">
             <span class="flex items-center gap-2"><x-icono nombre="error" class="text-xl" /> <span x-text="error"></span></span>
-            <button type="button" x-on:click="error = ''" aria-label="Cerrar aviso"><x-icono nombre="close" /></button>
+            <button type="button" x-on:click="error = ''" aria-label="Cerrar aviso" class="w-11 h-11 inline-flex items-center justify-center"><x-icono nombre="close" /></button>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-space-md items-start">
+        {{-- Tres columnas separadas por una línea; en pantallas estrechas se apilan --}}
+        <div class="grid grid-cols-1 md:grid-cols-3 md:divide-x divide-secondary-fixed-dim items-start">
             @foreach ($columnas as $columna)
-                <section class="flex flex-col bg-surface-container-lowest rounded-lg border border-outline-variant/30 shadow-nivel-1 overflow-hidden"
-                         aria-labelledby="columna-{{ $columna['estado'] }}">
-                    {{-- Cabecera de la columna con el número de pedidos --}}
-                    <header class="flex items-center justify-between gap-2 px-space-md py-3 border-b-4 {{ $columna['borde'] }}">
-                        <h2 id="columna-{{ $columna['estado'] }}" class="flex items-center gap-2 text-headline-sm font-bold uppercase tracking-wide">
-                            <span class="w-3.5 h-3.5 rounded-full {{ $columna['punto'] }}"></span>
-                            {{ $columna['titulo'] }}
-                        </h2>
-                        <span class="px-3 py-1 rounded-full text-label-md {{ $columna['contador'] }}">
-                            {{-- "1 pedido" en singular, "0 pedidos" / "3 pedidos" en plural --}}
-                            <span x-text="deEstado('{{ $columna['estado'] }}').length + (deEstado('{{ $columna['estado'] }}').length === 1 ? ' pedido' : ' pedidos')">0 pedidos</span>
-                        </span>
+                <section class="flex flex-col" aria-labelledby="columna-{{ $columna['estado'] }}">
+                    {{-- Cabecera: título y número de pedidos en grande, raya gruesa del color del estado --}}
+                    <header class="flex items-baseline justify-between gap-2 px-space-md pt-space-md pb-3 border-b-4 {{ $columna['borde'] }}">
+                        <h2 id="columna-{{ $columna['estado'] }}" class="text-headline-sm">{{ $columna['titulo'] }}</h2>
+                        <span class="font-mono text-headline-lg tabular-nums" x-text="deEstado('{{ $columna['estado'] }}').length">0</span>
                     </header>
 
-                    <div class="flex flex-col gap-space-md p-space-md bg-surface-container-low min-h-[160px]">
-                        {{-- Una tarjeta por pedido. :key ayuda a Alpine a saber qué tarjeta es cuál al repintar --}}
+                    <div class="flex flex-col gap-space-md p-space-md min-h-[160px]">
+                        {{-- Una tarjeta-ticket por pedido. :key ayuda a Alpine a saber qué tarjeta es cuál al repintar --}}
                         <template x-for="pedido in deEstado('{{ $columna['estado'] }}')" :key="pedido.id">
-                            <article class="bg-surface-container-lowest rounded-lg border border-outline-variant/30 border-l-4 {{ $columna['tarjeta'] }} shadow-sm p-space-md">
-                                <div class="flex items-start justify-between gap-3">
-                                    <div>
-                                        <h3 class="text-headline-lg font-extrabold uppercase leading-none">
-                                            Mesa <span x-text="pedido.mesa"></span>
-                                            <span class="text-headline-sm font-semibold text-secondary normal-case">#<span x-text="pedido.id"></span></span>
-                                        </h3>
-                                    </div>
-                                    <div class="text-right shrink-0">
-                                        <p class="text-headline-sm font-bold tabular-nums" x-text="pedido.hora"></p>
-                                        <p class="text-label-sm text-secondary" x-text="tiempo(pedido.minutos)"></p>
-                                    </div>
+                            <article class="bg-surface-container-lowest shadow-nivel-1 p-space-md">
+                                <div class="flex items-baseline justify-between gap-3">
+                                    <h3 class="text-headline-lg leading-none">Mesa <span x-text="pedido.mesa"></span></h3>
+                                    {{-- El tiempo sale en rojo cuando el pedido lleva 10 minutos o más esperando --}}
+                                    <p class="font-mono text-label-lg tabular-nums shrink-0"
+                                       :class="pedido.minutos >= 10 ? 'text-error' : 'text-secondary'"
+                                       x-text="tiempo(pedido.minutos)"></p>
                                 </div>
+                                <p class="mt-1 font-mono text-label-md font-normal text-secondary tabular-nums">
+                                    #<span x-text="pedido.id"></span> · <span x-text="pedido.hora"></span>
+                                </p>
 
-                                {{-- Platos con su cantidad y, si hay, la nota en rojo --}}
-                                <ul class="mt-3 pt-3 border-t border-outline-variant/30 space-y-2">
+                                {{-- Platos en letra de ticket; la nota, resaltada en naranja claro --}}
+                                <ul class="mt-3 pt-3 border-t-[1.5px] border-dashed border-secondary-fixed-dim space-y-2 font-mono">
                                     <template x-for="(linea, indice) in pedido.lineas" :key="indice">
-                                        <li>
-                                            <div class="flex items-start gap-3">
-                                                <span class="flex items-center justify-center min-w-[2rem] h-8 px-1 rounded bg-surface-container-highest text-label-lg font-extrabold shrink-0"
-                                                      x-text="linea.cantidad + 'x'"></span>
-                                                <span class="text-body-lg font-semibold pt-1" x-text="linea.plato"></span>
-                                            </div>
+                                        <li class="text-body-lg">
+                                            <span class="font-semibold" x-text="linea.cantidad"></span>
+                                            <span class="ml-2" x-text="linea.plato"></span>
                                             <p x-show="linea.notas"
-                                               class="flex items-center gap-2 mt-1.5 ml-11 px-3 py-1.5 rounded border border-error/40 bg-error-container/50 text-on-error-container text-label-md uppercase">
-                                                <x-icono nombre="error" class="text-base" />
-                                                <span x-text="linea.notas"></span>
-                                            </p>
+                                               class="mt-1 ml-6 px-2 py-1 bg-primary-fixed text-on-primary-fixed-variant text-label-lg"
+                                               x-text="linea.notas"></p>
                                         </li>
                                     </template>
                                 </ul>
 
                                 <button type="button" x-on:click="avanzar(pedido)" :disabled="enviandoId === pedido.id"
-                                        class="pulsable mt-space-md w-full inline-flex items-center justify-center gap-2 min-h-[48px] px-4 rounded text-label-lg font-bold shadow-sm transition disabled:opacity-50 {{ $columna['boton'] }}">
-                                    <x-icono :nombre="$columna['iconoBoton']" class="text-xl" />
+                                        class="pulsable mt-space-md w-full inline-flex items-center justify-center min-h-[52px] px-4 rounded text-label-lg font-bold transition-colors disabled:opacity-50 {{ $columna['boton'] }}">
                                     {{ $columna['textoBoton'] }}
                                 </button>
                             </article>
