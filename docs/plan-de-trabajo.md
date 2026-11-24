@@ -65,7 +65,7 @@ No estaban en la propuesta: salen de probar la aplicación. No confundir con los
 | 16 | `feature/pagina-inicio` | 2 | Gabriel | ✅ | [#26](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/26) |
 | 18 | `feature/gestion-personal` | 1, 2 | Gabriel | 🔍 | [#30](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/30) |
 | 17 | `feature/panel-admin` | 3, 4, 13 | Gabriel | 🔍 | [#29](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/29) |
-| 19 | `feature/rediseno-base` | 2 | Gabriel | 🟡 | |
+| 19 | `feature/rediseno-base` | 2 | Gabriel | 🔍 | [#31](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/31) |
 
 ### Semana 4 — hasta el 07/12
 
