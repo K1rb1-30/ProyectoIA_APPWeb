@@ -123,7 +123,7 @@ php artisan storage:link
 
 | Correo | Contraseña | Rol |
 |---|---|---|
-| `ivan@mesaya.com` · `gabriel@mesaya.com` | `1234` | admin de «La Tasca de Prueba» |
+| `ivan@mesaya.com` · `gabriel@mesaya.com` · `profesor@mesaya.com` | `1234` | admin de «La Tasca de Prueba»; pueden **cambiar de restaurante** desde el menú lateral |
 | `admin@la-tasca.test` | `password` | admin |
 | `camarero@la-tasca.test` | `password` | camarero |
 | `cocina@la-tasca.test` | `password` | cocina |
