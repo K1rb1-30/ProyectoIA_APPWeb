@@ -27,10 +27,9 @@
 
 @if (Auth::user()?->rol === 'admin')
     <label {{ $attributes->merge(['class' => 'inline-flex items-center gap-2 text-label-md text-secondary']) }}>
-        <x-icono nombre="visibility" class="text-xl" />
         <span class="whitespace-nowrap">Ver como</span>
         <select onchange="if (this.value) window.location.href = this.value"
-                class="min-h-[44px] py-2 pl-3 pr-9 rounded border-outline-variant/50 bg-surface-container-lowest text-label-md text-on-surface focus:border-primary-container focus:ring-1 focus:ring-primary-container">
+                class="min-h-[44px] py-2 pl-3 pr-9 rounded border-[1.5px] border-secondary-fixed-dim bg-surface-container-lowest text-label-md text-on-surface focus:border-primary-container focus:ring-1 focus:ring-primary-container">
             @foreach ($vistas as $vista)
                 <option value="{{ route($vista['ruta']) }}" @selected(request()->routeIs(...$vista['patron']))>
                     {{ $vista['texto'] }}

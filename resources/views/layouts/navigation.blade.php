@@ -3,18 +3,16 @@
     nombre del usuario, perfil y cerrar sesión.
     flex-wrap hace que en móvil los enlaces bajen a una segunda línea.
 --}}
-<nav class="bg-surface-container-lowest border-b border-outline-variant/30">
+<nav class="border-b border-outline-variant">
     <div class="max-w-[1280px] mx-auto px-margin-md py-space-sm flex flex-wrap items-center justify-between gap-space-sm">
         <div class="flex items-center gap-space-md">
-            <a href="{{ route(Auth::user()->rutaDeInicio()) }}" class="flex items-center gap-3">
-                <x-logo />
-                <span class="text-headline-sm font-extrabold text-primary">{{ config('app.name', 'MesaYa') }}</span>
-            </a>
+            {{-- Rediseño (rama 22): el logo es el nombre en texto con el punto naranja --}}
+            <a href="{{ route(Auth::user()->rutaDeInicio()) }}" class="text-headline-md font-extrabold tracking-tight">{{ config('app.name', 'MesaYa') }}<span class="text-primary-container">.</span></a>
 
             <a href="{{ route(Auth::user()->rutaDeInicio()) }}"
                @class([
                    'inline-flex items-center min-h-[48px] px-4 rounded text-label-lg transition-colors',
-                   'bg-surface-container text-primary' => request()->routeIs(Auth::user()->rutaDeInicio()),
+                   'bg-on-surface text-surface-container-lowest' => request()->routeIs(Auth::user()->rutaDeInicio()),
                    'text-secondary hover:bg-surface-container-low' => ! request()->routeIs(Auth::user()->rutaDeInicio()),
                ])>
                 {{ __('Dashboard') }}
@@ -30,10 +28,9 @@
             <a href="{{ route('profile.edit') }}"
                @class([
                    'inline-flex items-center gap-2 min-h-[48px] px-4 rounded text-label-lg transition-colors',
-                   'bg-surface-container text-primary' => request()->routeIs('profile.edit'),
+                   'bg-on-surface text-surface-container-lowest' => request()->routeIs('profile.edit'),
                    'text-secondary hover:bg-surface-container-low' => ! request()->routeIs('profile.edit'),
                ])>
-                <x-icono nombre="account_circle" class="text-xl" />
                 {{ __('Profile') }}
             </a>
 
@@ -41,7 +38,6 @@
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <x-boton-secundario type="submit">
-                    <x-icono nombre="logout" class="text-xl" />
                     {{ __('Log Out') }}
                 </x-boton-secundario>
             </form>

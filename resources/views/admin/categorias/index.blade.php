@@ -6,8 +6,7 @@
 <x-layouts.admin titulo="Categorías de la carta">
     <x-slot name="acciones">
         <a href="{{ route('admin.carta') }}"
-           class="pulsable inline-flex items-center justify-center gap-2 min-h-[48px] px-5 py-3 rounded bg-surface-container-lowest border-[1.5px] border-outline-variant/60 text-label-lg shadow-sm transition hover:border-primary-container">
-            <x-icono nombre="arrow_back" class="text-xl" />
+           class="pulsable inline-flex items-center justify-center min-h-[48px] px-5 rounded border-[1.5px] border-on-surface text-label-lg hover:bg-surface-container-lowest">
             Volver a la carta
         </a>
     </x-slot>
@@ -19,20 +18,17 @@
             @csrf
             <x-campo-texto nombre="nombre" etiqueta="Nombre *" placeholder="Tapas" :value="old('nombre')" required maxlength="60" />
             <x-campo-texto nombre="orden" etiqueta="Orden *" tipo="number" min="0" max="999" :value="old('orden', $categorias->count() + 1)" required />
-            <x-boton-primario>
-                <x-icono nombre="add" class="text-xl" />
-                Añadir
-            </x-boton-primario>
+            <x-boton-primario>Añadir</x-boton-primario>
         </form>
     </x-tarjeta>
 
-    {{-- Lista --}}
-    <x-tarjeta>
-        <h2 class="text-headline-sm mb-space-md">Categorías ({{ $categorias->count() }})</h2>
-        <p class="mb-space-md text-body-md text-secondary">El orden decide en qué posición sale cada categoría en la carta: primero la de número más bajo.</p>
+    {{-- Lista: sin tarjeta, con una raya gruesa bajo el título y una línea entre filas --}}
+    <section>
+        <h2 class="pb-3 border-b-2 border-on-surface text-headline-md">Categorías <span class="font-mono text-body-md font-normal text-secondary">{{ $categorias->count() }}</span></h2>
+        <p class="py-space-md text-body-md text-secondary">El orden decide en qué posición sale cada categoría en la carta: primero la de número más bajo.</p>
 
         @forelse ($categorias as $categoria)
-            <div class="flex flex-wrap items-end gap-space-md py-space-md border-t border-outline-variant/30">
+            <div class="flex flex-wrap items-end gap-space-md py-space-md border-t border-outline-variant">
                 {{-- Cada fila es su propio formulario de edición. Los id llevan el
                      id de la categoría para que no se repitan en la página. --}}
                 <form method="POST" action="{{ route('admin.carta.categorias.actualizar', $categoria) }}" class="flex flex-1 flex-wrap items-end gap-space-md">
@@ -41,14 +37,14 @@
                     <div class="flex-1 min-w-[200px]">
                         <label for="nombre-{{ $categoria->id }}" class="block mb-1.5 text-label-md">Nombre</label>
                         <input id="nombre-{{ $categoria->id }}" name="nombre" value="{{ $categoria->nombre }}" required maxlength="60"
-                               class="block w-full min-h-[48px] px-4 rounded border-outline-variant/50 text-body-md focus:border-primary-container focus:ring-1 focus:ring-primary-container">
+                               class="block w-full min-h-[48px] px-4 rounded border-[1.5px] border-secondary-fixed-dim text-body-lg focus:border-primary-container focus:ring-1 focus:ring-primary-container">
                     </div>
                     <div class="w-28">
                         <label for="orden-{{ $categoria->id }}" class="block mb-1.5 text-label-md">Orden</label>
                         <input id="orden-{{ $categoria->id }}" name="orden" type="number" min="0" max="999" value="{{ $categoria->orden }}" required
-                               class="block w-full min-h-[48px] px-4 rounded border-outline-variant/50 text-body-md focus:border-primary-container focus:ring-1 focus:ring-primary-container">
+                               class="block w-full min-h-[48px] px-4 rounded border-[1.5px] border-secondary-fixed-dim text-body-lg focus:border-primary-container focus:ring-1 focus:ring-primary-container">
                     </div>
-                    <span class="min-h-[48px] inline-flex items-center text-body-md text-secondary">{{ $categoria->platos_count }} platos</span>
+                    <span class="min-h-[48px] inline-flex items-center text-body-md text-secondary"><span class="font-mono">{{ $categoria->platos_count }}</span>&nbsp;platos</span>
                     <x-boton-secundario type="submit">Guardar</x-boton-secundario>
                 </form>
 
@@ -66,5 +62,5 @@
         @empty
             <p class="py-space-md text-body-md text-secondary">Todavía no hay categorías. Crea la primera arriba.</p>
         @endforelse
-    </x-tarjeta>
+    </section>
 </x-layouts.admin>

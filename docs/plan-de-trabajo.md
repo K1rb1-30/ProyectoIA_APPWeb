@@ -67,7 +67,8 @@ No estaban en la propuesta: salen de probar la aplicación. No confundir con los
 | 17 | `feature/panel-admin` | 3, 4, 13 | Gabriel | 🔍 | [#29](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/29) |
 | 19 | `feature/rediseno-base` | 2 | Gabriel | ✅ | [#31](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/31) |
 | 20 | `feature/rediseno-cocina-camarero` | 19 | Gabriel | ✅ | [#33](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/33) |
-| 21 | `feature/rediseno-publico` | 19 | Gabriel | 🔍 | [#34](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/34) |
+| 21 | `feature/rediseno-publico` | 19 | Gabriel | ✅ | [#34](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/34) |
+| 22 | `feature/rediseno-admin` | 19 | Gabriel | 🟡 | |
 
 ### Semana 4 — hasta el 07/12
 
@@ -252,6 +253,14 @@ La rama 5 necesita la 3 y la 4. Mientras tanto, la persona B puede cerrar la 1 c
 - Layout público con el nombre en texto («MesaYa.») y pie en una línea. `boton-acceso` sin iconos.
 - Login y pantallas de Breeze: panel de tinta sin degradados ni tarjetas, título «Acceso del personal», campos sin iconos y botón «Entrar».
 - Páginas legales: solo cambia su marco (`pagina-legal`); el texto es el mismo.
+- **Test:** los que ya había siguen pasando.
+
+### 22. `feature/rediseno-admin` 🟠
+- Cuarta rama del rediseño: panel de administración y perfil.
+- Layout de admin: menú lateral solo con texto (la opción activa en tinta), título de la página en grande encima del contenido y nuevo slot opcional `subtitulo`.
+- Panel y estadísticas: una franja con las ventas de hoy en grande y el resto de cifras al lado (antes, cuatro tarjetas iguales); secciones con una raya gruesa bajo el título en vez de tarjetas. Colores y letra de los gráficos de Chart.js adaptados.
+- Carta (pestañas de categoría y tabla sin caja), categorías, formulario de plato, mesas y QR (cuadrícula con líneas finas y el número en grande), alérgenos (lista en dos columnas) y personal (tabla sin cápsulas de rol). Formularios de mesa y empleado y perfil sin iconos en campos ni botones.
+- Se mantienen todos los textos que comprueban los tests (por ejemplo «Ticket medio: 12,50 €», que en el panel queda en un texto solo para lectores de pantalla).
 - **Test:** los que ya había siguen pasando.
 ---
 

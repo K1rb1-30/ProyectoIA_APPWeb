@@ -8,7 +8,7 @@
 --}}
 @php
     // Clases comunes de select y textarea, iguales que las de <x-campo-texto>.
-    $claseCampo = 'block w-full min-h-[48px] px-4 py-3 rounded bg-surface-container-lowest text-on-surface text-body-md shadow-sm border-outline-variant/50 focus:border-primary-container focus:ring-1 focus:ring-primary-container';
+    $claseCampo = 'block w-full min-h-[48px] px-4 py-3 rounded border-[1.5px] bg-surface-container-lowest text-on-surface text-body-lg border-secondary-fixed-dim focus:border-primary-container focus:ring-1 focus:ring-primary-container';
 
     // El precio se muestra en euros con coma: 850 céntimos → "8,50".
     $precio = $plato->precio_centimos !== null ? number_format($plato->precio_centimos / 100, 2, ',', '') : '';
@@ -33,7 +33,7 @@
             </div>
 
             {{-- inputmode="decimal" saca el teclado numérico en el móvil --}}
-            <x-campo-texto nombre="precio" etiqueta="Precio (€) *" icono="euro" inputmode="decimal"
+            <x-campo-texto nombre="precio" etiqueta="Precio (€) *" inputmode="decimal" class="font-mono"
                            placeholder="8,50" :value="old('precio', $precio)" required />
         </div>
 
@@ -50,9 +50,7 @@
                 @if ($plato->urlFoto())
                     <img src="{{ $plato->urlFoto() }}" alt="Foto actual" class="w-20 h-20 rounded object-cover">
                 @else
-                    <div class="w-20 h-20 rounded bg-surface-container flex items-center justify-center text-secondary">
-                        <x-icono nombre="add_a_photo" class="text-3xl" />
-                    </div>
+                    <div class="w-20 h-20 shrink-0 rounded-sm bg-surface-container-high flex items-center justify-center text-label-md font-normal text-secondary">Sin foto</div>
                 @endif
                 <div class="min-w-0 space-y-2 text-body-md">
                     <input type="file" name="foto" accept="image/jpeg,image/png,image/webp"
@@ -81,21 +79,17 @@
     {{-- Alérgenos: cuadrícula con las 14 casillas --}}
     <x-tarjeta>
         <fieldset>
-            <legend class="flex items-center gap-2 text-headline-sm">
-                <x-icono nombre="health_and_safety" class="text-primary" />
-                Alérgenos (UE 1169/2011)
-            </legend>
+            <legend class="text-headline-md">Alérgenos <span class="text-body-md font-normal text-secondary">(UE 1169/2011)</span></legend>
             <p class="mt-1 mb-space-md text-body-md text-secondary">Marca todos los que contiene el plato.</p>
 
             <div class="grid gap-2 sm:grid-cols-2">
                 @foreach ($alergenos as $alergeno)
                     @php($marcado = in_array($alergeno->id, $alergenosMarcados, true))
-                    {{-- has-[:checked] pinta la casilla de naranja cuando está marcada --}}
-                    <label class="flex items-center gap-3 min-h-[48px] px-3 rounded border border-outline-variant/50 cursor-pointer has-[:checked]:border-primary-container has-[:checked]:bg-primary-fixed/30">
+                    {{-- has-[:checked] oscurece el borde y aclara el fondo cuando está marcada --}}
+                    <label class="flex items-center gap-3 min-h-[48px] px-3 rounded border-[1.5px] border-outline-variant cursor-pointer has-[:checked]:border-on-surface has-[:checked]:bg-primary-fixed/50">
                         <input type="checkbox" name="alergenos[]" value="{{ $alergeno->id }}" @checked($marcado)
-                               class="w-5 h-5 rounded text-primary-container focus:ring-primary-container">
-                        <x-icono :nombre="$alergeno->icono" class="text-xl text-secondary" />
-                        <span class="text-body-md">{{ $alergeno->id }}. {{ $alergeno->nombre }}</span>
+                               class="w-5 h-5 rounded-sm text-primary-container focus:ring-primary-container">
+                        <span class="text-body-md"><span class="font-mono text-secondary">{{ $alergeno->id }}.</span> {{ $alergeno->nombre }}</span>
                     </label>
                 @endforeach
             </div>
@@ -106,11 +100,8 @@
 
 <div class="mt-space-lg flex justify-end gap-space-md">
     <a href="{{ route('admin.carta') }}"
-       class="pulsable inline-flex items-center justify-center min-h-[48px] px-5 py-3 rounded bg-surface-container-lowest border-[1.5px] border-outline-variant/60 text-label-lg">
+       class="pulsable inline-flex items-center justify-center min-h-[48px] px-5 rounded border-[1.5px] border-on-surface text-label-lg hover:bg-surface-container-lowest">
         Cancelar
     </a>
-    <x-boton-primario>
-        <x-icono nombre="save" class="text-xl" />
-        Guardar
-    </x-boton-primario>
+    <x-boton-primario>Guardar</x-boton-primario>
 </div>

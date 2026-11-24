@@ -9,8 +9,9 @@
         @include('layouts.navigation')
 
         @isset($header)
-            <header class="bg-surface-container-lowest border-b border-outline-variant/30">
-                <div class="max-w-[1280px] mx-auto px-margin-md py-space-lg">
+            {{-- Rediseño (rama 22): el título va sobre el fondo de la página, sin franja blanca --}}
+            <header>
+                <div class="max-w-[1280px] mx-auto px-margin-md pt-space-xl pb-space-lg">
                     {{ $header }}
                 </div>
             </header>

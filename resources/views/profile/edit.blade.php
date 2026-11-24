@@ -1,7 +1,7 @@
 {{-- Perfil del usuario: tres tarjetas, una por formulario (cada uno está en profile/partials) --}}
 <x-app-layout>
     <x-slot name="header">
-        <h1 class="text-headline-lg">{{ __('Profile') }}</h1>
+        <h1 class="text-[clamp(2rem,3.5vw,2.75rem)] leading-none tracking-[-0.04em] font-extrabold">{{ __('Profile') }}</h1>
     </x-slot>
 
     <div class="space-y-space-lg">

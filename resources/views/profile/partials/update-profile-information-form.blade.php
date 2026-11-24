@@ -1,7 +1,7 @@
 {{-- Formulario para cambiar el nombre y el correo --}}
 <section>
     <header>
-        <h2 class="text-headline-sm">{{ __('Profile Information') }}</h2>
+        <h2 class="text-headline-md">{{ __('Profile Information') }}</h2>
         <p class="mt-1 text-body-md text-secondary">
             {{ __("Update your account's profile information and email address.") }}
         </p>
@@ -17,11 +17,11 @@
         {{-- Los formularios HTML solo envían GET o POST: @method simula el PATCH --}}
         @method('patch')
 
-        <x-campo-texto nombre="name" :etiqueta="__('Name')" icono="person"
+        <x-campo-texto nombre="name" :etiqueta="__('Name')"
                        :value="old('name', $user->name)" required autofocus autocomplete="name" />
 
         <div>
-            <x-campo-texto nombre="email" tipo="email" :etiqueta="__('Email')" icono="mail"
+            <x-campo-texto nombre="email" tipo="email" :etiqueta="__('Email')"
                            :value="old('email', $user->email)" required autocomplete="username" />
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())

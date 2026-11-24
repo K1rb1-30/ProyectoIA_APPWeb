@@ -16,7 +16,6 @@
 <x-layouts.admin :titulo="$editando ? 'Editar a '.$empleado->name : 'Añadir empleado'">
     <div class="max-w-lg">
         <a href="{{ route('admin.personal') }}" class="inline-flex items-center gap-1 mb-space-md text-label-lg text-secondary hover:text-on-surface">
-            <x-icono nombre="arrow_back" class="text-xl" />
             Volver al personal
         </a>
 
@@ -28,10 +27,10 @@
                     @method('PUT')
                 @endif
 
-                <x-campo-texto nombre="name" etiqueta="Nombre" icono="person"
+                <x-campo-texto nombre="name" etiqueta="Nombre"
                                :value="old('name', $empleado->name)" maxlength="255" required autofocus />
 
-                <x-campo-texto nombre="email" tipo="email" etiqueta="Correo electrónico" icono="mail"
+                <x-campo-texto nombre="email" tipo="email" etiqueta="Correo electrónico"
                                :value="old('email', $empleado->email)" maxlength="255" required
                                placeholder="ej. nombre@restaurante.es" />
 
@@ -47,9 +46,9 @@
                     @else
                         <select id="rol" name="rol" required
                                 @class([
-                                    'block w-full min-h-[48px] py-3 pl-4 pr-10 rounded bg-surface-container-lowest text-on-surface text-body-md shadow-sm focus:border-primary-container focus:ring-1 focus:ring-primary-container',
+                                    'block w-full min-h-[48px] py-3 pl-4 pr-10 rounded bg-surface-container-lowest text-on-surface border-[1.5px] text-body-lg focus:border-primary-container focus:ring-1 focus:ring-primary-container',
                                     'border-error' => $errors->has('rol'),
-                                    'border-outline-variant/50' => ! $errors->has('rol'),
+                                    'border-secondary-fixed-dim' => ! $errors->has('rol'),
                                 ])>
                             @foreach ($opciones as $valor => $texto)
                                 <option value="{{ $valor }}" @selected($rolElegido === $valor)>{{ $texto }}</option>
@@ -62,10 +61,10 @@
 
                 {{-- Contraseña. Al editar es opcional. --}}
                 <div class="space-y-space-md">
-                    <x-campo-texto nombre="password" tipo="password" icono="lock" autocomplete="new-password"
+                    <x-campo-texto nombre="password" tipo="password" autocomplete="new-password"
                                    :etiqueta="$editando ? 'Nueva contraseña' : 'Contraseña'"
                                    :required="! $editando" />
-                    <x-campo-texto nombre="password_confirmation" tipo="password" icono="lock" autocomplete="new-password"
+                    <x-campo-texto nombre="password_confirmation" tipo="password" autocomplete="new-password"
                                    etiqueta="Repite la contraseña" :required="! $editando" />
                     <p class="text-body-md text-secondary">
                         @if ($editando)
@@ -78,11 +77,10 @@
 
                 <div class="flex flex-wrap gap-3">
                     <x-boton-primario>
-                        <x-icono nombre="save" class="text-xl" />
                         {{ $editando ? 'Guardar cambios' : 'Crear empleado' }}
                     </x-boton-primario>
                     <a href="{{ route('admin.personal') }}"
-                       class="inline-flex items-center justify-center min-h-[48px] px-5 py-3 rounded border-[1.5px] border-outline-variant/60 text-label-lg hover:border-primary-container">
+                       class="inline-flex items-center justify-center min-h-[48px] px-5 py-3 rounded border-[1.5px] border-on-surface text-label-lg hover:bg-surface-container-lowest">
                         Cancelar
                     </a>
                 </div>
