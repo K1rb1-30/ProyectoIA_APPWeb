@@ -2,10 +2,17 @@ import defaultTheme from 'tailwindcss/defaultTheme';
 import forms from '@tailwindcss/forms';
 
 /*
- * Sistema de diseño de MesaYa ("Warm Iberian Modernism").
+ * Sistema de diseño de MesaYa ("Comanda impresa", rediseño de noviembre 2026).
  * Todos los valores salen de docs/design/DesignFrontend/DESIGN.md.
  * Se definen aquí una sola vez y las vistas usan las clases que generan
  * (por ejemplo bg-primary-container, text-headline-lg, shadow-nivel-1).
+ *
+ * IMPORTANTE: los NOMBRES de los colores son los de antes (vienen de las
+ * maquetas de Stitch). Solo han cambiado sus VALORES. Así todas las vistas
+ * cogen el aspecto nuevo sin tener que editarlas una a una.
+ *   - "primary-container" es el naranja de los botones principales.
+ *   - "secondary" es el gris de los textos secundarios.
+ *   - "outline-variant" es el color de las líneas finas (filetes).
  */
 
 /** @type {import('tailwindcss').Config} */
@@ -19,101 +26,115 @@ export default {
 
     theme: {
         extend: {
-            // Paleta: la misma que usan las 18 maquetas.
             colors: {
-                'surface': '#f9f9ff',
-                'surface-dim': '#d3daea',
-                'surface-bright': '#f9f9ff',
+                // Fondos y superficies: gris "papel" y blanco.
+                'surface': '#f5f4f0',
+                'surface-dim': '#e6e3dc',
+                'surface-bright': '#f5f4f0',
                 'surface-container-lowest': '#ffffff',
-                'surface-container-low': '#f0f3ff',
-                'surface-container': '#e7eefe',
-                'surface-container-high': '#e2e8f8',
-                'surface-container-highest': '#dce2f3',
-                'surface-variant': '#dce2f3',
-                'surface-tint': '#9d4300',
-                'on-surface': '#151c27',
-                'on-surface-variant': '#584237',
-                'inverse-surface': '#2a313d',
-                'inverse-on-surface': '#ebf1ff',
-                'background': '#f9f9ff',
-                'on-background': '#151c27',
-                'outline': '#8c7164',
-                'outline-variant': '#e0c0b1',
+                'surface-container-low': '#efede8',
+                'surface-container': '#e9e7e1',
+                'surface-container-high': '#e6e3dc',
+                'surface-container-highest': '#dad7cf',
+                'surface-variant': '#e6e3dc',
+                'surface-tint': '#c2410c',
+                'background': '#f5f4f0',
 
-                'primary': '#9d4300',
+                // Textos: tinta casi negra y su versión suave.
+                'on-surface': '#1a1a1a',
+                'on-surface-variant': '#3d3c39',
+                'on-background': '#1a1a1a',
+
+                // Superficie invertida (barras oscuras, aviso de plato listo).
+                'inverse-surface': '#1a1a1a',
+                'inverse-on-surface': '#f5f4f0',
+
+                // Líneas: "outline" para bordes marcados, "outline-variant" para filetes.
+                'outline': '#8c8a84',
+                'outline-variant': '#dad7cf',
+
+                // Acento "pimentón". Blanco sobre #c2410c tiene un contraste de 5,2:1
+                // (el naranja de antes, #f97316, se quedaba en 2,8:1 y no se leía bien).
+                'primary': '#9a3412',              // hover de los botones y enlaces
                 'on-primary': '#ffffff',
-                'primary-container': '#f97316',
-                'on-primary-container': '#582200',
-                'inverse-primary': '#ffb690',
-                'primary-fixed': '#ffdbca',
-                'primary-fixed-dim': '#ffb690',
-                'on-primary-fixed': '#341100',
-                'on-primary-fixed-variant': '#783200',
+                'primary-container': '#c2410c',    // fondo del botón principal
+                'on-primary-container': '#431407',
+                'inverse-primary': '#f08a4b',
+                'primary-fixed': '#fdece2',        // fondo naranja muy claro (notas de cocina)
+                'primary-fixed-dim': '#f7c6a8',
+                'on-primary-fixed': '#431407',
+                'on-primary-fixed-variant': '#9a3412',
 
-                'secondary': '#555f6f',
+                // Grises neutros (antes eran grises azulados).
+                'secondary': '#5f5e5a',            // texto secundario: 6:1 sobre el fondo
                 'on-secondary': '#ffffff',
-                'secondary-container': '#d6e0f3',
-                'on-secondary-container': '#596373',
-                'secondary-fixed': '#d9e3f6',
-                'secondary-fixed-dim': '#bdc7d9',
-                'on-secondary-fixed': '#121c2a',
-                'on-secondary-fixed-variant': '#3d4756',
+                'secondary-container': '#e6e3dc',
+                'on-secondary-container': '#3d3c39',
+                'secondary-fixed': '#e6e3dc',
+                'secondary-fixed-dim': '#cfccc4',
+                'on-secondary-fixed': '#1a1a1a',
+                'on-secondary-fixed-variant': '#3d3c39',
 
-                'tertiary': '#006c49',
+                // Verde: pagado, disponible, listo.
+                'tertiary': '#166534',
                 'on-tertiary': '#ffffff',
-                'tertiary-container': '#00b07a',
-                'on-tertiary-container': '#003b26',
-                'tertiary-fixed': '#6ffbbe',
-                'tertiary-fixed-dim': '#4edea3',
-                'on-tertiary-fixed': '#002113',
-                'on-tertiary-fixed-variant': '#005236',
+                'tertiary-container': '#15803d',
+                'on-tertiary-container': '#14532d',
+                'tertiary-fixed': '#dcfce7',
+                'tertiary-fixed-dim': '#bbf7d0',
+                'on-tertiary-fixed': '#052e16',
+                'on-tertiary-fixed-variant': '#166534',
 
-                'error': '#ba1a1a',
+                // Rojo: errores y "agotado".
+                'error': '#b42318',
                 'on-error': '#ffffff',
-                'error-container': '#ffdad6',
-                'on-error-container': '#93000a',
+                'error-container': '#fde7e4',
+                'on-error-container': '#7a1a10',
 
-                // Colores de estado (apartado "Status Indicators" de DESIGN.md).
-                // "servido" no tiene color en el diseño: usamos un gris neutro.
+                // Colores de estado de los pedidos. Son algo más oscuros que antes
+                // para que se distingan también por claridad, no solo por el tono.
                 'estado': {
-                    pendiente: '#f59e0b',
-                    preparando: '#3b82f6',
-                    listo: '#10b981',
-                    servido: '#6b7280',
+                    pendiente: '#d97706',
+                    preparando: '#2563eb',
+                    listo: '#15803d',
+                    servido: '#8c8a84',
                 },
             },
 
-            // Inter para todo el texto. "Inter Variable" es el nombre con el
-            // que el paquete @fontsource-variable/inter registra la fuente.
+            // Schibsted Grotesk para el texto e IBM Plex Mono para las cifras
+            // (precios, números de mesa, horas), como en un ticket de cocina.
+            // Los nombres son los que registran los paquetes de @fontsource.
             fontFamily: {
-                sans: ['"Inter Variable"', 'Inter', ...defaultTheme.fontFamily.sans],
+                sans: ['"Schibsted Grotesk Variable"', 'Schibsted Grotesk', ...defaultTheme.fontFamily.sans],
+                mono: ['"IBM Plex Mono"', ...defaultTheme.fontFamily.mono],
             },
 
             // Tamaños de letra con nombre. Cada uno lleva su interlineado,
             // su espaciado entre letras y su grosor: text-headline-lg ya
             // sale en negrita sin añadir font-bold.
+            // Los títulos son más grandes y apretados que antes: así hay más
+            // diferencia entre un título y el texto normal (mejor jerarquía).
             fontSize: {
-                'display-hero': ['40px', { lineHeight: '48px', letterSpacing: '-0.02em', fontWeight: '800' }],
-                'display-hero-mobile': ['30px', { lineHeight: '36px', letterSpacing: '-0.015em', fontWeight: '800' }],
-                'headline-lg': ['28px', { lineHeight: '34px', letterSpacing: '-0.01em', fontWeight: '700' }],
-                'headline-md': ['22px', { lineHeight: '28px', letterSpacing: '-0.01em', fontWeight: '700' }],
-                'headline-sm': ['18px', { lineHeight: '24px', fontWeight: '600' }],
-                'body-lg': ['16px', { lineHeight: '24px', fontWeight: '400' }],
-                'body-md': ['14px', { lineHeight: '20px', fontWeight: '400' }],
-                'label-lg': ['15px', { lineHeight: '20px', letterSpacing: '0.01em', fontWeight: '600' }],
-                'label-md': ['13px', { lineHeight: '18px', letterSpacing: '0.01em', fontWeight: '600' }],
-                'label-sm': ['11px', { lineHeight: '14px', letterSpacing: '0.03em', fontWeight: '700' }],
-                'price-display': ['18px', { lineHeight: '22px', letterSpacing: '-0.01em', fontWeight: '700' }],
+                'display-hero': ['56px', { lineHeight: '58px', letterSpacing: '-0.04em', fontWeight: '800' }],
+                'display-hero-mobile': ['38px', { lineHeight: '40px', letterSpacing: '-0.035em', fontWeight: '800' }],
+                'headline-lg': ['32px', { lineHeight: '36px', letterSpacing: '-0.03em', fontWeight: '800' }],
+                'headline-md': ['24px', { lineHeight: '30px', letterSpacing: '-0.02em', fontWeight: '700' }],
+                'headline-sm': ['18px', { lineHeight: '24px', letterSpacing: '-0.01em', fontWeight: '700' }],
+                'body-lg': ['17px', { lineHeight: '26px', fontWeight: '400' }],
+                'body-md': ['15px', { lineHeight: '22px', fontWeight: '400' }],
+                'label-lg': ['15px', { lineHeight: '20px', fontWeight: '600' }],
+                'label-md': ['14px', { lineHeight: '20px', fontWeight: '600' }],
+                'label-sm': ['12px', { lineHeight: '16px', letterSpacing: '0.01em', fontWeight: '600' }],
+                'price-display': ['18px', { lineHeight: '22px', fontWeight: '600' }],
             },
 
-            // Radios de DESIGN.md (lg = 1rem). Las maquetas code.html usan
-            // radios más pequeños, pero manda la captura screen.png.
+            // Radios más pequeños que antes: esquinas sobrias en vez de "burbujas".
             borderRadius: {
-                sm: '0.25rem',
-                DEFAULT: '0.5rem',
-                md: '0.75rem',
-                lg: '1rem',
-                xl: '1.5rem',
+                sm: '0.125rem',
+                DEFAULT: '0.375rem',
+                md: '0.5rem',
+                lg: '0.5rem',
+                xl: '0.75rem',
                 full: '9999px',
             },
 
@@ -131,12 +152,12 @@ export default {
                 'space-xl': '2rem',
             },
 
-            // Sombras de DESIGN.md, apartado "Elevation & Depth".
+            // Sombras casi invisibles: la separación la hacen las líneas, no las sombras.
             boxShadow: {
-                // Nivel 1: tarjetas de carta y de platos.
-                'nivel-1': '0 2px 8px -2px rgba(31, 41, 55, 0.05), 0 1px 3px 0 rgba(31, 41, 55, 0.03)',
+                // Nivel 1: tarjetas.
+                'nivel-1': '0 1px 0 rgba(26, 26, 26, 0.04)',
                 // Nivel 2: barras fijas inferiores, hojas y modales.
-                'nivel-2': '0 12px 24px -6px rgba(31, 41, 55, 0.12), 0 4px 8px -2px rgba(31, 41, 55, 0.04)',
+                'nivel-2': '0 12px 28px -14px rgba(26, 26, 26, 0.35)',
             },
         },
     },

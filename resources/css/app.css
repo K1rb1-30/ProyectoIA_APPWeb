@@ -4,7 +4,9 @@
  * no hace ninguna petición a Google Fonts.
  * Los @import tienen que ir antes que las directivas de Tailwind.
  */
-@import '@fontsource-variable/inter/wght.css';
+@import '@fontsource-variable/schibsted-grotesk/wght.css';
+@import '@fontsource/ibm-plex-mono/400.css';
+@import '@fontsource/ibm-plex-mono/600.css';
 @import '@material-symbols/font-400/outlined.css';
 
 @tailwind base;

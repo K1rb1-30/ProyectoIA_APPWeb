@@ -4,7 +4,9 @@ Esta carpeta es **la referencia visual de la aplicación**. Las pantallas se gen
 
 ## Qué hay aquí
 
-- [`DESIGN.md`](DESIGN.md): el sistema de diseño ("Warm Iberian Modernism"), común a todas las pantallas. Contiene colores, tipografía, radios, espaciado y normas de componentes.
+- [`DESIGN.md`](DESIGN.md): el sistema de diseño **actual** ("Comanda impresa", rediseño de noviembre de 2026), común a todas las pantallas. Contiene colores, tipografía, jerarquía, radios, espaciado y normas de componentes. **Manda sobre las capturas.**
+
+> **Aviso:** las capturas y los `code.html` de las carpetas son del diseño anterior de Stitch ("Warm Iberian Modernism"). Usadlos para saber **qué contenido** lleva cada pantalla, pero el **aspecto** lo marca `DESIGN.md`.
 - Una carpeta por pantalla, agrupadas por rol. Cada una tiene dos archivos:
   - `screen.png`: captura de cómo tiene que quedar.
   - `code.html`: maqueta en HTML + Tailwind, con datos de ejemplo de "Bar La Plaza".
@@ -45,8 +47,8 @@ No hay maqueta de las pantallas de **Alérgenos** ni de **Personal** del panel d
 Las maquetas son HTML suelto; al pasarlas a Blade hay que adaptar esto:
 
 - **Tailwind.** Las maquetas cargan Tailwind 3 desde un CDN, con los colores en un `tailwind.config` dentro de cada HTML. El proyecto usa Tailwind 3 compilado con Vite (lo instala Breeze), así que no se copia ese `<script>`: los colores, tamaños de letra y espaciados se definen una sola vez en `tailwind.config.js`, en la raíz del proyecto. Los 18 HTML usan exactamente la misma paleta.
-- **Radios.** Los `code.html` usan radios más pequeños (`lg` = 0,5 rem) que los que indica `DESIGN.md` (`lg` = 1 rem). Manda la captura `screen.png`.
-- **Iconos.** Usan la fuente Material Symbols Outlined de Google Fonts, y la tipografía Inter. Hay que decidir si se cargan desde Google Fonts o se sirven en local.
+- **Radios.** Mandan los de `DESIGN.md` (pequeños: 6 px por defecto), no los de las maquetas.
+- **Iconos y fuentes.** Los iconos son Material Symbols Outlined y las fuentes, Schibsted Grotesk e IBM Plex Mono (las maquetas usaban Inter). Todo se sirve en local con paquetes de npm, sin Google Fonts.
 - **Datos.** Los textos, precios y platos están escritos a mano. En Blade salen de la base de datos, con el dinero guardado en céntimos y mostrado como `12,50 €`.
 - **Fotos.** Las imágenes son de ejemplo y apuntan a servidores externos; no se usan en la aplicación.
 - **Interactividad.** Las maquetas no tienen lógica. Se añade con Alpine.js y con el polling cada 5 s.

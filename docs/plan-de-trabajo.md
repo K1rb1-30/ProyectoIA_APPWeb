@@ -65,6 +65,7 @@ No estaban en la propuesta: salen de probar la aplicación. No confundir con los
 | 16 | `feature/pagina-inicio` | 2 | Gabriel | ✅ | [#26](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/26) |
 | 18 | `feature/gestion-personal` | 1, 2 | Gabriel | 🔍 | [#30](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/30) |
 | 17 | `feature/panel-admin` | 3, 4, 13 | Gabriel | 🔍 | [#29](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/29) |
+| 19 | `feature/rediseno-base` | 2 | Gabriel | 🔍 | [#31](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/31) |
 
 ### Semana 4 — hasta el 07/12
 
@@ -227,6 +228,13 @@ La rama 5 necesita la 3 y la 4. Mientras tanto, la persona B puede cerrar la 1 c
 - Botón «Acceso del personal» (login) o «Ir a mi pantalla» si ya hay sesión (`User::rutaDeInicio()`). «Ver una carta de ejemplo» solo si existe la mesa 1 de `la-tasca`.
 - Ilustraciones con HTML y Tailwind en lugar de las fotos externas de la maqueta. Páginas simples de privacidad y cookies.
 - **Test:** `/` responde sin login con MesaYa y el enlace al login; con sesión, enlace a la pantalla del rol; nada externo.
+
+### 19. `feature/rediseno-base` 🟠
+- No estaba en el plan: primera de las cinco ramas del rediseño visual «Comanda impresa» (que la web no parezca hecha con IA y tenga mejor jerarquía). Las siguientes: `rediseno-cocina-camarero`, `rediseno-publico`, `rediseno-admin` (después de #29 y #30) y `rediseno-cliente` (después de #28).
+- Cambia los **valores** de los colores de `tailwind.config.js` sin cambiar sus nombres, así todas las vistas cogen el aspecto nuevo sin editarlas. Tamaños de letra más contrastados, radios más pequeños y sombras casi invisibles.
+- Fuentes en local: Schibsted Grotesk (texto) e IBM Plex Mono (cifras). Sustituyen a Inter.
+- Componentes: botones, `chip-estado` (punto + palabra), `badge-alergeno`, `tarjeta`, `logo` y `campo-texto`. `DESIGN.md` reescrito.
+- **Test:** los que ya había siguen pasando (no cambia ningún texto ni la lógica).
 
 ---
 
