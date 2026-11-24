@@ -39,6 +39,11 @@ use Illuminate\Database\Seeder;
  *   6 → servido; todavía no han pedido la cuenta
  *   7 y 8 → libres
  * Bar El Rincón (6 mesas): un pedido pendiente, uno listo y uno servido.
+ * Marisquería O Porto (14 mesas): seis ocupadas, con pedidos en todos los
+ *   estados, uno pagado al pedir y una cuenta entre 4 a medio cobrar.
+ * Café Central (5 mesas): tres ocupadas (pendiente, listo y una cuenta entre
+ *   2 con una parte pagada).
+ * En todos quedan mesas libres, para que se vean los dos estados.
  */
 class PedidosEnCursoSeeder extends Seeder
 {
@@ -56,6 +61,8 @@ class PedidosEnCursoSeeder extends Seeder
 
         $this->laTasca();
         $this->barElRincon();
+        $this->marisqueria();
+        $this->cafeCentral();
     }
 
     private function laTasca(): void
@@ -145,6 +152,96 @@ class PedidosEnCursoSeeder extends Seeder
         $this->pedido($restaurante, 1, [[$carta['Croquetas caseras'], 1, null], [$carta['Caña de cerveza'], 1, null]], $camarero, 'pendiente', 3);
         $this->pedido($restaurante, 2, [[$carta['Calamares a la romana'], 1, null]], $camarero, 'listo', 12);
         $this->pedido($restaurante, 3, [[$carta['Crema catalana'], 2, null], [$carta['Café con leche'], 2, null]], $camarero, 'servido', 35);
+    }
+
+    private function marisqueria(): void
+    {
+        $restaurante = Restaurante::where('slug', 'marisqueria-o-porto')->first();
+        if (! $restaurante || $this->yaTieneServicio($restaurante)) {
+            return;
+        }
+        $camarero = $this->camarero($restaurante);
+        $carta = $this->platos($restaurante);
+
+        $this->pedido($restaurante, 1, [[$carta['Gambas a la plancha'], 2, 'Bien hechas'], [$carta['Albariño (copa)'], 2, null]], $camarero, 'pendiente', 3);
+        $this->pedido($restaurante, 3, [[$carta['Merluza a la gallega'], 2, null], [$carta['Pimientos de Padrón'], 1, null]], $camarero, 'preparando', 11);
+
+        // Mesa 4: preparándose y, además, un pedido del cliente pagado al hacerlo.
+        $this->pedido($restaurante, 4, [[$carta['Pulpo a feira'], 1, null], [$carta['Empanada de zamburiñas'], 1, null]], $camarero, 'preparando', 7);
+        $this->pagadoAlPedir($restaurante, 4, [[$carta['Agua mineral'], 2], [$carta['Tarta de Santiago'], 2]]);
+
+        $this->pedido($restaurante, 6, [[$carta['Mejillones al vapor'], 1, null], [$carta['Zamburiñas a la gallega'], 1, 'Sin pimentón']], $camarero, 'listo', 16);
+
+        // Mesa 8: cuenta entre 4 a medio cobrar (tarjeta, TPV, esperando efectivo y pendiente).
+        $mesa8 = $this->pedido($restaurante, 8, [
+            [$carta['Rodaballo al horno'], 2, null],
+            [$carta['Gambas a la plancha'], 1, null],
+            [$carta['Ribeiro (taza)'], 4, null],
+        ], $camarero, 'servido', 70)->mesa;
+        $this->cobrar($this->dividirCuenta->ejecutar($mesa8, 'iguales', 4), ['tarjeta', 'tpv', 'pide_efectivo']);
+
+        $this->pedido($restaurante, 11, [[$carta['Ensalada de la huerta'], 1, null], [$carta['Filloas con miel'], 2, null]], $camarero, 'servido', 25);
+    }
+
+    private function cafeCentral(): void
+    {
+        $restaurante = Restaurante::where('slug', 'cafe-central')->first();
+        if (! $restaurante || $this->yaTieneServicio($restaurante)) {
+            return;
+        }
+        $camarero = $this->camarero($restaurante);
+        $carta = $this->platos($restaurante);
+
+        $this->pedido($restaurante, 1, [[$carta['Café con leche'], 2, 'Uno con leche de avena'], [$carta['Tostada con tomate'], 2, null]], $camarero, 'pendiente', 2);
+        $this->pedido($restaurante, 4, [[$carta['Chocolate caliente'], 2, null], [$carta['Churros'], 1, null]], $camarero, 'listo', 8);
+
+        // Mesa 2: cuenta entre 2 con una parte ya pagada con tarjeta.
+        $mesa2 = $this->pedido($restaurante, 2, [
+            [$carta['Capuchino'], 2, null],
+            [$carta['Tarta de zanahoria'], 1, null],
+            [$carta['Zumo de naranja natural'], 1, null],
+        ], $camarero, 'servido', 40)->mesa;
+        $this->cobrar($this->dividirCuenta->ejecutar($mesa2, 'iguales', 2), ['tarjeta']);
+    }
+
+    /**
+     * Pedido que el cliente paga con tarjeta al hacerlo (rama 15), con
+     * PagarPedido. La referencia de Stripe es inventada (cs_test_demo_...).
+     *
+     * @param  array<int, array{0: int, 1: int}>  $lineas  [idPlato, cantidad]
+     */
+    private function pagadoAlPedir(Restaurante $restaurante, int $numeroMesa, array $lineas): void
+    {
+        $mesa = $this->mesa($restaurante, $numeroMesa);
+        $lineas = array_map(fn ($linea) => ['plato_id' => $linea[0], 'cantidad' => $linea[1]], $lineas);
+
+        $this->pagarPedido->confirmar(
+            $mesa,
+            $lineas,
+            'cs_test_demo_'.$restaurante->slug.'_mesa'.$numeroMesa,
+            $this->pagarPedido->calcularTotal($mesa, $lineas),
+        );
+    }
+
+    /**
+     * Cobra las partes de una cuenta en orden con los métodos de ParteCuenta:
+     * 'tarjeta' (Stripe), 'tpv' (datáfono), 'efectivo' (en la mesa) o
+     * 'pide_efectivo' (el cliente lo ha elegido y espera al camarero).
+     * Las partes que no tienen método se quedan pendientes.
+     *
+     * @param  array<int, string>  $cobros
+     */
+    private function cobrar(Cuenta $cuenta, array $cobros): void
+    {
+        foreach ($cuenta->partes->values() as $indice => $parte) {
+            match ($cobros[$indice] ?? null) {
+                'tarjeta' => $parte->pagarConTarjeta('cs_test_demo_cuenta'.$cuenta->id.'_parte'.$parte->persona),
+                'tpv' => $parte->pagarConTpv(),
+                'efectivo' => $parte->cobrarEfectivoEnMesa(),
+                'pide_efectivo' => $parte->pedirEfectivo(),
+                default => null,
+            };
+        }
     }
 
     /**

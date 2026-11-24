@@ -91,6 +91,43 @@ class PedidosEnCursoSeederTest extends TestCase
         $this->assertFalse($platos->firstWhere('nombre', 'Pulpo a la gallega')->disponible);
     }
 
+    public function test_hay_cuatro_restaurantes_con_carta_y_mesas_distintas(): void
+    {
+        $restaurantes = Restaurante::orderBy('id')->get()->keyBy('slug');
+
+        $this->assertSame(['la-tasca', 'bar-el-rincon', 'marisqueria-o-porto', 'cafe-central'], $restaurantes->keys()->all());
+
+        $mesas = fn (string $slug) => Mesa::withoutGlobalScopes()->where('restaurante_id', $restaurantes[$slug]->id)->count();
+        $this->assertSame([8, 6, 14, 5], [$mesas('la-tasca'), $mesas('bar-el-rincon'), $mesas('marisqueria-o-porto'), $mesas('cafe-central')]);
+
+        // El mismo plato cuesta distinto en cada sitio.
+        $precio = fn (string $slug) => Plato::withoutGlobalScopes()->where('restaurante_id', $restaurantes[$slug]->id)->where('nombre', 'Café con leche')->value('precio_centimos');
+        $this->assertNotSame($precio('la-tasca'), $precio('bar-el-rincon'));
+
+        // Cada restaurante tiene algún plato agotado.
+        foreach ($restaurantes as $restaurante) {
+            $this->assertTrue(Plato::withoutGlobalScopes()->where('restaurante_id', $restaurante->id)->where('disponible', false)->exists(), $restaurante->slug);
+        }
+    }
+
+    public function test_los_cuatro_restaurantes_tienen_servicio_en_curso_y_mesas_libres(): void
+    {
+        $this->seed(PedidosEnCursoSeeder::class);
+
+        foreach (Restaurante::all() as $restaurante) {
+            $enCurso = Pedido::withoutGlobalScopes()->where('restaurante_id', $restaurante->id)->where('estado', '!=', 'servido')->count();
+            $libres = Mesa::withoutGlobalScopes()->where('restaurante_id', $restaurante->id)->where('estado', 'libre')->count();
+
+            $this->assertGreaterThan(0, $enCurso, $restaurante->slug);
+            $this->assertGreaterThan(0, $libres, $restaurante->slug);
+        }
+
+        // Y todas las cuentas abiertas cuadran.
+        foreach (Cuenta::withoutGlobalScopes()->with('partes')->get() as $cuenta) {
+            $this->assertSame($cuenta->total_centimos, $cuenta->partes->sum('importe_centimos'));
+        }
+    }
+
     public function test_ejecutarlo_dos_veces_no_duplica_nada(): void
     {
         $this->seed(PedidosEnCursoSeeder::class);
