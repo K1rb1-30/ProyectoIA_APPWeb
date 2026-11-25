@@ -21,6 +21,11 @@ return Application::configure(basePath: dirname(__DIR__))
             'suscripcion' => \App\Http\Middleware\ComprobarSuscripcion::class,
         ]);
 
+        // El webhook de Stripe (rama 24, PR 2) no puede llevar el token CSRF:
+        // el POST lo hace Stripe, no un formulario nuestro. Lo protege la
+        // firma del aviso, que comprueba PasarelaStripe::leerEventoWebhook().
+        $middleware->validateCsrfTokens(except: ['stripe/webhook']);
+
         // 'dispositivo' tiene que ejecutarse ANTES de que Laravel busque los
         // modelos de la URL (SubstituteBindings). Si no, en /cocina/pedidos/{pedido}
         // el pedido se buscaría sin el filtro del restaurante del dispositivo.

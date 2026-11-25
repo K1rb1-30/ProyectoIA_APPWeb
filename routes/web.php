@@ -24,6 +24,7 @@ use App\Http\Controllers\DispositivoController;
 use App\Http\Controllers\InicioController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegistroRestauranteController;
+use App\Http\Controllers\StripeWebhookController;
 use App\Models\Dispositivo;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -43,6 +44,11 @@ Route::middleware('guest')->group(function () {
         ->middleware('throttle:5,1')
         ->name('registro.guardar');
 });
+
+// Webhook de Stripe (rama 24, PR 2): avisos de impagos, cancelaciones y
+// renovaciones de la suscripción. Sin login ni CSRF (ver bootstrap/app.php):
+// lo protege la firma del aviso.
+Route::post('/stripe/webhook', StripeWebhookController::class)->name('stripe.webhook');
 
 // Pantallas públicas del cliente que entra por el QR de su mesa. Sin login.
 // whereNumber hace que /mesa/abc dé 404 sin llegar al controlador.
