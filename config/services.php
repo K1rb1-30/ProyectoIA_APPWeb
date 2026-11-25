@@ -33,6 +33,12 @@ return [
     'stripe' => [
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
+        // Precio de la suscripción mensual de cada restaurante (rama 24), en
+        // céntimos: 2900 = 29,00 €. (int) porque env() devuelve texto.
+        'suscripcion_precio_centimos' => (int) env('STRIPE_SUSCRIPCION_PRECIO_CENTIMOS', 2900),
+        // Secreto con el que Stripe firma los avisos del webhook (whsec_...).
+        // En local lo da "stripe listen" (Stripe CLI). Rama 24, PR 2.
+        'webhook_secret' => env('STRIPE_WEBHOOK_SECRET'),
     ],
 
     'slack' => [

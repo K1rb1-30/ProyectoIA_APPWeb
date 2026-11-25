@@ -84,7 +84,9 @@
 
                         // 401/419: la sesión ha caducado. Recargando, Laravel
                         // manda al login.
-                        if (respuesta.status === 401 || respuesta.status === 419) {
+                        // 403 (rama 24): el restaurante ya no tiene la suscripción
+                        // activa; al recargar sale «Restaurante no disponible».
+                        if (respuesta.status === 401 || respuesta.status === 403 || respuesta.status === 419) {
                             window.location.reload();
                             return;
                         }

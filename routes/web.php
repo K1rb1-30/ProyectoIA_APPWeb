@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\CambiarRestauranteController;
 use App\Http\Controllers\Admin\PanelController;
 use App\Http\Controllers\Admin\PersonalController;
 use App\Http\Controllers\Admin\PlatoController;
+use App\Http\Controllers\Admin\SuscripcionController;
 use App\Http\Controllers\Camarero\AvisoController;
 use App\Http\Controllers\Camarero\CobroController;
 use App\Http\Controllers\Camarero\ComandaController;
@@ -22,6 +23,8 @@ use App\Http\Controllers\Cocina\PedidoController;
 use App\Http\Controllers\DispositivoController;
 use App\Http\Controllers\InicioController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RegistroRestauranteController;
+use App\Http\Controllers\StripeWebhookController;
 use App\Models\Dispositivo;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -32,9 +35,26 @@ Route::get('/', InicioController::class)->name('inicio');
 Route::view('/privacidad', 'legal.privacidad')->name('legal.privacidad');
 Route::view('/cookies', 'legal.cookies')->name('legal.cookies');
 
+// Alta de un restaurante nuevo (rama 24): crea el restaurante y su admin y
+// manda a pagar la suscripción a Stripe. Solo sin sesión ('guest').
+// No es el /register de Breeze (sigue sin existir): el personal lo crea el admin.
+Route::middleware('guest')->group(function () {
+    Route::get('/registro', [RegistroRestauranteController::class, 'create'])->name('registro');
+    Route::post('/registro', [RegistroRestauranteController::class, 'store'])
+        ->middleware('throttle:5,1')
+        ->name('registro.guardar');
+});
+
+// Webhook de Stripe (rama 24, PR 2): avisos de impagos, cancelaciones y
+// renovaciones de la suscripción. Sin login ni CSRF (ver bootstrap/app.php):
+// lo protege la firma del aviso.
+Route::post('/stripe/webhook', StripeWebhookController::class)->name('stripe.webhook');
+
 // Pantallas públicas del cliente que entra por el QR de su mesa. Sin login.
 // whereNumber hace que /mesa/abc dé 404 sin llegar al controlador.
-Route::prefix('/r/{slug}/mesa/{numero}')->whereNumber('numero')->group(function () {
+// 'suscripcion' (rama 24): si el restaurante del slug no tiene la suscripción
+// activa, el cliente ve «Restaurante no disponible».
+Route::prefix('/r/{slug}/mesa/{numero}')->whereNumber('numero')->middleware('suscripcion')->group(function () {
     // Carta (rama 8).
     Route::get('/', [CartaController::class, 'show'])->name('cliente.carta');
 
@@ -46,7 +66,11 @@ Route::prefix('/r/{slug}/mesa/{numero}')->whereNumber('numero')->group(function 
     Route::post('/pedido', [AutopedidoController::class, 'store'])
         ->middleware('throttle:10,1')
         ->name('cliente.pedido.enviar');
-    Route::get('/pedido/pagado', [AutopedidoController::class, 'pagado'])->name('cliente.pedido.pagado');
+    // withoutMiddleware('suscripcion'): un pago que el cliente YA ha hecho se
+    // registra siempre, aunque la suscripción caduque mientras paga.
+    Route::get('/pedido/pagado', [AutopedidoController::class, 'pagado'])
+        ->withoutMiddleware('suscripcion')
+        ->name('cliente.pedido.pagado');
     Route::get('/pedido/cancelado', [AutopedidoController::class, 'cancelado'])->name('cliente.pedido.cancelado');
     Route::get('/estado', [AutopedidoController::class, 'estado'])->name('cliente.estado');
     // Lo consulta el JavaScript de la pantalla de estado cada 5 segundos.
@@ -67,7 +91,10 @@ Route::prefix('/r/{slug}/mesa/{numero}')->whereNumber('numero')->group(function 
             ->middleware('throttle:10,1')
             ->name('cliente.pago.pagar');
         // Stripe devuelve aquí al cliente después de pagar o de cancelar.
-        Route::get('/pagado', [PagoTarjetaController::class, 'exito'])->name('cliente.pago.exito');
+        // Sin 'suscripcion', por lo mismo que /pedido/pagado.
+        Route::get('/pagado', [PagoTarjetaController::class, 'exito'])
+            ->withoutMiddleware('suscripcion')
+            ->name('cliente.pago.exito');
         Route::get('/cancelado', [PagoTarjetaController::class, 'cancelado'])->name('cliente.pago.cancelado');
 
         // Pago en efectivo (rama 12). El POST solo deja la parte en
@@ -116,11 +143,29 @@ Route::bind('dispositivo', function (string $id) {
         ->firstOrFail();
 });
 
-// Todo lo del administrador, en un solo grupo: hace falta iniciar sesión
-// (auth) y ser admin (rol:admin). Antes estaba repartido en varios grupos y
+// Lo del administrador: hace falta iniciar sesión (auth) y ser admin
+// (rol:admin). Desde la rama 24 son dos grupos: la suscripción y el resto,
+// que además pide la suscripción activa. Antes estaba repartido en varios grupos y
 // llevaba también 'verified', que no hacía nada: User no implementa
 // MustVerifyEmail y las cuentas las crea el admin ya verificadas.
 Route::middleware(['auth', 'rol:admin'])->group(function () {
+    // Suscripción del restaurante (rama 24). Van FUERA de 'suscripcion': son
+    // justo las pantallas a las que se manda al admin cuando no está activa.
+    // El restaurante es siempre el del admin logueado (nunca va en la URL).
+    Route::get('/admin/suscripcion', [SuscripcionController::class, 'show'])->name('admin.suscripcion');
+    Route::post('/admin/suscripcion/pagar', [SuscripcionController::class, 'pagar'])
+        ->middleware('throttle:10,1')
+        ->name('admin.suscripcion.pagar');
+    // Stripe devuelve aquí al admin después de pagar o de cancelar.
+    Route::get('/admin/suscripcion/pagada', [SuscripcionController::class, 'exito'])->name('admin.suscripcion.exito');
+    Route::get('/admin/suscripcion/cancelada', [SuscripcionController::class, 'cancelada'])->name('admin.suscripcion.cancelada');
+    Route::post('/admin/suscripcion/portal', [SuscripcionController::class, 'portal'])
+        ->middleware('throttle:10,1')
+        ->name('admin.suscripcion.portal');
+});
+
+// Todo lo demás del admin necesita además la suscripción activa (rama 24).
+Route::middleware(['auth', 'rol:admin', 'suscripcion'])->group(function () {
     // Panel del administrador (rama 17). Antes era /dashboard, la ruta que trae
     // Breeze (tarea previa P5): la dejamos como redirección para que un enlace
     // guardado no dé 404.
@@ -185,7 +230,7 @@ Route::redirect('/dashboard', '/panel');
 // lo usa la redirección tras el login (User::rutaDeInicio).
 // 'dispositivo': un camarero solo sigue dentro en el dispositivo emparejado
 // con el que entró (ver IdentificarDispositivo).
-Route::middleware(['dispositivo', 'auth', 'rol:camarero'])->prefix('camarero')->group(function () {
+Route::middleware(['dispositivo', 'auth', 'rol:camarero', 'suscripcion'])->prefix('camarero')->group(function () {
     Route::get('/mesas', [ComandaController::class, 'mesas'])->name('camarero.mesas');
     Route::get('/mesas/{mesa}/comanda', [ComandaController::class, 'create'])->name('camarero.comanda.crear');
     Route::post('/mesas/{mesa}/comanda', [ComandaController::class, 'store'])->name('camarero.comanda.guardar');
@@ -213,7 +258,7 @@ Route::middleware(['dispositivo', 'auth', 'rol:camarero'])->prefix('camarero')->
 // usa la redirección tras el login (User::rutaDeInicio).
 // 'dispositivo' deja entrar a las tablets de cocina emparejadas sin iniciar
 // sesión (ver IdentificarDispositivo). Los desarrolladores entran con su sesión.
-Route::middleware(['dispositivo', 'auth', 'rol:cocina'])->prefix('cocina')->group(function () {
+Route::middleware(['dispositivo', 'auth', 'rol:cocina', 'suscripcion'])->prefix('cocina')->group(function () {
     Route::get('/pedidos', [PedidoController::class, 'index'])->name('cocina.pedidos');
     // JSON que consulta el tablero cada 5 s (polling).
     Route::get('/pedidos/datos', [PedidoController::class, 'datos'])->name('cocina.pedidos.datos');

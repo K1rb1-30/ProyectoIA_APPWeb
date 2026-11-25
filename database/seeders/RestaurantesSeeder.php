@@ -38,6 +38,11 @@ class RestaurantesSeeder extends Seeder
             // veces sin fallar por el slug repetido.
             $restaurante = Restaurante::firstOrCreate(['slug' => $datos['slug']], ['nombre' => $datos['nombre']]);
 
+            // Los restaurantes de demo tienen la suscripción activa (rama 24),
+            // para que la demo funcione sin pasar por Stripe. forceFill porque
+            // el estado no está en Fillable.
+            $restaurante->forceFill(['suscripcion_estado' => Restaurante::SUSCRIPCION_ACTIVA])->save();
+
             // El admin, con correo y contraseña. Solo se crea si no existe:
             // así "php artisan db:seed" se puede ejecutar varias veces.
             $correoAdmin = 'admin@'.$restaurante->slug.'.test';

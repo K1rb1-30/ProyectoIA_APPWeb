@@ -11,8 +11,9 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
-    // El registro público está desactivado: en MesaYa las cuentas del
-    // personal las crea el administrador del restaurante.
+    // El registro de Breeze (/register) está desactivado: en MesaYa las
+    // cuentas del personal las crea el administrador del restaurante.
+    // El alta de un restaurante NUEVO es otra cosa: /registro (rama 24, en web.php).
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
         ->name('login');

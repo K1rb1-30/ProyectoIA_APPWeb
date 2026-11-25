@@ -19,7 +19,12 @@
             <div class="hidden lg:block">
                 <p class="text-[52px] leading-[1.02] tracking-[-0.04em] font-extrabold">Buen servicio.</p>
                 <p class="mt-5 max-w-sm text-body-lg text-secondary-fixed-dim">
-                    Entra con la cuenta que te ha dado tu restaurante. Irás directo a tu pantalla: mesas, cocina o panel.
+                    {{-- Slot opcional "frase" (rama 24): el alta del restaurante pone la suya. --}}
+                    @isset($frase)
+                        {{ $frase }}
+                    @else
+                        Entra con la cuenta que te ha dado tu restaurante. Irás directo a tu pantalla: mesas, cocina o panel.
+                    @endisset
                 </p>
             </div>
 

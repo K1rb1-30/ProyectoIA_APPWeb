@@ -17,6 +17,7 @@ Estado a 23/11/2026: ramas 1 a 14 en `main` y la 16 (página de inicio) en revis
 | Modelos | Eloquent | `app/Models/` |
 | Aislamiento | Trait con *global scope* | `app/Models/Concerns/PerteneceARestaurante.php` |
 | Roles | Middleware `rol:...` | `app/Http/Middleware/ComprobarRol.php` |
+| Suscripción | Middleware `suscripcion` (rama 24) | `app/Http/Middleware/ComprobarSuscripcion.php` |
 | Vistas | Blade + Tailwind 3 + Alpine.js | `resources/views/` (componentes en `components/`) |
 | JavaScript | Alpine y polling con `fetch` | `resources/js/` (`carrito.js`, `avisos-camarero.js`) |
 | Base de datos | MySQL | `database/migrations/`, `database/seeders/` |
@@ -157,7 +158,7 @@ erDiagram
 
 | Tabla | Modelo | Rama | Notas |
 |---|---|---|---|
-| `restaurantes` | `Restaurante` | 1 | El `slug` sale en la URL del QR, por eso es único. |
+| `restaurantes` | `Restaurante` | 1 | El `slug` sale en la URL del QR, por eso es único. Rama 24: `stripe_cliente_id`, `stripe_suscripcion_id` (los dos únicos), `suscripcion_estado` y `suscripcion_fin_en` (próxima fecha de cobro). Estas columnas no están en `Fillable`: solo cambian con `activarSuscripcion()`, después de preguntar a Stripe. |
 | `users` | `User` | Laravel + 1 | Se añaden `rol` y `restaurante_id`, y después `pin`. Los camareros no tienen `email` ni `password` (son opcionales): entran con su PIN en un dispositivo. Ya no hay cuentas de cocina. Desde la rama 18 los crea el admin en Personal; el filtro por restaurante se escribe a mano (`Route::bind('empleado')` y `where`). No usa el trait (Laravel la consulta para saber quién está logueado). |
 | `categorias` | `Categoria` | 3 | No se puede borrar si tiene platos. |
 | `platos` | `Plato` | 3 | Foto en `storage/app/public/platos`. |
@@ -175,6 +176,7 @@ erDiagram
 
 - **Pedido:** `pendiente` → `preparando` → `listo` → `servido`. Solo se avanza un paso cada vez (`Pedido::cambiarEstado()`); **no se puede saltar de `pendiente` a `listo`**.
 - **Mesa:** `libre` → `ocupada` al hacer el primer pedido → `libre` cuando el camarero cierra la cuenta (botón «Cerrar mesa y liberar», rama 12).
+- **Suscripción del restaurante (rama 24):** `pendiente` (dado de alta, sin pagar) → `activa` (Stripe ha confirmado el pago) → `impagada` / `cancelada` (avisos del webhook `/stripe/webhook`: `invoice.payment_failed`, `customer.subscription.updated` y `.deleted`; rama 24b). Solo `activa` deja usar la app: el middleware `suscripcion` manda al admin a «Tu suscripción» y a camarero, cocina y QR les enseña «Restaurante no disponible» (403). Los desarrolladores no se bloquean.
 - **Parte de la cuenta:** `pendiente` → `pagado` (tarjeta) o `pendiente` → `pendiente_efectivo` → `pagado` (efectivo). El cliente solo puede llegar a `pendiente_efectivo`; el `pagado` en efectivo lo pone el camarero. Si el camarero cobra en efectivo en la mesa sin que el cliente haya elegido nada (`cobrarEfectivoEnMesa()`), hace los dos pasos seguidos. El TPV del bar (`pagarConTpv()`) va de `pendiente` a `pagado` con `metodo = tarjeta` y un `Pago` **sin** `referencia_stripe`: así se distingue de Stripe. Una parte pagada no se vuelve a cobrar.
 - **Pedidos después de dividir:** si la cuenta ya tiene pagos, `DividirCuenta` solo divide lo nuevo y añade partes detrás de las que había (personas 4, 5…). Mientras haya pedidos fuera de la cuenta, la mesa no se puede cerrar.
 - **Reparto a partes iguales:** división entera y el céntimo que sobra a la primera parte. Ejemplo: 31,00 € entre 3 → 10,34 + 10,33 + 10,33.
@@ -186,10 +188,15 @@ erDiagram
 
 ### Públicas (cliente, sin login)
 
+Desde la rama 24, las rutas `/r/{slug}/…` llevan el middleware `suscripcion`, menos las dos vueltas de Stripe (`cliente.pedido.pagado` y `cliente.pago.exito`).
+
+
 | Método | URL | Nombre | Qué hace |
 |---|---|---|---|
 | GET | `/` | `inicio` | Página de inicio pública de MesaYa (rama 16) |
 | GET | `/privacidad` · `/cookies` | `legal.privacidad` · `legal.cookies` | Páginas legales simples (rama 16) |
+| POST | `/stripe/webhook` | `stripe.webhook` | Avisos de Stripe sobre la suscripción (rama 24b). Sin CSRF: se comprueba la firma con `STRIPE_WEBHOOK_SECRET`. Firma mala → 400 |
+| GET · POST | `/registro` | `registro` · `registro.guardar` | Alta de un restaurante nuevo (rama 24, solo sin sesión, POST máx. 5/min): crea el restaurante y su admin, inicia sesión y va a pagar la suscripción a Stripe |
 | GET | `/r/{slug}/mesa/{numero}` | `cliente.carta` | Carta del QR (solo platos disponibles) |
 | GET | `/r/{slug}/mesa/{numero}/pedido` | `cliente.pedido` | «Mi pedido» (carrito) |
 | POST | `/r/{slug}/mesa/{numero}/pedido` | `cliente.pedido.enviar` | Abre el pago con Stripe del pedido (máx. 10/min). Rama 15 |
@@ -208,6 +215,8 @@ erDiagram
 
 ### Admin (`auth` + `rol:admin`)
 
+Todas llevan también `suscripcion` (rama 24) menos las de la suscripción, que son adonde se manda al admin cuando no está activa.
+
 | Método | URL | Nombre |
 |---|---|---|
 | GET | `/panel` | `panel` (panel del admin, rama 17) |
@@ -223,6 +232,9 @@ erDiagram
 | GET | `/admin/mesas/imprimir` | `admin.mesas.imprimir` |
 | GET · POST | `/admin/dispositivos` | `admin.dispositivos` · `admin.dispositivos.guardar` (emparejar: tipo y nombre → código) |
 | POST · DELETE | `/admin/dispositivos/{dispositivo}/codigo` · `/admin/dispositivos/{dispositivo}` | `admin.dispositivos.codigo` (código nuevo) · `admin.dispositivos.borrar` (desvincular). `{dispositivo}` se busca con `Route::bind` filtrando por el restaurante del admin |
+| GET · POST | `/admin/suscripcion` · `/admin/suscripcion/pagar` | `admin.suscripcion` · `admin.suscripcion.pagar` (rama 24). El restaurante es siempre el del admin logueado |
+| GET | `/admin/suscripcion/pagada` · `/admin/suscripcion/cancelada` | `admin.suscripcion.exito` (consulta la sesión en Stripe y solo activa si está pagada y es de este restaurante) · `admin.suscripcion.cancelada` |
+| POST | `/admin/suscripcion/portal` | `admin.suscripcion.portal` (portal de cliente de Stripe) |
 | GET · POST · PUT · DELETE | `/admin/personal[/crear, /{empleado}, /{empleado}/editar]` | `admin.personal[.crear/.guardar/.editar/.actualizar/.borrar]` (rama 18). `{empleado}` se busca con `Route::bind` filtrando por el restaurante del admin: el de otro restaurante da 404 |
 
 ### Dispositivos (sin login)
@@ -234,7 +246,7 @@ erDiagram
 | POST | `/dispositivo/entrar` | `dispositivo.entrar`: nombre + PIN de un camarero (5 fallos → esperar un minuto) |
 | POST | `/dispositivo/salir` | `dispositivo.salir`: «Cambiar de camarero» |
 
-### Camarero (`dispositivo` + `auth` + `rol:camarero`)
+### Camarero (`dispositivo` + `auth` + `rol:camarero` + `suscripcion`)
 
 | Método | URL | Nombre |
 |---|---|---|
@@ -248,7 +260,7 @@ erDiagram
 | POST | `/camarero/mesas/{mesa}/dividir` | `camarero.mesas.dividir` |
 | GET | `/camarero/cobros` | `camarero.cobros` |
 
-### Cocina (`dispositivo` + `auth` + `rol:cocina`)
+### Cocina (`dispositivo` + `auth` + `rol:cocina` + `suscripcion`)
 
 | Método | URL | Nombre |
 |---|---|---|
@@ -257,7 +269,7 @@ erDiagram
 
 ### Todos los roles
 
-`/login`, `/logout`, `/forgot-password` y `/reset-password/{token}` (Breeze, traducido): solo admins; los camareros no pueden usar `/login`. `/perfil` es solo para admins (`/profile` redirige). **No hay registro público.**
+`/login`, `/logout`, `/forgot-password` y `/reset-password/{token}` (Breeze, traducido): solo admins; los camareros no pueden usar `/login`. `/perfil` es solo para admins (`/profile` redirige). **No hay registro del personal** (`/register` da 404): las cuentas las crea el admin. El alta de un restaurante nuevo es `/registro` (rama 24).
 
 > Los desarrolladores (admins con `puede_cambiar_restaurante`) pasan siempre el middleware `rol:...`, así que también entran en las pantallas de camarero y cocina. El admin de un restaurante, no.
 
@@ -271,7 +283,7 @@ app/
   Servicios/            PasarelaStripe (único sitio que habla con Stripe)
   Estadisticas/         EstadisticasRestaurante (cálculos de las estadísticas)
   Http/Controllers/     Admin/, Camarero/, Cocina/, Cliente/
-  Http/Middleware/      ComprobarRol
+  Http/Middleware/      ComprobarRol, IdentificarDispositivo, ComprobarSuscripcion
   Http/Requests/        validación de cada formulario
   Models/               modelos + Concerns/PerteneceARestaurante
 database/

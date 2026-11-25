@@ -88,6 +88,8 @@
                     </a>
                 @endif
                 <a href="#como-funciona" class="inline-flex items-center min-h-[44px] text-label-lg underline underline-offset-[6px] hover:text-primary">Cómo funciona</a>
+                {{-- Rama 24: alta del restaurante. Enlace, no botón: el naranja ya es «Ver una carta de ejemplo». --}}
+                <a href="{{ route('registro') }}" class="inline-flex items-center min-h-[44px] text-label-lg underline underline-offset-[6px] hover:text-primary">Da de alta tu restaurante</a>
             </div>
         </div>
 
@@ -186,6 +188,9 @@
         <div class="flex-[1_1_500px]">
             <h2 class="text-[40px] leading-[1.05] tracking-[-0.03em] font-extrabold">¿Tu equipo ya trabaja con MesaYa?</h2>
             <p class="mt-3.5 text-body-lg text-secondary">Entra con la cuenta que te ha dado tu restaurante e irás directo a tu pantalla: mesas, cocina o panel.</p>
+            <p class="mt-2 text-body-lg text-secondary">
+                ¿Aún no? <a href="{{ route('registro') }}" class="text-on-surface underline underline-offset-2 hover:text-primary">Da de alta tu restaurante</a> con una suscripción mensual.
+            </p>
         </div>
         <x-boton-acceso :usuario="$usuario" class="min-h-[52px] px-7" />
     </section>
