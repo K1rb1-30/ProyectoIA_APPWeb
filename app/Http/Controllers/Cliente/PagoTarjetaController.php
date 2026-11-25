@@ -49,7 +49,7 @@ class PagoTarjetaController extends Controller
             'restaurante' => $mesa->restaurante,
             'mesa' => $mesa,
             'parte' => $parte,
-            'totalPersonas' => $parte->cuenta->partes()->count(),
+            'totalPersonas' => $parte->cuenta->numeroDePersonas(),
         ]);
     }
 
@@ -72,7 +72,7 @@ class PagoTarjetaController extends Controller
         // no se codifiquen: Stripe busca ese texto tal cual y lo cambia por el id.
         $urlExito = route('cliente.pago.exito', $rutaParte).'?session_id={CHECKOUT_SESSION_ID}';
         $urlCancelar = route('cliente.pago.cancelado', $rutaParte);
-        $concepto = "{$mesa->restaurante->nombre} · Mesa {$mesa->numero} · Persona {$parte->persona}";
+        $concepto = "{$mesa->restaurante->nombre} · Mesa {$mesa->numero} · {$parte->nombre()}";
 
         try {
             $sesion = $this->pasarela->crearSesion($parte, $concepto, $urlExito, $urlCancelar);

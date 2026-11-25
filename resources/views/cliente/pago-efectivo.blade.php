@@ -31,7 +31,7 @@
 
     {{-- Importe, como en un ticket --}}
     <section class="mt-space-xl p-space-lg bg-surface-container-lowest shadow-nivel-1">
-        <p class="text-label-lg">Tu parte (Persona {{ $parte->persona }})</p>
+        <p class="text-label-lg">Tu parte ({{ $parte->nombre() }})</p>
         <x-precio :centimos="$parte->importe_centimos" class="block mt-2 font-mono text-[52px] leading-none font-semibold tracking-tight" />
         <p class="mt-3 pt-3 border-t-[1.5px] border-dashed border-secondary-fixed-dim font-mono text-label-md font-normal text-secondary">
             Total de la mesa: <x-precio :centimos="$cuenta->total_centimos" />

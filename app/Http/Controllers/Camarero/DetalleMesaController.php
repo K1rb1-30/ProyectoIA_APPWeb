@@ -99,7 +99,7 @@ class DetalleMesaController extends Controller
         $como = $metodo === 'tpv' ? 'con TPV' : 'en efectivo';
 
         return $this->volverAlDetalle($mesa)
-            ->with('estado', "Cobrados {$importe} € {$como} a la persona {$parte->persona}.");
+            ->with('estado', "Cobrados {$importe} € {$como} a {$parte->nombre()}.");
     }
 
     /**
@@ -107,7 +107,7 @@ class DetalleMesaController extends Controller
      */
     private function motivoNoCobrado(ParteCuenta $parte, string $metodo): string
     {
-        $persona = 'La persona '.$parte->persona;
+        $persona = $parte->nombre();
 
         return match (true) {
             $parte->estaPagada() => "{$persona} ya había pagado.",

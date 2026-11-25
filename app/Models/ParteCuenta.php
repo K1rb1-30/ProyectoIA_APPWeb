@@ -72,7 +72,8 @@ class ParteCuenta extends Model
 
     /**
      * Cómo se llama la parte en la web: «Persona 3» o, si es un pedido pagado
-     * al hacerlo (rama 15), «Pedido #12 · pagado al pedir».
+     * al hacerlo (rama 15), «Pedido #12 · pagado al pedir». Esas partes no
+     * tienen número de persona (null): no son una persona de la mesa.
      */
     public function nombre(): string
     {

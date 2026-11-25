@@ -36,7 +36,7 @@
             <span>{{ ($pago?->created_at ?? now())->format('d/m/Y H:i') }}</span>
         </div>
         <dl class="mt-space-md pt-space-md border-t-[1.5px] border-dashed border-secondary-fixed-dim space-y-2 font-mono text-body-md">
-            <div class="flex justify-between gap-space-md"><dt>Persona {{ $parte->persona }} de {{ $cuenta->partes->count() }}</dt><dd><x-precio :centimos="$parte->importe_centimos" /></dd></div>
+            <div class="flex justify-between gap-space-md"><dt>Persona {{ $parte->persona }} de {{ $cuenta->numeroDePersonas() }}</dt><dd><x-precio :centimos="$parte->importe_centimos" /></dd></div>
             <div class="flex justify-between gap-space-md text-secondary"><dt>Método</dt><dd>Tarjeta (Stripe)</dd></div>
             @if ($pago?->referencia_stripe)
                 <div class="text-secondary">
@@ -59,7 +59,7 @@
             <span class="font-mono text-label-lg">{{ $porcentaje }}% pagado</span>
         </div>
         <p class="mt-2 text-body-md text-secondary">
-            {{ $partesPagadas->count() }} de {{ $cuenta->partes->count() }} personas han pagado
+            {{ $partesPagadas->count() }} de {{ $cuenta->partes->count() }} partes pagadas
             (<x-precio :centimos="$pagadoCentimos" class="font-mono" /> de <x-precio :centimos="$cuenta->total_centimos" class="font-mono" />)
         </p>
         <div class="mt-2 h-2 bg-surface-container-high" role="progressbar"
@@ -72,7 +72,7 @@
                 @php $esLaMia = $otraParte->id === $parte->id; @endphp
                 <li class="flex items-center gap-space-md py-3 border-b border-outline-variant">
                     <span class="flex-1">
-                        <span class="block text-label-lg">{{ $esLaMia ? 'Tú (Persona '.$otraParte->persona.')' : 'Persona '.$otraParte->persona }}</span>
+                        <span class="block text-label-lg">{{ $esLaMia ? 'Tú ('.$otraParte->nombre().')' : $otraParte->nombre() }}</span>
                         <span class="block text-label-md {{ $otraParte->estado === 'pagado' ? 'text-tertiary' : 'font-normal text-secondary' }}">
                             {{ $otraParte->estado === 'pagado' ? 'Pagado' : 'Pendiente de pago' }}
                         </span>

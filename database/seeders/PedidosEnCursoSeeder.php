@@ -235,7 +235,7 @@ class PedidosEnCursoSeeder extends Seeder
     {
         foreach ($cuenta->partes->values() as $indice => $parte) {
             match ($cobros[$indice] ?? null) {
-                'tarjeta' => $parte->pagarConTarjeta('cs_test_demo_cuenta'.$cuenta->id.'_parte'.$parte->persona),
+                'tarjeta' => $parte->pagarConTarjeta('cs_test_demo_cuenta'.$cuenta->id.'_parte'.$parte->id),
                 'tpv' => $parte->pagarConTpv(),
                 'efectivo' => $parte->cobrarEfectivoEnMesa(),
                 'pide_efectivo' => $parte->pedirEfectivo(),

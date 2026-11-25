@@ -198,6 +198,29 @@ class PagarAlPedirTest extends TestCase
         $this->assertSame($cuenta->total_centimos, $partes->sum('importe_centimos'));
     }
 
+    public function test_lo_pagado_al_pedir_no_cuenta_como_persona_al_dividir(): void
+    {
+        // Antes, el pedido pagado ocupaba la «persona 1» y al dividir entre 2
+        // salían «Persona 2» y «Persona 3».
+        $this->irAPagar();
+        $this->volverDeStripe();
+        (new CrearPedido)->ejecutar($this->mesa, [['plato_id' => $this->bravas->id, 'cantidad' => 1]], $this->camarero);
+
+        $this->post($this->ruta('cliente.cuenta.dividir'), ['modo' => 'iguales', 'personas' => 2])->assertSessionHasNoErrors();
+
+        $cuenta = Cuenta::withoutGlobalScopes()->sole()->load('partes');
+
+        // La parte del pedido pagado no tiene número; las personas son la 1 y la 2.
+        $this->assertSame([null, 1, 2], $cuenta->partes->pluck('persona')->all());
+        $this->assertSame(2, $cuenta->numeroDePersonas());
+        $this->assertStringStartsWith('Pedido #', $cuenta->partes[0]->nombre());
+
+        $this->get($this->ruta('cliente.cuenta'))
+            ->assertSee('Persona 1')
+            ->assertSee('Persona 2')
+            ->assertDontSee('Persona 3');
+    }
+
     public function test_si_todo_se_pago_al_pedir_el_camarero_cierra_la_mesa_sin_cobrar_nada(): void
     {
         $this->irAPagar();
