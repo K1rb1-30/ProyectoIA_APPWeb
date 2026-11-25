@@ -71,7 +71,8 @@
                     <p class="text-secondary">Administración</p>
                 @endif
                 <div class="mt-space-sm">
-                    <x-selector-vista />
+                    {{-- apilado: en los 240 px del menú no caben la etiqueta y el desplegable en una fila --}}
+                    <x-selector-vista apilado />
                 </div>
                 <div class="mt-space-sm flex flex-wrap items-center gap-x-3">
                     <a href="{{ route('perfil.editar') }}" class="inline-flex items-center min-h-[44px] text-secondary hover:text-on-surface">Perfil</a>
@@ -79,7 +80,7 @@
                     {{-- Cerrar sesión va por POST (con @csrf) para que nadie pueda cerrarla con un simple enlace --}}
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button type="submit" class="inline-flex items-center min-h-[44px] text-secondary underline underline-offset-2 hover:text-on-surface">Cerrar sesión</button>
+                        <button type="submit" class="inline-flex items-center min-h-[44px] text-secondary hover:text-on-surface">Cerrar sesión</button>
                     </form>
                 </div>
             </div>
