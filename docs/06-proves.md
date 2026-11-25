@@ -2,7 +2,7 @@
 
 Cómo se prueba la aplicación y dónde está cada uno de los 6 *golden tests* que pide `CLAUDE.md`.
 
-**Estado a 25/11/2026:** 264 tests, todos en verde (ramas 1 a 23 y los arreglos de la revisión). Están los seis golden tests.
+**Estado a 25/11/2026:** 267 tests, todos en verde (ramas 1 a 23 y los arreglos de la revisión). Están los seis golden tests.
 
 ---
 
@@ -64,8 +64,8 @@ El golden test nº 6 también se repite en cada funcionalidad, porque cada panta
 | `UsuariosAdminSeederTest` | 4 | Cuentas fijas del equipo |
 | `AislamientoRestaurantesTest` | 4 | Trait `PerteneceARestaurante` (golden nº 6) |
 | `ComponentesDisenoTest` · `LayoutsTest` | 9 | Componentes y layouts del diseño |
-| `GestionCartaTest` | 17 | CRUD de platos y categorías, precio en céntimos, fotos, alérgenos |
-| `MesasTest` | 12 | CRUD de mesas y QR |
+| `GestionCartaTest` | 18 | CRUD de platos y categorías, precio en céntimos (nunca 0 €), fotos, alérgenos |
+| `MesasTest` | 14 | CRUD de mesas y QR; el número de una mesa ocupada no se puede cambiar |
 | `ComandasCamareroTest` | 11 | Comandas (golden nº 1) |
 | `PantallaCocinaTest` | 11 | Tablero de cocina y cambios de estado (golden nº 2) |
 | `AvisosCamareroTest` | 7 | Avisos de plato listo |
