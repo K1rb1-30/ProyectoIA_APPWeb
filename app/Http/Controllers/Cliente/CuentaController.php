@@ -53,7 +53,8 @@ class CuentaController extends Controller
             $mesa,
             $request->validated('modo'),
             (int) $request->validated('personas', 1),
-            array_map('intval', $request->validated('asignaciones') ?? []),
+            // { idLinea: [persona] o [persona por unidad] }; DividirCuenta lo comprueba.
+            $request->validated('asignaciones') ?? [],
         );
 
         return redirect()->route('cliente.cuenta', ['slug' => $slug, 'numero' => $numero])

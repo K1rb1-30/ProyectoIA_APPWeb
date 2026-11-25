@@ -40,12 +40,26 @@ class User extends Authenticatable
     }
 
     /**
-     * True si este usuario puede pasar de un restaurante a otro desde el
-     * panel (cuentas del equipo y del profesor). Tiene que ser admin.
+     * True si es una cuenta de desarrollador: las del equipo (Iván y Gabriel)
+     * y la del profesor. Son admin con la marca puede_cambiar_restaurante.
+     *
+     * Diferencia con un admin normal (el de cada restaurante):
+     *  - pueden cambiar de restaurante desde el panel;
+     *  - pueden entrar en las pantallas de camarero y cocina y usar «Ver como».
+     * Un admin normal solo ve las pantallas de administración de su restaurante.
+     */
+    public function esDesarrollador(): bool
+    {
+        return $this->rol === 'admin' && $this->puede_cambiar_restaurante;
+    }
+
+    /**
+     * True si puede pasar de un restaurante a otro desde el panel: solo los
+     * desarrolladores.
      */
     public function puedeCambiarDeRestaurante(): bool
     {
-        return $this->rol === 'admin' && $this->puede_cambiar_restaurante;
+        return $this->esDesarrollador();
     }
 
     /**

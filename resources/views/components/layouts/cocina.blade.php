@@ -24,8 +24,8 @@
             <div class="flex items-center gap-space-sm">
                 {{ $acciones ?? '' }}
 
-                {{-- Solo lo ve el admin. Va sobre fondo claro porque el selector es de color oscuro. --}}
-                @if (Auth::user()?->rol === 'admin')
+                {{-- Solo lo ven los desarrolladores. Va sobre fondo claro porque el selector es de color oscuro. --}}
+                @if (Auth::user()?->esDesarrollador())
                     <div class="rounded bg-surface-container-lowest text-on-surface px-2">
                         <x-selector-vista />
                     </div>

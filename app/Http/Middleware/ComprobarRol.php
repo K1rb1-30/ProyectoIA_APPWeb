@@ -14,7 +14,8 @@ use Symfony\Component\HttpFoundation\Response;
  *   ->middleware('rol:admin,camarero')   administradores o camareros
  *
  * Lo que va después de los dos puntos llega aquí como la lista $roles.
- * El rol admin pasa siempre, aunque no esté en la lista.
+ * Los desarrolladores (User::esDesarrollador) pasan siempre, aunque su rol
+ * no esté en la lista. Un admin normal solo entra donde ponga "admin".
  * Se pone siempre detrás de 'auth', que ya se encarga de los invitados.
  */
 class ComprobarRol
@@ -23,11 +24,12 @@ class ComprobarRol
     {
         $usuario = $request->user();
 
-        // El admin puede entrar en todas las pantallas del personal (también
-        // en las de camarero y cocina), por ejemplo para revisarlas o cubrir
-        // a alguien. Sigue limitado a los datos de SU restaurante: eso lo
-        // controla el trait PerteneceARestaurante, no este middleware.
-        if ($usuario?->rol === 'admin') {
+        // Los desarrolladores (equipo y profesor) pueden entrar en todas las
+        // pantallas del personal (también en las de camarero y cocina) para
+        // probarlas con «Ver como». Siguen limitados a los datos del
+        // restaurante en el que estén: eso lo controla el trait
+        // PerteneceARestaurante, no este middleware.
+        if ($usuario?->esDesarrollador()) {
             return $next($request);
         }
 

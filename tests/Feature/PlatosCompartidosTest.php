@@ -132,7 +132,60 @@ class PlatosCompartidosTest extends TestCase
         $this->dividirPorPlatos(3, [
             $this->linea('Croquetas') => 5,
             $this->linea('Bravas') => 0,
-        ])->assertSessionHasErrors('asignaciones.'.$this->linea('Croquetas'));
+        ])->assertSessionHasErrors('asignaciones.'.$this->linea('Croquetas').'.0');
+
+        $this->assertSame(0, Cuenta::withoutGlobalScopes()->count());
+    }
+
+    /** Añade a la mesa un pedido de 2 cafés (1,30 € cada uno) y devuelve su línea. */
+    private function pedirDosCafes(): int
+    {
+        $cafe = $this->plato('Café', 130);
+        $pedido = (new CrearPedido)->ejecutar($this->mesa, [['plato_id' => $cafe->id, 'cantidad' => 2]]);
+
+        return $this->linea('Café', $pedido);
+    }
+
+    public function test_las_unidades_de_una_linea_se_pueden_repartir_entre_personas(): void
+    {
+        // 2 cafés: uno para cada persona (antes los dos iban a la misma).
+        $cafes = $this->pedirDosCafes();
+
+        $this->dividirPorPlatos(2, [
+            $this->linea('Croquetas') => [1],
+            $this->linea('Bravas') => [2],
+            $cafes => [1, 2],
+        ])->assertSessionHasNoErrors();
+
+        // Persona 1: croquetas 8,50 + café 1,30. Persona 2: bravas 6,00 + café 1,30.
+        $this->assertSame([1 => 980, 2 => 730], $this->importes());
+        $this->assertSame(1710, Cuenta::withoutGlobalScopes()->sole()->total_centimos);
+    }
+
+    public function test_una_unidad_puede_ser_compartida(): void
+    {
+        // Un café para la persona 1 y el otro para todos (0,65 cada una).
+        $cafes = $this->pedirDosCafes();
+
+        $this->dividirPorPlatos(2, [
+            $this->linea('Croquetas') => 1,
+            $this->linea('Bravas') => 2,
+            $cafes => [1, 0],
+        ])->assertSessionHasNoErrors();
+
+        $this->assertSame([1 => 850 + 130 + 65, 2 => 600 + 65], $this->importes());
+    }
+
+    public function test_al_separar_hay_que_elegir_una_persona_por_unidad(): void
+    {
+        // 3 personas para una línea de 2 cafés: no cuadra.
+        $cafes = $this->pedirDosCafes();
+
+        $this->dividirPorPlatos(2, [
+            $this->linea('Croquetas') => 1,
+            $this->linea('Bravas') => 2,
+            $cafes => [1, 2, 1],
+        ])->assertSessionHasErrors('asignaciones');
 
         $this->assertSame(0, Cuenta::withoutGlobalScopes()->count());
     }

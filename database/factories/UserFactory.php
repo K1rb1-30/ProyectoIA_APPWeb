@@ -49,6 +49,15 @@ class UserFactory extends Factory
     }
 
     /**
+     * Desarrollador: admin que puede cambiar de restaurante y entrar en las
+     * pantallas de todos los roles (cuentas del equipo y del profesor).
+     */
+    public function desarrollador(): static
+    {
+        return $this->state(fn (array $attributes) => ['rol' => 'admin', 'puede_cambiar_restaurante' => true]);
+    }
+
+    /**
      * Usuario con rol de camarero.
      */
     public function camarero(): static

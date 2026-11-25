@@ -1,9 +1,11 @@
 {{--
-    Desplegable "Ver como" para el admin: salta a las pantallas de cada rol
+    Desplegable "Ver como" para los desarrolladores (User::esDesarrollador):
+    salta a las pantallas de cada rol
     (administración, camarero, cocina) para probarlas sin cerrar sesión.
     Uso: <x-selector-vista />  (ya está puesto en las cabeceras de los layouts)
 
-    - Solo se muestra si el usuario logueado es admin. Los demás roles no lo ven.
+    - Solo lo ven los desarrolladores. Ni el admin de un restaurante ni los
+      demás roles lo ven.
     - No cambia el rol de nadie en la base de datos: solo navega. El admin
       puede entrar en esas pantallas porque ComprobarRol siempre le deja pasar.
     - Al elegir una opción, el onchange lleva el navegador a esa URL.
@@ -24,12 +26,12 @@
 
     // Primera mesa del restaurante del admin (el trait PerteneceARestaurante
     // ya filtra por su restaurante). Solo se consulta si el usuario es admin.
-    $primeraMesa = Auth::user()?->rol === 'admin'
+    $primeraMesa = Auth::user()?->esDesarrollador()
         ? \App\Models\Mesa::orderBy('numero')->first()
         : null;
 @endphp
 
-@if (Auth::user()?->rol === 'admin')
+@if (Auth::user()?->esDesarrollador())
     <label {{ $attributes->class([
         'text-label-md text-secondary',
         'flex flex-col gap-1' => $apilado,

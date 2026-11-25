@@ -20,7 +20,7 @@
         </div>
 
         <div class="flex flex-wrap items-center gap-space-sm">
-            {{-- Solo lo ve el admin --}}
+            {{-- Solo lo ven los desarrolladores --}}
             <x-selector-vista />
 
             <span class="text-label-lg">{{ Auth::user()->name }}</span>

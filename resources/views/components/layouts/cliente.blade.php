@@ -39,7 +39,7 @@
     <div {{ $attributes->merge(['class' => 'min-h-screen max-w-[720px] mx-auto flex flex-col bg-background']) }}>
         {{-- Solo lo ve un admin que está probando la carta: franja para volver a su panel.
              El cliente real no inicia sesión, así que nunca la ve. --}}
-        @if (Auth::user()?->rol === 'admin')
+        @if (Auth::user()?->esDesarrollador())
             <div class="flex justify-end px-margin py-1 bg-surface-container">
                 <x-selector-vista />
             </div>
