@@ -389,7 +389,7 @@ Se rellena en cada sesión de trabajo, no al final. Mínimo 15 entradas.
 - **Objetivo:** Rama 24b (segunda PR de la 24): webhook de Stripe para que los impagos y las cancelaciones de la suscripción lleguen a la app
 - **Prompt:** "Empieza la PR 2 del webhook"
 - **Resultado:** Rama `feature/webhook-suscripcion`, sacada de `feature/suscripcion-restaurantes` (PR #46, aún abierta). `POST /stripe/webhook` (`StripeWebhookController`) sin CSRF y con la firma comprobada por `PasarelaStripe::leerEventoWebhook()` con `STRIPE_WEBHOOK_SECRET` (nueva en `.env.example`, vacía). Rechaza con 400 la firma mala, la falta de secreto y los avisos de modo real. `customer.subscription.updated` traduce el estado de Stripe (`Restaurante::estadoDesdeStripe()`: active → activa, past_due/unpaid → impagada, canceled → cancelada) y guarda la próxima fecha de cobro; `customer.subscription.deleted` → cancelada; `invoice.payment_failed` → impagada (la suscripción de la factura está en `parent.subscription_details`). El restaurante se busca por `stripe_suscripcion_id`: las suscripciones desconocidas no tocan nada. `StripeWebhookTest` (10 tests) con avisos firmados de verdad con un secreto de prueba, sin internet. `php artisan test`: 326 OK. No probado con Stripe CLI (no hay claves en el `.env` local) · ¿funcionó?: PENDIENTE DE REVISAR
-- **Enlace:** 9f918bf · 984d088 · PENDIENTE (PR)
+- **Enlace:** 9f918bf · 984d088 · [PR #47](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/47)
 
 ### Entrada 49
 - **Fecha y autor:** 26/11/2026 – Gabriel
@@ -397,4 +397,4 @@ Se rellena en cada sesión de trabajo, no al final. Mínimo 15 entradas.
 - **Objetivo:** Poner al día la guía de instalación con la suscripción de los restaurantes y el webhook de Stripe
 - **Prompt:** "actualiza la instalacion.md"
 - **Resultado:** `docs/04-installacio.md`: aviso de copiar a mano las variables nuevas a un `.env` que ya existía; apartado «Suscripción de los restaurantes» (precio en `STRIPE_SUSCRIPCION_PRECIO_CENTIMOS` y cómo activar el portal de clientes en Stripe); apartado «Webhook de Stripe» (qué hace, cómo probarlo en local con Stripe CLI: `stripe login`, `stripe listen --forward-to localhost:8000/stripe/webhook`, `STRIPE_WEBHOOK_SECRET`, cancelar al final del mes o al momento, `stripe trigger`; y cómo darlo de alta en un servidor publicado); nota de que los restaurantes de prueba ya tienen la suscripción activa y de cómo probar `/registro`; cinco filas nuevas en «Problemas frecuentes». Se quita la frase «No hacen falta webhooks». En la rama `feature/webhook-suscripcion`, porque explica las dos PR (#46 y la del webhook). Solo documentación · ¿funcionó?: PENDIENTE DE REVISAR
-- **Enlace:** PENDIENTE
+- **Enlace:** ecc37e9 · [PR #47](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/47)
