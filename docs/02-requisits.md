@@ -14,12 +14,14 @@ Requisitos funcionales (RF) y no funcionales (RNF) de la aplicación. Salen de l
 
 | ID | Requisito | Rol | Prioridad | Estado |
 |---|---|---|---|---|
-| RF1 | El personal entra con correo y contraseña. No hay registro público: las cuentas las crea el restaurante. | Todos | 🟢 | ✅ PR #4 |
-| RF2 | Hay tres roles con login: `admin`, `camarero` y `cocina`. Cada uno solo entra en sus pantallas. Las cuentas de desarrollador (equipo y profesor, admins con la marca `puede_cambiar_restaurante`) pueden entrar en todas. | Todos | 🟢 | ✅ PR #8, #11 |
+| RF1 | Los administradores entran con correo y contraseña; los camareros, con su nombre y su PIN en un dispositivo emparejado (RF36); la cocina, con su tablet emparejada. No hay registro público: las cuentas las crea el restaurante. | Todos | 🟢 | ✅ PR #4, #43, #44 |
+| RF2 | Hay dos roles con cuenta: `admin` y `camarero` (la cocina entra como dispositivo). Cada uno solo entra en sus pantallas. Las cuentas de desarrollador (equipo y profesor, admins con la marca `puede_cambiar_restaurante`) pueden entrar en todas. | Todos | 🟢 | ✅ PR #8, #11 |
 | RF3 | Después del login, cada rol va a su pantalla: admin → panel, camarero → mesas, cocina → pedidos. | Todos | 🟢 | ✅ PR #8 |
 | RF4 | Multi-restaurante: cada usuario pertenece a un restaurante y **solo ve y modifica los datos de su restaurante**. | Todos | 🟢 | ✅ PR #8 |
 | RF5 | Los desarrolladores pueden cambiar de vista («Ver como») a camarero, cocina o cliente sin cerrar sesión. El admin de un restaurante no. | Desarrollador | — | ✅ PR #11, #13 |
 | RF35 | *(Añadido en la rama 18, no estaba en la propuesta.)* El admin crea, edita y borra las cuentas de su personal (nombre, correo, rol y contraseña) en `/admin/personal`. El correo es único en toda la aplicación; al editar, la contraseña vacía no se cambia, y al cambiarla se cierran las sesiones abiertas de esa persona. El admin no puede borrarse ni quitarse su rol, y el restaurante nunca se queda sin admin. Nadie puede borrar su propia cuenta desde `/perfil`. Las cuentas del equipo y del profesor (las que cambian de restaurante) no salen en Personal ni cuentan como admin del restaurante. Al borrar un empleado, sus pedidos se conservan sin quién los tomó. | Admin | 🔵 | ✅ PR #30 |
+| RF36 | *(Añadido después de la v1.0.)* El admin empareja los **dispositivos** del bar en «Dispositivos»: elige cocina o camarero y le sale un código de 6 caracteres que caduca a los 10 minutos y sirve una vez. Se escribe en `/dispositivo` y el dispositivo queda vinculado con una cookie. Las **tablets de cocina** entran directas al tablero, sin cuenta (puede haber varias). En un **dispositivo de camarero**, cada camarero toca su nombre y escribe su **PIN de 4 cifras** (5 fallos y hay que esperar un minuto). Al desvincular un dispositivo deja de entrar. | Admin, Camarero, Cocina | 🔵 | 🔍 PR #43, #44 |
+| RF37 | *(Añadido después de la v1.0.)* Los camareros no tienen correo ni contraseña: el admin los crea en Personal con su nombre y su PIN. Todos ven todas las mesas; cada pedido guarda quién lo tomó y cada pago, **quién lo cobró** («cobró Ana» en Cobros y en el detalle de la mesa). | Admin, Camarero | 🔵 | 🔍 PR #44 |
 
 ### Carta y alérgenos (admin)
 

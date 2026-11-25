@@ -66,13 +66,14 @@ La aplicación queda en http://localhost:8000.
 
 ### Cuentas de prueba
 
-| Correo | Contraseña | Rol |
+| Quién | Cómo entra | Rol |
 |---|---|---|
-| `ivan@mesaya.com` · `gabriel@mesaya.com` · `profesor@mesaya.com` | `1234` | **desarrolladores**: admin de «La Tasca de Prueba», pueden **cambiar de restaurante** desde el menú lateral y entrar como camarero, cocina o cliente con «Ver como» |
-| `admin@la-tasca.test` | `password` | admin |
-| `camarero@la-tasca.test` (y `camarero2@`, `camarero3@`) | `password` | camarero |
-| `cocina@la-tasca.test` (y `cocina2@`) | `password` | cocina |
-| Las mismas con `@bar-el-rincon.test` | `password` | del segundo restaurante |
+| `ivan@mesaya.com` · `gabriel@mesaya.com` · `profesor@mesaya.com` | `/login` con contraseña `1234` | **desarrolladores**: admin de «La Tasca de Prueba», pueden **cambiar de restaurante** desde el menú lateral y entrar como camarero, cocina o cliente con «Ver como» |
+| `admin@la-tasca.test` (y `admin@bar-el-rincon.test`, `admin@marisqueria-o-porto.test`, `admin@cafe-central.test`) | `/login` con contraseña `password` | admin de cada restaurante |
+| Camareros (nombres inventados, sin correo) | En un **dispositivo de camarero** emparejado: tocan su nombre y escriben su PIN. El primero de cada restaurante tiene `1111`, el segundo `2222`, el tercero `3333`... | camarero |
+| Cocina | No tiene cuenta: se empareja una **tablet de cocina** | — |
+
+**Emparejar un dispositivo en local:** entra como admin → **Dispositivos** → elige Cocina o Camarero → sale un código. Abre `http://localhost:8000/dispositivo` en **otro navegador o en una ventana de incógnito** (que hará de tablet) y escribe el código. Para desvincularlo, «Desvincular» en la misma pantalla.
 
 El cliente no tiene cuenta: entra por el QR, por ejemplo en http://localhost:8000/r/la-tasca/mesa/1. Para pagar con tarjeta en modo test, usa `4242 4242 4242 4242` con cualquier fecha futura y cualquier CVC.
 

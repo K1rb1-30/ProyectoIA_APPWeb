@@ -56,6 +56,8 @@ erDiagram
     cuentas |o--o{ pedidos : incluye
     cuentas ||--|{ partes_cuenta : "se divide en"
     partes_cuenta ||--o{ pagos : "se paga con"
+    users |o--o{ pagos : "cobra (camarero)"
+    restaurantes ||--o{ dispositivos : empareja
 
     restaurantes {
         bigint id PK
@@ -65,9 +67,10 @@ erDiagram
     users {
         bigint id PK
         string name
-        string email UK
-        string password
-        enum rol "admin|camarero|cocina"
+        string email "UK, nullable (camareros sin correo)"
+        string password "nullable"
+        string pin "cifrado, nullable (solo camareros)"
+        enum rol "admin|camarero|cocina (cocina ya no se usa)"
         bigint restaurante_id FK
     }
     mesas {
@@ -132,9 +135,21 @@ erDiagram
     pagos {
         bigint id PK
         bigint parte_cuenta_id FK
+        bigint user_id FK "quién cobró, nullable"
         int importe_centimos
         enum metodo "tarjeta|efectivo"
         string referencia_stripe "única, nullable"
+    }
+    dispositivos {
+        bigint id PK
+        bigint restaurante_id FK
+        enum tipo "cocina|camarero"
+        string nombre
+        string codigo_hash "UK, nullable"
+        timestamp codigo_caduca_en "nullable"
+        string token_hash "UK, nullable"
+        timestamp emparejado_en "nullable"
+        timestamp ultimo_uso_en "nullable"
     }
 ```
 
@@ -143,7 +158,7 @@ erDiagram
 | Tabla | Modelo | Rama | Notas |
 |---|---|---|---|
 | `restaurantes` | `Restaurante` | 1 | El `slug` sale en la URL del QR, por eso es único. |
-| `users` | `User` | Laravel + 1 | Se añaden `rol` y `restaurante_id`. Desde la rama 18 los crea el admin en Personal; el filtro por restaurante se escribe a mano (`Route::bind('empleado')` y `where`). No usa el trait (Laravel la consulta para saber quién está logueado). |
+| `users` | `User` | Laravel + 1 | Se añaden `rol` y `restaurante_id`, y después `pin`. Los camareros no tienen `email` ni `password` (son opcionales): entran con su PIN en un dispositivo. Ya no hay cuentas de cocina. Desde la rama 18 los crea el admin en Personal; el filtro por restaurante se escribe a mano (`Route::bind('empleado')` y `where`). No usa el trait (Laravel la consulta para saber quién está logueado). |
 | `categorias` | `Categoria` | 3 | No se puede borrar si tiene platos. |
 | `platos` | `Plato` | 3 | Foto en `storage/app/public/platos`. |
 | `alergenos` | `Alergeno` | 3 | Los 14 legales, **comunes a todos los restaurantes** (sin `restaurante_id`). Los crea `AlergenosSeeder`. |
@@ -153,7 +168,8 @@ erDiagram
 | `lineas_pedido` | `LineaPedido` | 5 | Guarda el precio del momento del pedido. |
 | `cuentas` | `Cuenta` | 10 | Pasa a `cerrada` con `Cuenta::cerrar()`, que solo cierra si todas las partes están pagadas y no hay pedidos fuera de la cuenta (rama 12). |
 | `partes_cuenta` | `ParteCuenta` | 10 | `metodo` vacío hasta pagar. Los cambios de estado solo se hacen con `pedirEfectivo()`, `confirmarEfectivo()` y `pagarConTarjeta()` (rama 12). |
-| `pagos` | `Pago` | 11 | Sin `restaurante_id`: queda aislada por parte → cuenta. `referencia_stripe` es el id de la sesión de Stripe Checkout y es **única** (la misma sesión no se registra dos veces). No se puede borrar una parte con pagos. |
+| `dispositivos` | `Dispositivo` | PR #43 | Tablets y móviles del bar. Solo guarda **hashes** del código de emparejar (10 minutos, un solo uso) y del token de la cookie. `Dispositivo` extiende `Authenticatable`: las tablets de cocina «inician sesión» con el guard `dispositivo` (`config/auth.php`) y el middleware `IdentificarDispositivo`. No usa el trait (como `User`); el admin filtra a mano. |
+| `pagos` | `Pago` | 11 | `user_id`: el camarero que cobró (vacío si pagó el cliente con Stripe). Sin `restaurante_id`: queda aislada por parte → cuenta. `referencia_stripe` es el id de la sesión de Stripe Checkout y es **única** (la misma sesión no se registra dos veces). No se puede borrar una parte con pagos. |
 
 ### Estados y reglas
 
@@ -205,9 +221,20 @@ erDiagram
 | GET | `/admin/estadisticas` | `admin.estadisticas` |
 | GET · POST · PUT · DELETE | `/admin/mesas[/crear, /{mesa}, /{mesa}/editar]` | `admin.mesas[.crear/.guardar/.editar/.actualizar/.borrar]` |
 | GET | `/admin/mesas/imprimir` | `admin.mesas.imprimir` |
+| GET · POST | `/admin/dispositivos` | `admin.dispositivos` · `admin.dispositivos.guardar` (emparejar: tipo y nombre → código) |
+| POST · DELETE | `/admin/dispositivos/{dispositivo}/codigo` · `/admin/dispositivos/{dispositivo}` | `admin.dispositivos.codigo` (código nuevo) · `admin.dispositivos.borrar` (desvincular). `{dispositivo}` se busca con `Route::bind` filtrando por el restaurante del admin |
 | GET · POST · PUT · DELETE | `/admin/personal[/crear, /{empleado}, /{empleado}/editar]` | `admin.personal[.crear/.guardar/.editar/.actualizar/.borrar]` (rama 18). `{empleado}` se busca con `Route::bind` filtrando por el restaurante del admin: el de otro restaurante da 404 |
 
-### Camarero (`auth` + `rol:camarero`)
+### Dispositivos (sin login)
+
+| Método | URL | Nombre |
+|---|---|---|
+| GET | `/dispositivo` | `dispositivo`: sin emparejar, pide el código; de cocina, va al tablero; de camarero, lista de nombres y PIN |
+| POST | `/dispositivo/emparejar` | `dispositivo.emparejar` (`throttle:5,1`) |
+| POST | `/dispositivo/entrar` | `dispositivo.entrar`: nombre + PIN de un camarero (5 fallos → esperar un minuto) |
+| POST | `/dispositivo/salir` | `dispositivo.salir`: «Cambiar de camarero» |
+
+### Camarero (`dispositivo` + `auth` + `rol:camarero`)
 
 | Método | URL | Nombre |
 |---|---|---|
@@ -221,7 +248,7 @@ erDiagram
 | POST | `/camarero/mesas/{mesa}/dividir` | `camarero.mesas.dividir` |
 | GET | `/camarero/cobros` | `camarero.cobros` |
 
-### Cocina (`auth` + `rol:cocina`)
+### Cocina (`dispositivo` + `auth` + `rol:cocina`)
 
 | Método | URL | Nombre |
 |---|---|---|
@@ -230,9 +257,9 @@ erDiagram
 
 ### Todos los roles
 
-`/login`, `/logout`, `/forgot-password`, `/reset-password/{token}` y `/perfil` (Breeze, traducido; `/profile` redirige a `/perfil`). **No hay registro público.**
+`/login`, `/logout`, `/forgot-password` y `/reset-password/{token}` (Breeze, traducido): solo admins; los camareros no pueden usar `/login`. `/perfil` es solo para admins (`/profile` redirige). **No hay registro público.**
 
-> El admin pasa siempre el middleware `rol:...`, así que también puede entrar en las pantallas de camarero y cocina.
+> Los desarrolladores (admins con `puede_cambiar_restaurante`) pasan siempre el middleware `rol:...`, así que también entran en las pantallas de camarero y cocina. El admin de un restaurante, no.
 
 ---
 
