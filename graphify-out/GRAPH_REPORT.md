@@ -1,22 +1,22 @@
-# Graph Report - ProyectoIA_APPWeb  (2026-11-24)
+# Graph Report - ProyectoIA_APPWeb  (2026-11-25)
 
 ## Corpus Check
-- 235 files · ~90,003 words
+- 262 files · ~110,903 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 11 file(s) not represented in the graph (top: (none) 7, .example 1, .xml 1)
 
 ## Summary
-- 1364 nodes · 2925 edges · 175 communities (56 shown, 119 thin omitted)
-- Extraction: 90% EXTRACTED · 10% INFERRED · 0% AMBIGUOUS · INFERRED: 299 edges (avg confidence: 0.93)
+- 1628 nodes · 3639 edges · 190 communities (51 shown, 139 thin omitted)
+- Extraction: 90% EXTRACTED · 10% INFERRED · 0% AMBIGUOUS · INFERRED: 381 edges (avg confidence: 0.93)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `b166ca09`
+- Built from commit: `2db508b7`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
-- PagarAlPedirTest
+- AutopedidoTest
 - composer.json
 - package.json
 - Illuminate\Database\Schema\Blueprint
@@ -26,41 +26,43 @@
 - Illuminate\Http\RedirectResponse
 - EfectivoYCierreTest
 - Prompts por pantalla
-- README.md
+- Dispositivo
 - User
 - AppServiceProvider
-- MesaYa — Instrucciones para Claude Code
+- Illuminate\Http\RedirectResponse
 - ComponentesDisenoTest
 - Laravel Application
 - Cuenta
 - PagoStripeTest
-- Illuminate\Foundation\Testing\RefreshDatabase
+- TestCase
 - .claude/CLAUDE.md
-- Mesa
+- DividirCuenta
 - edit.blade.php
 - layouts.navigation
-- Pedido
+- PantallaCocinaTest
 - Illuminate\Database\Eloquent\Relations\BelongsTo
+- PedidosEnCursoSeeder
 - EstadisticasTest
-- UsuariosAdminSeederTest
+- PedidosEnCursoSeederTest.php
 - web.php
 - GestionCartaTest
-- 3. Resto de tests por funcionalidad
+- AvisosCamareroTest
 - ParteCuenta
-- Illuminate\Foundation\Http\FormRequest
+- Illuminate\Validation\ValidationException
 - Illuminate\Database\Eloquent\Model
 - PasswordResetTest.php
 - require-dev
 - scripts
 - [v0.1] – MVP – 22/11/2026
-- .delQr
-- Plato
+- VentasDemoSeeder.php
+- DispositivosTest
+- PlatoController
 - config
 - GestionPersonalTest
 - 2. Qué incluye cada rama
-- routes/auth.php
 - Controller
-- CrearPedido
+- RegistroRestauranteRequest
+- DividirCuentaTest
 - psr-4
 - require
 - autoload-dev
@@ -68,115 +70,131 @@
 - crear.blade.php
 - editar.blade.php
 - InicioTest
-- ComprobarRol
+- Illuminate\Http\Request
 - Instalación de MesaYa en local
 - Illuminate\View\View
 - EmailVerificationTest.php
-- TestCase
+- RegistroDesactivadoTest
 - 2026_11_16_000002_add_rol_y_restaurante_id_to_users_table.php
 - 2026_11_17_000001_create_categorias_table.php
 - Illuminate\Database\Migrations\Migration
 - 2026_11_23_000003_add_cuenta_id_to_pedidos_table.php
 - Illuminate\Support\Facades\Schema
-- 2026_11_16_000003_create_mesas_table.php
-- 2026_11_17_000002_create_alergenos_table.php
+- PagarAlPedirTest
+- Illuminate\Database\Migrations\Migration
 - 2026_11_17_000003_create_platos_table.php
 - 2026_11_17_000005_create_pedidos_table.php
 - EmpleadoRequest
 - Registro de uso de IA
 - 2026_11_23_000002_create_partes_cuenta_table.php
 - 2026_11_23_000004_create_pagos_table.php
-- PanelController
+- PlatosCompartidosTest
 - MesasTest
-- detalle-mesa.blade.php
+- camarero.partes.cobro-efectivo
 - 1. Requisitos funcionales
-- Illuminate\Http\Request
-- Entrada 15
-- Illuminate\Http\Request
+- App\Http\Requests\ProfileUpdateRequest
+- App\Models\Pedido
+- App\Http\Controllers\Camarero\AvisoController
 - InicioController.php
-- Illuminate\Database\Eloquent\Factories\Factory
+- DividirCuentaRequest
 - Restaurante
 - 1. Seguimiento
 - cobro-efectivo.blade.php
 - SelectorVistaTest
-- Entrada 9
+- PanelAdminTest
 - 0001_01_01_000001_create_cache_table.php
 - 2026_11_23_000005_add_pedido_id_to_partes_cuenta_table.php
-- Entrada 20
-- Illuminate\Database\Seeder
-- AislamientoRestaurantesTest
-- RedireccionTrasLoginTest
-- Stack
+- Illuminate\Foundation\Http\FormRequest
+- Mesa
+- CobroCamareroTest
+- PedidosEnCursoSeederTest
+- Admin/DispositivoController.php
 - CategoriaController
 - ComandasCamareroTest
 - MesaYa
-- ComprobarRolTest
-- Decisiones importantes
+- Entrada 9
+- Pago
 - 3. Rutas
 - 2026_11_17_000006_create_lineas_pedido_table.php
 - 2026_11_23_000001_create_cuentas_table.php
-- 4. Funcionalidades
+- PlatoRequest
+- CambiarRestauranteTest
+- 3. Resto de tests por funcionalidad
+- DetalleMesaController
+- 0001_01_01_000002_create_jobs_table.php
+- 2026_11_24_000001_add_puede_cambiar_restaurante_to_users_table.php
+- 2026_11_25_000001_persona_opcional_en_partes_cuenta.php
+- 2026_11_25_000005_add_suscripcion_to_restaurantes_table.php
+- 2026_11_25_000002_create_dispositivos_table.php
 
 ## God Nodes (most connected - your core abstractions)
-1. `Mesa` - 81 edges
-2. `User` - 73 edges
-3. `TestCase` - 66 edges
-4. `Pedido` - 59 edges
-5. `Controller` - 53 edges
-6. `Restaurante` - 50 edges
-7. `Plato` - 49 edges
-8. `ParteCuenta` - 45 edges
-9. `Registro de uso de IA` - 39 edges
-10. `Categoria` - 37 edges
+1. `User` - 98 edges
+2. `Restaurante` - 85 edges
+3. `TestCase` - 77 edges
+4. `Mesa` - 50 edges
+5. `Registro de uso de IA` - 48 edges
+6. `ParteCuenta` - 46 edges
+7. `Pedido` - 43 edges
+8. `Controller` - 43 edges
+9. `Plato` - 40 edges
+10. `CrearPedido` - 38 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `6. `feature/pantalla-cocina`` --references--> `Pedido`  [INFERRED]
-  docs/plan-de-trabajo.md → app/Models/Pedido.php
 - `14. `feature/platos-compartidos` 🟠` --references--> `DividirCuenta`  [INFERRED]
   docs/plan-de-trabajo.md → app/Acciones/DividirCuenta.php
 - `3. Decisiones pendientes` --references--> `PasarelaStripe`  [INFERRED]
   docs/plan-de-trabajo.md → app/Servicios/PasarelaStripe.php
 - `2. Requisitos no funcionales` --references--> `PerteneceARestaurante`  [INFERRED]
   docs/02-requisits.md → app/Models/Concerns/PerteneceARestaurante.php
-- `1. `feature/restaurantes-y-roles`` --references--> `ComprobarRol`  [INFERRED]
-  docs/plan-de-trabajo.md → app/Http/Middleware/ComprobarRol.php
+- `3. `feature/gestion-carta`` --references--> `AlergenosSeeder`  [INFERRED]
+  docs/plan-de-trabajo.md → database/seeders/AlergenosSeeder.php
+- `6. `feature/pantalla-cocina`` --references--> `Pedido`  [INFERRED]
+  docs/plan-de-trabajo.md → app/Models/Pedido.php
 
 ## Import Cycles
 - None detected.
 
-## Communities (175 total, 119 thin omitted)
-
-### Community 0 - "PagarAlPedirTest"
-Cohesion: 0.08
-Nodes (7): {closure#1}(), PasarelaStripe, Entrada 24, Entrada 31, PasarelaStripeFalsa, AutopedidoTest, PagarAlPedirTest
+## Communities (190 total, 139 thin omitted)
 
 ### Community 1 - "composer.json"
 Cohesion: 0.22
 Nodes (8): description, keywords, license, minimum-stability, name, prefer-stable, $schema, type
 
 ### Community 2 - "package.json"
-Cohesion: 0.06
-Nodes (41): dependencies, chart.js@^4.6.1, devDependencies, alpinejs@^3.4.2, autoprefixer@^10.4.2, concurrently@^10.0.3, @fontsource/ibm-plex-mono@^5.3.0, @fontsource-variable/schibsted-grotesk@^5.3.0 (+33 more)
+Cohesion: 0.05
+Nodes (44): Entrada 21, dependencies, chart.js@^4.6.1, devDependencies, alpinejs@^3.4.2, autoprefixer@^10.4.2, concurrently@^10.0.3, @fontsource/ibm-plex-mono@^5.3.0 (+36 more)
 
 ### Community 3 - "Illuminate\Database\Schema\Blueprint"
-Cohesion: 0.23
-Nodes (6): {closure#1}(), {closure#2}(), {closure#3}(), {closure#1}(), {closure#2}(), {closure#3}()
+Cohesion: 0.19
+Nodes (9): {closure#1}(), {closure#2}(), {closure#3}(), {closure#1}(), {closure#2}(), {closure#3}(), {closure#4}(), {closure#5}() (+1 more)
 
 ### Community 5 - "Propuesta inicial: MesaYa"
-Cohesion: 0.20
-Nodes (10): 10. Riesgos y cómo los abordamos, 1. La idea en una frase, 2. Problema que resuelve, 3. Usuarios y roles, 5. Flujo de la demo, 6. Tecnologías, 7. Reparto del trabajo, 8. Planificación (+2 more)
+Cohesion: 0.14
+Nodes (14): 10. Riesgos y cómo los abordamos, 1. La idea en una frase, 2. Problema que resuelve, 3. Usuarios y roles, 4. Funcionalidades, 5. Flujo de la demo, 6. Tecnologías, 7. Reparto del trabajo (+6 more)
 
 ### Community 6 - "bootstrap/app.php"
 Cohesion: 0.32
 Nodes (3): {closure#1}(), {closure#2}(), {closure#3}()
 
+### Community 7 - "Illuminate\Http\RedirectResponse"
+Cohesion: 0.14
+Nodes (5): AutopedidoController, CartaController, PagoEfectivoController, PagoTarjetaController, Entrada 20
+
 ### Community 9 - "Prompts por pantalla"
 Cohesion: 0.25
 Nodes (7): Admin (escritorio), Camarero (móvil), Cliente (móvil), Cocina (Tablet horizontal), Prompt Maestro, PROMPTS para la IA de diseño Web STITCH, Prompts por pantalla
 
-### Community 13 - "MesaYa — Instrucciones para Claude Code"
+### Community 10 - "Dispositivo"
+Cohesion: 0.10
+Nodes (3): DispositivoController, Dispositivo, AccesoCamareroPinTest
+
+### Community 11 - "User"
 Cohesion: 0.14
-Nodes (13): Comandos útiles, Cómo tienes que trabajar con nosotros, Diseño visual (obligatorio para cualquier vista), Documentación del repo, Funcionalidades y prioridad, Git y GitHub, Grafo del proyecto (graphify), MesaYa — Instrucciones para Claude Code (+5 more)
+Nodes (3): PersonalController, User, Entrada 33
+
+### Community 13 - "Illuminate\Http\RedirectResponse"
+Cohesion: 0.12
+Nodes (6): SuscripcionController, {closure#1}(), RegistroRestauranteController, PasarelaStripe, 24. `feature/suscripcion-restaurantes` 🟠, Entrada 47
 
 ### Community 14 - "ComponentesDisenoTest"
 Cohesion: 0.16
@@ -186,53 +204,45 @@ Nodes (3): Entrada 8, ComponentesDisenoTest, LayoutsTest
 Cohesion: 0.50
 Nodes (3): Agent Setup, Laravel Application, Prerequisites
 
-### Community 19 - "Cuenta"
-Cohesion: 0.23
-Nodes (3): {closure#1}(), Cuenta, Entrada 25
-
 ### Community 21 - "PagoStripeTest"
-Cohesion: 0.16
-Nodes (9): {closure#1}(), {closure#2}(), {closure#3}(), {closure#4}(), {closure#5}(), {closure#6}(), {closure#7}(), {closure#8}() (+1 more)
-
-### Community 22 - "Illuminate\Foundation\Testing\RefreshDatabase"
-Cohesion: 0.14
-Nodes (3): PasswordConfirmationTest, PasswordUpdateTest, ProfileTest
-
-### Community 30 - "Mesa"
 Cohesion: 0.07
-Nodes (14): DividirCuenta, {closure#3}(), PagarPedido, CobroController, DetalleMesaController, CuentaController, Mesa, TODO en castellano (obligatorio) (+6 more)
+Nodes (19): {closure#1}(), {closure#1}(), {closure#2}(), {closure#3}(), {closure#4}(), {closure#5}(), {closure#6}(), {closure#7}() (+11 more)
 
-### Community 34 - "edit.blade.php"
-Cohesion: 0.50
-Nodes (3): profile.partials.delete-user-form, profile.partials.update-password-form, profile.partials.update-profile-information-form
+### Community 22 - "TestCase"
+Cohesion: 0.08
+Nodes (7): AuthenticationTest, PasswordConfirmationTest, PasswordUpdateTest, ExampleTest, ProfileTest, RedireccionTrasLoginTest, TestCase
 
-### Community 58 - "Pedido"
-Cohesion: 0.07
-Nodes (17): {closure#4}(), AvisoController, {closure#1}(), {closure#2}(), {closure#1}(), {closure#2}(), {closure#1}(), {closure#2}() (+9 more)
+### Community 30 - "DividirCuenta"
+Cohesion: 0.12
+Nodes (7): {closure#3}(), DividirCuenta, {closure#3}(), Entrada 22, Entrada 28, ExampleTest, RepartoCuentaTest
+
+### Community 58 - "PantallaCocinaTest"
+Cohesion: 0.08
+Nodes (17): Comandos útiles, Cómo tienes que trabajar con nosotros, Diseño visual (obligatorio para cualquier vista), Documentación del repo, Funcionalidades y prioridad, Git y GitHub, Grafo del proyecto (graphify), MesaYa — Instrucciones para Claude Code (+9 more)
+
+### Community 59 - "Illuminate\Database\Eloquent\Relations\BelongsTo"
+Cohesion: 0.10
+Nodes (6): {closure#1}(), {closure#2}(), LineaPedido, {closure#1}(), TODO en castellano (obligatorio), Entrada 19
+
+### Community 62 - "PedidosEnCursoSeeder"
+Cohesion: 0.26
+Nodes (3): PagarPedido, PedidosEnCursoSeeder, Entrada 31
 
 ### Community 65 - "EstadisticasTest"
-Cohesion: 0.07
-Nodes (6): EstadisticasRestaurante, {closure#1}(), VentasDemoSeeder, Entrada 29, EstadisticasTest, PanelAdminTest
-
-### Community 66 - "UsuariosAdminSeederTest"
-Cohesion: 0.17
-Nodes (5): DatabaseSeeder, UsuariosAdminSeeder, Entrada 10, Entrada 11, UsuariosAdminSeederTest
-
-### Community 69 - "3. Resto de tests por funcionalidad"
 Cohesion: 0.12
-Nodes (6): 1. Cómo ejecutarlos, 2. Golden tests, 3. Resto de tests por funcionalidad, 4. Pruebas manuales en el navegador, Pruebas de MesaYa, AvisosCamareroTest
+Nodes (5): EstadisticasRestaurante, PanelController, 17. `feature/panel-admin` 🟠, Entrada 29, EstadisticasTest
+
+### Community 66 - "PedidosEnCursoSeederTest.php"
+Cohesion: 0.09
+Nodes (9): CartaSeeder, DatabaseSeeder, MesasSeeder, RestaurantesSeeder, UsuariosAdminSeeder, 18. `feature/gestion-personal` 🟠, Entrada 10, Entrada 11 (+1 more)
 
 ### Community 70 - "ParteCuenta"
-Cohesion: 0.16
-Nodes (4): {closure#3}(), {closure#4}(), {closure#6}(), ParteCuenta
-
-### Community 71 - "Illuminate\Foundation\Http\FormRequest"
-Cohesion: 0.09
-Nodes (4): LoginRequest, ComandaRequest, DividirCuentaRequest, ProfileUpdateRequest
+Cohesion: 0.18
+Nodes (9): {closure#1}(), {closure#3}(), {closure#4}(), {closure#5}(), {closure#6}(), ParteCuenta, Tablas, Entrada 24 (+1 more)
 
 ### Community 72 - "Illuminate\Database\Eloquent\Model"
-Cohesion: 0.15
-Nodes (6): Alergeno, PerteneceARestaurante, {closure#1}(), RestauranteFactory, {closure#1}(), RegistroDePrueba
+Cohesion: 0.23
+Nodes (3): Alergeno, {closure#1}(), RegistroDePrueba
 
 ### Community 74 - "require-dev"
 Cohesion: 0.22
@@ -243,36 +253,24 @@ Cohesion: 0.22
 Nodes (9): scripts, dev, post-autoload-dump, post-create-project-cmd, post-root-package-install, post-update-cmd, pre-package-uninstall, setup (+1 more)
 
 ### Community 76 - "[v0.1] – MVP – 22/11/2026"
-Cohesion: 0.40
+Cohesion: 0.22
 Nodes (4): Adelantado de la v1.0, Añadido, Changelog, [v0.1] – MVP – 22/11/2026
 
-### Community 77 - ".delQr"
-Cohesion: 0.16
-Nodes (4): AutopedidoController, {closure#2}(), CartaController, {closure#2}()
-
-### Community 80 - "Plato"
-Cohesion: 0.17
-Nodes (4): PlatoController, PlatoRequest, Plato, Entrada 12
+### Community 77 - "VentasDemoSeeder.php"
+Cohesion: 0.24
+Nodes (3): {closure#2}(), {closure#1}(), VentasDemoSeeder
 
 ### Community 81 - "config"
 Cohesion: 0.29
 Nodes (7): pestphp/pest-plugin, php-http/discovery, config, allow-plugins, optimize-autoloader, preferred-install, sort-packages
 
 ### Community 83 - "2. Qué incluye cada rama"
-Cohesion: 0.12
-Nodes (17): 10. `feature/dividir-cuenta`, 11. `feature/pago-stripe`, 12. `feature/efectivo-y-cierre`, 13. `feature/estadisticas`, 14. `feature/platos-compartidos` 🟠, 19. `feature/rediseno-base` 🟠, 20. `feature/rediseno-cocina-camarero` 🟠, 22. `feature/rediseno-admin` 🟠 (+9 more)
+Cohesion: 0.11
+Nodes (18): 10. `feature/dividir-cuenta`, 11. `feature/pago-stripe`, 12. `feature/efectivo-y-cierre`, 13. `feature/estadisticas`, 14. `feature/platos-compartidos` 🟠, 19. `feature/rediseno-base` 🟠, 20. `feature/rediseno-cocina-camarero` 🟠, 22. `feature/rediseno-admin` 🟠 (+10 more)
 
-### Community 84 - "routes/auth.php"
-Cohesion: 0.13
-Nodes (3): AuthenticatedSessionController, ConfirmablePasswordController, PasswordResetLinkController
-
-### Community 85 - "Controller"
-Cohesion: 0.15
-Nodes (6): AlergenoController, EstadisticaController, EmailVerificationPromptController, PasswordController, VerifyEmailController, Controller
-
-### Community 87 - "CrearPedido"
-Cohesion: 0.10
-Nodes (5): CrearPedido, {closure#3}(), Entrada 28, DividirCuentaTest, PlatosCompartidosTest
+### Community 84 - "Controller"
+Cohesion: 0.09
+Nodes (9): EstadisticaController, ConfirmablePasswordController, EmailVerificationNotificationController, EmailVerificationPromptController, {closure#1}(), NewPasswordController, PasswordResetLinkController, VerifyEmailController (+1 more)
 
 ### Community 89 - "psr-4"
 Cohesion: 0.40
@@ -291,104 +289,96 @@ Cohesion: 0.67
 Nodes (3): extra, laravel, dont-discover
 
 ### Community 109 - "InicioTest"
-Cohesion: 0.18
+Cohesion: 0.20
 Nodes (3): 21. `feature/rediseno-publico` 🟠, Entrada 36, InicioTest
 
-### Community 110 - "ComprobarRol"
-Cohesion: 0.32
-Nodes (4): ComprobarRol, Roles, 1. `feature/restaurantes-y-roles`, Entrada 13
+### Community 110 - "Illuminate\Http\Request"
+Cohesion: 0.15
+Nodes (9): DispositivoController, ComprobarRol, ComprobarSuscripcion, IdentificarDispositivo, Roles, 1. `feature/restaurantes-y-roles`, Entrada 13, Entrada 44 (+1 more)
 
 ### Community 111 - "Instalación de MesaYa en local"
 Cohesion: 0.13
 Nodes (14): 1. Requisitos, 2. Descargar el proyecto, 3. Bases de datos, 4. Archivo `.env`, 5. Tablas, datos de prueba y fotos, 6. Arrancar, 7. Problemas frecuentes, 8. Despliegue (+6 more)
 
 ### Community 112 - "Illuminate\View\View"
-Cohesion: 0.24
-Nodes (3): MesaController, AppLayout, GuestLayout
-
-### Community 115 - "TestCase"
-Cohesion: 0.15
-Nodes (5): Entrada 6, AuthenticationTest, RegistroDesactivadoTest, ExampleTest, TestCase
-
-### Community 125 - "EmpleadoRequest"
-Cohesion: 0.23
-Nodes (3): {closure#1}(), EmpleadoRequest, Entrada 33
+Cohesion: 0.11
+Nodes (7): AlergenoController, MesaController, ComandaController, AppLayout, GuestLayout, Entrada 17, Entrada 42
 
 ### Community 126 - "Registro de uso de IA"
-Cohesion: 0.14
-Nodes (14): Entrada 1, Entrada 16, Entrada 2, Entrada 23, Entrada 27, Entrada 3, Entrada 34, Entrada 35 (+6 more)
+Cohesion: 0.11
+Nodes (18): Entrada 1, Entrada 16, Entrada 2, Entrada 23, Entrada 27, Entrada 3, Entrada 34, Entrada 35 (+10 more)
 
 ### Community 138 - "1. Requisitos funcionales"
-Cohesion: 0.20
-Nodes (10): 1. Requisitos funcionales, Acceso, roles y restaurantes, Carta y alérgenos (admin), Cliente por QR (sin login), Comandas, cocina y avisos (personal), Estadísticas (admin), Extras (🟣, solo si sobra tiempo), Mesas y QR (admin) (+2 more)
+Cohesion: 0.15
+Nodes (12): 1. Requisitos funcionales, 2. Requisitos no funcionales, Acceso, roles y restaurantes, Carta y alérgenos (admin), Cliente por QR (sin login), Comandas, cocina y avisos (personal), Estadísticas (admin), Extras (🟣, solo si sobra tiempo) (+4 more)
 
-### Community 140 - "Illuminate\Http\Request"
-Cohesion: 0.16
-Nodes (3): EmailVerificationNotificationController, NewPasswordController, ProfileController
+### Community 141 - "App\Models\Pedido"
+Cohesion: 0.22
+Nodes (8): {closure#4}(), CambiarRestauranteController, {closure#1}(), {closure#2}(), {closure#1}(), {closure#2}(), {closure#3}(), CuentaController
 
-### Community 141 - "Entrada 15"
-Cohesion: 0.33
-Nodes (3): MesaFactory, Entrada 15, Entrada 18
+### Community 142 - "App\Http\Controllers\Camarero\AvisoController"
+Cohesion: 0.21
+Nodes (4): AvisoController, {closure#1}(), {closure#2}(), PedidoController
 
 ### Community 143 - "InicioController.php"
-Cohesion: 0.22
+Cohesion: 0.33
 Nodes (4): InicioController, 16. `feature/pagina-inicio` 🟠, Entrada 30, Entrada 32
 
-### Community 150 - "Restaurante"
-Cohesion: 0.17
-Nodes (7): Categoria, Pago, Restaurante, Base de datos, Tablas, 15. `feature/pagar-al-pedir` 🟠, {closure#1}()
+### Community 149 - "DividirCuentaRequest"
+Cohesion: 0.05
+Nodes (8): DividirCuentaRequest, CategoriaFactory, MesaFactory, PlatoFactory, RestauranteFactory, UserFactory, Entrada 15, Entrada 43
 
 ### Community 151 - "1. Seguimiento"
 Cohesion: 0.18
 Nodes (10): 1. Seguimiento, 3. Decisiones pendientes, 4. Cómo pedir cada rama a Claude Code, 🟢 MVP (v0.1) — objetivo: 23/11, Plan de trabajo de MesaYa, Reparto propuesto, Semana 4 — hasta el 07/12, 🟠 Siguientes: mejoras propias (Iván, mientras Gabriel hace la 13) (+2 more)
 
-### Community 160 - "Entrada 20"
-Cohesion: 0.18
-Nodes (5): PedidoClienteRequest, Entrada 20, Entrada 21, avisosCamarero(), carrito()
-
-### Community 162 - "Illuminate\Database\Seeder"
-Cohesion: 0.18
-Nodes (6): AlergenosSeeder, CartaSeeder, MesasSeeder, RestaurantesSeeder, 18. `feature/gestion-personal` 🟠, 3. `feature/gestion-carta`
-
-### Community 165 - "Stack"
-Cohesion: 0.67
-Nodes (3): MySQL, PHP en local (`php.ini`), Stack
+### Community 162 - "Mesa"
+Cohesion: 0.15
+Nodes (10): CrearPedido, Categoria, PerteneceARestaurante, Mesa, Pedido, Plato, Base de datos, AlergenosSeeder (+2 more)
 
 ### Community 168 - "MesaYa"
 Cohesion: 0.22
 Nodes (9): Cuentas de prueba, Cómo trabajamos, Documentación, Lo que la hace segura y fiable, MesaYa, Puesta en marcha rápida, Qué hace, Tecnologías (+1 more)
 
-### Community 170 - "Decisiones importantes"
-Cohesion: 0.33
-Nodes (6): 1. Arquitectura, 2. Base de datos, 4. Estructura de carpetas (lo nuestro), Decisiones importantes, Diagrama entidad-relación, Diseño técnico de MesaYa
+### Community 169 - "Entrada 9"
+Cohesion: 0.11
+Nodes (3): Entrada 9, AislamientoRestaurantesTest, ComprobarRolTest
+
+### Community 170 - "Pago"
+Cohesion: 0.14
+Nodes (7): CobroController, Pago, 2. Base de datos, Diagrama entidad-relación, Estados y reglas, 15. `feature/pagar-al-pedir` 🟠, Entrada 26
 
 ### Community 171 - "3. Rutas"
-Cohesion: 0.33
-Nodes (6): 3. Rutas, Admin (`auth` + `rol:admin`), Camarero (`auth` + `rol:camarero`), Cocina (`auth` + `rol:cocina`), Públicas (cliente, sin login), Todos los roles
+Cohesion: 0.18
+Nodes (10): 1. Arquitectura, 3. Rutas, 4. Estructura de carpetas (lo nuestro), Admin (`auth` + `rol:admin`), Camarero (`dispositivo` + `auth` + `rol:camarero` + `suscripcion`), Cocina (`dispositivo` + `auth` + `rol:cocina` + `suscripcion`), Diseño técnico de MesaYa, Dispositivos (sin login) (+2 more)
 
-### Community 174 - "4. Funcionalidades"
-Cohesion: 0.50
-Nodes (4): 4. Funcionalidades, 🔵 Entrega final (v1.0), 🟣 Extras (solo si sobra tiempo; si no, pasan a "mejoras futuras"), 🟢 MVP (v0.1)
+### Community 176 - "3. Resto de tests por funcionalidad"
+Cohesion: 0.25
+Nodes (5): 1. Cómo ejecutarlos, 2. Golden tests, 3. Resto de tests por funcionalidad, 4. Pruebas manuales en el navegador, Pruebas de MesaYa
+
+### Community 178 - "0001_01_01_000002_create_jobs_table.php"
+Cohesion: 0.33
+Nodes (3): {closure#1}(), {closure#2}(), {closure#3}()
 
 ## Knowledge Gaps
-- **8 isolated node(s):** `camarero.partes.cobro-efectivo`, `camarero.partes.cobro-efectivo`, `profile.partials.delete-user-form`, `profile.partials.update-password-form`, `profile.partials.update-profile-information-form` (+3 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 520 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **119 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **7 isolated node(s):** `camarero.partes.cobro-efectivo`, `profile.partials.update-profile-information-form`, `profile.partials.update-password-form`, `camarero.partes.cobro-efectivo`, `layouts.navigation` (+2 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 594 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **139 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `User` connect `User` to `PagarAlPedirTest`, `MesasTest`, `EfectivoYCierreTest`, `Illuminate\Http\Request`, `InicioController.php`, `Cuenta`, `Restaurante`, `Illuminate\Foundation\Testing\RefreshDatabase`, `SelectorVistaTest`, `Entrada 9`, `Mesa`, `Illuminate\Database\Seeder`, `RedireccionTrasLoginTest`, `ComandasCamareroTest`, `ComprobarRolTest`, `Pedido`, `Illuminate\Database\Eloquent\Relations\BelongsTo`, `EstadisticasTest`, `UsuariosAdminSeederTest`, `web.php`, `GestionCartaTest`, `3. Resto de tests por funcionalidad`, `Illuminate\Foundation\Http\FormRequest`, `Illuminate\Database\Eloquent\Model`, `PasswordResetTest.php`, `GestionPersonalTest.php`, `GestionPersonalTest`, `CrearPedido`, `InicioTest`, `EmailVerificationTest.php`, `TestCase`, `EmpleadoRequest`?**
-  _High betweenness centrality (0.108) - this node is a cross-community bridge._
-- **Are the 4 inferred relationships involving `Mesa` (e.g. with `Base de datos` and `Decisiones importantes`) actually correct?**
-  _`Mesa` has 4 INFERRED edges - model-reasoned connections that need verification._
-- **What connects `camarero.partes.cobro-efectivo`, `camarero.partes.cobro-efectivo`, `profile.partials.delete-user-form` to the rest of the system?**
-  _8 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `PagarAlPedirTest` be split into smaller, more focused modules?**
-  _Cohesion score 0.08051948051948052 - nodes in this community are weakly interconnected._
-- **Why does `Mesa` connect `Mesa` to `PagarAlPedirTest`, `PanelController`, `MesasTest`, `Illuminate\Http\RedirectResponse`, `EfectivoYCierreTest`, `Illuminate\Http\Request`, `Entrada 15`, `InicioController.php`, `Illuminate\Database\Eloquent\Factories\Factory`, `Restaurante`, `PagoStripeTest`, `Illuminate\Database\Seeder`, `ComandasCamareroTest`, `Decisiones importantes`, `Pedido`, `EstadisticasTest`, `web.php`, `3. Resto de tests por funcionalidad`, `Illuminate\Database\Eloquent\Model`, `.delQr`, `GestionPersonalTest.php`, `CrearPedido`, `InicioTest`, `Illuminate\View\View`?**
-  _High betweenness centrality (0.098) - this node is a cross-community bridge._
-- **Are the 6 inferred relationships involving `User` (e.g. with `Base de datos` and `TODO en castellano (obligatorio)`) actually correct?**
-  _`User` has 6 INFERRED edges - model-reasoned connections that need verification._
+- **Why does `User` connect `User` to `MesasTest`, `EfectivoYCierreTest`, `Dispositivo`, `App\Http\Requests\ProfileUpdateRequest`, `Illuminate\Http\RedirectResponse`, `InicioController.php`, `Cuenta`, `DividirCuentaRequest`, `Restaurante`, `TestCase`, `PagoStripeTest`, `PanelAdminTest`, `Mesa`, `CobroCamareroTest`, `Admin/DispositivoController.php`, `ComandasCamareroTest`, `Entrada 9`, `Pago`, `CambiarRestauranteTest`, `PantallaCocinaTest`, `Illuminate\Database\Eloquent\Relations\BelongsTo`, `PedidosEnCursoSeeder`, `PedidosEnCursoSeederTest.php`, `web.php`, `GestionCartaTest`, `AvisosCamareroTest`, `ParteCuenta`, `Illuminate\Validation\ValidationException`, `Illuminate\Database\Eloquent\Model`, `PasswordResetTest.php`, `DispositivosTest`, `GestionPersonalTest`, `Controller`, `Illuminate\Http\Request`, `Illuminate\View\View`, `EmailVerificationTest.php`, `PagarAlPedirTest`, `EmpleadoRequest`?**
+  _High betweenness centrality (0.133) - this node is a cross-community bridge._
+- **Are the 7 inferred relationships involving `User` (e.g. with `Base de datos` and `TODO en castellano (obligatorio)`) actually correct?**
+  _`User` has 7 INFERRED edges - model-reasoned connections that need verification._
+- **What connects `camarero.partes.cobro-efectivo`, `profile.partials.update-profile-information-form`, `profile.partials.update-password-form` to the rest of the system?**
+  _7 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `package.json` be split into smaller, more focused modules?**
-  _Cohesion score 0.06086956521739131 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.053544494720965306 - nodes in this community are weakly interconnected._
+- **Why does `Restaurante` connect `Restaurante` to `AutopedidoTest`, `CartaPublicaTest`, `MesasTest`, `Illuminate\Http\RedirectResponse`, `Dispositivo`, `Illuminate\Http\RedirectResponse`, `App\Models\Pedido`, `Cuenta`, `DividirCuentaRequest`, `TestCase`, `PagoStripeTest`, `PanelAdminTest`, `Mesa`, `PedidosEnCursoSeederTest`, `ComandasCamareroTest`, `Entrada 9`, `CambiarRestauranteTest`, `PantallaCocinaTest`, `PedidosEnCursoSeeder`, `EstadisticasTest`, `PedidosEnCursoSeederTest.php`, `AvisosCamareroTest`, `ParteCuenta`, `Illuminate\Database\Eloquent\Model`, `VentasDemoSeeder.php`, `DispositivosTest`, `GestionPersonalTest`, `Illuminate\Http\Request`?**
+  _High betweenness centrality (0.095) - this node is a cross-community bridge._
+- **Are the 4 inferred relationships involving `Restaurante` (e.g. with `Base de datos` and `Tablas`) actually correct?**
+  _`Restaurante` has 4 INFERRED edges - model-reasoned connections that need verification._
+- **Should `Propuesta inicial: MesaYa` be split into smaller, more focused modules?**
+  _Cohesion score 0.14285714285714285 - nodes in this community are weakly interconnected._
