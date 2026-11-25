@@ -29,7 +29,7 @@ class CobroController extends Controller
         // Pagos de hoy del restaurante, del más nuevo al más viejo.
         $pagosHoy = Pago::whereDate('created_at', today())
             ->whereHas('parteCuenta.cuenta')
-            ->with('parteCuenta.cuenta.mesa')
+            ->with(['parteCuenta.cuenta.mesa', 'cobradoPor'])
             ->latest('id')
             ->get();
 

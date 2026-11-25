@@ -27,11 +27,13 @@ class PersonalController extends Controller
     public function index(Request $request): View
     {
         $empleados = User::delPersonal()->where('restaurante_id', $request->user()->restaurante_id)
+            // Las cuentas de cocina antiguas no salen: la cocina ahora son dispositivos.
+            ->whereIn('rol', EmpleadoRequest::ROLES)
             // withCount añade "pedidos_count" a cada empleado (una sola consulta
             // con COUNT): sirve para avisar al borrar a alguien con pedidos.
             ->withCount('pedidos')
-            // Primero los admin, luego camareros y cocina; dentro, por nombre.
-            ->orderByRaw("FIELD(rol, 'admin', 'camarero', 'cocina')")
+            // Primero los admin y luego los camareros; dentro, por nombre.
+            ->orderByRaw("FIELD(rol, 'admin', 'camarero')")
             ->orderBy('name')
             ->get();
 
@@ -46,20 +48,24 @@ class PersonalController extends Controller
 
     public function store(EmpleadoRequest $request): RedirectResponse
     {
-        // validated() solo trae name, email, rol y password: nada más del formulario.
-        $empleado = new User($request->safe()->only(['name', 'email', 'rol', 'password']));
-        // La contraseña se guarda con Hash sola, por el cast 'password' => 'hashed' de User.
+        // safe()->only() solo trae lo validado. Un camarero no trae email ni
+        // password (EmpleadoRequest los excluye) y un admin no trae pin.
+        $empleado = new User($request->safe()->only(['name', 'email', 'rol', 'password', 'pin']));
+        // La contraseña y el PIN se guardan cifrados solos, por los casts 'hashed' de User.
 
         // Estos dos no vienen del formulario:
         // - el restaurante es el del admin logueado;
-        // - el correo se da por verificado, porque lo ha dado de alta el admin
-        //   (así podría entrar aunque algún día se activara la verificación).
+        // - el correo de un admin se da por verificado, porque lo ha dado de
+        //   alta el admin (así podría entrar aunque algún día se activara la verificación).
         $empleado->restaurante_id = $request->user()->restaurante_id;
-        $empleado->email_verified_at = now();
+        $empleado->email_verified_at = $empleado->rol === 'admin' ? now() : null;
         $empleado->save();
 
-        return redirect()->route('admin.personal')
-            ->with('estado', "«{$empleado->name}» ya puede iniciar sesión con {$empleado->email}.");
+        $aviso = $empleado->rol === 'camarero'
+            ? "«{$empleado->name}» ya puede entrar en los dispositivos de camarero con su PIN."
+            : "«{$empleado->name}» ya puede iniciar sesión con {$empleado->email}.";
+
+        return redirect()->route('admin.personal')->with('estado', $aviso);
     }
 
     public function edit(User $empleado): View
@@ -70,19 +76,30 @@ class PersonalController extends Controller
     public function update(EmpleadoRequest $request, User $empleado): RedirectResponse
     {
         $datos = $request->safe()->only(['name', 'email', 'rol']);
+        $esCamarero = $datos['rol'] === 'camarero';
 
-        // Contraseña vacía = no se cambia (no se toca la columna).
-        $cambiaContrasena = $request->filled('password');
-        if ($cambiaContrasena) {
-            $datos['password'] = $request->input('password');
+        // Lo que no toca a su rol se vacía: un camarero no tiene correo ni
+        // contraseña y un admin no tiene PIN (por si se le cambia el rol).
+        if ($esCamarero) {
+            $datos += ['email' => null, 'password' => null, 'email_verified_at' => null];
+        } else {
+            $datos['pin'] = null;
         }
 
-        $empleado->update($datos);
+        // Contraseña (admin) o PIN (camarero) vacío = no se cambia.
+        $campoClave = $esCamarero ? 'pin' : 'password';
+        $cambiaClave = $request->filled($campoClave);
+        if ($cambiaClave) {
+            $datos[$campoClave] = $request->input($campoClave);
+        }
 
-        // Con la contraseña nueva, se cierran sus sesiones abiertas: quien
-        // conociera la antigua deja de estar dentro. Si el admin se la cambia
-        // a sí mismo, no se le echa de la sesión que está usando.
-        if ($cambiaContrasena) {
+        // forceFill: email_verified_at no está en Fillable.
+        $empleado->forceFill($datos)->save();
+
+        // Con la contraseña o el PIN nuevos, se cierran sus sesiones abiertas:
+        // quien conociera el anterior deja de estar dentro. Si el admin se la
+        // cambia a sí mismo, no se le echa de la sesión que está usando.
+        if ($cambiaClave) {
             $this->cerrarSesiones($empleado, exceptoLaDe: $request);
         }
 

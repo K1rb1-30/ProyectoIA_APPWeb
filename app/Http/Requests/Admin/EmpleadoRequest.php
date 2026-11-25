@@ -17,11 +17,18 @@ use Illuminate\Validation\Validator;
  *
  * Ojo: aquí NO hay regla para restaurante_id. Solo se guardan los campos que
  * se validan, así que aunque alguien lo añada al formulario a mano, se ignora.
+ *
+ * Según el rol se piden datos distintos:
+ *  - admin:    correo y contraseña (inicia sesión en /login).
+ *  - camarero: solo un PIN de 4 cifras (entra en un dispositivo emparejado).
+ * exclude_unless quita del resultado los campos que no tocan a ese rol: un
+ * camarero nunca guarda correo ni contraseña aunque se envíen a mano.
+ * La cocina ya no tiene usuarios: son dispositivos («Dispositivos»).
  */
 class EmpleadoRequest extends FormRequest
 {
     /** Roles que el admin puede dar. */
-    public const ROLES = ['admin', 'camarero', 'cocina'];
+    public const ROLES = ['admin', 'camarero'];
 
     // El acceso ya lo controla el middleware rol:admin de la ruta.
     public function authorize(): bool
@@ -49,6 +56,7 @@ class EmpleadoRequest extends FormRequest
             // correo es con lo que se inicia sesión. ignore() deja guardar a
             // un empleado sin cambiarle el correo.
             'email' => [
+                'exclude_unless:rol,admin',
                 'required',
                 'string',
                 'email',
@@ -58,13 +66,24 @@ class EmpleadoRequest extends FormRequest
 
             'rol' => ['required', Rule::in(self::ROLES)],
 
-            // Al crear es obligatoria; al editar, opcional (vacía = no se cambia).
+            // Solo admin. Obligatoria si es nuevo o todavía no tiene (por
+            // ejemplo, un camarero que pasa a admin); si no, vacía = no se cambia.
             // confirmed: tiene que coincidir con "password_confirmation".
             // Password::defaults(): como mínimo 8 caracteres.
             'password' => [
-                $this->empleado() ? 'nullable' : 'required',
+                'exclude_unless:rol,admin',
+                $this->empleado()?->password ? 'nullable' : 'required',
                 'confirmed',
                 Password::defaults(),
+            ],
+
+            // Solo camarero. 4 cifras exactas (digits:4 admite "0042").
+            // Obligatorio si es nuevo o todavía no tiene; si no, vacío = no se cambia.
+            'pin' => [
+                'exclude_unless:rol,camarero',
+                $this->empleado()?->pin ? 'nullable' : 'required',
+                'digits:4',
+                'confirmed',
             ],
         ];
     }
@@ -123,6 +142,7 @@ class EmpleadoRequest extends FormRequest
             'name' => 'nombre',
             'email' => 'correo electrónico',
             'password' => 'contraseña',
+            'pin' => 'PIN',
         ];
     }
 
@@ -130,8 +150,10 @@ class EmpleadoRequest extends FormRequest
     {
         return [
             'email.unique' => 'Ya existe una cuenta con ese correo. Cada persona necesita un correo distinto, porque es con el que inicia sesión.',
-            'rol.in' => 'Elige un rol: administración, camarero o cocina.',
+            'rol.in' => 'Elige un rol: administración o camarero.',
             'password.confirmed' => 'Las dos contraseñas no coinciden.',
+            'pin.digits' => 'El PIN tiene que tener 4 cifras.',
+            'pin.confirmed' => 'Los dos PIN no coinciden.',
         ];
     }
 

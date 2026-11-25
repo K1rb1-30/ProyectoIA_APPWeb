@@ -142,16 +142,19 @@ class ParteCuenta extends Model
      *
      * Desde "pendiente" devuelve false: por la vía del efectivo hay que pasar
      * antes por "pendiente_efectivo".
+     *
+     * $cobradoPor: el camarero que cobra, para saber quién cobró cada pago.
      */
-    public function confirmarEfectivo(): bool
+    public function confirmarEfectivo(?User $cobradoPor = null): bool
     {
         // Transacción: o cambia el estado Y se crea el pago, o no pasa nada.
-        return DB::transaction(function () {
+        return DB::transaction(function () use ($cobradoPor) {
             if (! $this->saltar('pendiente_efectivo', 'pagado')) {
                 return false;
             }
 
             $this->pagos()->create([
+                'user_id' => $cobradoPor?->id,
                 'importe_centimos' => $this->importe_centimos,
                 'metodo' => 'efectivo',
             ]);
@@ -186,10 +189,10 @@ class ParteCuenta extends Model
      * en el móvil. Hace los DOS pasos del efectivo seguidos (pendiente →
      * pendiente_efectivo → pagado), así que la regla no se salta.
      */
-    public function cobrarEfectivoEnMesa(): bool
+    public function cobrarEfectivoEnMesa(?User $cobradoPor = null): bool
     {
         // Si el segundo paso fallara, la transacción deshace también el primero.
-        return DB::transaction(fn () => $this->pedirEfectivo() && $this->confirmarEfectivo());
+        return DB::transaction(fn () => $this->pedirEfectivo() && $this->confirmarEfectivo($cobradoPor));
     }
 
     /**
@@ -197,14 +200,15 @@ class ParteCuenta extends Model
      * tarjeta. El Pago va sin referencia_stripe: así se distingue de Stripe.
      * Solo desde "pendiente" (CLAUDE.md: la tarjeta va de pendiente a pagado).
      */
-    public function pagarConTpv(): bool
+    public function pagarConTpv(?User $cobradoPor = null): bool
     {
-        return DB::transaction(function () {
+        return DB::transaction(function () use ($cobradoPor) {
             if (! $this->saltar('pendiente', 'pagado', ['metodo' => 'tarjeta'])) {
                 return false;
             }
 
             $this->pagos()->create([
+                'user_id' => $cobradoPor?->id,
                 'importe_centimos' => $this->importe_centimos,
                 'metodo' => 'tarjeta',
             ]);

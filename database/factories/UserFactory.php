@@ -58,11 +58,18 @@ class UserFactory extends Factory
     }
 
     /**
-     * Usuario con rol de camarero.
+     * Camarero: sin correo ni contraseña, entra con su PIN (1234 en los tests)
+     * en un dispositivo emparejado.
      */
     public function camarero(): static
     {
-        return $this->state(fn (array $attributes) => ['rol' => 'camarero']);
+        return $this->state(fn (array $attributes) => [
+            'rol' => 'camarero',
+            'email' => null,
+            'email_verified_at' => null,
+            'password' => null,
+            'pin' => '1234',
+        ]);
     }
 
     /**

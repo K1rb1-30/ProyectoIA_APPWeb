@@ -35,33 +35,76 @@ class GestionPersonalTest extends TestCase
         $this->adminA = User::factory()->create(['name' => 'Admin de A', 'restaurante_id' => $this->restauranteA->id]);
     }
 
-    public function test_el_admin_crea_un_camarero_que_puede_iniciar_sesion(): void
+    public function test_el_admin_crea_un_camarero_con_nombre_y_pin(): void
     {
+        // Aunque se cuelen un correo y una contraseña a mano, un camarero no los guarda.
         $this->actingAs($this->adminA)
             ->post(route('admin.personal.guardar'), [
                 'name' => 'Camarero Inventado',
-                'email' => '  Nuevo.Camarero@Ejemplo.TEST ',
                 'rol' => 'camarero',
+                'pin' => '0042',
+                'pin_confirmation' => '0042',
+                'email' => 'colado@ejemplo.test',
                 'password' => 'contrasena-segura',
-                'password_confirmation' => 'contrasena-segura',
             ])
             ->assertRedirect(route('admin.personal'))
             ->assertSessionHasNoErrors();
 
-        // El correo se guarda limpio y en minúsculas.
-        $camarero = User::where('email', 'nuevo.camarero@ejemplo.test')->firstOrFail();
+        $camarero = User::where('name', 'Camarero Inventado')->firstOrFail();
         $this->assertSame('camarero', $camarero->rol);
         $this->assertSame($this->restauranteA->id, $camarero->restaurante_id);
-        $this->assertNotNull($camarero->email_verified_at);
-        // La contraseña nunca se guarda en claro.
-        $this->assertNotSame('contrasena-segura', $camarero->password);
-        $this->assertTrue(Hash::check('contrasena-segura', $camarero->password));
+        $this->assertNull($camarero->email);
+        $this->assertNull($camarero->password);
+        // El PIN nunca se guarda en claro.
+        $this->assertNotSame('0042', $camarero->pin);
+        $this->assertTrue(Hash::check('0042', $camarero->pin));
+    }
 
-        // Ese camarero inicia sesión y va a su pantalla.
-        auth()->logout();
-        $this->post(route('login'), ['email' => 'nuevo.camarero@ejemplo.test', 'password' => 'contrasena-segura'])
-            ->assertRedirect(route('camarero.mesas'));
-        $this->assertAuthenticatedAs($camarero);
+    public function test_el_pin_tiene_4_cifras_y_hay_que_repetirlo(): void
+    {
+        $this->actingAs($this->adminA);
+
+        $this->post(route('admin.personal.guardar'), ['name' => 'Ana', 'rol' => 'camarero', 'pin' => '123', 'pin_confirmation' => '123'])
+            ->assertSessionHasErrors(['pin' => 'El PIN tiene que tener 4 cifras.']);
+        $this->post(route('admin.personal.guardar'), ['name' => 'Ana', 'rol' => 'camarero', 'pin' => '1234', 'pin_confirmation' => '4321'])
+            ->assertSessionHasErrors(['pin' => 'Los dos PIN no coinciden.']);
+        $this->post(route('admin.personal.guardar'), ['name' => 'Ana', 'rol' => 'camarero'])
+            ->assertSessionHasErrors('pin');
+
+        $this->assertDatabaseMissing('users', ['name' => 'Ana']);
+    }
+
+    public function test_ya_no_se_crean_cuentas_de_cocina(): void
+    {
+        $this->actingAs($this->adminA)
+            ->post(route('admin.personal.guardar'), ['name' => 'Cocinero', 'rol' => 'cocina'])
+            ->assertSessionHasErrors(['rol' => 'Elige un rol: administración o camarero.']);
+    }
+
+    public function test_cambiar_el_pin_lo_guarda_cifrado_y_cierra_su_sesion(): void
+    {
+        $camarero = User::factory()->camarero()->create(['restaurante_id' => $this->restauranteA->id]);
+        DB::table('sessions')->insert(['id' => 'sesion-del-camarero', 'user_id' => $camarero->id, 'payload' => '', 'last_activity' => time()]);
+
+        $this->actingAs($this->adminA)->put(route('admin.personal.actualizar', $camarero), [
+            'name' => $camarero->name, 'rol' => 'camarero', 'pin' => '9876', 'pin_confirmation' => '9876',
+        ])->assertSessionHasNoErrors();
+
+        $this->assertTrue(Hash::check('9876', $camarero->fresh()->pin));
+        $this->assertDatabaseMissing('sessions', ['id' => 'sesion-del-camarero']);
+    }
+
+    public function test_editar_un_camarero_sin_pin_no_lo_cambia(): void
+    {
+        $camarero = User::factory()->camarero()->create(['restaurante_id' => $this->restauranteA->id]);
+        $pinAntes = $camarero->pin;
+
+        $this->actingAs($this->adminA)->put(route('admin.personal.actualizar', $camarero), [
+            'name' => 'Otro Nombre', 'rol' => 'camarero', 'pin' => '', 'pin_confirmation' => '',
+        ])->assertSessionHasNoErrors();
+
+        $this->assertSame('Otro Nombre', $camarero->fresh()->name);
+        $this->assertSame($pinAntes, $camarero->fresh()->pin);
     }
 
     public function test_el_restaurante_id_del_formulario_se_ignora(): void
@@ -69,9 +112,9 @@ class GestionPersonalTest extends TestCase
         $otro = Restaurante::factory()->create();
 
         $this->actingAs($this->adminA)->post(route('admin.personal.guardar'), [
-            'name' => 'Cocina Inventada',
+            'name' => 'Admin Inventado',
             'email' => 'cocina.inventada@ejemplo.test',
-            'rol' => 'cocina',
+            'rol' => 'admin',
             'restaurante_id' => $otro->id,
             'password' => 'contrasena-segura',
             'password_confirmation' => 'contrasena-segura',
@@ -82,41 +125,40 @@ class GestionPersonalTest extends TestCase
 
     public function test_editar_sin_contrasena_no_la_cambia(): void
     {
-        $camarero = $this->empleado('camarero');
-        $hashAntes = $camarero->password;
+        $otroAdmin = $this->empleado('admin');
+        $hashAntes = $otroAdmin->password;
 
         $this->actingAs($this->adminA)
-            ->put(route('admin.personal.actualizar', $camarero), [
+            ->put(route('admin.personal.actualizar', $otroAdmin), [
                 'name' => 'Nombre Cambiado',
-                'email' => $camarero->email,
-                'rol' => 'cocina',
+                'email' => $otroAdmin->email,
+                'rol' => 'admin',
                 'password' => '',
                 'password_confirmation' => '',
             ])
             ->assertRedirect(route('admin.personal'))
             ->assertSessionHasNoErrors();
 
-        $camarero->refresh();
-        $this->assertSame('Nombre Cambiado', $camarero->name);
-        $this->assertSame('cocina', $camarero->rol);
-        $this->assertSame($hashAntes, $camarero->password);
+        $otroAdmin->refresh();
+        $this->assertSame('Nombre Cambiado', $otroAdmin->name);
+        $this->assertSame($hashAntes, $otroAdmin->password);
     }
 
     public function test_cambiar_la_contrasena_la_guarda_con_hash_y_cierra_sus_sesiones(): void
     {
-        $camarero = $this->empleado('camarero');
-        DB::table('sessions')->insert(['id' => 'sesion-del-camarero', 'user_id' => $camarero->id, 'payload' => '', 'last_activity' => time()]);
+        $otroAdmin = $this->empleado('admin');
+        DB::table('sessions')->insert(['id' => 'sesion-del-otro-admin', 'user_id' => $otroAdmin->id, 'payload' => '', 'last_activity' => time()]);
 
-        $this->actingAs($this->adminA)->put(route('admin.personal.actualizar', $camarero), [
-            'name' => $camarero->name,
-            'email' => $camarero->email,
-            'rol' => 'camarero',
+        $this->actingAs($this->adminA)->put(route('admin.personal.actualizar', $otroAdmin), [
+            'name' => $otroAdmin->name,
+            'email' => $otroAdmin->email,
+            'rol' => 'admin',
             'password' => 'otra-contrasena',
             'password_confirmation' => 'otra-contrasena',
         ])->assertSessionHasNoErrors();
 
-        $this->assertTrue(Hash::check('otra-contrasena', $camarero->fresh()->password));
-        $this->assertDatabaseMissing('sessions', ['id' => 'sesion-del-camarero']);
+        $this->assertTrue(Hash::check('otra-contrasena', $otroAdmin->fresh()->password));
+        $this->assertDatabaseMissing('sessions', ['id' => 'sesion-del-otro-admin']);
     }
 
     public function test_el_admin_de_a_no_ve_ni_edita_ni_borra_empleados_de_b(): void
@@ -157,13 +199,20 @@ class GestionPersonalTest extends TestCase
     {
         $adminB = $this->empleado('admin');
 
-        // Con dos admins, uno puede quitarle el rol al otro...
+        // Con dos admins, uno puede pasar al otro a camarero (con su PIN):
+        // se le quitan el correo y la contraseña.
         $this->actingAs($this->adminA)->put(route('admin.personal.actualizar', $adminB), [
             'name' => $adminB->name,
-            'email' => $adminB->email,
             'rol' => 'camarero',
+            'pin' => '1234',
+            'pin_confirmation' => '1234',
         ])->assertSessionHasNoErrors();
         $this->assertSame('camarero', $adminB->fresh()->rol);
+        $this->assertNull($adminB->fresh()->email);
+        $this->assertNull($adminB->fresh()->password);
+
+        // Para la segunda parte, $adminB vuelve a ser admin con correo y contraseña.
+        $adminB->refresh()->forceFill(['email' => 'admin.b@ejemplo.test', 'password' => 'password', 'pin' => null])->save();
 
         // ...pero si el único admin que queda no es quien está logueado (otro
         // admin entrando "a la vez"), no se le puede quitar el rol ni borrar.
@@ -174,7 +223,7 @@ class GestionPersonalTest extends TestCase
 
         $this->actingAs($this->adminA->fresh()->forceFill(['rol' => 'admin']))
             ->put(route('admin.personal.actualizar', $adminB), [
-                'name' => $adminB->name, 'email' => $adminB->email, 'rol' => 'cocina',
+                'name' => $adminB->name, 'rol' => 'camarero', 'pin' => '1234', 'pin_confirmation' => '1234',
             ])
             ->assertSessionHasErrors(['rol' => 'El restaurante tiene que tener al menos un administrador.']);
 
@@ -200,7 +249,7 @@ class GestionPersonalTest extends TestCase
             ->post(route('admin.personal.guardar'), [
                 'name' => 'Otra Persona',
                 'email' => 'REPETIDO@ejemplo.test',
-                'rol' => 'camarero',
+                'rol' => 'admin',
                 'password' => 'contrasena-segura',
                 'password_confirmation' => 'contrasena-segura',
             ])
@@ -213,7 +262,7 @@ class GestionPersonalTest extends TestCase
             ->post(route('admin.personal.guardar'), [
                 'name' => 'Sin Contrasena',
                 'email' => 'sin.contrasena@ejemplo.test',
-                'rol' => 'camarero',
+                'rol' => 'admin',
                 'password' => 'contrasena-segura',
                 'password_confirmation' => 'otra-distinta',
             ])
@@ -243,12 +292,15 @@ class GestionPersonalTest extends TestCase
 
     public function test_el_listado_marca_tu_cuenta_y_el_menu_enlaza_a_personal(): void
     {
-        $this->empleado('cocina', 'Persona de Cocina');
+        User::factory()->camarero()->create(['name' => 'Persona de Sala', 'restaurante_id' => $this->restauranteA->id]);
+        $this->empleado('cocina', 'Cuenta de Cocina Antigua');
 
         $this->actingAs($this->adminA)->get(route('admin.personal'))
             ->assertOk()
             ->assertSee('Admin de A')
-            ->assertSee('Persona de Cocina')
+            ->assertSee('Persona de Sala')
+            ->assertSee('Entra con PIN')
+            ->assertDontSee('Cuenta de Cocina Antigua')
             ->assertSee('Tú')
             ->assertSee('href="'.route('admin.personal').'"', false);
     }

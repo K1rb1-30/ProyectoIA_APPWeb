@@ -23,7 +23,8 @@
     </x-slot>
 
     <p class="mb-space-lg max-w-3xl text-body-md text-secondary">
-        Cada persona entra con su correo y su contraseña, y ve solo las pantallas de su rol.
+        Los camareros entran en los dispositivos del bar con su nombre y su PIN. Los administradores,
+        con su correo y su contraseña. La cocina no necesita cuenta: su tablet se empareja en «Dispositivos».
         No hay registro público: las cuentas se crean aquí.
     </p>
 
@@ -39,7 +40,7 @@
                 <thead class="text-label-md text-secondary">
                     <tr class="border-b-2 border-on-surface">
                         <th scope="col" class="py-3 pr-4 font-medium">Nombre</th>
-                        <th scope="col" class="py-3 px-4 font-medium">Correo electrónico</th>
+                        <th scope="col" class="py-3 px-4 font-medium">Acceso</th>
                         <th scope="col" class="py-3 px-4 font-medium">Rol</th>
                         <th scope="col" class="py-3 pl-4"><span class="sr-only">Acciones</span></th>
                     </tr>
@@ -63,7 +64,13 @@
                                     <span class="ml-1.5 text-label-md font-normal text-secondary">(Tú)</span>
                                 @endif
                             </td>
-                            <td class="py-3.5 px-4 font-mono text-label-md font-normal">{{ $empleado->email }}</td>
+                            <td class="py-3.5 px-4 font-mono text-label-md font-normal">
+                                @if ($empleado->email)
+                                    {{ $empleado->email }}
+                                @else
+                                    <span class="font-sans text-secondary">Entra con PIN</span>
+                                @endif
+                            </td>
                             <td class="py-3.5 px-4 text-body-md">{{ $rol }}</td>
                             <td class="py-3.5 pl-4">
                                 <div class="flex items-center justify-end gap-1">

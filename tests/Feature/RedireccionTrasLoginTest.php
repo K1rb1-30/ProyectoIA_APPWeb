@@ -26,10 +26,15 @@ class RedireccionTrasLoginTest extends TestCase
             ->assertRedirect(route('panel'));
     }
 
-    public function test_el_camarero_va_a_las_mesas(): void
+    public function test_un_camarero_no_entra_por_el_login(): void
     {
-        $this->iniciarSesion(User::factory()->camarero()->create())
-            ->assertRedirect(route('camarero.mesas'));
+        // Cuenta antigua de camarero que todavía tiene correo y contraseña:
+        // aun así no puede entrar por /login (entra con su PIN en un dispositivo).
+        $camarero = User::factory()->create(['rol' => 'camarero']);
+
+        $this->iniciarSesion($camarero)
+            ->assertSessionHasErrors(['email' => 'Los camareros entran desde la tablet o el móvil del bar, con su nombre y su PIN.']);
+        $this->assertGuest();
     }
 
     public function test_cocina_va_a_los_pedidos(): void
