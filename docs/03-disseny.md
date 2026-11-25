@@ -176,7 +176,7 @@ erDiagram
 
 - **Pedido:** `pendiente` → `preparando` → `listo` → `servido`. Solo se avanza un paso cada vez (`Pedido::cambiarEstado()`); **no se puede saltar de `pendiente` a `listo`**.
 - **Mesa:** `libre` → `ocupada` al hacer el primer pedido → `libre` cuando el camarero cierra la cuenta (botón «Cerrar mesa y liberar», rama 12).
-- **Suscripción del restaurante (rama 24):** `pendiente` (dado de alta, sin pagar) → `activa` (Stripe ha confirmado el pago) → `impagada` / `cancelada` (con el webhook de la segunda PR). Solo `activa` deja usar la app: el middleware `suscripcion` manda al admin a «Tu suscripción» y a camarero, cocina y QR les enseña «Restaurante no disponible» (403). Los desarrolladores no se bloquean.
+- **Suscripción del restaurante (rama 24):** `pendiente` (dado de alta, sin pagar) → `activa` (Stripe ha confirmado el pago) → `impagada` / `cancelada` (avisos del webhook `/stripe/webhook`: `invoice.payment_failed`, `customer.subscription.updated` y `.deleted`; rama 24b). Solo `activa` deja usar la app: el middleware `suscripcion` manda al admin a «Tu suscripción» y a camarero, cocina y QR les enseña «Restaurante no disponible» (403). Los desarrolladores no se bloquean.
 - **Parte de la cuenta:** `pendiente` → `pagado` (tarjeta) o `pendiente` → `pendiente_efectivo` → `pagado` (efectivo). El cliente solo puede llegar a `pendiente_efectivo`; el `pagado` en efectivo lo pone el camarero. Si el camarero cobra en efectivo en la mesa sin que el cliente haya elegido nada (`cobrarEfectivoEnMesa()`), hace los dos pasos seguidos. El TPV del bar (`pagarConTpv()`) va de `pendiente` a `pagado` con `metodo = tarjeta` y un `Pago` **sin** `referencia_stripe`: así se distingue de Stripe. Una parte pagada no se vuelve a cobrar.
 - **Pedidos después de dividir:** si la cuenta ya tiene pagos, `DividirCuenta` solo divide lo nuevo y añade partes detrás de las que había (personas 4, 5…). Mientras haya pedidos fuera de la cuenta, la mesa no se puede cerrar.
 - **Reparto a partes iguales:** división entera y el céntimo que sobra a la primera parte. Ejemplo: 31,00 € entre 3 → 10,34 + 10,33 + 10,33.
@@ -195,6 +195,7 @@ Desde la rama 24, las rutas `/r/{slug}/…` llevan el middleware `suscripcion`, 
 |---|---|---|---|
 | GET | `/` | `inicio` | Página de inicio pública de MesaYa (rama 16) |
 | GET | `/privacidad` · `/cookies` | `legal.privacidad` · `legal.cookies` | Páginas legales simples (rama 16) |
+| POST | `/stripe/webhook` | `stripe.webhook` | Avisos de Stripe sobre la suscripción (rama 24b). Sin CSRF: se comprueba la firma con `STRIPE_WEBHOOK_SECRET`. Firma mala → 400 |
 | GET · POST | `/registro` | `registro` · `registro.guardar` | Alta de un restaurante nuevo (rama 24, solo sin sesión, POST máx. 5/min): crea el restaurante y su admin, inicia sesión y va a pagar la suscripción a Stripe |
 | GET | `/r/{slug}/mesa/{numero}` | `cliente.carta` | Carta del QR (solo platos disponibles) |
 | GET | `/r/{slug}/mesa/{numero}/pedido` | `cliente.pedido` | «Mi pedido» (carrito) |

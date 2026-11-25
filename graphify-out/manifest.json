@@ -30,9 +30,9 @@
     "semantic_hash": ""
   },
   "bootstrap/app.php": {
-    "mtime": 1795646419.4256034,
-    "seen": 1795647478.3626025,
-    "ast_hash": "12a3b8879dac5e0d8bc8cf9c0ae5f60c",
+    "mtime": 1795649117.3567643,
+    "seen": 1795649420.7269983,
+    "ast_hash": "62f166c926cb50e89201289cd6479e75",
     "semantic_hash": ""
   },
   "bootstrap/providers.php": {
@@ -96,9 +96,9 @@
     "semantic_hash": ""
   },
   "config/services.php": {
-    "mtime": 1795646375.601547,
-    "seen": 1795647478.3626292,
-    "ast_hash": "8cfd0be66f106d8990fd469a1ce7698c",
+    "mtime": 1795649081.6586144,
+    "seen": 1795649420.7270274,
+    "ast_hash": "7a7e44819f7b27c7d3707c18b980b55d",
     "semantic_hash": ""
   },
   "config/session.php": {
@@ -162,9 +162,9 @@
     "semantic_hash": ""
   },
   "routes/web.php": {
-    "mtime": 1795646452.1683393,
-    "seen": 1795647478.362926,
-    "ast_hash": "1b16ef4bbb19fcd9c8edef846121fce5",
+    "mtime": 1795649117.8278203,
+    "seen": 1795649420.72737,
+    "ast_hash": "8e34a59ef4558fc0acc0c0c00b55492d",
     "semantic_hash": ""
   },
   "tests/Feature/ExampleTest.php": {
@@ -228,9 +228,9 @@
     "semantic_hash": ""
   },
   "docs/registre-ia.md": {
-    "mtime": 1795647467.8405159,
-    "seen": 1795647478.3630595,
-    "ast_hash": "b82593f8641bb9551379e3c9ca1a2839",
+    "mtime": 1795649414.5697162,
+    "seen": 1795649420.7275264,
+    "ast_hash": "b3439b794c44b07d42f542e53ccb4b04",
     "semantic_hash": ""
   },
   "public/robots.txt": {
@@ -594,9 +594,9 @@
     "semantic_hash": ""
   },
   "docs/plan-de-trabajo.md": {
-    "mtime": 1795647441.4270186,
-    "seen": 1795647478.363057,
-    "ast_hash": "18d08350b69e089b2d5d9b08e987d21d",
+    "mtime": 1795649414.5173128,
+    "seen": 1795649420.7275238,
+    "ast_hash": "a896fefa963f7c8271438b5e1134f55c",
     "semantic_hash": ""
   },
   "app/Acciones/CrearPedido.php": {
@@ -702,9 +702,9 @@
     "semantic_hash": ""
   },
   "app/Models/Restaurante.php": {
-    "mtime": 1795645963.3644538,
-    "seen": 1795647478.3625855,
-    "ast_hash": "eaec102a77b579e819e58f0945f81684",
+    "mtime": 1795649101.0966654,
+    "seen": 1795649420.7269795,
+    "ast_hash": "e0aab7b6e094536834ae53430000ba0c",
     "semantic_hash": ""
   },
   "database/factories/CategoriaFactory.php": {
@@ -1098,9 +1098,9 @@
     "semantic_hash": ""
   },
   "app/Servicios/PasarelaStripe.php": {
-    "mtime": 1795646375.235918,
-    "seen": 1795647478.3625932,
-    "ast_hash": "eea3a1579caa57a7e75c75aa2b5a163c",
+    "mtime": 1795649081.4495568,
+    "seen": 1795649420.7269878,
+    "ast_hash": "4183556939aa205ef241d640679d106f",
     "semantic_hash": ""
   },
   "database/migrations/2026_11_23_000001_create_cuentas_table.php": {
@@ -1170,9 +1170,9 @@
     "semantic_hash": ""
   },
   "docs/03-disseny.md": {
-    "mtime": 1795647456.9268148,
-    "seen": 1795647478.3630474,
-    "ast_hash": "888dea15ef1d23eba46297712a934ba3",
+    "mtime": 1795649414.5183134,
+    "seen": 1795649420.727513,
+    "ast_hash": "2df12cb9ce9d464b279716a2921f2494",
     "semantic_hash": ""
   },
   "docs/04-installacio.md": {
@@ -1575,6 +1575,18 @@
     "mtime": 1795647347.8644707,
     "seen": 1795647478.3630161,
     "ast_hash": "3fb944248b8898b943fd2b528ec3d029",
+    "semantic_hash": ""
+  },
+  "app/Http/Controllers/StripeWebhookController.php": {
+    "mtime": 1795649117.1350372,
+    "seen": 1795649420.726911,
+    "ast_hash": "8ce68167c04547a11cee1bc4e83de6ef",
+    "semantic_hash": ""
+  },
+  "tests/Feature/StripeWebhookTest.php": {
+    "mtime": 1795649219.494176,
+    "seen": 1795649420.7274747,
+    "ast_hash": "39d5593b8442a7a9725766db44c398fa",
     "semantic_hash": ""
   },
   "package-lock.json": {
