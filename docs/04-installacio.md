@@ -85,6 +85,8 @@ DB_PASSWORD=
 ```
 
 > ⚠️ El `.env` **no se sube nunca a Git** (está en `.gitignore`): tiene tus contraseñas. Si hace falta una variable nueva, se añade a `.env.example` con un valor de ejemplo.
+>
+> Si ya tenías el `.env` de antes, `cp` no lo actualiza: **copia a mano las variables nuevas** de `.env.example`. Las últimas son `STRIPE_SUSCRIPCION_PRECIO_CENTIMOS` y `STRIPE_WEBHOOK_SECRET` (rama 24).
 
 Los tests usan la base de datos `proyectoIA_test`, que ya está configurada en `phpunit.xml`.
 
@@ -103,9 +105,51 @@ STRIPE_SECRET=sk_test_...
 
 4. Ejecuta `php artisan config:clear`.
 
-> ⚠️ **Nunca claves `pk_live_` ni `sk_live_`.** La aplicación se niega a usar una clave secreta que no empiece por `sk_test_`. No hacen falta webhooks: funciona también en `localhost`.
+> ⚠️ **Nunca claves `pk_live_` ni `sk_live_`.** La aplicación se niega a usar una clave secreta que no empiece por `sk_test_`, y rechaza los avisos del webhook que no sean de modo de prueba.
 
 Para pagar, usa la tarjeta de prueba `4242 4242 4242 4242`, cualquier fecha futura y cualquier CVC. Los tests no necesitan estas claves: simulan Stripe.
+
+Con esas dos claves ya funcionan los pagos de las mesas y el **alta de restaurantes con suscripción** (`/registro`). El pago de las mesas y el alta se confirman preguntando a Stripe al volver de la página de pago, así que funcionan en `localhost` sin nada más.
+
+### Suscripción de los restaurantes (rama 24)
+
+**Precio.** El importe mensual va en céntimos en el `.env`. Si no lo pones, se usan 29,00 €:
+
+```env
+STRIPE_SUSCRIPCION_PRECIO_CENTIMOS=2900
+```
+
+**Portal de cliente.** El botón «Gestionar en Stripe» de la pantalla «Suscripción» abre el portal de cliente de Stripe. Ahí el admin cambia la tarjeta, descarga las facturas o cancela la suscripción. El portal **hay que activarlo una vez** en el panel de Stripe (en modo de prueba): *Configuración → Facturación → Portal de clientes* (en inglés, *Settings → Billing → Customer portal*) → **Activar**. Si no está activado, el botón muestra «Ahora mismo no se puede abrir el portal de Stripe».
+
+### Webhook de Stripe (rama 24b)
+
+Lo que pasa **después** del alta (un cobro mensual que falla, una cancelación desde el portal, una renovación) lo avisa Stripe con un POST a `/stripe/webhook`. Cada aviso va **firmado**: la aplicación comprueba la firma con `STRIPE_WEBHOOK_SECRET` y rechaza (400) todo lo que no cuadre.
+
+Sin webhook, la aplicación funciona igual, pero no se entera de los impagos ni de las cancelaciones: el restaurante sigue «Activo».
+
+Stripe no puede llegar a tu `localhost`. En local, **Stripe CLI** recibe los avisos y te los reenvía:
+
+1. Instala Stripe CLI: [docs.stripe.com/stripe-cli](https://docs.stripe.com/stripe-cli). En Windows, descarga el `.zip`, descomprime `stripe.exe` y ponlo en una carpeta del `PATH`.
+2. Inicia sesión con tu cuenta de Stripe (se abre el navegador):
+   ```bash
+   stripe login
+   ```
+3. Con `composer run dev` arrancado, en **otra terminal**:
+   ```bash
+   stripe listen --forward-to localhost:8000/stripe/webhook
+   ```
+   Saca un secreto `whsec_...`. Cópialo en tu `.env`:
+   ```env
+   STRIPE_WEBHOOK_SECRET=whsec_...
+   ```
+   y ejecuta `php artisan config:clear`. Deja esa terminal abierta mientras pruebas: si la cierras, los avisos dejan de llegar. El secreto se mantiene aunque la vuelvas a abrir.
+4. Prueba que llegan los avisos:
+   - Da de alta un restaurante en `/registro` y paga con `4242 4242 4242 4242`.
+   - En **Suscripción → Gestionar en Stripe**, cancela. Stripe cancela al **final del mes pagado**: llega un `customer.subscription.updated` y el restaurante sigue «Activo» hasta esa fecha. Para verlo cancelado al momento, cancela la suscripción desde el panel de Stripe (*Facturación → Suscripciones*) y elige cancelar **inmediatamente**: llega `customer.subscription.deleted` y el restaurante pasa a «Cancelada».
+   - En la terminal de `stripe listen` sale cada aviso con su respuesta: `200` si se ha aceptado y `400` si la firma no cuadra.
+   - Si quieres comprobar solo la firma, usa `stripe trigger invoice.payment_failed`. Ese aviso es de un cliente inventado por la CLI, así que responde `200` pero no cambia ningún restaurante.
+
+En un servidor publicado (Railway, Laravel Cloud) no se usa Stripe CLI. En el panel de Stripe, *Desarrolladores → Webhooks → Añadir destino*, pon la URL `https://<tu-dominio>/stripe/webhook` y elige los eventos `customer.subscription.updated`, `customer.subscription.deleted` e `invoice.payment_failed`. El secreto `whsec_...` de ese destino va en el `.env` del servidor (es distinto del de `stripe listen`).
 
 ---
 
@@ -131,6 +175,8 @@ php artisan storage:link
 **Emparejar un dispositivo en local:** entra como admin → **Dispositivos** → elige Cocina o Camarero → sale un código. Abre `http://localhost:8000/dispositivo` en **otro navegador o en una ventana de incógnito** (que hará de tablet) y escribe el código. Para desvincularlo, «Desvincular» en la misma pantalla.
 
 El cliente no tiene cuenta: entra por el QR, por ejemplo en `http://localhost:8000/r/la-tasca/mesa/2`.
+
+Los restaurantes de prueba tienen la **suscripción activa**, así que no hace falta pagar nada para usarlos. Para probar el alta de un restaurante nuevo, abre `http://localhost:8000/registro` sin sesión iniciada (necesita las claves de Stripe). Hasta que pague, ese restaurante no puede usar la aplicación: su admin solo ve «Suscripción» y su QR dice «Restaurante no disponible».
 
 > Son datos inventados y **solo para local**: el seeder de las cuentas del equipo no hace nada en producción.
 
@@ -179,6 +225,11 @@ Más detalles en `06-proves.md`.
 | `php artisan db:seed` falla por un dato repetido | Seeders antiguos | Los seeders actuales se pueden repetir. Para empezar de cero: `php artisan migrate:fresh --seed` (⚠️ **borra todos los datos**) |
 | *«could not find driver»* | Falta `pdo_mysql` | Quita el `;` de `extension=pdo_mysql` |
 | Al pagar con tarjeta: *«Ahora mismo no se puede pagar con tarjeta»* | Faltan las claves de Stripe en el `.env` o no son de modo test | Pon `STRIPE_KEY` y `STRIPE_SECRET` (`pk_test_`/`sk_test_`) y ejecuta `php artisan config:clear` |
+| Tras `/registro` o al pulsar «Pagar la suscripción»: *«Ahora mismo no se puede abrir el pago con Stripe»* | Las mismas claves | Igual que la fila anterior. El restaurante ya está creado: se reintenta con «Pagar la suscripción» |
+| «Gestionar en Stripe»: *«Ahora mismo no se puede abrir el portal de Stripe»* | El portal de clientes no está activado en Stripe | Actívalo en el panel de Stripe (modo de prueba): *Configuración → Facturación → Portal de clientes* |
+| Un restaurante de prueba sale como *«Restaurante no disponible»* | Su suscripción no está activa (por ejemplo, la has cancelado probando el webhook) | `php artisan migrate:fresh --seed` (⚠️ borra los datos) o reactívala pagando desde «Suscripción» |
+| `stripe listen` muestra `400` en cada aviso | `STRIPE_WEBHOOK_SECRET` no está o no es el que da `stripe listen` | Copia el `whsec_...` que saca `stripe listen` en el `.env` y ejecuta `php artisan config:clear` |
+| `npm run build` falla con *«Unable to resolve @fontsource...»* | `node_modules` es anterior a las fuentes locales (rama 19) | `npm install` |
 
 ---
 

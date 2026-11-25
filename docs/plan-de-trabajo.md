@@ -71,6 +71,7 @@ No estaban en la propuesta: salen de probar la aplicación. No confundir con los
 | 22 | `feature/rediseno-admin` | 19 | Gabriel | ✅ | [#35](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/35) |
 | 23 | `feature/rediseno-cliente` | 19 | Gabriel | 🔍 | [#36](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/36) |
 | 24 | `feature/suscripcion-restaurantes` | 11, 18 | Gabriel | 🔍 | [#46](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/46) |
+| 24b | `feature/webhook-suscripcion` | 24 | Gabriel | 🔍 | [#47](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/47) |
 
 ### Semana 4 — hasta el 07/12
 
@@ -281,7 +282,7 @@ La rama 5 necesita la 3 y la 4. Mientras tanto, la persona B puede cerrar la 1 c
 2. **Un solo plan mensual de 29,00 €**, sin días de prueba. El importe va en `STRIPE_SUSCRIPCION_PRECIO_CENTIMOS` (céntimos), no en el código.
 3. **Estados:** `pendiente` (dado de alta, sin pagar) / `activa` / `impagada` / `cancelada`. Solo `activa` deja usar la app.
 4. **QR:** se bloquea todo `/r/{slug}/…` menos las dos vueltas de Stripe (`cliente.pago.exito` y `cliente.pedido.pagado`), para que un pago ya hecho se registre siempre.
-5. **Webhook en una segunda PR** (`/stripe/webhook`, para impagos y cancelaciones desde el portal).
+5. **Webhook en una segunda PR** (`/stripe/webhook`, para impagos y cancelaciones desde el portal): rama `feature/webhook-suscripcion` (24b), ver abajo.
 
 **Cómo se hace**
 - `RegistroRestauranteController`: en una transacción crea el `Restaurante` (slug único: `bar-pepe`, `bar-pepe-2`…) en `pendiente` y su admin; inicia sesión y manda a Stripe. Si Stripe falla, el restaurante queda `pendiente` y se reintenta desde «Tu suscripción».
@@ -292,6 +293,13 @@ La rama 5 necesita la 3 y la 4. Mientras tanto, la persona B puede cerrar la 1 c
 - Seeders y factory: los restaurantes de demo y los de los tests, en `activa`.
 - **Tests:** `SuscripcionTest` (13): el registro crea restaurante y admin pendientes y va a Stripe, slug único, validación, Stripe caído, solo se activa si Stripe confirma, un restaurante no activa la de otro, bloqueo de admin, QR, cocina y camarero, impagada y cancelada, desarrolladores, portal y seeders.
 
+### 24b. `feature/webhook-suscripcion` 🟠
+- Segunda PR de la rama 24. Sale de `feature/suscripcion-restaurantes`: hasta que se mergee #46, su PR también enseña esos cambios.
+- `POST /stripe/webhook` (`StripeWebhookController`), sin CSRF (excepción en `bootstrap/app.php`). Lo protege la **firma** del aviso: `PasarelaStripe::leerEventoWebhook()` la comprueba con `STRIPE_WEBHOOK_SECRET` (`Webhook::constructEvent`, en local, sin llamar a Stripe). Firma mala, falta el secreto o aviso de modo real → 400 y no se toca nada.
+- Avisos: `customer.subscription.updated` (estado traducido con `Restaurante::estadoDesdeStripe()` y próxima fecha de cobro), `customer.subscription.deleted` → `cancelada`, `invoice.payment_failed` → `impagada`. Los demás responden 200 y no hacen nada (si no, Stripe los reintenta).
+- El restaurante se busca por `stripe_suscripcion_id`: un aviso de una suscripción desconocida (los de `stripe trigger`, o la antigua de un restaurante que ha reactivado) no toca nada.
+- **Tests:** `StripeWebhookTest` (10), con avisos firmados de verdad con un secreto de prueba: firma mala o sin firma, sin secreto, modo real, impago, cancelación, renovación con fecha nueva, traducción de estados, suscripción desconocida, avisos que no usamos y bloqueo tras un impago.
+
 ---
 
 ## 3. Decisiones pendientes
@@ -301,7 +309,7 @@ La rama 5 necesita la 3 y la 4. Mientras tanto, la persona B puede cerrar la 1 c
 | Tema | Opciones | Decisión |
 |---|---|---|
 | PDF de los QR | `barryvdh/laravel-dompdf` (sirve también para el ticket PDF de los extras) **o** una página imprimible con "Guardar como PDF" del navegador | **Página imprimible** (16/11/2026), en `/mesas/imprimir`. Motivos: no añade ninguna librería, reutiliza Blade y Tailwind (con `print:`) y es más fácil de explicar. Inconveniente: no se descarga un `.pdf` con un clic; se elige "Guardar como PDF" en el diálogo de imprimir. Si se hace el ticket PDF de los extras, se vuelve a decidir. |
-| Stripe | `stripe/stripe-php` | **`stripe/stripe-php` ^23** (23/11/2026), con Stripe Checkout en modo test y sin webhooks: el pago se confirma consultando la sesión al volver a la URL de éxito. Motivos: es el SDK oficial, evita escribir a mano las llamadas HTTP y la página de la tarjeta la pone Stripe (los datos de la tarjeta no pasan por nuestro servidor). Todo el uso está en `App\Servicios\PasarelaStripe`, que en los tests se simula. **Rama 24:** también la suscripción mensual de los restaurantes (`mode: subscription`) y el portal de cliente, con el mismo paquete y sin Cashier. |
+| Stripe | `stripe/stripe-php` | **`stripe/stripe-php` ^23** (23/11/2026), con Stripe Checkout en modo test y sin webhooks: el pago se confirma consultando la sesión al volver a la URL de éxito. Motivos: es el SDK oficial, evita escribir a mano las llamadas HTTP y la página de la tarjeta la pone Stripe (los datos de la tarjeta no pasan por nuestro servidor). Todo el uso está en `App\Servicios\PasarelaStripe`, que en los tests se simula. **Rama 24:** también la suscripción mensual de los restaurantes (`mode: subscription`) y el portal de cliente, con el mismo paquete y sin Cashier. Para lo que pasa después del alta (impagos, cancelaciones), **un webhook** con firma (rama 24b). |
 | Gráficos | Chart.js por npm (ya está en el stack) | **`chart.js` ^4** por npm (23/11/2026), empaquetado con Vite y sin CDN, en una entrada aparte (`resources/js/estadisticas.js`) que solo carga la pantalla de estadísticas. Se registran solo las piezas que se usan (barras y circular). Además, la zona horaria de la app pasa a `Europe/Madrid` (`APP_TIMEZONE`), para que las ventas «de hoy» y por día cuenten los días como en el restaurante. |
 | Fuentes e iconos | Google Fonts **o** archivos servidos en local | **En local** (16/11/2026), con los paquetes npm `@fontsource-variable/inter` y `@material-symbols/font-400`. Motivos: la demo no depende del wifi y la carta pública no envía la IP del cliente a Google. Vite las empaqueta en `npm run build`. |
 

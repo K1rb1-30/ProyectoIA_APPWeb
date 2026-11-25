@@ -8,7 +8,9 @@ use Carbon\CarbonInterface;
 use Illuminate\Support\Carbon;
 use RuntimeException;
 use Stripe\Exception\InvalidRequestException;
+use Stripe\Exception\SignatureVerificationException;
 use Stripe\StripeClient;
+use Stripe\Webhook;
 
 /**
  * ÚNICO sitio del proyecto que habla con Stripe (rama 11).
@@ -209,6 +211,74 @@ class PasarelaStripe
         ]);
 
         return $sesion->url;
+    }
+
+    /**
+     * Lee un aviso (evento) que Stripe manda al webhook /stripe/webhook (rama 24, PR 2).
+     *
+     * Cualquiera puede hacer un POST a esa URL, así que antes de creer nada
+     * comprobamos la FIRMA: Stripe firma cada aviso con el secreto del webhook
+     * (STRIPE_WEBHOOK_SECRET, whsec_...) y Webhook::constructEvent() la
+     * comprueba en local, sin llamar a Stripe. Si no cuadra, lanza
+     * SignatureVerificationException y el controlador responde 400.
+     *
+     * Devuelve solo lo que necesitamos, en un array sencillo:
+     *  - tipo: 'customer.subscription.updated', 'invoice.payment_failed'...
+     *  - suscripcion_id: la suscripción (sub_...) a la que se refiere el aviso.
+     *  - estado_stripe: estado de la suscripción según Stripe (active,
+     *    past_due, canceled...). Solo viene en los avisos de suscripción.
+     *  - fin_en: fin del periodo pagado (próximo cobro), si viene.
+     *
+     * @return array{tipo: string, suscripcion_id: string|null, estado_stripe: string|null, fin_en: CarbonInterface|null}
+     *
+     * @throws SignatureVerificationException  firma que no cuadra
+     * @throws RuntimeException  falta el secreto o el aviso no es de modo test
+     */
+    public function leerEventoWebhook(string $contenido, string $firma): array
+    {
+        $secreto = (string) config('services.stripe.webhook_secret');
+
+        if (! str_starts_with($secreto, 'whsec_')) {
+            throw new RuntimeException('Falta STRIPE_WEBHOOK_SECRET en el .env (whsec_...).');
+        }
+
+        $evento = Webhook::constructEvent($contenido, $firma, $secreto);
+
+        // Seguro extra, como con sk_test_: un aviso de modo real no se acepta nunca.
+        if ($evento->livemode) {
+            throw new RuntimeException('Aviso de Stripe en modo real: solo se aceptan los de modo test.');
+        }
+
+        $objeto = $evento->data->object;
+
+        if (str_starts_with($evento->type, 'customer.subscription.')) {
+            // El objeto es la suscripción. La fecha del periodo va en su
+            // elemento (items), igual que en consultarSesionSuscripcion().
+            $finEn = $objeto->items?->data[0]?->current_period_end ?? null;
+
+            return [
+                'tipo' => $evento->type,
+                'suscripcion_id' => $objeto->id,
+                'estado_stripe' => $objeto->status,
+                'fin_en' => $finEn ? Carbon::createFromTimestamp($finEn) : null,
+            ];
+        }
+
+        if (str_starts_with($evento->type, 'invoice.')) {
+            // El objeto es la factura. Con esta versión de la API, la
+            // suscripción que la generó está en parent.subscription_details.
+            $suscripcion = $objeto->parent?->subscription_details?->subscription ?? null;
+
+            return [
+                'tipo' => $evento->type,
+                'suscripcion_id' => is_string($suscripcion) ? $suscripcion : $suscripcion?->id,
+                'estado_stripe' => null,
+                'fin_en' => null,
+            ];
+        }
+
+        // Otros avisos: no los usamos.
+        return ['tipo' => $evento->type, 'suscripcion_id' => null, 'estado_stripe' => null, 'fin_en' => null];
     }
 
     /**

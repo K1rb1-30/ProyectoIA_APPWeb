@@ -80,6 +80,39 @@ class Restaurante extends Model
     }
 
     /**
+     * Cambia el estado de la suscripción con lo que avisa Stripe por el
+     * webhook (rama 24, PR 2). Si no llega fecha, se deja la que había.
+     */
+    public function cambiarEstadoSuscripcion(string $estado, ?CarbonInterface $finEn = null): void
+    {
+        $this->forceFill(['suscripcion_estado' => $estado]);
+
+        if ($finEn !== null) {
+            $this->forceFill(['suscripcion_fin_en' => $finEn]);
+        }
+
+        $this->save();
+    }
+
+    /**
+     * Traduce el estado de una suscripción de Stripe al nuestro:
+     *  - active (pagada) y trialing (en prueba)  → activa
+     *  - past_due (Stripe sigue reintentando el cobro) y unpaid → impagada
+     *  - canceled e incomplete_expired           → cancelada
+     * Devuelve null con los estados que no nos cambian nada (por ejemplo,
+     * incomplete: el primer pago aún no ha terminado).
+     */
+    public static function estadoDesdeStripe(?string $estadoStripe): ?string
+    {
+        return match ($estadoStripe) {
+            'active', 'trialing' => self::SUSCRIPCION_ACTIVA,
+            'past_due', 'unpaid' => self::SUSCRIPCION_IMPAGADA,
+            'canceled', 'incomplete_expired' => self::SUSCRIPCION_CANCELADA,
+            default => null,
+        };
+    }
+
+    /**
      * Slug único a partir del nombre: "Bar Pepe" → "bar-pepe". Si ya existe,
      * prueba "bar-pepe-2", "bar-pepe-3"... El slug sale en la URL del QR.
      */
