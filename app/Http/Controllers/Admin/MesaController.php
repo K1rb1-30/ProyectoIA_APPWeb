@@ -65,7 +65,17 @@ class MesaController extends Controller
 
     public function update(Request $request, Mesa $mesa): RedirectResponse
     {
-        $mesa->update($this->validar($request, $mesa));
+        $datos = $this->validar($request, $mesa);
+
+        // Si la mesa está ocupada, los clientes están usando su QR: cambiarle
+        // el número cambiaría la URL y el QR que tienen delante dejaría de ir.
+        if ($mesa->estado === 'ocupada' && (int) $datos['numero'] !== $mesa->numero) {
+            return back()->withInput()->withErrors([
+                'numero' => 'No se puede cambiar el número de una mesa ocupada: los clientes están usando su QR. Cámbialo cuando quede libre.',
+            ]);
+        }
+
+        $mesa->update($datos);
 
         return redirect()->route('admin.mesas')
             ->with('estado', 'Mesa '.$mesa->numero.' actualizada.');

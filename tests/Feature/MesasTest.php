@@ -158,4 +158,29 @@ class MesasTest extends TestCase
             ->assertSee(url('/r/la-tasca/mesa/1'))
             ->assertDontSee(url('/r/el-rincon/mesa/2'));
     }
+
+    public function test_no_se_cambia_el_numero_de_una_mesa_ocupada(): void
+    {
+        $mesa = Mesa::factory()->create(['restaurante_id' => $this->restauranteA->id, 'numero' => 5, 'estado' => 'ocupada']);
+
+        $this->actingAs($this->adminA)
+            ->from(route('admin.mesas.editar', $mesa))
+            ->put(route('admin.mesas.actualizar', $mesa), ['numero' => 6])
+            ->assertRedirect(route('admin.mesas.editar', $mesa))
+            ->assertSessionHasErrors('numero');
+
+        $this->assertSame(5, $mesa->fresh()->numero);
+    }
+
+    public function test_el_numero_de_una_mesa_libre_si_se_puede_cambiar(): void
+    {
+        $mesa = Mesa::factory()->create(['restaurante_id' => $this->restauranteA->id, 'numero' => 5, 'estado' => 'libre']);
+
+        $this->actingAs($this->adminA)
+            ->put(route('admin.mesas.actualizar', $mesa), ['numero' => 6])
+            ->assertRedirect(route('admin.mesas'))
+            ->assertSessionHasNoErrors();
+
+        $this->assertSame(6, $mesa->fresh()->numero);
+    }
 }

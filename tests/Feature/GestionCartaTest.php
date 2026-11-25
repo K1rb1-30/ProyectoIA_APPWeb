@@ -100,6 +100,21 @@ class GestionCartaTest extends TestCase
         }
     }
 
+    public function test_no_se_acepta_un_precio_de_cero(): void
+    {
+        $this->actingAs($this->admin);
+
+        foreach (['0', '0,00', '0.0'] as $escrito) {
+            $this->post(route('admin.carta.guardar'), [
+                'nombre' => "Plato gratis {$escrito}",
+                'categoria_id' => $this->categoria->id,
+                'precio' => $escrito,
+            ])->assertSessionHasErrors(['precio' => 'El precio tiene que ser mayor que 0.']);
+        }
+
+        $this->assertSame(0, Plato::count());
+    }
+
     public function test_no_se_acepta_un_precio_mal_escrito(): void
     {
         $this->actingAs($this->admin)->post(route('admin.carta.guardar'), [
