@@ -15,10 +15,10 @@ Requisitos funcionales (RF) y no funcionales (RNF) de la aplicación. Salen de l
 | ID | Requisito | Rol | Prioridad | Estado |
 |---|---|---|---|---|
 | RF1 | El personal entra con correo y contraseña. No hay registro público: las cuentas las crea el restaurante. | Todos | 🟢 | ✅ PR #4 |
-| RF2 | Hay tres roles con login: `admin`, `camarero` y `cocina`. Cada uno solo entra en sus pantallas; el admin puede entrar en todas. | Todos | 🟢 | ✅ PR #8, #11 |
+| RF2 | Hay tres roles con login: `admin`, `camarero` y `cocina`. Cada uno solo entra en sus pantallas. Las cuentas de desarrollador (equipo y profesor, admins con la marca `puede_cambiar_restaurante`) pueden entrar en todas. | Todos | 🟢 | ✅ PR #8, #11 |
 | RF3 | Después del login, cada rol va a su pantalla: admin → panel, camarero → mesas, cocina → pedidos. | Todos | 🟢 | ✅ PR #8 |
 | RF4 | Multi-restaurante: cada usuario pertenece a un restaurante y **solo ve y modifica los datos de su restaurante**. | Todos | 🟢 | ✅ PR #8 |
-| RF5 | El admin puede cambiar de vista («Ver como») a camarero, cocina o cliente sin cerrar sesión. | Admin | — | ✅ PR #11, #13 |
+| RF5 | Los desarrolladores pueden cambiar de vista («Ver como») a camarero, cocina o cliente sin cerrar sesión. El admin de un restaurante no. | Desarrollador | — | ✅ PR #11, #13 |
 | RF35 | *(Añadido en la rama 18, no estaba en la propuesta.)* El admin crea, edita y borra las cuentas de su personal (nombre, correo, rol y contraseña) en `/admin/personal`. El correo es único en toda la aplicación; al editar, la contraseña vacía no se cambia, y al cambiarla se cierran las sesiones abiertas de esa persona. El admin no puede borrarse ni quitarse su rol, y el restaurante nunca se queda sin admin. Nadie puede borrar su propia cuenta desde `/perfil`. Las cuentas del equipo y del profesor (las que cambian de restaurante) no salen en Personal ni cuentan como admin del restaurante. Al borrar un empleado, sus pedidos se conservan sin quién los tomó. | Admin | 🔵 | ✅ PR #30 |
 
 ### Carta y alérgenos (admin)

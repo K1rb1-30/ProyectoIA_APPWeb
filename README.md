@@ -68,7 +68,7 @@ La aplicación queda en http://localhost:8000.
 
 | Correo | Contraseña | Rol |
 |---|---|---|
-| `ivan@mesaya.com` · `gabriel@mesaya.com` · `profesor@mesaya.com` | `1234` | admin de «La Tasca de Prueba»; pueden **cambiar de restaurante** desde el menú lateral |
+| `ivan@mesaya.com` · `gabriel@mesaya.com` · `profesor@mesaya.com` | `1234` | **desarrolladores**: admin de «La Tasca de Prueba», pueden **cambiar de restaurante** desde el menú lateral y entrar como camarero, cocina o cliente con «Ver como» |
 | `admin@la-tasca.test` | `password` | admin |
 | `camarero@la-tasca.test` (y `camarero2@`, `camarero3@`) | `password` | camarero |
 | `cocina@la-tasca.test` (y `cocina2@`) | `password` | cocina |

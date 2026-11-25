@@ -40,8 +40,8 @@
     {{-- max-w-md centra la columna si se abre en una pantalla grande --}}
     <div class="min-h-screen max-w-md mx-auto flex flex-col bg-background"
          x-data="avisosCamarero({ urlDatos: @js(route('camarero.avisos.datos')), urlServido: @js(route('camarero.avisos.servido', '__ID__')) })">
-        {{-- Solo lo ve el admin: una franja encima de la cabecera para volver al panel o ir a otra vista --}}
-        @if (Auth::user()?->rol === 'admin')
+        {{-- Solo lo ven los desarrolladores: una franja encima de la cabecera para volver al panel o ir a otra vista --}}
+        @if (Auth::user()?->esDesarrollador())
             <div class="flex justify-end px-margin py-1 bg-surface-container">
                 <x-selector-vista />
             </div>

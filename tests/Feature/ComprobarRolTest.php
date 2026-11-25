@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 // Comprueba que el middleware ComprobarRol ("rol:...") solo deja entrar a
-// cada rol en sus pantallas, salvo el admin, que puede entrar en todas.
+// cada rol en sus pantallas, salvo los desarrolladores, que entran en todas.
 class ComprobarRolTest extends TestCase
 {
     use RefreshDatabase;
@@ -40,12 +40,20 @@ class ComprobarRolTest extends TestCase
         $this->actingAs($cocina)->get('/camarero/mesas')->assertForbidden();
     }
 
-    public function test_el_admin_puede_entrar_en_las_pantallas_de_camarero_y_cocina(): void
+    public function test_el_desarrollador_puede_entrar_en_las_pantallas_de_camarero_y_cocina(): void
+    {
+        $desarrollador = User::factory()->desarrollador()->create();
+
+        $this->actingAs($desarrollador)->get('/camarero/mesas')->assertOk();
+        $this->actingAs($desarrollador)->get('/cocina/pedidos')->assertOk();
+    }
+
+    public function test_el_admin_de_un_restaurante_no_entra_en_las_pantallas_de_camarero_y_cocina(): void
     {
         $admin = User::factory()->create();
 
-        $this->actingAs($admin)->get('/camarero/mesas')->assertOk();
-        $this->actingAs($admin)->get('/cocina/pedidos')->assertOk();
+        $this->actingAs($admin)->get('/camarero/mesas')->assertForbidden();
+        $this->actingAs($admin)->get('/cocina/pedidos')->assertForbidden();
     }
 
     public function test_cocina_no_puede_entrar_en_el_panel_de_admin(): void

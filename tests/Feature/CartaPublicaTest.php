@@ -138,9 +138,9 @@ class CartaPublicaTest extends TestCase
         $this->get($mesa->urlQr())->assertOk();
     }
 
-    public function test_el_admin_tiene_la_opcion_cliente_en_ver_como(): void
+    public function test_el_desarrollador_tiene_la_opcion_cliente_en_ver_como(): void
     {
-        $admin = User::factory()->create(['restaurante_id' => $this->restaurante->id]);
+        $admin = User::factory()->desarrollador()->create(['restaurante_id' => $this->restaurante->id]);
 
         $this->actingAs($admin)
             ->get('/panel')
@@ -151,7 +151,7 @@ class CartaPublicaTest extends TestCase
 
     public function test_sin_mesas_la_opcion_cliente_sale_desactivada(): void
     {
-        $adminSinMesas = User::factory()->create();
+        $adminSinMesas = User::factory()->desarrollador()->create();
 
         $this->actingAs($adminSinMesas)
             ->get('/panel')

@@ -2,7 +2,7 @@
 
 Cómo se prueba la aplicación y dónde está cada uno de los 6 *golden tests* que pide `CLAUDE.md`.
 
-**Estado a 25/11/2026:** 267 tests, todos en verde (ramas 1 a 23 y los arreglos de la revisión). Están los seis golden tests.
+**Estado a 25/11/2026:** 269 tests, todos en verde (ramas 1 a 23 y los arreglos de la revisión). Están los seis golden tests.
 
 ---
 
@@ -59,8 +59,8 @@ El golden test nº 6 también se repite en cada funcionalidad, porque cada panta
 | `Auth/*` | 18 | Login, contraseña, verificación de correo (Breeze) y que el **registro público está desactivado** |
 | `ProfileTest` | 5 | Perfil del usuario en `/perfil` (`/profile` redirige); nadie puede borrar su propia cuenta |
 | `RedireccionTrasLoginTest` | 3 | Cada rol va a su pantalla después del login |
-| `ComprobarRolTest` | 7 | Middleware de roles; el admin entra en todo |
-| `SelectorVistaTest` | 3 | Desplegable «Ver como» del admin |
+| `ComprobarRolTest` | 8 | Middleware de roles; los desarrolladores entran en todo y el admin de un restaurante solo en lo suyo |
+| `SelectorVistaTest` | 4 | Desplegable «Ver como»: solo lo ven los desarrolladores |
 | `UsuariosAdminSeederTest` | 4 | Cuentas fijas del equipo |
 | `AislamientoRestaurantesTest` | 4 | Trait `PerteneceARestaurante` (golden nº 6) |
 | `ComponentesDisenoTest` · `LayoutsTest` | 9 | Componentes y layouts del diseño |
