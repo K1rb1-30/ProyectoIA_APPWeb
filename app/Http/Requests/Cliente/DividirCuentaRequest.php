@@ -8,9 +8,16 @@ use Illuminate\Foundation\Http\FormRequest;
  * Valida el formulario de dividir la cuenta:
  *  - modo=iguales&personas=3
  *  - modo=platos&personas=3&asignaciones[12]=1&asignaciones[13]=0   (idLinea => persona)
+ *  - modo=platos&personas=2&asignaciones[14][]=1&asignaciones[14][]=2
+ *    (una persona por UNIDAD: de los 2 cafés de la línea 14, uno paga la
+ *    persona 1 y otro la 2)
  *
  * En "asignaciones", el 0 significa "Todos": el plato es compartido y se
  * reparte entre todas las personas (rama 14).
+ *
+ * Antes de validar, la persona suelta de una línea (asignaciones[12]=1) se
+ * convierte en una lista de una sola persona ([1]). Así cada línea llega
+ * siempre como lista: una persona para toda la línea o una por unidad.
  *
  * Que cada línea sea de esta mesa y esté asignada lo comprueba DividirCuenta.
  */
@@ -20,6 +27,17 @@ class DividirCuentaRequest extends FormRequest
     public function authorize(): bool
     {
         return true;
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $asignaciones = $this->input('asignaciones');
+
+        if (is_array($asignaciones)) {
+            $this->merge([
+                'asignaciones' => array_map(fn ($valor) => is_array($valor) ? array_values($valor) : [$valor], $asignaciones),
+            ]);
+        }
     }
 
     public function rules(): array
@@ -32,14 +50,16 @@ class DividirCuentaRequest extends FormRequest
             'asignaciones' => ['required_if:modo,platos', 'nullable', 'array'],
             // 0 = "Todos" (compartido). Nadie puede ser la persona 5 si hay 3:
             // lte:personas compara con el número de personas enviado.
-            'asignaciones.*' => ['integer', 'min:0', 'lte:personas'],
+            // Cada línea: una lista con una persona (toda la línea) o una por unidad.
+            'asignaciones.*' => ['array', 'min:1', 'max:99'],
+            'asignaciones.*.*' => ['integer', 'min:0', 'lte:personas'],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'asignaciones.*.lte' => 'Hay un plato asignado a una persona que no existe. Revisa el número de personas.',
+            'asignaciones.*.*.lte' => 'Hay un plato asignado a una persona que no existe. Revisa el número de personas.',
         ];
     }
 
@@ -48,7 +68,8 @@ class DividirCuentaRequest extends FormRequest
         return [
             'personas' => 'número de personas',
             'asignaciones' => 'reparto por platos',
-            'asignaciones.*' => 'persona',
+            'asignaciones.*' => 'plato',
+            'asignaciones.*.*' => 'persona',
         ];
     }
 }

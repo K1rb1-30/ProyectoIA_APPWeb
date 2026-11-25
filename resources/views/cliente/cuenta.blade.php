@@ -23,15 +23,21 @@
 @php
     $rutaMesa = ['slug' => $restaurante->slug, 'numero' => $mesa->numero];
 
-    // { idLinea: subtotal en céntimos }, para calcular el reparto por platos.
-    $subtotales = $lineasFormulario->mapWithKeys(fn ($linea) => [$linea->id => $linea->subtotalCentimos()]);
+    // { idLinea: { cantidad, precio } }, para calcular el reparto por platos.
+    // precio es el de UNA unidad: al separar una línea, cada unidad cuesta eso.
+    $lineasDatos = $lineasFormulario->mapWithKeys(fn ($linea) => [$linea->id => [
+        'cantidad' => $linea->cantidad,
+        'precio' => $linea->precio_centimos,
+    ]]);
 
     // Al abrir: tantas personas como partes tenga la cuenta (o 2 si no hay).
     // Al dividir solo lo nuevo, empieza en 1.
     $personasIniciales = $soloLoNuevo ? 1 : ($cuenta?->partes->count() ?: 2);
 
-    // Al abrir en modo "por platos", todas las líneas empiezan en la persona 1.
+    // Al abrir en modo "por platos", todas las líneas empiezan en la persona 1,
+    // sin separar. Si se separa una línea, cada unidad empieza en la persona 1.
     $asignacionesIniciales = $lineasFormulario->mapWithKeys(fn ($linea) => [$linea->id => 1]);
+    $unidadesIniciales = $lineasFormulario->mapWithKeys(fn ($linea) => [$linea->id => array_fill(0, $linea->cantidad, 1)]);
 @endphp
 
 <x-layouts.cliente :restaurante="$restaurante->nombre" :mesa="$mesa->numero" seccion="cuenta"
@@ -128,8 +134,13 @@
                   modo: @js(old('modo', 'iguales')),
                   personas: {{ (int) old('personas', $personasIniciales) }},
                   total: {{ $totalFormulario }},
-                  subtotales: @js($subtotales),
+                  lineas: @js((object) $lineasDatos->all()),
+                  // Persona de cada línea entera: { idLinea: persona }.
                   asignaciones: @js((object) $asignacionesIniciales->all()),
+                  // Persona de cada unidad, para las líneas separadas: { idLinea: [persona, persona...] }.
+                  unidades: @js((object) $unidadesIniciales->all()),
+                  // Líneas que se reparten por unidades: { idLinea: true }.
+                  separadas: {},
                   enviando: false,
                   // Igual que DividirCuenta::repartirAPartesIguales en PHP.
                   partesIguales() {
@@ -141,14 +152,19 @@
                   // { persona: céntimos } según los platos asignados.
                   // Persona 0 = «Todos» (rama 14): se suma aparte y se reparte
                   // entre todas, igual que importesPorPlatos() en PHP.
+                  // Una línea separada suma una unidad (su precio) a cada persona elegida.
                   partesPorPlatos() {
                       const suma = {};
                       let compartido = 0;
-                      for (const [linea, persona] of Object.entries(this.asignaciones)) {
-                          if (persona === 0) {
-                              compartido += this.subtotales[linea];
+                      const anadir = (persona, centimos) => {
+                          if (persona === 0) compartido += centimos;
+                          else suma[persona] = (suma[persona] ?? 0) + centimos;
+                      };
+                      for (const [id, linea] of Object.entries(this.lineas)) {
+                          if (this.separadas[id]) {
+                              this.unidades[id].forEach((persona) => anadir(persona, linea.precio));
                           } else {
-                              suma[persona] = (suma[persona] ?? 0) + this.subtotales[linea];
+                              anadir(this.asignaciones[id], linea.cantidad * linea.precio);
                           }
                       }
                       if (compartido > 0) {
@@ -163,9 +179,10 @@
                   sumar() { if (this.personas < 20) this.personas++ },
                   restar() {
                       if (this.personas > 1) this.personas--;
-                      // Si una línea estaba en una persona que ya no existe, pasa a la última.
+                      // Si una línea o una unidad estaba en una persona que ya no existe, pasa a la última.
                       for (const linea in this.asignaciones) {
                           if (this.asignaciones[linea] > this.personas) this.asignaciones[linea] = this.personas;
+                          this.unidades[linea] = this.unidades[linea].map((p) => Math.min(p, this.personas));
                       }
                   },
                   euros(c) { return (c / 100).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €' },
@@ -218,27 +235,62 @@
                 </div>
             </div>
 
-            {{-- Por platos: cada línea con un selector de persona --}}
+            {{-- Por platos: cada línea con un selector de persona. Las líneas de
+                 varias unidades (2× Café) se pueden «Separar» para elegir quién
+                 paga cada unidad. --}}
             <div x-show="modo === 'platos'" x-cloak class="mb-space-md border-t border-outline-variant">
                 @foreach ($lineasFormulario as $linea)
-                    <div class="flex items-center justify-between gap-space-md py-3 border-b border-outline-variant">
-                        <span class="min-w-0">
-                            <span class="block text-label-lg">{{ $linea->cantidad }}× {{ $linea->plato?->nombre ?? 'Plato' }}</span>
-                            <x-precio :centimos="$linea->subtotalCentimos()" class="font-mono text-body-md text-secondary" />
-                        </span>
-                        <label class="shrink-0">
-                            <span class="sr-only">Quién paga {{ $linea->plato?->nombre }}</span>
-                            {{-- name solo en modo platos: en modo iguales no se envía --}}
-                            <select :name="modo === 'platos' ? 'asignaciones[{{ $linea->id }}]' : null"
-                                    x-model.number="asignaciones[{{ $linea->id }}]"
-                                    class="min-h-[44px] pl-3 pr-9 rounded border-[1.5px] border-secondary-fixed-dim text-label-md focus:border-primary-container focus:ring-1 focus:ring-primary-container">
-                                {{-- 0 = plato compartido entre todos (rama 14) --}}
-                                <option value="0" :selected="asignaciones[{{ $linea->id }}] === 0">Todos (compartido)</option>
-                                <template x-for="numero in personas" :key="numero">
-                                    <option :value="numero" x-text="'Persona ' + numero" :selected="asignaciones[{{ $linea->id }}] == numero"></option>
-                                </template>
-                            </select>
-                        </label>
+                    <div class="py-3 border-b border-outline-variant">
+                        <div class="flex items-center justify-between gap-space-md">
+                            <span class="min-w-0">
+                                <span class="block text-label-lg">{{ $linea->cantidad }}× {{ $linea->plato?->nombre ?? 'Plato' }}</span>
+                                <x-precio :centimos="$linea->subtotalCentimos()" class="font-mono text-body-md text-secondary" />
+                                @if ($linea->cantidad > 1)
+                                    <button type="button" x-on:click="separadas[{{ $linea->id }}] = ! separadas[{{ $linea->id }}]"
+                                            class="block min-h-[44px] text-label-md underline underline-offset-2"
+                                            x-text="separadas[{{ $linea->id }}] ? 'Juntar' : 'Separar las {{ $linea->cantidad }} unidades'"></button>
+                                @endif
+                            </span>
+                            {{-- Una persona para toda la línea (cuando no está separada) --}}
+                            <label class="shrink-0" x-show="! separadas[{{ $linea->id }}]">
+                                <span class="sr-only">Quién paga {{ $linea->plato?->nombre }}</span>
+                                {{-- name solo en modo platos y sin separar: si no, no se envía --}}
+                                <select :name="modo === 'platos' && ! separadas[{{ $linea->id }}] ? 'asignaciones[{{ $linea->id }}][0]' : null"
+                                        x-model.number="asignaciones[{{ $linea->id }}]"
+                                        class="min-h-[44px] pl-3 pr-9 rounded border-[1.5px] border-secondary-fixed-dim text-label-md focus:border-primary-container focus:ring-1 focus:ring-primary-container">
+                                    {{-- 0 = plato compartido entre todos (rama 14) --}}
+                                    <option value="0" :selected="asignaciones[{{ $linea->id }}] === 0">Todos (compartido)</option>
+                                    <template x-for="numero in personas" :key="numero">
+                                        <option :value="numero" x-text="'Persona ' + numero" :selected="asignaciones[{{ $linea->id }}] == numero"></option>
+                                    </template>
+                                </select>
+                            </label>
+                        </div>
+
+                        {{-- Separada: una fila por unidad, cada una con su persona --}}
+                        @if ($linea->cantidad > 1)
+                            <div x-show="separadas[{{ $linea->id }}]" x-cloak class="mt-2 pl-space-md border-l-2 border-outline-variant">
+                                @for ($unidad = 0; $unidad < $linea->cantidad; $unidad++)
+                                    <div class="flex items-center justify-between gap-space-md py-1">
+                                        <span class="text-body-md">
+                                            {{ $linea->plato?->nombre ?? 'Plato' }} {{ $unidad + 1 }} de {{ $linea->cantidad }}
+                                            · <x-precio :centimos="$linea->precio_centimos" class="font-mono" />
+                                        </span>
+                                        <label class="shrink-0">
+                                            <span class="sr-only">Quién paga la unidad {{ $unidad + 1 }} de {{ $linea->plato?->nombre }}</span>
+                                            <select :name="modo === 'platos' && separadas[{{ $linea->id }}] ? 'asignaciones[{{ $linea->id }}][{{ $unidad }}]' : null"
+                                                    x-model.number="unidades[{{ $linea->id }}][{{ $unidad }}]"
+                                                    class="min-h-[44px] pl-3 pr-9 rounded border-[1.5px] border-secondary-fixed-dim text-label-md focus:border-primary-container focus:ring-1 focus:ring-primary-container">
+                                                <option value="0" :selected="unidades[{{ $linea->id }}][{{ $unidad }}] === 0">Todos (compartido)</option>
+                                                <template x-for="numero in personas" :key="numero">
+                                                    <option :value="numero" x-text="'Persona ' + numero" :selected="unidades[{{ $linea->id }}][{{ $unidad }}] == numero"></option>
+                                                </template>
+                                            </select>
+                                        </label>
+                                    </div>
+                                @endfor
+                            </div>
+                        @endif
                     </div>
                 @endforeach
 

@@ -89,7 +89,8 @@ class DividirCuenta
     /**
      * @param  string  $modo  'iguales' o 'platos'.
      * @param  int  $personas  Número de personas (solo para 'iguales').
-     * @param  array<int, int>  $asignaciones  { idLinea: persona } (solo para 'platos').
+     * @param  array<int, int|array<int, int>>  $asignaciones  (solo para 'platos')
+     *         { idLinea: persona } o { idLinea: [persona por unidad] }.
      *
      * Si la cuenta ya tiene pagos, solo divide los pedidos nuevos y añade sus
      * partes detrás de las que había (rama 12).
@@ -187,6 +188,10 @@ class DividirCuenta
      * Reparto por platos: cada línea va entera a una persona, salvo las
      * compartidas (persona 0 = "Todos", rama 14).
      *
+     * Una línea con varias unidades (2× Café) también se puede repartir por
+     * UNIDADES: con [1, 2], un café lo paga la persona 1 y el otro la 2. Cada
+     * unidad cuesta el precio unitario de la línea, así que la suma no cambia.
+     *
      * Las compartidas se SUMAN primero y esa suma se reparte una sola vez entre
      * las $personas con repartirAPartesIguales (el céntimo que sobra va a la
      * primera). Si repartiéramos cada plato por separado, la persona 1 se
@@ -209,13 +214,29 @@ class DividirCuenta
                     'asignaciones' => 'Asigna cada plato a una persona.',
                 ]);
             }
-            $persona = (int) $asignaciones[$linea->id];
 
-            if ($persona === 0) {
-                // "Todos": lo apartamos para repartirlo al final.
-                $compartido += $linea->subtotalCentimos();
+            // Siempre como lista: [persona] para toda la línea o una por unidad.
+            $personasLinea = array_map('intval', (array) $asignaciones[$linea->id]);
+
+            if (count($personasLinea) === 1) {
+                // Toda la línea a una persona: cantidad × precio.
+                $importesLinea = [[$personasLinea[0], $linea->subtotalCentimos()]];
+            } elseif (count($personasLinea) === $linea->cantidad) {
+                // Una persona por unidad: cada una paga el precio unitario.
+                $importesLinea = array_map(fn ($persona) => [$persona, $linea->precio_centimos], $personasLinea);
             } else {
-                $porPersona[$persona] = ($porPersona[$persona] ?? 0) + $linea->subtotalCentimos();
+                throw ValidationException::withMessages([
+                    'asignaciones' => 'Al separar un plato, elige quién paga cada una de sus unidades.',
+                ]);
+            }
+
+            foreach ($importesLinea as [$persona, $importe]) {
+                if ($persona === 0) {
+                    // "Todos": lo apartamos para repartirlo al final.
+                    $compartido += $importe;
+                } else {
+                    $porPersona[$persona] = ($porPersona[$persona] ?? 0) + $importe;
+                }
             }
         }
 

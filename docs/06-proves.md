@@ -2,7 +2,7 @@
 
 Cómo se prueba la aplicación y dónde está cada uno de los 6 *golden tests* que pide `CLAUDE.md`.
 
-**Estado a 25/11/2026:** 269 tests, todos en verde (ramas 1 a 23 y los arreglos de la revisión). Están los seis golden tests.
+**Estado a 25/11/2026:** 272 tests, todos en verde (ramas 1 a 23 y los arreglos de la revisión). Están los seis golden tests.
 
 ---
 
@@ -71,7 +71,7 @@ El golden test nº 6 también se repite en cada funcionalidad, porque cada panta
 | `AvisosCamareroTest` | 7 | Avisos de plato listo |
 | `CartaPublicaTest` | 12 | Carta por QR (golden nº 5) |
 | `AutopedidoTest` | 13 | Carrito, pago y envío, estado y límite de intentos (golden nº 1 ampliado y nº 5) |
-| `PlatosCompartidosTest` | 8 | Rama 14: platos para «Todos» en el reparto por platos, el céntimo que sobra va a la primera persona, no se puede asignar a una persona que no existe y lo nuevo compartido no toca las partes ya pagadas |
+| `PlatosCompartidosTest` | 11 | Rama 14: platos para «Todos» en el reparto por platos, unidades de una misma línea para personas distintas, el céntimo que sobra va a la primera persona, no se puede asignar a una persona que no existe y lo nuevo compartido no toca las partes ya pagadas |
 | `PagarAlPedirTest` | 14 | Rama 15: sin pago no hay pedido; pagado → cocina y parte pagada en la cuenta; no se cobra dos veces; sesiones de Stripe que no cuadran; lo pagado al pedir no cuenta como persona al dividir |
 | `DividirCuentaTest` · `Unit/RepartoCuentaTest` | 15 | División de la cuenta (golden nº 3) |
 | `PagoStripeTest` | 11 | Pago con tarjeta con Stripe **simulado** (`PasarelaStripe` con `$this->mock()`, sin llamar a Stripe): sesión pagada, no duplicar, sesión no pagada o de otra parte, otro restaurante, parte ya pagada, cancelar y clave que no es de test |
