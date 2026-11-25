@@ -27,7 +27,8 @@ class DetalleMesaController extends Controller
     {
         // Cuenta abierta (o null si el cliente aún no ha pedido la cuenta) y
         // los pedidos que entran: los de la cuenta y los hechos después.
-        $cuenta = DividirCuenta::cuentaAbierta($mesa)?->load('partes.pagos');
+        // partes.pagos.cobradoPor: para enseñar quién cobró cada parte.
+        $cuenta = DividirCuenta::cuentaAbierta($mesa)?->load('partes.pagos.cobradoPor');
         $pedidos = DividirCuenta::pedidosDeLaMesa($mesa, $cuenta);
 
         return view('camarero.detalle-mesa', [
@@ -86,9 +87,10 @@ class DetalleMesaController extends Controller
         $parte = ParteCuenta::deLaMesa($mesa, $parte) ?? abort(404);
 
         $cobrado = match ($metodo) {
-            'efectivo' => $parte->cobrarEfectivoEnMesa(),
-            'tpv' => $parte->pagarConTpv(),
-            default => $parte->confirmarEfectivo(),
+            // Se pasa quién cobra: queda apuntado en el pago.
+            'efectivo' => $parte->cobrarEfectivoEnMesa($request->user()),
+            'tpv' => $parte->pagarConTpv($request->user()),
+            default => $parte->confirmarEfectivo($request->user()),
         };
 
         if (! $cobrado) {

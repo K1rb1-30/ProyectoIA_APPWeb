@@ -85,6 +85,10 @@
                                 @endif
                                 @if ($parte->estaPagada() && $parte->pagos->isNotEmpty())
                                     <span class="font-mono font-normal text-secondary">· {{ $parte->pagos->last()->created_at->format('H:i') }}</span>
+                                    {{-- Quién lo cobró (vacío si pagó el cliente con Stripe) --}}
+                                    @if ($parte->pagos->last()->cobradoPor)
+                                        <span class="font-normal text-secondary">· cobró {{ $parte->pagos->last()->cobradoPor->name }}</span>
+                                    @endif
                                 @endif
                             </p>
                         </div>

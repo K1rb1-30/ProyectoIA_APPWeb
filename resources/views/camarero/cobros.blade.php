@@ -58,7 +58,13 @@
                 <li class="flex items-center justify-between gap-space-md py-3 border-b border-outline-variant">
                     <span>
                         <span class="block text-label-lg">Mesa {{ $pago->parteCuenta->cuenta->mesa->numero }} · {{ $pago->parteCuenta->nombre() }}</span>
-                        <span class="block text-body-md text-secondary"><span class="font-mono">{{ $pago->created_at->format('H:i') }}</span> · {{ $metodo }}</span>
+                        <span class="block text-body-md text-secondary">
+                            <span class="font-mono">{{ $pago->created_at->format('H:i') }}</span> · {{ $metodo }}
+                            {{-- Quién lo cobró; los pagos con Stripe los hace el cliente --}}
+                            @if ($pago->cobradoPor)
+                                · cobró {{ $pago->cobradoPor->name }}
+                            @endif
+                        </span>
                     </span>
                     <x-precio :centimos="$pago->importe_centimos" class="font-mono text-label-lg" />
                 </li>

@@ -99,6 +99,13 @@ Route::get('/dispositivo', [DispositivoController::class, 'show'])->name('dispos
 Route::post('/dispositivo/emparejar', [DispositivoController::class, 'emparejar'])
     ->middleware('throttle:5,1')
     ->name('dispositivo.emparejar');
+// Camareros: entrar con nombre + PIN en un dispositivo de camarero, y
+// «Cambiar de camarero». El límite de fallos del PIN va en el controlador
+// (por dispositivo y camarero); este throttle es un tope general por IP.
+Route::post('/dispositivo/entrar', [DispositivoController::class, 'entrar'])
+    ->middleware('throttle:30,1')
+    ->name('dispositivo.entrar');
+Route::post('/dispositivo/salir', [DispositivoController::class, 'salir'])->name('dispositivo.salir');
 
 // {dispositivo} en las rutas del admin: Dispositivo no usa el trait del global
 // scope, así que se busca a mano solo entre los del restaurante del admin. Uno
@@ -176,7 +183,9 @@ Route::redirect('/dashboard', '/panel');
 
 // Comandas del camarero (rama 5). El nombre "camarero.mesas" no se cambia:
 // lo usa la redirección tras el login (User::rutaDeInicio).
-Route::middleware(['auth', 'rol:camarero'])->prefix('camarero')->group(function () {
+// 'dispositivo': un camarero solo sigue dentro en el dispositivo emparejado
+// con el que entró (ver IdentificarDispositivo).
+Route::middleware(['dispositivo', 'auth', 'rol:camarero'])->prefix('camarero')->group(function () {
     Route::get('/mesas', [ComandaController::class, 'mesas'])->name('camarero.mesas');
     Route::get('/mesas/{mesa}/comanda', [ComandaController::class, 'create'])->name('camarero.comanda.crear');
     Route::post('/mesas/{mesa}/comanda', [ComandaController::class, 'store'])->name('camarero.comanda.guardar');
@@ -216,7 +225,9 @@ Route::middleware(['dispositivo', 'auth', 'rol:cocina'])->prefix('cocina')->grou
 // No hay ruta para borrar la propia cuenta: las cuentas solo las borra el
 // admin del restaurante desde Personal (rama 18), que comprueba que siempre
 // quede algún admin.
-Route::middleware('auth')->group(function () {
+// Solo admin (y desarrolladores): los camareros no tienen correo ni contraseña
+// que cambiar; su PIN lo cambia el admin en Personal.
+Route::middleware(['auth', 'rol:admin'])->group(function () {
     Route::get('/perfil', [ProfileController::class, 'edit'])->name('perfil.editar');
     Route::patch('/perfil', [ProfileController::class, 'update'])->name('perfil.actualizar');
 });

@@ -210,11 +210,23 @@ class DispositivosTest extends TestCase
         $this->assertNotNull($dispositivoB->fresh());
     }
 
-    public function test_la_tablet_de_cocina_no_entra_en_camarero_ni_en_administracion(): void
+    // Dos tests separados porque, dentro de un mismo test, Laravel reutiliza la
+    // aplicación entre peticiones y el guard de la petición anterior seguiría
+    // activo. En la web real cada petición empieza de cero.
+
+    public function test_la_tablet_de_cocina_no_entra_en_camarero(): void
     {
         [, $token] = $this->emparejado($this->restauranteA);
 
-        $this->withCookie(Dispositivo::COOKIE, $token)->get(route('camarero.mesas'))->assertRedirect(route('login'));
+        // En camarero, la tablet de cocina "entra" pero su rol no es camarero: 403.
+        $this->withCookie(Dispositivo::COOKIE, $token)->get(route('camarero.mesas'))->assertForbidden();
+    }
+
+    public function test_la_tablet_de_cocina_no_entra_en_administracion(): void
+    {
+        [, $token] = $this->emparejado($this->restauranteA);
+
+        // El panel no usa el middleware 'dispositivo': sin sesión, al login.
         $this->withCookie(Dispositivo::COOKIE, $token)->get(route('panel'))->assertRedirect(route('login'));
     }
 

@@ -50,6 +50,17 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+        // Los camareros no entran por aquí: entran en un dispositivo emparejado
+        // con su nombre y su PIN (/dispositivo). Normalmente ni siquiera tienen
+        // correo; esto cubre las cuentas antiguas que aún lo tengan.
+        if (Auth::user()->rol === 'camarero') {
+            Auth::logout();
+
+            throw ValidationException::withMessages([
+                'email' => 'Los camareros entran desde la tablet o el móvil del bar, con su nombre y su PIN.',
+            ]);
+        }
+
         RateLimiter::clear($this->throttleKey());
     }
 

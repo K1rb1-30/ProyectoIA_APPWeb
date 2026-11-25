@@ -16,8 +16,8 @@ use Illuminate\Notifications\Notifiable;
 // Ojo: este modelo NO usa el trait PerteneceARestaurante. Laravel consulta
 // la tabla users para saber quién está logueado, y si el filtro preguntara a
 // su vez por el usuario logueado, se llamaría a sí mismo sin fin.
-#[Fillable(['name', 'email', 'password', 'rol', 'restaurante_id'])]
-#[Hidden(['password', 'remember_token'])]
+#[Fillable(['name', 'email', 'password', 'pin', 'rol', 'restaurante_id'])]
+#[Hidden(['password', 'pin', 'remember_token'])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
@@ -33,6 +33,9 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            // El PIN de los camareros (4 cifras) se guarda cifrado igual que
+            // las contraseñas: al asignar '1234', Laravel guarda su hash.
+            'pin' => 'hashed',
             // Ojo: NO está en Fillable a propósito. Así ningún formulario
             // (por ejemplo, el de Personal) puede activarlo: solo el seeder.
             'puede_cambiar_restaurante' => 'boolean',

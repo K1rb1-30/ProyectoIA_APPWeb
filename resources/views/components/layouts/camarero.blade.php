@@ -27,8 +27,12 @@
         ['clave' => 'mesas', 'texto' => 'Mesas', 'icono' => 'table_restaurant', 'ruta' => 'camarero.mesas'],
         ['clave' => 'avisos', 'texto' => 'Avisos', 'icono' => 'room_service', 'ruta' => 'camarero.avisos'],
         ['clave' => 'cobros', 'texto' => 'Cobros', 'icono' => 'payments', 'ruta' => 'camarero.cobros'],
-        ['clave' => 'perfil', 'texto' => 'Perfil', 'icono' => 'account_circle', 'ruta' => 'perfil.editar'],
     ];
+
+    // Un camarero (entra con su PIN en el dispositivo) tiene «Cambiar» para
+    // dejar el dispositivo al siguiente. Un desarrollador con «Ver como» tiene
+    // «Panel» para volver a la administración.
+    $esCamarero = Auth::user()?->rol === 'camarero';
 
     // Globo de «Cobros»: partes que esperan el cobro en efectivo. Se cuenta al
     // cargar la página (sin polling). Con login, el filtro del trait deja solo
@@ -92,6 +96,22 @@
                         {{ $pestana['texto'] }}
                     </a>
                 @endforeach
+
+                @if ($esCamarero)
+                    {{-- POST: cierra la sesión del camarero y vuelve a la lista de nombres del dispositivo --}}
+                    <form method="POST" action="{{ route('dispositivo.salir') }}" class="contents">
+                        @csrf
+                        <button type="submit" class="flex flex-col items-center justify-center gap-0.5 min-h-[64px] -mt-px border-t-[3px] border-transparent text-label-sm text-secondary hover:text-on-surface">
+                            <x-icono nombre="switch_account" />
+                            Cambiar
+                        </button>
+                    </form>
+                @else
+                    <a href="{{ route('panel') }}" class="flex flex-col items-center justify-center gap-0.5 min-h-[64px] -mt-px border-t-[3px] border-transparent text-label-sm text-secondary hover:text-on-surface">
+                        <x-icono nombre="dashboard" />
+                        Panel
+                    </a>
+                @endif
             </div>
         </nav>
     </div>
