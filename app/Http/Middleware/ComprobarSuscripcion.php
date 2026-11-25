@@ -44,7 +44,10 @@ class ComprobarSuscripcion
             return $next($request);
         }
 
-        if ($usuario instanceof User && $usuario->rol === 'admin') {
+        // Solo en las pantallas del admin. En el QR (lleva {slug}) siempre sale
+        // «no disponible», aunque quien lo abra sea un admin con sesión: el QR
+        // puede ser de otro restaurante y no tiene sentido mandarle a la suya.
+        if ($usuario instanceof User && $usuario->rol === 'admin' && $request->route('slug') === null) {
             return redirect()->route('admin.suscripcion');
         }
 

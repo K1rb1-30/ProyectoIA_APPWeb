@@ -7,6 +7,10 @@
     Stripe a pagar la suscripción mensual (RegistroRestauranteController).
 --}}
 <x-guest-layout>
+    <x-slot name="frase">
+        Da de alta tu bar o restaurante. Después crearás tu carta, tus mesas con su QR y las cuentas de tu equipo.
+    </x-slot>
+
     <div class="mb-10">
         <h1 class="text-headline-lg">Da de alta tu restaurante</h1>
         <p class="mt-2 text-body-lg text-secondary">

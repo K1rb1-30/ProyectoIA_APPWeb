@@ -208,6 +208,17 @@ class SuscripcionTest extends TestCase
             ->assertSee('Restaurante no disponible');
     }
 
+    public function test_un_admin_con_sesion_que_abre_el_qr_de_un_restaurante_bloqueado_ve_no_disponible(): void
+    {
+        $adminA = User::factory()->create();
+        $restauranteB = Restaurante::factory()->pendiente()->create();
+
+        // No se le manda a SU suscripción: el QR es de otro restaurante.
+        $this->actingAs($adminA)->get(route('cliente.carta', ['slug' => $restauranteB->slug, 'numero' => 1]))
+            ->assertForbidden()
+            ->assertSee('Restaurante no disponible');
+    }
+
     public function test_impagada_y_cancelada_tambien_bloquean(): void
     {
         foreach (['impagada', 'cancelada'] as $estado) {
