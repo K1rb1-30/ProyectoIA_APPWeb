@@ -19,7 +19,7 @@ Requisitos funcionales (RF) y no funcionales (RNF) de la aplicación. Salen de l
 | RF3 | Después del login, cada rol va a su pantalla: admin → panel, camarero → mesas, cocina → pedidos. | Todos | 🟢 | ✅ PR #8 |
 | RF4 | Multi-restaurante: cada usuario pertenece a un restaurante y **solo ve y modifica los datos de su restaurante**. | Todos | 🟢 | ✅ PR #8 |
 | RF5 | El admin puede cambiar de vista («Ver como») a camarero, cocina o cliente sin cerrar sesión. | Admin | — | ✅ PR #11, #13 |
-| RF35 | *(Añadido en la rama 18, no estaba en la propuesta.)* El admin crea, edita y borra las cuentas de su personal (nombre, correo, rol y contraseña) en `/admin/personal`. El correo es único en toda la aplicación; al editar, la contraseña vacía no se cambia, y al cambiarla se cierran las sesiones abiertas de esa persona. El admin no puede borrarse ni quitarse su rol, y el restaurante nunca se queda sin admin. Nadie puede borrar su propia cuenta desde `/perfil`. Las cuentas del equipo y del profesor (las que cambian de restaurante) no salen en Personal ni cuentan como admin del restaurante. Al borrar un empleado, sus pedidos se conservan sin quién los tomó. | Admin | 🔵 | 🔍 PR #30 |
+| RF35 | *(Añadido en la rama 18, no estaba en la propuesta.)* El admin crea, edita y borra las cuentas de su personal (nombre, correo, rol y contraseña) en `/admin/personal`. El correo es único en toda la aplicación; al editar, la contraseña vacía no se cambia, y al cambiarla se cierran las sesiones abiertas de esa persona. El admin no puede borrarse ni quitarse su rol, y el restaurante nunca se queda sin admin. Nadie puede borrar su propia cuenta desde `/perfil`. Las cuentas del equipo y del profesor (las que cambian de restaurante) no salen en Personal ni cuentan como admin del restaurante. Al borrar un empleado, sus pedidos se conservan sin quién los tomó. | Admin | 🔵 | ✅ PR #30 |
 
 ### Carta y alérgenos (admin)
 
@@ -72,13 +72,13 @@ Requisitos funcionales (RF) y no funcionales (RNF) de la aplicación. Salen de l
 
 | ID | Requisito | Rol | Prioridad | Estado |
 |---|---|---|---|---|
-| RF34 | *(Añadido en la rama 17, no estaba en la propuesta.)* Panel principal del admin en `/panel` (antes `/dashboard`, que ahora redirige): nombre del restaurante; ventas, pedidos y ticket medio de hoy; mesas libres y ocupadas con su cuadrícula; número de platos y de agotados con unos pocos platos y su interruptor de disponible; pedidos sin servir por estado. Solo datos reales del propio restaurante y mensajes en lugar de huecos si todavía no hay datos. | Admin | 🔵 | 🔍 PR #29 |
+| RF34 | *(Añadido en la rama 17, no estaba en la propuesta.)* Panel principal del admin en `/panel` (antes `/dashboard`, que ahora redirige): nombre del restaurante; ventas, pedidos y ticket medio de hoy; mesas libres y ocupadas con su cuadrícula; número de platos y de agotados con unos pocos platos y su interruptor de disponible; pedidos sin servir por estado. Solo datos reales del propio restaurante y mensajes en lugar de huecos si todavía no hay datos. | Admin | 🔵 | ✅ PR #29 |
 
 ### Página pública
 
 | ID | Requisito | Rol | Prioridad | Estado |
 |---|---|---|---|---|
-| RF33 | *(Añadido en la rama 16, no estaba en la propuesta.)* Página de inicio pública en `/` que explica qué hace MesaYa (solo funciones reales), con «Acceso del personal» al login o a la pantalla de cada rol si ya hay sesión, y páginas simples de privacidad y cookies. | Todos | 🔵 | 🔍 rama 16 |
+| RF33 | *(Añadido en la rama 16, no estaba en la propuesta.)* Página de inicio pública en `/` que explica qué hace MesaYa (solo funciones reales), con «Acceso del personal» al login o a la pantalla de cada rol si ya hay sesión, y páginas simples de privacidad y cookies. | Todos | 🔵 | ✅ PR #26 |
 
 ### Extras (🟣, solo si sobra tiempo)
 

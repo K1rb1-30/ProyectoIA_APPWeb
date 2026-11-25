@@ -334,3 +334,11 @@ Se rellena en cada sesión de trabajo, no al final. Mínimo 15 entradas.
 - **Prompt:** "mira esto podrías arreglarlo?" (con una captura del pie del menú)
 - **Resultado:** En la rama `feature/arreglos-funcionamiento`. El menú mide 240 px y no cabían «Ver como» y el desplegable en una fila. El componente `selector-vista` tiene ahora la opción `apilado`: pone la etiqueta encima y el desplegable a todo el ancho, y solo la usa el menú del admin (en los demás layouts sigue igual). «Cerrar sesión» ya no va subrayado, igual que «Perfil». Comprobado en el navegador a 1280 px: el desplegable queda dentro del menú (de 28 a 211 px), igual de ancho que el selector de restaurante. `php artisan test`: 264 OK · ¿funcionó?: PENDIENTE DE REVISAR
 - **Enlace:** 4b23783 · PENDIENTE (PR)
+
+### Entrada 42
+- **Fecha y autor:** 25/11/2026 – Iván
+- **Herramienta:** Claude Code
+- **Objetivo:** Arreglar los fallos menores que salieron en la revisión: docs desactualizadas, precio de 0 €, número de una mesa ocupada y rutas de admin desordenadas
+- **Prompt:** "Haz ahora estos 3 cambios igual que la anterior" (los «menores» de la revisión) y "¿qué es el verified de las rutas?"
+- **Resultado:** Rama `feature/arreglos-menores`, sacada de `main` con la PR #40 ya fusionada. (1) En `docs/02-requisits.md`, RF33, RF34 y RF35 pasan a ✅. En `docs/06-proves.md` se añaden los archivos de tests de las ramas 14 a 18 y del seeder (`PlatosCompartidosTest`, `PanelAdminTest`, `GestionPersonalTest`, `CambiarRestauranteTest` y `PedidosEnCursoSeederTest`) y se actualiza el recuento. El plan de trabajo no se ha tocado. (2) `PlatoRequest` no acepta un precio de 0 € («El precio tiene que ser mayor que 0.»). `MesaController::update` no deja cambiar el número de una mesa ocupada, porque su QR dejaría de funcionar mientras la usan. (3) Las rutas de admin quedan en un solo grupo `['auth', 'rol:admin']`, sin `verified`: no hacía nada, porque `User` no implementa `MustVerifyEmail`. Se ha comprobado con `route:list` que las 80 rutas son las mismas antes y después. Hay 3 tests nuevos. `php artisan test`: 267 OK. Grafo sin actualizar (graphify no está instalado en este equipo) · ¿funcionó?: PENDIENTE DE REVISAR
+- **Enlace:** 1358660 · fc97f3b · PENDIENTE (PR)

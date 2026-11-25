@@ -89,53 +89,64 @@ Route::bind('empleado', function (string $id) {
         ->firstOrFail();
 });
 
-// Panel del administrador (rama 17). Antes era /dashboard, la ruta que trae
-// Breeze (tarea previa P5): la dejamos como redirección para que un enlace
-// guardado no dé 404.
-Route::get('/panel', PanelController::class)
-    ->middleware(['auth', 'verified', 'rol:admin'])
-    ->name('panel');
-Route::redirect('/dashboard', '/panel');
+// Todo lo del administrador, en un solo grupo: hace falta iniciar sesión
+// (auth) y ser admin (rol:admin). Antes estaba repartido en varios grupos y
+// llevaba también 'verified', que no hacía nada: User no implementa
+// MustVerifyEmail y las cuentas las crea el admin ya verificadas.
+Route::middleware(['auth', 'rol:admin'])->group(function () {
+    // Panel del administrador (rama 17). Antes era /dashboard, la ruta que trae
+    // Breeze (tarea previa P5): la dejamos como redirección para que un enlace
+    // guardado no dé 404.
+    Route::get('/panel', PanelController::class)->name('panel');
 
-// Cambiar de restaurante: solo las cuentas marcadas (equipo y profesor). El
-// controlador da 403 a cualquier otro admin.
-Route::post('/panel/restaurante', CambiarRestauranteController::class)
-    ->middleware(['auth', 'verified', 'rol:admin'])
-    ->name('panel.restaurante');
+    // Cambiar de restaurante: solo las cuentas marcadas (equipo y profesor). El
+    // controlador da 403 a cualquier otro admin.
+    Route::post('/panel/restaurante', CambiarRestauranteController::class)->name('panel.restaurante');
 
-// Gestión de la carta (rama 3). Solo para el admin. Los nombres de ruta
-// empiezan todos por "admin.carta" para que el menú lateral marque "Carta"
-// como activa en cualquiera de estas pantallas.
-Route::middleware(['auth', 'verified', 'rol:admin'])->prefix('admin')->group(function () {
-    // Platos
-    Route::get('/carta', [PlatoController::class, 'index'])->name('admin.carta');
-    Route::get('/carta/platos/crear', [PlatoController::class, 'create'])->name('admin.carta.crear');
-    Route::post('/carta/platos', [PlatoController::class, 'store'])->name('admin.carta.guardar');
-    Route::get('/carta/platos/{plato}/editar', [PlatoController::class, 'edit'])->name('admin.carta.editar');
-    Route::put('/carta/platos/{plato}', [PlatoController::class, 'update'])->name('admin.carta.actualizar');
-    Route::delete('/carta/platos/{plato}', [PlatoController::class, 'destroy'])->name('admin.carta.borrar');
-    Route::patch('/carta/platos/{plato}/disponibilidad', [PlatoController::class, 'cambiarDisponibilidad'])->name('admin.carta.disponibilidad');
+    // El resto empieza por /admin. Los nombres de ruta empiezan por
+    // "admin.carta", "admin.mesas"... para que el menú lateral marque la
+    // sección activa en cualquiera de sus pantallas.
+    Route::prefix('admin')->group(function () {
+        // Carta (rama 3): platos
+        Route::get('/carta', [PlatoController::class, 'index'])->name('admin.carta');
+        Route::get('/carta/platos/crear', [PlatoController::class, 'create'])->name('admin.carta.crear');
+        Route::post('/carta/platos', [PlatoController::class, 'store'])->name('admin.carta.guardar');
+        Route::get('/carta/platos/{plato}/editar', [PlatoController::class, 'edit'])->name('admin.carta.editar');
+        Route::put('/carta/platos/{plato}', [PlatoController::class, 'update'])->name('admin.carta.actualizar');
+        Route::delete('/carta/platos/{plato}', [PlatoController::class, 'destroy'])->name('admin.carta.borrar');
+        Route::patch('/carta/platos/{plato}/disponibilidad', [PlatoController::class, 'cambiarDisponibilidad'])->name('admin.carta.disponibilidad');
 
-    // Categorías
-    Route::get('/carta/categorias', [CategoriaController::class, 'index'])->name('admin.carta.categorias');
-    Route::post('/carta/categorias', [CategoriaController::class, 'store'])->name('admin.carta.categorias.guardar');
-    Route::put('/carta/categorias/{categoria}', [CategoriaController::class, 'update'])->name('admin.carta.categorias.actualizar');
-    Route::delete('/carta/categorias/{categoria}', [CategoriaController::class, 'destroy'])->name('admin.carta.categorias.borrar');
+        // Categorías
+        Route::get('/carta/categorias', [CategoriaController::class, 'index'])->name('admin.carta.categorias');
+        Route::post('/carta/categorias', [CategoriaController::class, 'store'])->name('admin.carta.categorias.guardar');
+        Route::put('/carta/categorias/{categoria}', [CategoriaController::class, 'update'])->name('admin.carta.categorias.actualizar');
+        Route::delete('/carta/categorias/{categoria}', [CategoriaController::class, 'destroy'])->name('admin.carta.categorias.borrar');
 
-    // Alérgenos (solo consulta)
-    Route::get('/alergenos', [AlergenoController::class, 'index'])->name('admin.alergenos');
+        // Alérgenos (solo consulta)
+        Route::get('/alergenos', [AlergenoController::class, 'index'])->name('admin.alergenos');
 
-    // Estadísticas (rama 13). Solo el admin: camarero y cocina reciben 403.
-    Route::get('/estadisticas', [EstadisticaController::class, 'index'])->name('admin.estadisticas');
+        // Estadísticas (rama 13). Solo el admin: camarero y cocina reciben 403.
+        Route::get('/estadisticas', [EstadisticaController::class, 'index'])->name('admin.estadisticas');
 
-    // Personal (rama 18): las cuentas de los empleados del restaurante.
-    Route::get('/personal', [PersonalController::class, 'index'])->name('admin.personal');
-    Route::get('/personal/crear', [PersonalController::class, 'create'])->name('admin.personal.crear');
-    Route::post('/personal', [PersonalController::class, 'store'])->name('admin.personal.guardar');
-    Route::get('/personal/{empleado}/editar', [PersonalController::class, 'edit'])->name('admin.personal.editar');
-    Route::put('/personal/{empleado}', [PersonalController::class, 'update'])->name('admin.personal.actualizar');
-    Route::delete('/personal/{empleado}', [PersonalController::class, 'destroy'])->name('admin.personal.borrar');
+        // Personal (rama 18): las cuentas de los empleados del restaurante.
+        Route::get('/personal', [PersonalController::class, 'index'])->name('admin.personal');
+        Route::get('/personal/crear', [PersonalController::class, 'create'])->name('admin.personal.crear');
+        Route::post('/personal', [PersonalController::class, 'store'])->name('admin.personal.guardar');
+        Route::get('/personal/{empleado}/editar', [PersonalController::class, 'edit'])->name('admin.personal.editar');
+        Route::put('/personal/{empleado}', [PersonalController::class, 'update'])->name('admin.personal.actualizar');
+        Route::delete('/personal/{empleado}', [PersonalController::class, 'destroy'])->name('admin.personal.borrar');
+
+        // Mesas y QR (rama 4)
+        Route::get('/mesas', [MesaController::class, 'index'])->name('admin.mesas');
+        Route::get('/mesas/crear', [MesaController::class, 'create'])->name('admin.mesas.crear');
+        Route::get('/mesas/imprimir', [MesaController::class, 'imprimir'])->name('admin.mesas.imprimir');
+        Route::post('/mesas', [MesaController::class, 'store'])->name('admin.mesas.guardar');
+        Route::get('/mesas/{mesa}/editar', [MesaController::class, 'edit'])->name('admin.mesas.editar');
+        Route::put('/mesas/{mesa}', [MesaController::class, 'update'])->name('admin.mesas.actualizar');
+        Route::delete('/mesas/{mesa}', [MesaController::class, 'destroy'])->name('admin.mesas.borrar');
+    });
 });
+Route::redirect('/dashboard', '/panel');
 
 // Comandas del camarero (rama 5). El nombre "camarero.mesas" no se cambia:
 // lo usa la redirección tras el login (User::rutaDeInicio).
@@ -170,18 +181,6 @@ Route::middleware(['auth', 'rol:cocina'])->prefix('cocina')->group(function () {
     // JSON que consulta el tablero cada 5 s (polling).
     Route::get('/pedidos/datos', [PedidoController::class, 'datos'])->name('cocina.pedidos.datos');
     Route::patch('/pedidos/{pedido}/estado', [PedidoController::class, 'cambiarEstado'])->name('cocina.pedidos.estado');
-});
-
-// Mesas y QR (rama 4). Solo para el admin. Como en la carta, los nombres
-// empiezan por "admin.mesas" para que el menú lateral marque "Mesas y QR".
-Route::middleware(['auth', 'verified', 'rol:admin'])->prefix('admin')->group(function () {
-    Route::get('/mesas', [MesaController::class, 'index'])->name('admin.mesas');
-    Route::get('/mesas/crear', [MesaController::class, 'create'])->name('admin.mesas.crear');
-    Route::get('/mesas/imprimir', [MesaController::class, 'imprimir'])->name('admin.mesas.imprimir');
-    Route::post('/mesas', [MesaController::class, 'store'])->name('admin.mesas.guardar');
-    Route::get('/mesas/{mesa}/editar', [MesaController::class, 'edit'])->name('admin.mesas.editar');
-    Route::put('/mesas/{mesa}', [MesaController::class, 'update'])->name('admin.mesas.actualizar');
-    Route::delete('/mesas/{mesa}', [MesaController::class, 'destroy'])->name('admin.mesas.borrar');
 });
 
 // Perfil de cada usuario (tarea previa P5): nombre, correo y contraseña. Antes

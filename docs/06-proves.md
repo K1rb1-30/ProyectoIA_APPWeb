@@ -2,7 +2,7 @@
 
 Cómo se prueba la aplicación y dónde está cada uno de los 6 *golden tests* que pide `CLAUDE.md`.
 
-**Estado a 25/11/2026:** 264 tests, todos en verde (ramas 1 a 23 y los arreglos de la revisión). Están los seis golden tests. La tabla de abajo no incluye todavía todos los archivos de las ramas 17 a 23.
+**Estado a 25/11/2026:** 267 tests, todos en verde (ramas 1 a 23 y los arreglos de la revisión). Están los seis golden tests.
 
 ---
 
@@ -64,13 +64,14 @@ El golden test nº 6 también se repite en cada funcionalidad, porque cada panta
 | `UsuariosAdminSeederTest` | 4 | Cuentas fijas del equipo |
 | `AislamientoRestaurantesTest` | 4 | Trait `PerteneceARestaurante` (golden nº 6) |
 | `ComponentesDisenoTest` · `LayoutsTest` | 9 | Componentes y layouts del diseño |
-| `GestionCartaTest` | 17 | CRUD de platos y categorías, precio en céntimos, fotos, alérgenos |
-| `MesasTest` | 12 | CRUD de mesas y QR |
+| `GestionCartaTest` | 18 | CRUD de platos y categorías, precio en céntimos (nunca 0 €), fotos, alérgenos |
+| `MesasTest` | 14 | CRUD de mesas y QR; el número de una mesa ocupada no se puede cambiar |
 | `ComandasCamareroTest` | 11 | Comandas (golden nº 1) |
 | `PantallaCocinaTest` | 11 | Tablero de cocina y cambios de estado (golden nº 2) |
 | `AvisosCamareroTest` | 7 | Avisos de plato listo |
 | `CartaPublicaTest` | 12 | Carta por QR (golden nº 5) |
 | `AutopedidoTest` | 13 | Carrito, pago y envío, estado y límite de intentos (golden nº 1 ampliado y nº 5) |
+| `PlatosCompartidosTest` | 8 | Rama 14: platos para «Todos» en el reparto por platos, el céntimo que sobra va a la primera persona, no se puede asignar a una persona que no existe y lo nuevo compartido no toca las partes ya pagadas |
 | `PagarAlPedirTest` | 14 | Rama 15: sin pago no hay pedido; pagado → cocina y parte pagada en la cuenta; no se cobra dos veces; sesiones de Stripe que no cuadran; lo pagado al pedir no cuenta como persona al dividir |
 | `DividirCuentaTest` · `Unit/RepartoCuentaTest` | 15 | División de la cuenta (golden nº 3) |
 | `PagoStripeTest` | 11 | Pago con tarjeta con Stripe **simulado** (`PasarelaStripe` con `$this->mock()`, sin llamar a Stripe): sesión pagada, no duplicar, sesión no pagada o de otra parte, otro restaurante, parte ya pagada, cancelar y clave que no es de test |
@@ -78,6 +79,10 @@ El golden test nº 6 también se repite en cada funcionalidad, porque cada panta
 | `InicioTest` | 7 | Página de inicio sin login (MesaYa y enlace al login), enlace a la pantalla de cada rol con sesión, nada de servidores externos, anclas del menú, sin textos inventados de la maqueta, botón de la carta de ejemplo y páginas de privacidad y cookies |
 | `EstadisticasTest` | 11 | Ventas por día, platos más pedidos, métodos de pago y resumen con datos conocidos (fecha fijada con `Carbon::setTestNow`), aislamiento A/B, mensaje sin datos, permisos (camarero y cocina 403) y seeder de demo cuadrado y sin duplicar |
 | `CobroCamareroTest` | 8 | El camarero divide la cuenta, cobra en efectivo (pasando por `pendiente_efectivo`) o con TPV (sin referencia de Stripe), métodos no válidos, aislamiento y pestaña «Cobros» solo con datos de su restaurante |
+| `PanelAdminTest` | 8 | Rama 17: cifras de hoy del propio restaurante, aislamiento A/B, camarero y cocina 403, mensajes con un restaurante vacío, `/dashboard` redirige y el número de consultas no crece con los datos |
+| `GestionPersonalTest` | 17 | Rama 18: crear, editar y borrar empleados solo del propio restaurante, contraseña cifrada, cerrar sesiones al cambiarla, siempre queda un admin y las cuentas del equipo no salen ni se pueden tocar |
+| `CambiarRestauranteTest` | 7 | Las cuentas marcadas (equipo y profesor) cambian de restaurante; un admin normal, un camarero o cocina no; la marca no se puede poner desde un formulario |
+| `PedidosEnCursoSeederTest` | 8 | Datos de ejemplo: cuatro restaurantes con carta, mesas y servicio en curso, cuentas que cuadran, no duplica y no hace nada en producción |
 | `ExampleTest` (Feature y Unit) | 2 | Los de ejemplo de Laravel |
 
 ---

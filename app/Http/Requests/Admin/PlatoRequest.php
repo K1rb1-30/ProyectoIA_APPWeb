@@ -4,6 +4,7 @@ namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Validator;
 
 /**
  * Valida el formulario de crear y editar un plato.
@@ -53,6 +54,22 @@ class PlatoRequest extends FormRequest
     /**
      * Nombres de los campos en los mensajes de error ("El campo precio...").
      */
+    /**
+     * Comprobaciones que se hacen después de las reglas: el formato del
+     * precio ya está bien, pero no puede ser 0 (0, 0,00...). Un plato gratis
+     * no se puede cobrar con Stripe y casi siempre es un error al escribirlo.
+     */
+    public function after(): array
+    {
+        return [
+            function (Validator $validador) {
+                if (! $validador->errors()->has('precio') && $this->precioEnCentimos() === 0) {
+                    $validador->errors()->add('precio', 'El precio tiene que ser mayor que 0.');
+                }
+            },
+        ];
+    }
+
     public function attributes(): array
     {
         return [
