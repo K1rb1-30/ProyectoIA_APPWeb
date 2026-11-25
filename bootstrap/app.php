@@ -17,6 +17,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'rol' => \App\Http\Middleware\ComprobarRol::class,
             'dispositivo' => \App\Http\Middleware\IdentificarDispositivo::class,
+            // Rama 24: solo los restaurantes con la suscripción activa usan la app.
+            'suscripcion' => \App\Http\Middleware\ComprobarSuscripcion::class,
         ]);
 
         // 'dispositivo' tiene que ejecutarse ANTES de que Laravel busque los
