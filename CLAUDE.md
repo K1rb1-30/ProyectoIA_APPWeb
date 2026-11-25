@@ -69,12 +69,14 @@ En Windows el archivo suele ser `C:\php\php.ini` (compruébalo con `php --ini`).
 ## Roles
 | Rol (`users.rol`) | Login | Puede |
 |---|---|---|
-| `admin` | Sí | Carta, alérgenos, mesas y QR, personal, estadísticas |
-| `camarero` | Sí | Comandas, avisos de plato listo, cobrar en efectivo, cerrar mesa |
-| `cocina` | Sí | Ver pedidos y cambiar su estado |
+| `admin` | Correo y contraseña | Carta, alérgenos, mesas y QR, personal, dispositivos, estadísticas |
+| `camarero` | Nombre + PIN de 4 cifras en un dispositivo emparejado (sin correo) | Comandas, avisos de plato listo, cobrar en efectivo, cerrar mesa |
+| Cocina *(no es una cuenta)* | Tablet emparejada en «Dispositivos» | Ver pedidos y cambiar su estado |
 | Cliente | No | Carta por QR, pedir, dividir la cuenta, pagar |
 
-Protege las rutas con un middleware por rol (por ejemplo, `ComprobarRol`).
+**Desarrolladores:** las cuentas del equipo y del profesor son `admin` con `puede_cambiar_restaurante`. Pueden cambiar de restaurante y entrar en todas las pantallas con «Ver como». El admin de un restaurante, no.
+
+Protege las rutas con un middleware por rol (`ComprobarRol`). Las rutas de cocina y camarero llevan también `dispositivo` (`IdentificarDispositivo`).
 
 ## Multi-restaurante (muy importante)
 - Todas las tablas de negocio llevan `restaurante_id`.
@@ -85,7 +87,7 @@ Protege las rutas con un middleware por rol (por ejemplo, `ComprobarRol`).
 | Tabla | Modelo | Columnas clave |
 |---|---|---|
 | `restaurantes` | `Restaurante` | nombre, slug |
-| `users` *(de Laravel)* | `User` | + `rol`, `restaurante_id` |
+| `users` *(de Laravel)* | `User` | + `rol`, `restaurante_id`, `pin` (email y password opcionales: los camareros no tienen) |
 | `mesas` | `Mesa` | restaurante_id, numero, estado (`libre` / `ocupada`) |
 | `categorias` | `Categoria` | restaurante_id, nombre, orden |
 | `platos` | `Plato` | restaurante_id, categoria_id, nombre, descripcion, precio_centimos, foto, disponible |
@@ -95,7 +97,8 @@ Protege las rutas con un middleware por rol (por ejemplo, `ComprobarRol`).
 | `lineas_pedido` | `LineaPedido` | pedido_id, plato_id, cantidad, precio_centimos, notas |
 | `cuentas` | `Cuenta` | restaurante_id, mesa_id, total_centimos, estado |
 | `partes_cuenta` | `ParteCuenta` | cuenta_id, persona, importe_centimos, metodo (`tarjeta` / `efectivo`), estado |
-| `pagos` | `Pago` | parte_cuenta_id, importe_centimos, metodo, referencia_stripe |
+| `pagos` | `Pago` | parte_cuenta_id, user_id (quién cobró), importe_centimos, metodo, referencia_stripe |
+| `dispositivos` | `Dispositivo` | restaurante_id, tipo (`cocina` / `camarero`), nombre, codigo_hash, codigo_caduca_en, token_hash, emparejado_en, ultimo_uso_en |
 | *(extra)* `reservas` | `Reserva` | restaurante_id, mesa_id, fecha, hora, personas |
 
 Reglas:

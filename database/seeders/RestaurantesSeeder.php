@@ -8,25 +8,28 @@ use Illuminate\Database\Seeder;
 
 /**
  * Crea 4 restaurantes inventados con su personal: un admin y un número
- * distinto de camareros y de personas de cocina en cada uno.
+ * distinto de camareros en cada uno.
  *
- * Los correos siguen el patrón <usuario>@<slug>.test, por ejemplo
- * camarero@la-tasca.test o camarero2@la-tasca.test. La contraseña de todos es la de desarrollo de
- * UserFactory. Son datos de prueba: nunca se usan en producción.
+ *  - El admin entra con correo y contraseña: admin@<slug>.test y la
+ *    contraseña de desarrollo de UserFactory ("password").
+ *  - Los camareros no tienen correo: entran en un dispositivo de camarero
+ *    emparejado con su nombre (de Faker) y su PIN. El PIN de prueba es la
+ *    cifra de su número repetida: 1111 el primero, 2222 el segundo...
+ *  - La cocina no tiene cuentas: se empareja una tablet en «Dispositivos».
+ *
+ * Son datos de prueba: nunca se usan en producción.
  */
 class RestaurantesSeeder extends Seeder
 {
     public function run(): void
     {
-        // Cuatro restaurantes inventados, cada uno con una plantilla distinta
-        // (número de camareros y de personas de cocina), para que la
-        // aplicación parezca un SaaS en uso. Los correos siguen el patrón
-        // <usuario>@<slug>.test: camarero2@la-tasca.test, cocina@cafe-central.test...
+        // Cuatro restaurantes inventados, cada uno con un número distinto de
+        // camareros, para que la aplicación parezca un SaaS en uso.
         $restaurantes = [
-            ['nombre' => 'La Tasca de Prueba', 'slug' => 'la-tasca', 'camareros' => 3, 'cocina' => 2],
-            ['nombre' => 'Bar El Rincón', 'slug' => 'bar-el-rincon', 'camareros' => 3, 'cocina' => 2],
-            ['nombre' => 'Marisquería O Porto', 'slug' => 'marisqueria-o-porto', 'camareros' => 4, 'cocina' => 3],
-            ['nombre' => 'Café Central', 'slug' => 'cafe-central', 'camareros' => 1, 'cocina' => 1],
+            ['nombre' => 'La Tasca de Prueba', 'slug' => 'la-tasca', 'camareros' => 3],
+            ['nombre' => 'Bar El Rincón', 'slug' => 'bar-el-rincon', 'camareros' => 3],
+            ['nombre' => 'Marisquería O Porto', 'slug' => 'marisqueria-o-porto', 'camareros' => 4],
+            ['nombre' => 'Café Central', 'slug' => 'cafe-central', 'camareros' => 1],
         ];
 
         foreach ($restaurantes as $datos) {
@@ -35,28 +38,23 @@ class RestaurantesSeeder extends Seeder
             // veces sin fallar por el slug repetido.
             $restaurante = Restaurante::firstOrCreate(['slug' => $datos['slug']], ['nombre' => $datos['nombre']]);
 
-            // Un admin y los camareros y cocineros de cada restaurante:
-            // camarero@, camarero2@, camarero3@... y cocina@, cocina2@...
-            // (para que la pantalla de Personal, rama 18, tenga empleados).
-            $cuentas = ['admin' => 'admin'];
-            foreach (['camarero' => $datos['camareros'], 'cocina' => $datos['cocina']] as $rol => $cuantos) {
-                for ($n = 1; $n <= $cuantos; $n++) {
-                    $cuentas[$n === 1 ? $rol : $rol.$n] = $rol;
-                }
+            // El admin, con correo y contraseña. Solo se crea si no existe:
+            // así "php artisan db:seed" se puede ejecutar varias veces.
+            $correoAdmin = 'admin@'.$restaurante->slug.'.test';
+            if (! User::where('email', $correoAdmin)->exists()) {
+                User::factory()->create([
+                    'email' => $correoAdmin,
+                    'rol' => 'admin',
+                    'restaurante_id' => $restaurante->id,
+                ]);
             }
 
-            foreach ($cuentas as $usuario => $rol) {
-                $email = $usuario.'@'.$restaurante->slug.'.test';
-
-                // Igual con los usuarios: solo se crean si no existen todavía.
-                if (User::where('email', $email)->exists()) {
-                    continue;
-                }
-
-                // La factory pone un nombre de Faker en es_ES y la contraseña.
-                User::factory()->create([
-                    'email' => $email,
-                    'rol' => $rol,
+            // Los camareros que falten hasta llegar a los de la lista, con PIN
+            // 1111, 2222... La factory camarero() los deja sin correo ni contraseña.
+            $yaHay = User::where('restaurante_id', $restaurante->id)->where('rol', 'camarero')->count();
+            for ($n = $yaHay + 1; $n <= $datos['camareros']; $n++) {
+                User::factory()->camarero()->create([
+                    'pin' => str_repeat((string) $n, 4),
                     'restaurante_id' => $restaurante->id,
                 ]);
             }

@@ -2,7 +2,7 @@
 
 Cómo se prueba la aplicación y dónde está cada uno de los 6 *golden tests* que pide `CLAUDE.md`.
 
-**Estado a 25/11/2026:** 272 tests, todos en verde (ramas 1 a 23 y los arreglos de la revisión). Están los seis golden tests.
+**Estado a 25/11/2026:** 303 tests, todos en verde (ramas 1 a 23 y los arreglos de la revisión). Están los seis golden tests.
 
 ---
 
@@ -80,9 +80,11 @@ El golden test nº 6 también se repite en cada funcionalidad, porque cada panta
 | `EstadisticasTest` | 11 | Ventas por día, platos más pedidos, métodos de pago y resumen con datos conocidos (fecha fijada con `Carbon::setTestNow`), aislamiento A/B, mensaje sin datos, permisos (camarero y cocina 403) y seeder de demo cuadrado y sin duplicar |
 | `CobroCamareroTest` | 8 | El camarero divide la cuenta, cobra en efectivo (pasando por `pendiente_efectivo`) o con TPV (sin referencia de Stripe), métodos no válidos, aislamiento y pestaña «Cobros» solo con datos de su restaurante |
 | `PanelAdminTest` | 8 | Rama 17: cifras de hoy del propio restaurante, aislamiento A/B, camarero y cocina 403, mensajes con un restaurante vacío, `/dashboard` redirige y el número de consultas no crece con los datos |
-| `GestionPersonalTest` | 17 | Rama 18: crear, editar y borrar empleados solo del propio restaurante, contraseña cifrada, cerrar sesiones al cambiarla, siempre queda un admin y las cuentas del equipo no salen ni se pueden tocar |
+| `GestionPersonalTest` | 21 | Rama 18: crear, editar y borrar empleados solo del propio restaurante (admins con correo y contraseña, camareros con nombre y PIN), contraseña y PIN cifrados, cerrar sesiones al cambiarla, siempre queda un admin y las cuentas del equipo no salen ni se pueden tocar |
 | `CambiarRestauranteTest` | 7 | Las cuentas marcadas (equipo y profesor) cambian de restaurante; un admin normal, un camarero o cocina no; la marca no se puede poner desde un formulario |
 | `PedidosEnCursoSeederTest` | 8 | Datos de ejemplo: cuatro restaurantes con carta, mesas y servicio en curso, cuentas que cuadran, no duplica y no hace nada en producción |
+| `DispositivosTest` | 15 | Emparejar con código (caduca, un solo uso, código nuevo), la tablet de cocina entra sin cuenta, aislamiento (también cambiando el id del pedido en la URL), dos tablets ven lo mismo, desvincular y límite de intentos |
+| `AccesoCamareroPinTest` | 12 | Nombre + PIN solo en un dispositivo de camarero de su restaurante, 5 fallos y hay que esperar, «Cambiar de camarero», desvincular saca al camarero, sin perfil y el pago guarda quién cobró |
 | `ExampleTest` (Feature y Unit) | 2 | Los de ejemplo de Laravel |
 
 ---

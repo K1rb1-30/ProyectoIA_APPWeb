@@ -116,18 +116,19 @@ php artisan migrate --seed
 php artisan storage:link
 ```
 
-- `migrate --seed` crea las tablas y carga los datos de prueba: 2 restaurantes, sus usuarios, los 14 alérgenos, una carta de ejemplo, mesas y **ventas de ejemplo de los últimos 30 días** para las estadísticas (`VentasDemoSeeder`, no se ejecuta en producción). Si ya tenías la base de datos, cárgalas con `php artisan db:seed --class=VentasDemoSeeder`; si el restaurante ya tiene pagos de días anteriores, no añade nada.
+- `migrate --seed` crea las tablas y carga los datos de prueba: 4 restaurantes, sus admins y camareros (con PIN), los 14 alérgenos, una carta de ejemplo, mesas y **ventas de ejemplo de los últimos 30 días** para las estadísticas (`VentasDemoSeeder`, no se ejecuta en producción). Si ya tenías la base de datos, cárgalas con `php artisan db:seed --class=VentasDemoSeeder`; si el restaurante ya tiene pagos de días anteriores, no añade nada.
 - `storage:link` enlaza `public/storage` con `storage/app/public`, para que se vean las **fotos de los platos**. Solo hay que hacerlo una vez.
 
 ### Cuentas de prueba
 
-| Correo | Contraseña | Rol |
+| Quién | Cómo entra | Rol |
 |---|---|---|
-| `ivan@mesaya.com` · `gabriel@mesaya.com` · `profesor@mesaya.com` | `1234` | **desarrolladores**: admin de «La Tasca de Prueba», pueden **cambiar de restaurante** desde el menú lateral y entrar como camarero, cocina o cliente con «Ver como» |
-| `admin@la-tasca.test` | `password` | admin |
-| `camarero@la-tasca.test` | `password` | camarero |
-| `cocina@la-tasca.test` | `password` | cocina |
-| `admin@bar-el-rincon.test` (y `camarero@`, `cocina@`) | `password` | del segundo restaurante, para probar el aislamiento |
+| `ivan@mesaya.com` · `gabriel@mesaya.com` · `profesor@mesaya.com` | `/login` con contraseña `1234` | **desarrolladores**: admin de «La Tasca de Prueba», pueden **cambiar de restaurante** desde el menú lateral y entrar como camarero, cocina o cliente con «Ver como» |
+| `admin@la-tasca.test` (y `admin@bar-el-rincon.test`, `admin@marisqueria-o-porto.test`, `admin@cafe-central.test`) | `/login` con contraseña `password` | admin de cada restaurante |
+| Camareros (nombres inventados, sin correo) | En un **dispositivo de camarero** emparejado: tocan su nombre y escriben su PIN. El primero de cada restaurante tiene `1111`, el segundo `2222`, el tercero `3333`... | camarero |
+| Cocina | No tiene cuenta: se empareja una **tablet de cocina** | — |
+
+**Emparejar un dispositivo en local:** entra como admin → **Dispositivos** → elige Cocina o Camarero → sale un código. Abre `http://localhost:8000/dispositivo` en **otro navegador o en una ventana de incógnito** (que hará de tablet) y escribe el código. Para desvincularlo, «Desvincular» en la misma pantalla.
 
 El cliente no tiene cuenta: entra por el QR, por ejemplo en `http://localhost:8000/r/la-tasca/mesa/2`.
 

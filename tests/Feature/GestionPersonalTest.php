@@ -371,8 +371,15 @@ class GestionPersonalTest extends TestCase
         $this->seed(RestaurantesSeeder::class);
 
         $laTasca = Restaurante::where('slug', 'la-tasca')->firstOrFail();
-        $this->assertSame(6, User::where('restaurante_id', $laTasca->id)->count());
-        $this->assertSame(3, User::where('restaurante_id', $laTasca->id)->where('rol', 'camarero')->count());
+        // 1 admin y 3 camareros; ninguna cuenta de cocina.
+        $this->assertSame(4, User::where('restaurante_id', $laTasca->id)->count());
+        $this->assertSame(0, User::where('restaurante_id', $laTasca->id)->where('rol', 'cocina')->count());
+
+        // Los camareros, sin correo y con PIN 1111, 2222 y 3333.
+        $camareros = User::where('restaurante_id', $laTasca->id)->where('rol', 'camarero')->orderBy('id')->get();
+        $this->assertCount(3, $camareros);
+        $this->assertSame([null, null, null], $camareros->pluck('email')->all());
+        $this->assertTrue(Hash::check('2222', $camareros[1]->pin));
     }
 
     /**

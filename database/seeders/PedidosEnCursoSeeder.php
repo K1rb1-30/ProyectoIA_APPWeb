@@ -129,8 +129,9 @@ class PedidosEnCursoSeeder extends Seeder
         ])->all();
         $cuenta5 = $this->dividirCuenta->ejecutar($pedido5->mesa, 'platos', 2, $asignaciones);
         [$parteA, $parteB] = $cuenta5->partes->values();
-        $parteA->pagarConTpv();
-        $parteB->cobrarEfectivoEnMesa();
+        // Los cobra el camarero: queda apuntado quién cobró («cobró ...»).
+        $parteA->pagarConTpv($camarero);
+        $parteB->cobrarEfectivoEnMesa($camarero);
 
         // Mesa 6: servido, todavía sin pedir la cuenta.
         $this->pedido($restaurante, 6, [
@@ -236,8 +237,9 @@ class PedidosEnCursoSeeder extends Seeder
         foreach ($cuenta->partes->values() as $indice => $parte) {
             match ($cobros[$indice] ?? null) {
                 'tarjeta' => $parte->pagarConTarjeta('cs_test_demo_cuenta'.$cuenta->id.'_parte'.$parte->id),
-                'tpv' => $parte->pagarConTpv(),
-                'efectivo' => $parte->cobrarEfectivoEnMesa(),
+                // TPV y efectivo los cobra el primer camarero del restaurante.
+                'tpv' => $parte->pagarConTpv($this->camarero($cuenta->mesa->restaurante)),
+                'efectivo' => $parte->cobrarEfectivoEnMesa($this->camarero($cuenta->mesa->restaurante)),
                 'pide_efectivo' => $parte->pedirEfectivo(),
                 default => null,
             };
