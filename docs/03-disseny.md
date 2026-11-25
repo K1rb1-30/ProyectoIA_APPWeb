@@ -230,7 +230,7 @@ erDiagram
 
 ### Todos los roles
 
-`/login`, `/logout`, `/forgot-password`, `/reset-password/{token}` y `/profile` (Breeze, traducido). **No hay registro público.**
+`/login`, `/logout`, `/forgot-password`, `/reset-password/{token}` y `/perfil` (Breeze, traducido; `/profile` redirige a `/perfil`). **No hay registro público.**
 
 > El admin pasa siempre el middleware `rol:...`, así que también puede entrar en las pantallas de camarero y cocina.
 

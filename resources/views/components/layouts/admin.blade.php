@@ -74,7 +74,7 @@
                     <x-selector-vista />
                 </div>
                 <div class="mt-space-sm flex flex-wrap items-center gap-x-3">
-                    <a href="{{ route('profile.edit') }}" class="inline-flex items-center min-h-[44px] text-secondary hover:text-on-surface">Perfil</a>
+                    <a href="{{ route('perfil.editar') }}" class="inline-flex items-center min-h-[44px] text-secondary hover:text-on-surface">Perfil</a>
                     <span class="text-outline-variant" aria-hidden="true">·</span>
                     {{-- Cerrar sesión va por POST (con @csrf) para que nadie pueda cerrarla con un simple enlace --}}
                     <form method="POST" action="{{ route('logout') }}">

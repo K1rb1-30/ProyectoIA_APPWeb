@@ -182,10 +182,15 @@ Route::middleware(['auth', 'verified', 'rol:admin'])->prefix('admin')->group(fun
     Route::delete('/mesas/{mesa}', [MesaController::class, 'destroy'])->name('admin.mesas.borrar');
 });
 
+// Perfil de cada usuario (tarea previa P5): nombre, correo y contraseña. Antes
+// era /profile, la ruta de Breeze; la dejamos como redirección.
+// No hay ruta para borrar la propia cuenta: las cuentas solo las borra el
+// admin del restaurante desde Personal (rama 18), que comprueba que siempre
+// quede algún admin.
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/perfil', [ProfileController::class, 'edit'])->name('perfil.editar');
+    Route::patch('/perfil', [ProfileController::class, 'update'])->name('perfil.actualizar');
 });
+Route::redirect('/profile', '/perfil');
 
 require __DIR__.'/auth.php';

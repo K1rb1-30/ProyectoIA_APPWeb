@@ -16,11 +16,5 @@
                 @include('profile.partials.update-password-form')
             </div>
         </x-tarjeta>
-
-        <x-tarjeta>
-            <div class="max-w-xl">
-                @include('profile.partials.delete-user-form')
-            </div>
-        </x-tarjeta>
     </div>
 </x-app-layout>
