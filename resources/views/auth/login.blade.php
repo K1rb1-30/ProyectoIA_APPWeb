@@ -42,4 +42,10 @@
             Entrar
         </x-boton-primario>
     </form>
+
+    {{-- Las tablets y móviles del bar no inician sesión aquí: se emparejan con un código --}}
+    <p class="mt-space-lg pt-space-md border-t border-outline-variant text-body-md text-secondary">
+        ¿Es la tablet o el móvil del bar?
+        <a href="{{ route('dispositivo') }}" class="text-on-surface underline underline-offset-2 hover:text-primary">Emparejar dispositivo</a>
+    </p>
 </x-guest-layout>

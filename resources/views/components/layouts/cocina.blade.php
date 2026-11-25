@@ -13,12 +13,18 @@
 --}}
 @props(['titulo' => 'Pedidos'])
 
+@php
+    // En una tablet de cocina emparejada, el "usuario" es el dispositivo
+    // (IdentificarDispositivo): no hay sesión que cerrar.
+    $dispositivo = Auth::user() instanceof \App\Models\Dispositivo ? Auth::user() : null;
+@endphp
+
 <x-layouts.base :titulo="$titulo">
     <div class="min-h-screen flex flex-col">
         <header class="flex flex-wrap items-center justify-between gap-space-md px-margin py-space-sm bg-inverse-surface text-inverse-on-surface">
             <div class="flex items-baseline gap-3">
                 <h1 class="text-headline-md">{{ $titulo }}</h1>
-                <p class="text-body-md text-secondary-fixed-dim">Cocina</p>
+                <p class="text-body-md text-secondary-fixed-dim">{{ $dispositivo ? $dispositivo->nombre : 'Cocina' }}</p>
             </div>
 
             <div class="flex items-center gap-space-sm">
@@ -31,14 +37,17 @@
                     </div>
                 @endif
 
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit"
-                            class="pulsable inline-flex items-center gap-2 min-h-[48px] px-4 rounded border-[1.5px] border-inverse-on-surface/60 text-label-lg hover:bg-inverse-on-surface/10">
-                        <x-icono nombre="logout" class="text-xl" />
-                        Salir
-                    </button>
-                </form>
+                {{-- «Salir» solo para quien ha iniciado sesión; la tablet emparejada no lo necesita --}}
+                @unless ($dispositivo)
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit"
+                                class="pulsable inline-flex items-center gap-2 min-h-[48px] px-4 rounded border-[1.5px] border-inverse-on-surface/60 text-label-lg hover:bg-inverse-on-surface/10">
+                            <x-icono nombre="logout" class="text-xl" />
+                            Salir
+                        </button>
+                    </form>
+                @endunless
             </div>
         </header>
 

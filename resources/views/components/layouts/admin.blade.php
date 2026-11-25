@@ -26,6 +26,7 @@
         ['texto' => 'Alérgenos', 'ruta' => 'admin.alergenos'],
         ['texto' => 'Mesas y QR', 'ruta' => 'admin.mesas'],
         ['texto' => 'Personal', 'ruta' => 'admin.personal'],
+        ['texto' => 'Dispositivos', 'ruta' => 'admin.dispositivos'],
         ['texto' => 'Estadísticas', 'ruta' => 'admin.estadisticas'],
     ];
     $usuario = Auth::user();
