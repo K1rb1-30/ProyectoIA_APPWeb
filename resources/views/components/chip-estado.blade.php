@@ -3,6 +3,7 @@
     Uso: <x-chip-estado estado="preparando" />
     Estados de los pedidos: pendiente, preparando, listo y servido.
     Estados de las mesas: libre y ocupada.
+    Estados de la suscripción (rama 24): pendiente, activa, impagada y cancelada.
 
     Rediseño: ya no es una cápsula con fondo de color. Es "punto + palabra",
     así pesa menos visualmente y el estado no depende solo del color
@@ -23,6 +24,10 @@
         // Mesas: libre con punto hueco, ocupada con punto de tinta.
         'libre' => ['texto' => 'Libre', 'color' => 'text-secondary', 'punto' => 'border-2 border-outline'],
         'ocupada' => ['texto' => 'Ocupada', 'color' => 'text-on-surface', 'punto' => 'bg-on-surface'],
+        // Suscripción del restaurante (rama 24). "pendiente" es la de arriba.
+        'activa' => ['texto' => 'Activa', 'color' => 'text-tertiary', 'punto' => 'bg-estado-listo'],
+        'impagada' => ['texto' => 'Impagada', 'color' => 'text-error', 'punto' => 'bg-error'],
+        'cancelada' => ['texto' => 'Cancelada', 'color' => 'text-secondary', 'punto' => 'border-2 border-outline'],
     ];
 
     // Si llega un estado que no conocemos, se muestra en gris con su nombre.

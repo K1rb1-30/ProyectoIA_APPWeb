@@ -28,6 +28,8 @@
         ['texto' => 'Personal', 'ruta' => 'admin.personal'],
         ['texto' => 'Dispositivos', 'ruta' => 'admin.dispositivos'],
         ['texto' => 'Estadísticas', 'ruta' => 'admin.estadisticas'],
+        // Rama 24: estado de la suscripción mensual y portal de Stripe.
+        ['texto' => 'Suscripción', 'ruta' => 'admin.suscripcion'],
     ];
     $usuario = Auth::user();
 @endphp
