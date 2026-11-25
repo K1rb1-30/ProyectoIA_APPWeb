@@ -42,6 +42,15 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        // Tablets de cocina: el "usuario" es el dispositivo (App\Models\Dispositivo).
+        // No guarda nada en la sesión: el middleware IdentificarDispositivo lo
+        // busca en cada petición a partir de su cookie y lo pone con setUser().
+        // Así, si el admin lo desvincula, deja de entrar en la siguiente petición.
+        'dispositivo' => [
+            'driver' => 'session',
+            'provider' => 'dispositivos',
+        ],
     ],
 
     /*
@@ -65,6 +74,11 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', User::class),
+        ],
+
+        'dispositivos' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Dispositivo::class,
         ],
 
         // 'users' => [

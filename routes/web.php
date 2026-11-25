@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AlergenoController;
 use App\Http\Controllers\Admin\CategoriaController;
+use App\Http\Controllers\Admin\DispositivoController as AdminDispositivoController;
 use App\Http\Controllers\Admin\EstadisticaController;
 use App\Http\Controllers\Admin\MesaController;
 use App\Http\Controllers\Admin\CambiarRestauranteController;
@@ -18,8 +19,10 @@ use App\Http\Controllers\Cliente\CuentaController;
 use App\Http\Controllers\Cliente\PagoEfectivoController;
 use App\Http\Controllers\Cliente\PagoTarjetaController;
 use App\Http\Controllers\Cocina\PedidoController;
+use App\Http\Controllers\DispositivoController;
 use App\Http\Controllers\InicioController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Dispositivo;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -89,6 +92,23 @@ Route::bind('empleado', function (string $id) {
         ->firstOrFail();
 });
 
+// Pantalla de la tablet o el móvil del bar (sin login): escribir el código de
+// emparejar que da el admin. throttle:5,1 → como mucho 5 intentos por minuto
+// desde la misma IP, para que no se puedan probar códigos a lo loco.
+Route::get('/dispositivo', [DispositivoController::class, 'show'])->name('dispositivo');
+Route::post('/dispositivo/emparejar', [DispositivoController::class, 'emparejar'])
+    ->middleware('throttle:5,1')
+    ->name('dispositivo.emparejar');
+
+// {dispositivo} en las rutas del admin: Dispositivo no usa el trait del global
+// scope, así que se busca a mano solo entre los del restaurante del admin. Uno
+// de otro restaurante da 404 antes de llegar al controlador.
+Route::bind('dispositivo', function (string $id) {
+    return Dispositivo::where('restaurante_id', Auth::user()?->restaurante_id)
+        ->whereKey($id)
+        ->firstOrFail();
+});
+
 // Todo lo del administrador, en un solo grupo: hace falta iniciar sesión
 // (auth) y ser admin (rol:admin). Antes estaba repartido en varios grupos y
 // llevaba también 'verified', que no hacía nada: User no implementa
@@ -136,6 +156,12 @@ Route::middleware(['auth', 'rol:admin'])->group(function () {
         Route::put('/personal/{empleado}', [PersonalController::class, 'update'])->name('admin.personal.actualizar');
         Route::delete('/personal/{empleado}', [PersonalController::class, 'destroy'])->name('admin.personal.borrar');
 
+        // Dispositivos: emparejar tablets y móviles del bar, código nuevo y desvincular.
+        Route::get('/dispositivos', [AdminDispositivoController::class, 'index'])->name('admin.dispositivos');
+        Route::post('/dispositivos', [AdminDispositivoController::class, 'store'])->name('admin.dispositivos.guardar');
+        Route::post('/dispositivos/{dispositivo}/codigo', [AdminDispositivoController::class, 'nuevoCodigo'])->name('admin.dispositivos.codigo');
+        Route::delete('/dispositivos/{dispositivo}', [AdminDispositivoController::class, 'destroy'])->name('admin.dispositivos.borrar');
+
         // Mesas y QR (rama 4)
         Route::get('/mesas', [MesaController::class, 'index'])->name('admin.mesas');
         Route::get('/mesas/crear', [MesaController::class, 'create'])->name('admin.mesas.crear');
@@ -176,7 +202,9 @@ Route::middleware(['auth', 'rol:camarero'])->prefix('camarero')->group(function 
 
 // Pantalla de cocina (rama 6). El nombre "cocina.pedidos" no se cambia: lo
 // usa la redirección tras el login (User::rutaDeInicio).
-Route::middleware(['auth', 'rol:cocina'])->prefix('cocina')->group(function () {
+// 'dispositivo' deja entrar a las tablets de cocina emparejadas sin iniciar
+// sesión (ver IdentificarDispositivo). Los desarrolladores entran con su sesión.
+Route::middleware(['dispositivo', 'auth', 'rol:cocina'])->prefix('cocina')->group(function () {
     Route::get('/pedidos', [PedidoController::class, 'index'])->name('cocina.pedidos');
     // JSON que consulta el tablero cada 5 s (polling).
     Route::get('/pedidos/datos', [PedidoController::class, 'datos'])->name('cocina.pedidos.datos');
