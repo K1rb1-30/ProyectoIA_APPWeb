@@ -103,11 +103,12 @@ class EmpleadoRequest extends FormRequest
      * ¿Hay en el restaurante de $empleado algún admin además de él?
      * La usan también el borrado del controlador.
      *
-     * SELECT EXISTS(SELECT * FROM users WHERE restaurante_id = ? AND rol = 'admin' AND id <> ?)
+     * Las cuentas del equipo y del profesor (delPersonal) no cuentan: el
+     * restaurante tiene que tener siempre un admin propio.
      */
     public static function quedaOtroAdmin(User $empleado): bool
     {
-        return User::where('restaurante_id', $empleado->restaurante_id)
+        return User::delPersonal()->where('restaurante_id', $empleado->restaurante_id)
             ->where('rol', 'admin')
             ->whereKeyNot($empleado->id)
             ->exists();

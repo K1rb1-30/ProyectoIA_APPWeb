@@ -27,7 +27,7 @@
         ['clave' => 'mesas', 'texto' => 'Mesas', 'icono' => 'table_restaurant', 'ruta' => 'camarero.mesas'],
         ['clave' => 'avisos', 'texto' => 'Avisos', 'icono' => 'room_service', 'ruta' => 'camarero.avisos'],
         ['clave' => 'cobros', 'texto' => 'Cobros', 'icono' => 'payments', 'ruta' => 'camarero.cobros'],
-        ['clave' => 'perfil', 'texto' => 'Perfil', 'icono' => 'account_circle', 'ruta' => 'profile.edit'],
+        ['clave' => 'perfil', 'texto' => 'Perfil', 'icono' => 'account_circle', 'ruta' => 'perfil.editar'],
     ];
 
     // Globo de «Cobros»: partes que esperan el cobro en efectivo. Se cuenta al

@@ -41,6 +41,15 @@ class Cuenta extends Model
         return $this->hasMany(ParteCuenta::class)->orderBy('persona');
     }
 
+    /**
+     * Cuántas personas pagan la cuenta. No cuenta las partes de pedidos
+     * pagados al hacerlos (rama 15), que no tienen número de persona.
+     */
+    public function numeroDePersonas(): int
+    {
+        return $this->partes->whereNotNull('persona')->count();
+    }
+
     public function pedidos(): HasMany
     {
         return $this->hasMany(Pedido::class);
@@ -80,7 +89,7 @@ class Cuenta extends Model
         foreach ($this->partes()->where('estado', '!=', 'pagado')->get() as $parte) {
             $importe = number_format($parte->importe_centimos / 100, 2, ',', '.').' €';
             $motivo = $parte->estado === 'pendiente_efectivo' ? 'efectivo sin confirmar' : 'sin pagar';
-            $falta[] = "Persona {$parte->persona}: {$importe} ({$motivo}).";
+            $falta[] = "{$parte->nombre()}: {$importe} ({$motivo}).";
         }
 
         if ($this->hayPedidosFuera()) {

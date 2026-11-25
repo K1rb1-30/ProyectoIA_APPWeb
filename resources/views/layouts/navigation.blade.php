@@ -25,11 +25,11 @@
 
             <span class="text-label-lg">{{ Auth::user()->name }}</span>
 
-            <a href="{{ route('profile.edit') }}"
+            <a href="{{ route('perfil.editar') }}"
                @class([
                    'inline-flex items-center gap-2 min-h-[48px] px-4 rounded text-label-lg transition-colors',
-                   'bg-on-surface text-surface-container-lowest' => request()->routeIs('profile.edit'),
-                   'text-secondary hover:bg-surface-container-low' => ! request()->routeIs('profile.edit'),
+                   'bg-on-surface text-surface-container-lowest' => request()->routeIs('perfil.editar'),
+                   'text-secondary hover:bg-surface-container-low' => ! request()->routeIs('perfil.editar'),
                ])>
                 {{ __('Profile') }}
             </a>

@@ -318,3 +318,19 @@ Se rellena en cada sesión de trabajo, no al final. Mínimo 15 entradas.
 - **Prompt:** "Sí, actualízala"
 - **Resultado:** Rama `feature/actualizar-claude-md`, sacada de `feature/rediseno-cliente` (PR #36) para que el registro no choque. En `CLAUDE.md`: manda `DESIGN.md`; las carpetas de maquetas de Stitch quedan como referencia de contenido, no de aspecto; se resumen las normas del rediseño (un botón naranja por pantalla, un dato principal, filas en vez de tarjetas, títulos a la izquierda, punto + palabra, sin iconos decorativos ni degradados, `font-mono` para cifras, sin colores sueltos en las vistas). Sin cambios de código: no hace falta pasar los tests · ¿funcionó?: PENDIENTE DE REVISAR
 - **Enlace:** 7c7797a · [PR #37](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/37)
+
+### Entrada 40
+- **Fecha y autor:** 25/11/2026 – Iván
+- **Herramienta:** Claude Code
+- **Objetivo:** Revisar lo ya hecho en busca de cosas raras y arreglar las de funcionamiento: la numeración de personas tras pagar al pedir, `/profile` → `/perfil` (tarea P5), el borrado de la propia cuenta y las cuentas del equipo en Personal
+- **Prompt:** "Quiero que revisemos todo lo que hay, hay cosas raras [...]" y después "vamos a mirar las cosas raras de funcionamiento, cambiar la ruta y que sea perfil, que solo pueda borrar cuentas el admin del restaurante y nosotros, que no salgamos los 3 admin supremos en la parte de personal y [...] la 2 mira de arreglarla"
+- **Resultado:** Rama `feature/arreglos-funcionamiento`. (1) Las partes de los pedidos pagados al pedir ya no tienen número de persona (`partes_cuenta.persona` pasa a ser opcional, migración nueva). Al dividir el resto entre 2 salen «Persona 1» y «Persona 2», no «Persona 2» y «Persona 3». Las vistas y mensajes usan `ParteCuenta::nombre()` y el contador de personas no cuenta esas partes (`Cuenta::numeroDePersonas()`). (2) El perfil está en `/perfil` (rutas `perfil.editar` y `perfil.actualizar`), y `/profile` redirige. (3) Se han quitado la ruta, el método y el formulario para borrar la propia cuenta: las cuentas solo se borran desde Personal. (4) Nuevo scope `User::delPersonal()`: las cuentas que pueden cambiar de restaurante no salen en Personal, dan 404 al editarlas o borrarlas desde otro admin y no cuentan como el admin del restaurante. Hay 5 tests nuevos y 2 se han cambiado. `php artisan test`: 264 OK. La migración se ha probado hacia atrás y hacia delante. Actualizados `docs/03-disseny.md`, `docs/06-proves.md` y `docs/02-requisits.md`. No se ha probado en el navegador. Grafo sin actualizar (graphify no está instalado en este equipo) · ¿funcionó?: PENDIENTE DE REVISAR
+- **Enlace:** 96848e6 · b3fe2e3 · df9f3b5 · PENDIENTE (PR)
+
+### Entrada 41
+- **Fecha y autor:** 25/11/2026 – Iván
+- **Herramienta:** Claude Code
+- **Objetivo:** Arreglar el pie del menú lateral del admin, donde el desplegable «Ver como» se salía por la derecha
+- **Prompt:** "mira esto podrías arreglarlo?" (con una captura del pie del menú)
+- **Resultado:** En la rama `feature/arreglos-funcionamiento`. El menú mide 240 px y no cabían «Ver como» y el desplegable en una fila. El componente `selector-vista` tiene ahora la opción `apilado`: pone la etiqueta encima y el desplegable a todo el ancho, y solo la usa el menú del admin (en los demás layouts sigue igual). «Cerrar sesión» ya no va subrayado, igual que «Perfil». Comprobado en el navegador a 1280 px: el desplegable queda dentro del menú (de 28 a 211 px), igual de ancho que el selector de restaurante. `php artisan test`: 264 OK · ¿funcionó?: PENDIENTE DE REVISAR
+- **Enlace:** 4b23783 · PENDIENTE (PR)

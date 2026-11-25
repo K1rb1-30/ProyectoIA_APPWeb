@@ -81,8 +81,10 @@ Route::prefix('/r/{slug}/mesa/{numero}')->whereNumber('numero')->group(function 
 // solo entre los usuarios del restaurante del admin logueado. Si el id es de
 // otro restaurante (o no existe), firstOrFail da 404 antes del controlador.
 // Se ejecuta después del middleware auth, así que siempre hay usuario.
+// delPersonal(): las cuentas del equipo y del profesor tampoco se encuentran
+// (404), así que ningún admin de restaurante las puede editar ni borrar.
 Route::bind('empleado', function (string $id) {
-    return User::where('restaurante_id', Auth::user()?->restaurante_id)
+    return User::delPersonal()->where('restaurante_id', Auth::user()?->restaurante_id)
         ->whereKey($id)
         ->firstOrFail();
 });
@@ -182,10 +184,15 @@ Route::middleware(['auth', 'verified', 'rol:admin'])->prefix('admin')->group(fun
     Route::delete('/mesas/{mesa}', [MesaController::class, 'destroy'])->name('admin.mesas.borrar');
 });
 
+// Perfil de cada usuario (tarea previa P5): nombre, correo y contraseña. Antes
+// era /profile, la ruta de Breeze; la dejamos como redirección.
+// No hay ruta para borrar la propia cuenta: las cuentas solo las borra el
+// admin del restaurante desde Personal (rama 18), que comprueba que siempre
+// quede algún admin.
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/perfil', [ProfileController::class, 'edit'])->name('perfil.editar');
+    Route::patch('/perfil', [ProfileController::class, 'update'])->name('perfil.actualizar');
 });
+Route::redirect('/profile', '/perfil');
 
 require __DIR__.'/auth.php';

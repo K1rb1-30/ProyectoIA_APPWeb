@@ -23,7 +23,7 @@
                 </div>
                 <ul class="mt-1 text-body-md text-secondary">
                     @foreach ($partes as $parte)
-                        <li>Persona {{ $parte->persona }}: <x-precio :centimos="$parte->importe_centimos" class="font-mono" /></li>
+                        <li>{{ $parte->nombre() }}: <x-precio :centimos="$parte->importe_centimos" class="font-mono" /></li>
                     @endforeach
                 </ul>
                 <a href="{{ route('camarero.mesas.detalle', $mesa) }}"
@@ -57,7 +57,7 @@
                 @endphp
                 <li class="flex items-center justify-between gap-space-md py-3 border-b border-outline-variant">
                     <span>
-                        <span class="block text-label-lg">Mesa {{ $pago->parteCuenta->cuenta->mesa->numero }} · Persona {{ $pago->parteCuenta->persona }}</span>
+                        <span class="block text-label-lg">Mesa {{ $pago->parteCuenta->cuenta->mesa->numero }} · {{ $pago->parteCuenta->nombre() }}</span>
                         <span class="block text-body-md text-secondary"><span class="font-mono">{{ $pago->created_at->format('H:i') }}</span> · {{ $metodo }}</span>
                     </span>
                     <x-precio :centimos="$pago->importe_centimos" class="font-mono text-label-lg" />

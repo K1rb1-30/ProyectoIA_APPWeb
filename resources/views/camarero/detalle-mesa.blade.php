@@ -61,18 +61,17 @@
         </section>
 
         {{-- Partes: una fila por persona --}}
-        <h2 class="pb-2 border-b-2 border-on-surface text-headline-sm">Entre {{ $partes->count() }} {{ $partes->count() === 1 ? 'persona' : 'personas' }}</h2>
+        {{-- Cuenta solo las personas: los pedidos pagados al pedir (rama 15) no son una persona --}}
+        @php $personas = $cuenta->numeroDePersonas(); @endphp
+        <h2 class="pb-2 border-b-2 border-on-surface text-headline-sm">{{ $personas > 0 ? 'Entre '.$personas.' '.($personas === 1 ? 'persona' : 'personas') : 'Pagado al pedir' }}</h2>
         <ul class="mb-space-lg">
             @foreach ($partes as $parte)
                 @php $esperandoEfectivo = $parte->estado === 'pendiente_efectivo'; @endphp
                 <li class="py-space-md border-b border-outline-variant">
                     <div class="flex items-start gap-space-md">
                         <div class="flex-1 min-w-0">
-                            <p class="text-label-lg">Persona {{ $parte->persona }}</p>
-                            {{-- Rama 15: las partes de pedidos pagados al hacerlos se ven así --}}
-                            @if ($parte->pedido_id)
-                                <p class="text-body-md text-secondary">{{ $parte->nombre() }}</p>
-                            @endif
+                            {{-- «Persona 2» o, si se pagó al pedir (rama 15), «Pedido #12 · pagado al pedir» --}}
+                            <p class="text-label-lg">{{ $parte->nombre() }}</p>
                             <p @class([
                                 'text-label-md',
                                 'text-tertiary' => $parte->estaPagada(),

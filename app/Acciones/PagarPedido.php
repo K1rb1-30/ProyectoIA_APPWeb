@@ -109,13 +109,14 @@ class PagarPedido
             $pedido->update(['cuenta_id' => $cuenta->id]);
             $cuenta->update(['total_centimos' => $cuenta->total_centimos + $total]);
 
-            // 3. La parte del pedido, con la persona siguiente a la última.
-            //    Se crea pendiente y se paga con pagarConTarjeta() (rama 12):
+            // 3. La parte del pedido. No es una persona de la mesa, así que no
+            //    lleva número de persona (null): al dividir el resto, las
+            //    personas siguen siendo 1, 2, 3... Se crea pendiente y se paga con pagarConTarjeta() (rama 12):
             //    así respeta la regla pendiente → pagado y crea el Pago con la
             //    referencia de Stripe.
             $parte = $cuenta->partes()->create([
                 'pedido_id' => $pedido->id,
-                'persona' => (int) $cuenta->partes()->max('persona') + 1,
+                'persona' => null,
                 'importe_centimos' => $total,
                 'estado' => 'pendiente',
             ]);

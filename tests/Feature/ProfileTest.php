@@ -16,7 +16,7 @@ class ProfileTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->get('/profile');
+            ->get('/perfil');
 
         $response->assertOk();
     }
@@ -27,14 +27,14 @@ class ProfileTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->patch('/profile', [
+            ->patch('/perfil', [
                 'name' => 'Test User',
                 'email' => 'test@example.com',
             ]);
 
         $response
             ->assertSessionHasNoErrors()
-            ->assertRedirect('/profile');
+            ->assertRedirect('/perfil');
 
         $user->refresh();
 
@@ -49,51 +49,35 @@ class ProfileTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->patch('/profile', [
+            ->patch('/perfil', [
                 'name' => 'Test User',
                 'email' => $user->email,
             ]);
 
         $response
             ->assertSessionHasNoErrors()
-            ->assertRedirect('/profile');
+            ->assertRedirect('/perfil');
 
         $this->assertNotNull($user->refresh()->email_verified_at);
     }
 
-    public function test_user_can_delete_their_account(): void
+    public function test_nadie_puede_borrar_su_propia_cuenta_desde_el_perfil(): void
     {
+        // Las cuentas solo las borra el admin desde Personal: la ruta no existe.
         $user = User::factory()->create();
 
-        $response = $this
-            ->actingAs($user)
-            ->delete('/profile', [
-                'password' => 'password',
-            ]);
-
-        $response
-            ->assertSessionHasNoErrors()
-            ->assertRedirect('/');
-
-        $this->assertGuest();
-        $this->assertNull($user->fresh());
-    }
-
-    public function test_correct_password_must_be_provided_to_delete_account(): void
-    {
-        $user = User::factory()->create();
-
-        $response = $this
-            ->actingAs($user)
-            ->from('/profile')
-            ->delete('/profile', [
-                'password' => 'wrong-password',
-            ]);
-
-        $response
-            ->assertSessionHasErrorsIn('userDeletion', 'password')
-            ->assertRedirect('/profile');
+        $this->actingAs($user)
+            ->delete('/perfil', ['password' => 'password'])
+            ->assertStatus(405);
 
         $this->assertNotNull($user->fresh());
+        $this->actingAs($user)->get('/perfil')->assertDontSee('Eliminar cuenta');
+    }
+
+    public function test_la_ruta_antigua_profile_redirige_a_perfil(): void
+    {
+        $this->actingAs(User::factory()->create())
+            ->get('/profile')
+            ->assertRedirect('/perfil');
     }
 }

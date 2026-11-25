@@ -9,7 +9,11 @@
     - Al elegir una opción, el onchange lleva el navegador a esa URL.
     - "Cliente" abre la carta pública (rama 8) de la primera mesa del
       restaurante del admin. Si no tiene mesas, sale desactivado.
+    - apilado: «Ver como» encima y el desplegable a todo el ancho. Para sitios
+      estrechos como el menú lateral del admin: <x-selector-vista apilado />
 --}}
+@props(['apilado' => false])
+
 @php
     // Cada vista: texto, ruta y patrón de rutas que la marcan como elegida.
     $vistas = [
@@ -26,10 +30,17 @@
 @endphp
 
 @if (Auth::user()?->rol === 'admin')
-    <label {{ $attributes->merge(['class' => 'inline-flex items-center gap-2 text-label-md text-secondary']) }}>
+    <label {{ $attributes->class([
+        'text-label-md text-secondary',
+        'flex flex-col gap-1' => $apilado,
+        'inline-flex items-center gap-2' => ! $apilado,
+    ]) }}>
         <span class="whitespace-nowrap">Ver como</span>
         <select onchange="if (this.value) window.location.href = this.value"
-                class="min-h-[44px] py-2 pl-3 pr-9 rounded border-[1.5px] border-secondary-fixed-dim bg-surface-container-lowest text-label-md text-on-surface focus:border-primary-container focus:ring-1 focus:ring-primary-container">
+                @class([
+                    'min-h-[44px] py-2 pl-3 pr-9 rounded border-[1.5px] border-secondary-fixed-dim bg-surface-container-lowest text-label-md text-on-surface focus:border-primary-container focus:ring-1 focus:ring-primary-container',
+                    'w-full' => $apilado,
+                ])>
             @foreach ($vistas as $vista)
                 <option value="{{ route($vista['ruta']) }}" @selected(request()->routeIs(...$vista['patron']))>
                     {{ $vista['texto'] }}

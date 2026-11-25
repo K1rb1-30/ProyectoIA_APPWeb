@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -45,6 +46,20 @@ class User extends Authenticatable
     public function puedeCambiarDeRestaurante(): bool
     {
         return $this->rol === 'admin' && $this->puede_cambiar_restaurante;
+    }
+
+    /**
+     * Personal de un restaurante: quita las cuentas del equipo y del profesor
+     * (las que pueden cambiar de restaurante). No son empleados de ningún
+     * restaurante, así que no salen en Personal, su admin no las puede editar
+     * ni borrar y no cuentan como "el admin" del restaurante.
+     *
+     * Uso: User::delPersonal()->where('restaurante_id', ...)
+     * (Laravel convierte el método scopeDelPersonal en ->delPersonal()).
+     */
+    public function scopeDelPersonal(Builder $consulta): void
+    {
+        $consulta->where('puede_cambiar_restaurante', false);
     }
 
     /**

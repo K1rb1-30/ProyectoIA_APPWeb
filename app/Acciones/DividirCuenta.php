@@ -140,6 +140,8 @@ class DividirCuenta
 
             if ($soloLoNuevo) {
                 // Las partes de antes se quedan igual; el total sube.
+                // max() no cuenta los null: las partes de pedidos pagados al
+                // pedir (sin número de persona) no mueven la numeración.
                 $primeraPersona = (int) $cuenta->partes()->max('persona') + 1;
                 $cuenta->update(['total_centimos' => $cuenta->total_centimos + $total]);
             } elseif ($cuenta) {
