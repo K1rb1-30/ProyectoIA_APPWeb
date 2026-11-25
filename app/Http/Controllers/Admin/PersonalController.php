@@ -26,7 +26,7 @@ class PersonalController extends Controller
 {
     public function index(Request $request): View
     {
-        $empleados = User::where('restaurante_id', $request->user()->restaurante_id)
+        $empleados = User::delPersonal()->where('restaurante_id', $request->user()->restaurante_id)
             // withCount añade "pedidos_count" a cada empleado (una sola consulta
             // con COUNT): sirve para avisar al borrar a alguien con pedidos.
             ->withCount('pedidos')

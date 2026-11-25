@@ -81,8 +81,10 @@ Route::prefix('/r/{slug}/mesa/{numero}')->whereNumber('numero')->group(function 
 // solo entre los usuarios del restaurante del admin logueado. Si el id es de
 // otro restaurante (o no existe), firstOrFail da 404 antes del controlador.
 // Se ejecuta después del middleware auth, así que siempre hay usuario.
+// delPersonal(): las cuentas del equipo y del profesor tampoco se encuentran
+// (404), así que ningún admin de restaurante las puede editar ni borrar.
 Route::bind('empleado', function (string $id) {
-    return User::where('restaurante_id', Auth::user()?->restaurante_id)
+    return User::delPersonal()->where('restaurante_id', Auth::user()?->restaurante_id)
         ->whereKey($id)
         ->firstOrFail();
 });

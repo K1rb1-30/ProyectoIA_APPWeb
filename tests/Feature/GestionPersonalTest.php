@@ -253,6 +253,65 @@ class GestionPersonalTest extends TestCase
             ->assertSee('href="'.route('admin.personal').'"', false);
     }
 
+    /**
+     * Cuenta del equipo o del profesor (puede cambiar de restaurante) que
+     * ahora está en el restaurante A.
+     */
+    private function cuentaDelEquipo(): User
+    {
+        $cuenta = User::factory()->create(['name' => 'Cuenta del Equipo', 'restaurante_id' => $this->restauranteA->id]);
+        $cuenta->forceFill(['puede_cambiar_restaurante' => true])->save();
+
+        return $cuenta;
+    }
+
+    public function test_las_cuentas_del_equipo_no_salen_en_personal(): void
+    {
+        $this->cuentaDelEquipo();
+
+        $this->actingAs($this->adminA)->get(route('admin.personal'))
+            ->assertOk()
+            ->assertSee('Admin de A')
+            ->assertDontSee('Cuenta del Equipo');
+    }
+
+    public function test_el_admin_del_restaurante_no_puede_editar_ni_borrar_las_cuentas_del_equipo(): void
+    {
+        $cuenta = $this->cuentaDelEquipo();
+
+        $this->actingAs($this->adminA)->get(route('admin.personal.editar', $cuenta))->assertNotFound();
+        $this->actingAs($this->adminA)->put(route('admin.personal.actualizar', $cuenta), [
+            'name' => 'Cambiado', 'email' => 'cambiado@ejemplo.test', 'rol' => 'cocina',
+            'password' => 'otra-contrasena', 'password_confirmation' => 'otra-contrasena',
+        ])->assertNotFound();
+        $this->actingAs($this->adminA)->delete(route('admin.personal.borrar', $cuenta))->assertNotFound();
+
+        $this->assertSame('Cuenta del Equipo', $cuenta->fresh()->name);
+        $this->assertSame('admin', $cuenta->fresh()->rol);
+    }
+
+    public function test_las_cuentas_del_equipo_no_cuentan_como_el_admin_del_restaurante(): void
+    {
+        // La cuenta del equipo borra al único admin propio del restaurante: no la deja.
+        $cuenta = $this->cuentaDelEquipo();
+
+        $this->actingAs($cuenta)->delete(route('admin.personal.borrar', $this->adminA))
+            ->assertRedirect(route('admin.personal'))
+            ->assertSessionHas('aviso', 'El restaurante tiene que tener al menos un administrador.');
+
+        $this->assertNotNull($this->adminA->fresh());
+    }
+
+    public function test_las_cuentas_del_equipo_si_pueden_borrar_empleados(): void
+    {
+        $camarero = User::factory()->camarero()->create(['restaurante_id' => $this->restauranteA->id]);
+
+        $this->actingAs($this->cuentaDelEquipo())->delete(route('admin.personal.borrar', $camarero))
+            ->assertRedirect(route('admin.personal'));
+
+        $this->assertNull($camarero->fresh());
+    }
+
     public function test_el_seeder_crea_varios_empleados_por_restaurante(): void
     {
         $this->seed(RestaurantesSeeder::class);
