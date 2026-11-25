@@ -28,6 +28,8 @@ class UsuariosAdminSeeder extends Seeder
             ['slug' => 'la-tasca'],
             ['nombre' => 'La Tasca de Prueba'],
         );
+        // Suscripción activa, como los demás restaurantes de demo (rama 24).
+        $restaurante->forceFill(['suscripcion_estado' => Restaurante::SUSCRIPCION_ACTIVA])->save();
 
         $usuarios = [
             ['name' => 'Gabriel', 'email' => 'gabriel@mesaya.com'],
