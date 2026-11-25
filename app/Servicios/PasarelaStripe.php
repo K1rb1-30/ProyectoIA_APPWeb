@@ -3,6 +3,9 @@
 namespace App\Servicios;
 
 use App\Models\ParteCuenta;
+use App\Models\Restaurante;
+use Carbon\CarbonInterface;
+use Illuminate\Support\Carbon;
 use RuntimeException;
 use Stripe\Exception\InvalidRequestException;
 use Stripe\StripeClient;
@@ -110,6 +113,102 @@ class PasarelaStripe
             'tipo' => $sesion->metadata['tipo'] ?? null,
             'mesa_id' => isset($sesion->metadata['mesa_id']) ? (int) $sesion->metadata['mesa_id'] : null,
         ];
+    }
+
+    /**
+     * Crea una sesión de Stripe Checkout para la SUSCRIPCIÓN MENSUAL de un
+     * restaurante (rama 24).
+     *
+     * Diferencias con crearSesion():
+     *  - mode 'subscription': Stripe cobra ahora y luego cada mes él solo.
+     *  - price_data lleva 'recurring' (cada cuánto se repite el cobro).
+     *  - El importe sale de config (STRIPE_SUSCRIPCION_PRECIO_CENTIMOS), no del código.
+     *  - Si el restaurante ya fue cliente (reactivar), se reutiliza su cliente
+     *    de Stripe en vez de crear otro.
+     *
+     * @return array{id: string, url: string}
+     */
+    public function crearSesionSuscripcion(Restaurante $restaurante, string $urlExito, string $urlCancelar): array
+    {
+        $datos = [
+            'mode' => 'subscription',
+            'line_items' => [[
+                'quantity' => 1,
+                'price_data' => [
+                    'currency' => 'eur',
+                    'unit_amount' => (int) config('services.stripe.suscripcion_precio_centimos'),
+                    'recurring' => ['interval' => 'month'],
+                    'product_data' => ['name' => 'Suscripción mensual a MesaYa · '.$restaurante->nombre],
+                ],
+            ]],
+            'success_url' => $urlExito,
+            'cancel_url' => $urlCancelar,
+            // Al volver comprobamos que la sesión es de ESTE restaurante.
+            'metadata' => ['restaurante_id' => (string) $restaurante->id],
+            // También en la suscripción: así el webhook sabrá de qué restaurante es.
+            'subscription_data' => ['metadata' => ['restaurante_id' => (string) $restaurante->id]],
+            'locale' => 'es',
+        ];
+
+        if ($restaurante->stripe_cliente_id) {
+            $datos['customer'] = $restaurante->stripe_cliente_id;
+        }
+
+        $sesion = $this->cliente()->checkout->sessions->create($datos);
+
+        return ['id' => $sesion->id, 'url' => $sesion->url];
+    }
+
+    /**
+     * Pregunta a Stripe cómo está una sesión de suscripción (rama 24).
+     *
+     * 'expand' pide que Stripe devuelva la suscripción entera dentro de la
+     * sesión (y no solo su id), para leer la próxima fecha de cobro sin hacer
+     * otra llamada. Con la versión actual de la API, esa fecha está en el
+     * elemento de la suscripción (items), no en la suscripción.
+     *
+     * @return array{pagada: bool, restaurante_id: int|null, cliente_id: string|null, suscripcion_id: string|null, fin_en: CarbonInterface|null}
+     */
+    public function consultarSesionSuscripcion(string $idSesion): array
+    {
+        try {
+            $sesion = $this->cliente()->checkout->sessions->retrieve($idSesion, ['expand' => ['subscription']]);
+        } catch (InvalidRequestException) {
+            // Id inventado o de otra cuenta: como si no estuviera pagada.
+            return ['pagada' => false, 'restaurante_id' => null, 'cliente_id' => null, 'suscripcion_id' => null, 'fin_en' => null];
+        }
+
+        $suscripcion = $sesion->subscription;
+        $finEn = $suscripcion?->items?->data[0]?->current_period_end ?? null;
+
+        return [
+            // 'complete' = el cliente terminó el Checkout; 'paid' = se ha cobrado.
+            'pagada' => $sesion->mode === 'subscription' && $sesion->status === 'complete' && $sesion->payment_status === 'paid',
+            'restaurante_id' => isset($sesion->metadata['restaurante_id']) ? (int) $sesion->metadata['restaurante_id'] : null,
+            'cliente_id' => is_string($sesion->customer) ? $sesion->customer : $sesion->customer?->id,
+            'suscripcion_id' => $suscripcion?->id,
+            // Stripe da las fechas como segundos desde 1970 (timestamp).
+            'fin_en' => $finEn ? Carbon::createFromTimestamp($finEn) : null,
+        ];
+    }
+
+    /**
+     * Abre el portal de cliente de Stripe (rama 24): ahí el admin cambia la
+     * tarjeta, ve sus facturas o cancela. La página la pone Stripe.
+     * Hay que activarlo una vez en el panel de Stripe (modo test):
+     * Settings → Billing → Customer portal.
+     *
+     * @return string La URL del portal.
+     */
+    public function crearSesionPortal(Restaurante $restaurante, string $urlVolver): string
+    {
+        $sesion = $this->cliente()->billingPortal->sessions->create([
+            'customer' => $restaurante->stripe_cliente_id,
+            'return_url' => $urlVolver,
+            'locale' => 'es',
+        ]);
+
+        return $sesion->url;
     }
 
     /**
