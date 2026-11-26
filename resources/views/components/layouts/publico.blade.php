@@ -23,6 +23,8 @@
         ['texto' => 'Cómo funciona', 'ancla' => 'como-funciona'],
         ['texto' => 'Cocina y sala', 'ancla' => 'cocina-y-sala'],
         ['texto' => 'Panel', 'ancla' => 'panel'],
+        // Rama 25: precio, qué incluye y cómo darse de alta.
+        ['texto' => 'Suscripción', 'ancla' => 'suscripcion'],
     ];
     $usuario = Auth::user();
 @endphp

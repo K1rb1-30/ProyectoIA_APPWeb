@@ -23,7 +23,9 @@
                     @isset($frase)
                         {{ $frase }}
                     @else
-                        Entra con la cuenta que te ha dado tu restaurante. Irás directo a tu pantalla: mesas, cocina o panel.
+                        {{-- Rama 25: aquí solo entra la administración. Los camareros
+                             (PIN) y la cocina (tablet) entran desde los dispositivos. --}}
+                        Entra con el correo y la contraseña de administración de tu restaurante. Los camareros y la cocina entran desde los dispositivos del bar.
                     @endisset
                 </p>
             </div>

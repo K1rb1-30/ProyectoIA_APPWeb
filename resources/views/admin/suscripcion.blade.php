@@ -46,6 +46,11 @@
                     {{ $restaurante->suscripcion_fin_en ? $restaurante->suscripcion_fin_en->format('d/m/Y') : '—' }}
                 </dd>
             </div>
+            {{-- Rama 25: qué incluye (lo mismo que la sección «Suscripción» de la portada) --}}
+            <div class="flex flex-wrap items-baseline justify-between gap-x-space-md gap-y-1 py-space-md">
+                <dt class="text-body-md text-secondary">Incluye</dt>
+                <dd class="flex-[1_1_320px] sm:text-right text-body-md">Carta y QR, cocina, camareros, cuenta dividida y pagos, y estadísticas.</dd>
+            </div>
         </dl>
 
         <div class="mt-space-lg">

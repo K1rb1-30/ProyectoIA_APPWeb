@@ -66,7 +66,8 @@ class InicioTest extends TestCase
     {
         $respuesta = $this->get('/')->assertOk();
 
-        foreach (['como-funciona', 'cocina-y-sala', 'panel'] as $ancla) {
+        // 'suscripcion': sección añadida en la rama 25.
+        foreach (['como-funciona', 'cocina-y-sala', 'panel', 'suscripcion'] as $ancla) {
             $respuesta->assertSee('href="'.route('inicio').'#'.$ancla.'"', false)
                 ->assertSee('id="'.$ancla.'"', false);
         }

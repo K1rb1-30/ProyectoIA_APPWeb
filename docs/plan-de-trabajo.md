@@ -73,6 +73,7 @@ No estaban en la propuesta: salen de probar la aplicación. No confundir con los
 | 24 | `feature/suscripcion-restaurantes` | 11, 18 | Gabriel | 🔍 | [#46](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/46) |
 | 24b | `feature/webhook-suscripcion` | 24 | Gabriel | 🔍 | [#47](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/47) |
 | 24c | `feature/reactivar-suscripcion-impagada` | 24, 24b | Gabriel | 🔍 | [#48](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/48) |
+| 25 | `feature/informar-suscripcion` | 24, 24b | Gabriel | 🔍 | [#49](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/49) |
 
 ### Semana 4 — hasta el 07/12
 
@@ -307,6 +308,24 @@ La rama 5 necesita la 3 y la 4. Mientras tanto, la persona B puede cerrar la 1 c
 - Ahora, en `impagada`, el botón «Actualizar la tarjeta y pagar» lleva al **portal de cliente** (`admin.suscripcion.portal`), donde se cambia la tarjeta y se paga la factura pendiente. El webhook (`customer.subscription.updated` → `active`) la devuelve a `activa` con la misma suscripción.
 - `SuscripcionController::pagar()` se niega a abrir Checkout con `impagada`. En `pendiente` y `cancelada` todo sigue igual (Checkout).
 - **Tests:** en `SuscripcionTest` (4 nuevos): el botón de `impagada` va al portal, `pagar()` no llama a `crearSesionSuscripcion` ni cambia `stripe_suscripcion_id`, el portal funciona en `impagada`, y `cancelada` se sigue reactivando con Checkout.
+
+### 25. `feature/informar-suscripcion` 🟠
+- Rama de textos y vistas (no cambia la lógica de la suscripción): que cualquiera que llegue a MesaYa sepa que su restaurante necesita una suscripción mensual, cuánto cuesta, qué incluye, cómo se da de alta y qué pasa si no paga o cancela.
+
+**Decisiones (26/11/2026)**
+1. **El único botón naranja de la portada es «Da de alta tu restaurante»** (solo sin sesión, porque `/registro` es para invitados). «Ver una carta de ejemplo» pasa a enlace: depende de los datos de prueba.
+2. **Cancelación:** se dice «La cancelas cuando quieras desde el portal de Stripe», sin prometer hasta cuándo se puede seguir usando (depende de cómo esté configurado el portal).
+3. Se corrigen los textos que hablaban de camareros y cocina con cuenta propia (login, panel de tinta y llamada final): desde los PIN y los dispositivos, en `/login` solo entra la administración.
+4. Privacidad: se añaden los datos del alta y de la suscripción, y se corrige el personal (camareros con PIN, cocina sin cuenta, nadie borra su cuenta desde el perfil).
+
+**Cómo se hace**
+- Componente `x-pasos-alta`: los 3 pasos del alta (datos → pago en Stripe → carta, mesas y equipo) escritos una sola vez. Grande en la portada (como «Cómo funciona») y `compacto` con `:actual="1"` en el registro.
+- Portada: sección `#suscripcion` (también en el menú) con el precio en grande leído de `config('services.stripe.suscripcion_precio_centimos')`, «Qué incluye» en filas con líneas, los 3 pasos, las condiciones y un enlace a `/registro`. El precio sale también bajo el botón de la portada y en la llamada final, que enlaza a `#suscripcion`. En la portada no se habla del pago de prueba.
+- Registro: pasos en pequeño, precio y, bajo el botón, las condiciones (cobro mensual, cancelar, qué pasa si se cierra Stripe sin pagar) y que el pago es de prueba (`4242 4242 4242 4242`).
+- Login: enlace «¿Aún no usas MesaYa? Da de alta tu restaurante».
+- Admin: `ComprobarSuscripcion` deja un aviso (`->with('aviso', ...)`) que explica por qué se llega a «Suscripción» según el estado; la pantalla dice qué incluye; mensajes más claros al volver de Stripe sin pagar y al activarse.
+- **Tests:** `InformarSuscripcionTest` (7): precio de config en la portada (con un valor que no es el de por defecto), la portada no habla de pagos de prueba ni de días gratis, un solo botón naranja y ninguno con sesión, el login enlaza al registro, el registro explica pasos y condiciones, y el aviso del admin según el estado. `InicioTest` comprueba también el ancla `#suscripcion`.
+
 ---
 
 ## 3. Decisiones pendientes
