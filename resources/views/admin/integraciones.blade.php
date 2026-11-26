@@ -36,7 +36,14 @@
             <dl class="divide-y divide-outline-variant border-b border-outline-variant">
                 <div class="flex flex-wrap items-baseline justify-between gap-x-space-md gap-y-1 py-space-md">
                     <dt class="text-body-md text-secondary">Clave publicable</dt>
-                    <dd class="font-mono text-label-md break-all">{{ $restaurante->stripe_cobros_clave_publicable }}</dd>
+                    {{-- No es secreta, pero tampoco hace falta enseñarla entera. --}}
+                    <dd class="text-label-md">
+                        @if ($restaurante->stripe_cobros_clave_publicable)
+                            Configurada · termina en <span class="font-mono">••••{{ substr($restaurante->stripe_cobros_clave_publicable, -4) }}</span>
+                        @else
+                            —
+                        @endif
+                    </dd>
                 </div>
                 <div class="flex flex-wrap items-baseline justify-between gap-x-space-md gap-y-1 py-space-md">
                     <dt class="text-body-md text-secondary">Clave secreta</dt>
@@ -67,7 +74,7 @@
                 @method('PUT')
 
                 <x-campo-texto nombre="clave_publicable" etiqueta="Clave publicable"
-                               :value="old('clave_publicable', $restaurante->stripe_cobros_clave_publicable)"
+                               :value="old('clave_publicable')"
                                placeholder="pk_test_..." autocomplete="off" spellcheck="false" required />
 
                 {{-- Sin value: la clave guardada no se vuelve a enseñar nunca.

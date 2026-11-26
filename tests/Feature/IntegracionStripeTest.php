@@ -176,7 +176,9 @@ class IntegracionStripeTest extends TestCase
             ->assertSee('••••9999')
             ->assertDontSee('sk_test_falsa_del_rincon_9999')
             // Ni siquiera un trozo largo de la clave.
-            ->assertDontSee('falsa_del_rincon');
+            ->assertDontSee('falsa_del_rincon')
+            // La publicable tampoco se enseña entera.
+            ->assertDontSee('pk_test_falsa_rincon');
 
         // Tampoco sale al convertir el modelo en array o JSON (respuestas, logs...).
         $this->assertArrayNotHasKey('stripe_cobros_clave_secreta', $this->rincon->toArray());
