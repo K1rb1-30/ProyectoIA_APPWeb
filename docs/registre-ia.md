@@ -1,4 +1,4 @@
-# Registro de uso de IA
+4 tests nuevos en `SuscripcionTest`; se ajustan `test_impagada_y_cancelada_tambien_bloquean` y `StripeWebhookTest::test_tras_un_impago_el_restaurante_queda_bloqueado`, que esperaban el texto antiguo del botón. `php artisan test`: 330 OK# Registro de uso de IA
 
 Cada entrada: **Fecha y autor · Herramienta · Objetivo · Prompt · Resultado (¿funcionó?) · Enlace al commit/PR**.
 Se rellena en cada sesión de trabajo, no al final. Mínimo 15 entradas.
@@ -398,3 +398,11 @@ Se rellena en cada sesión de trabajo, no al final. Mínimo 15 entradas.
 - **Prompt:** "actualiza la instalacion.md"
 - **Resultado:** `docs/04-installacio.md`: aviso de copiar a mano las variables nuevas a un `.env` que ya existía; apartado «Suscripción de los restaurantes» (precio en `STRIPE_SUSCRIPCION_PRECIO_CENTIMOS` y cómo activar el portal de clientes en Stripe); apartado «Webhook de Stripe» (qué hace, cómo probarlo en local con Stripe CLI: `stripe login`, `stripe listen --forward-to localhost:8000/stripe/webhook`, `STRIPE_WEBHOOK_SECRET`, cancelar al final del mes o al momento, `stripe trigger`; y cómo darlo de alta en un servidor publicado); nota de que los restaurantes de prueba ya tienen la suscripción activa y de cómo probar `/registro`; cinco filas nuevas en «Problemas frecuentes». Se quita la frase «No hacen falta webhooks». En la rama `feature/webhook-suscripcion`, porque explica las dos PR (#46 y la del webhook). Solo documentación · ¿funcionó?: PENDIENTE DE REVISAR
 - **Enlace:** ecc37e9 · [PR #47](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/47)
+
+### Entrada 50
+- **Fecha y autor:** 26/11/2026 – Gabriel
+- **Herramienta:** Claude Code
+- **Objetivo:** Evitar que «Reactivar la suscripción» cree una segunda suscripción en Stripe (cobro doble) cuando el restaurante está en `impagada`
+- **Prompt:** "Hay un fallo en SuscripcionController::pagar(): con el restaurante en impagada, la suscripción antigua sigue viva (past_due) y el botón abre un Checkout nuevo que crea una SEGUNDA suscripción. Proponer la solución, implementarla en feature/reactivar-suscripcion-impagada y escribir tests con $this->mock(PasarelaStripe::class)."
+- **Resultado:** Rama `feature/reactivar-suscripcion-impagada` (24c). `SuscripcionController::pagar()` ya no abre Checkout en `impagada`: vuelve a «Suscripción» con un aviso. En `admin/suscripcion.blade.php`, en `impagada` el botón naranja es «Actualizar la tarjeta y pagar» y va al portal de cliente de Stripe (`admin.suscripcion.portal`), con una explicación nueva. `pendiente` y `cancelada` siguen con Checkout. El webhook no cambia: `customer.subscription.updated` → `active` devuelve el restaurante a `activa` con la misma suscripción. 4 tests nuevos en `SuscripcionTest` y se ajusta `test_impagada_y_cancelada_tambien_bloquean`. **`php artisan test` no se ha podido ejecutar desde el worktree** (MySQL pide la contraseña del `.env`, que Claude no puede leer): hay que ejecutarlo antes de la PR · ¿funcionó?: PENDIENTE DE REVISAR
+- **Enlace:** e65d131 · 1adccc7 · [PR #48](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/48)

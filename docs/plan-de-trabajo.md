@@ -72,6 +72,7 @@ No estaban en la propuesta: salen de probar la aplicación. No confundir con los
 | 23 | `feature/rediseno-cliente` | 19 | Gabriel | 🔍 | [#36](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/36) |
 | 24 | `feature/suscripcion-restaurantes` | 11, 18 | Gabriel | 🔍 | [#46](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/46) |
 | 24b | `feature/webhook-suscripcion` | 24 | Gabriel | 🔍 | [#47](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/47) |
+| 24c | `feature/reactivar-suscripcion-impagada` | 24, 24b | Gabriel | 🔍 | [#48](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/48) |
 
 ### Semana 4 — hasta el 07/12
 
@@ -300,6 +301,12 @@ La rama 5 necesita la 3 y la 4. Mientras tanto, la persona B puede cerrar la 1 c
 - El restaurante se busca por `stripe_suscripcion_id`: un aviso de una suscripción desconocida (los de `stripe trigger`, o la antigua de un restaurante que ha reactivado) no toca nada.
 - **Tests:** `StripeWebhookTest` (10), con avisos firmados de verdad con un secreto de prueba: firma mala o sin firma, sin secreto, modo real, impago, cancelación, renovación con fecha nueva, traducción de estados, suscripción desconocida, avisos que no usamos y bloqueo tras un impago.
 
+
+### 24c. `feature/reactivar-suscripcion-impagada` 🟠
+- Arregla un cobro doble. En `impagada` la suscripción antigua sigue viva en Stripe (`past_due`) y Stripe reintenta el cobro. Hasta ahora, «Reactivar la suscripción» abría un Checkout nuevo que creaba una **segunda** suscripción, y `exito()` guardaba su id, así que los avisos de la antigua se ignoraban.
+- Ahora, en `impagada`, el botón «Actualizar la tarjeta y pagar» lleva al **portal de cliente** (`admin.suscripcion.portal`), donde se cambia la tarjeta y se paga la factura pendiente. El webhook (`customer.subscription.updated` → `active`) la devuelve a `activa` con la misma suscripción.
+- `SuscripcionController::pagar()` se niega a abrir Checkout con `impagada`. En `pendiente` y `cancelada` todo sigue igual (Checkout).
+- **Tests:** en `SuscripcionTest` (4 nuevos): el botón de `impagada` va al portal, `pagar()` no llama a `crearSesionSuscripcion` ni cambia `stripe_suscripcion_id`, el portal funciona en `impagada`, y `cancelada` se sigue reactivando con Checkout.
 ---
 
 ## 3. Decisiones pendientes

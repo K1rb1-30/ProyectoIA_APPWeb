@@ -226,8 +226,66 @@ class SuscripcionTest extends TestCase
             $admin = User::factory()->create(['restaurante_id' => $restaurante->id]);
 
             $this->actingAs($admin)->get(route('panel'))->assertRedirect(route('admin.suscripcion'));
-            $this->get(route('admin.suscripcion'))->assertSee('Reactivar la suscripción');
         }
+    }
+
+    /** Restaurante en «impagada»: ya pagó alguna vez (tiene cliente y suscripción en Stripe). */
+    private function adminImpagada(): User
+    {
+        $restaurante = Restaurante::factory()->create(['suscripcion_estado' => 'impagada']);
+        $restaurante->forceFill(['stripe_cliente_id' => 'cus_prueba', 'stripe_suscripcion_id' => 'sub_antigua'])->save();
+
+        return User::factory()->create(['restaurante_id' => $restaurante->id]);
+    }
+
+    public function test_con_impagada_el_boton_lleva_al_portal_y_no_a_checkout(): void
+    {
+        $this->actingAs($this->adminImpagada())->get(route('admin.suscripcion'))
+            ->assertOk()
+            ->assertSee('Actualizar la tarjeta y pagar')
+            ->assertDontSee('Reactivar la suscripción')
+            ->assertSee(route('admin.suscripcion.portal'))
+            ->assertDontSee(route('admin.suscripcion.pagar'));
+    }
+
+    public function test_con_impagada_pagar_no_crea_otra_suscripcion(): void
+    {
+        $admin = $this->adminImpagada();
+
+        $this->mock(PasarelaStripe::class, fn (MockInterface $p) => $p->shouldNotReceive('crearSesionSuscripcion'));
+
+        $this->actingAs($admin)->post(route('admin.suscripcion.pagar'))
+            ->assertRedirect(route('admin.suscripcion'))
+            ->assertSessionHas('aviso');
+
+        // La suscripción de siempre se queda guardada: los avisos del webhook siguen llegando a ella.
+        $restaurante = $admin->restaurante->fresh();
+        $this->assertSame('impagada', $restaurante->suscripcion_estado);
+        $this->assertSame('sub_antigua', $restaurante->stripe_suscripcion_id);
+    }
+
+    public function test_con_impagada_el_portal_permite_pagar_la_factura(): void
+    {
+        $this->mock(PasarelaStripe::class, function (MockInterface $pasarela) {
+            $pasarela->shouldNotReceive('crearSesionSuscripcion');
+            $pasarela->shouldReceive('crearSesionPortal')->once()->andReturn('https://billing.stripe.com/p/session/prueba');
+        });
+
+        $this->actingAs($this->adminImpagada())->post(route('admin.suscripcion.portal'))
+            ->assertRedirect('https://billing.stripe.com/p/session/prueba');
+    }
+
+    public function test_con_cancelada_se_reactiva_con_checkout(): void
+    {
+        $restaurante = Restaurante::factory()->create(['suscripcion_estado' => 'cancelada']);
+        $admin = User::factory()->create(['restaurante_id' => $restaurante->id]);
+
+        $this->mock(PasarelaStripe::class, fn (MockInterface $p) => $p->shouldReceive('crearSesionSuscripcion')
+            ->once()
+            ->andReturn(['id' => 'cs_test_2', 'url' => 'https://checkout.stripe.com/c/pay/cs_test_2']));
+
+        $this->actingAs($admin)->get(route('admin.suscripcion'))->assertSee('Reactivar la suscripción');
+        $this->post(route('admin.suscripcion.pagar'))->assertRedirect('https://checkout.stripe.com/c/pay/cs_test_2');
     }
 
     public function test_los_desarrolladores_no_se_bloquean_nunca(): void
