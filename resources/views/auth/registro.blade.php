@@ -20,7 +20,7 @@
     <div class="mb-10">
         <h1 class="text-headline-lg">Da de alta tu restaurante</h1>
         <p class="mt-2 text-body-lg text-secondary">
-            Suscripción mensual de <x-precio :centimos="(int) config('services.stripe.suscripcion_precio_centimos')" class="font-mono text-on-surface" />.
+            Suscripción: <x-precio :centimos="(int) config('services.stripe.suscripcion_precio_centimos')" class="font-mono text-on-surface" /> al mes
         </p>
     </div>
 

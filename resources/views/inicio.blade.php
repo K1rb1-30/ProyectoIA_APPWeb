@@ -116,7 +116,7 @@
                 <a href="#como-funciona" class="inline-flex items-center min-h-[44px] text-label-lg underline underline-offset-[6px] hover:text-primary">Cómo funciona</a>
             </div>
             <p class="mt-space-md text-body-md text-secondary">
-                Suscripción mensual de <x-precio :centimos="$precioSuscripcion" class="font-mono text-on-surface" />.
+                Suscripción mensual de <x-precio :centimos="$precioSuscripcion" class="font-mono text-on-surface" /> ·
                 <a href="#suscripcion" class="text-on-surface underline underline-offset-2 hover:text-primary">Mira qué incluye</a>.
             </p>
         </div>
@@ -260,7 +260,7 @@
         <div class="flex-[1_1_500px]">
             <h2 class="text-[40px] leading-[1.05] tracking-[-0.03em] font-extrabold">¿Quieres MesaYa en tu restaurante?</h2>
             <p class="mt-3.5 text-body-lg text-secondary">
-                Suscripción mensual de <x-precio :centimos="$precioSuscripcion" class="font-mono text-on-surface" />.
+                Suscripción mensual de <x-precio :centimos="$precioSuscripcion" class="font-mono text-on-surface" /> ·
                 <a href="#suscripcion" class="text-on-surface underline underline-offset-2 hover:text-primary">Mira qué incluye</a>
                 o <a href="{{ route('registro') }}" class="text-on-surface underline underline-offset-2 hover:text-primary">da de alta tu restaurante</a>.
             </p>
