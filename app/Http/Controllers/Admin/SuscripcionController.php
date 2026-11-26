@@ -42,6 +42,8 @@ class SuscripcionController extends Controller
 
     /**
      * Pagar (o reactivar) la suscripción: manda al admin a Stripe Checkout.
+     * Solo para «pendiente» (nunca ha pagado) y «cancelada» (no queda ninguna
+     * suscripción viva en Stripe). «Impagada» se arregla en el portal.
      */
     public function pagar(Request $request): RedirectResponse
     {
@@ -51,6 +53,16 @@ class SuscripcionController extends Controller
         // y se cobraría dos veces cada mes).
         if ($restaurante->tieneSuscripcionActiva()) {
             return redirect()->route('admin.suscripcion')->with('estado', 'La suscripción ya está activa.');
+        }
+
+        // Impagada: la suscripción de siempre sigue viva en Stripe (past_due) y
+        // Stripe sigue reintentando el cobro. Un Checkout nuevo crearía una
+        // SEGUNDA suscripción y se cobraría dos veces. Lo que toca es pagar la
+        // factura pendiente en el portal; cuando se pague, el webhook
+        // (customer.subscription.updated → active) la vuelve a poner activa.
+        if ($restaurante->suscripcion_estado === Restaurante::SUSCRIPCION_IMPAGADA) {
+            return redirect()->route('admin.suscripcion')
+                ->with('aviso', 'Tienes un pago pendiente: actualiza la tarjeta y paga la factura en el portal de Stripe.');
         }
 
         return $this->irAStripe($restaurante, $this->pasarela);

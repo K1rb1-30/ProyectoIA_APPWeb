@@ -181,6 +181,6 @@ class StripeWebhookTest extends TestCase
         $this->enviar($this->evento('customer.subscription.updated', $this->suscripcion('past_due')))->assertOk();
 
         $this->actingAs($admin)->get(route('panel'))->assertRedirect(route('admin.suscripcion'));
-        $this->get(route('admin.suscripcion'))->assertSee('Impagada')->assertSee('Reactivar la suscripción');
+        $this->get(route('admin.suscripcion'))->assertSee('Impagada')->assertSee('Actualizar la tarjeta y pagar');
     }
 }

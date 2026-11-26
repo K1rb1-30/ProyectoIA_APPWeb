@@ -10,7 +10,8 @@
 
     «Comanda impresa»: el estado es el dato principal (punto + palabra, en
     grande); el resto en filas con línea; un solo botón naranja, que cambia
-    según el estado: pagar, reactivar o gestionar en Stripe.
+    según el estado: pagar, reactivar, pagar la factura pendiente (impagada)
+    o gestionar en Stripe. Pagar y reactivar abren Checkout; los otros dos, el portal.
 --}}
 @php
     $activa = $restaurante->tieneSuscripcionActiva();
@@ -19,7 +20,7 @@
     $explicaciones = [
         'pendiente' => 'Tu restaurante está dado de alta, pero falta pagar la suscripción. Hasta entonces, ni tú ni tu personal ni tus clientes podéis usar MesaYa.',
         'activa' => 'Todo en marcha. Stripe cobra la suscripción cada mes con la tarjeta que diste.',
-        'impagada' => 'Stripe no ha podido cobrar el último mes. Mientras no se pague, el restaurante no está disponible.',
+        'impagada' => 'Stripe no ha podido cobrar el último mes y lo seguirá intentando. Mientras no se pague, el restaurante no está disponible. Actualiza la tarjeta y paga la factura pendiente en el portal de Stripe.',
         'cancelada' => 'La suscripción está cancelada y el restaurante no está disponible. Puedes reactivarla cuando quieras.',
     ];
 @endphp
@@ -61,6 +62,16 @@
                 </form>
                 <p class="mt-space-sm text-body-md text-secondary">
                     En el portal de Stripe puedes cambiar la tarjeta, descargar las facturas o cancelar la suscripción.
+                </p>
+            @elseif ($estado === 'impagada')
+                {{-- La suscripción sigue viva en Stripe: NO se abre otro Checkout
+                     (sería una segunda suscripción). Se paga la factura pendiente en el portal. --}}
+                <form method="POST" action="{{ route('admin.suscripcion.portal') }}">
+                    @csrf
+                    <x-boton-primario>Actualizar la tarjeta y pagar</x-boton-primario>
+                </form>
+                <p class="mt-space-sm text-body-md text-secondary">
+                    En el portal de Stripe cambias la tarjeta y pagas la factura pendiente. Cuando Stripe cobre, la suscripción vuelve a estar activa sola.
                 </p>
             @else
                 <form method="POST" action="{{ route('admin.suscripcion.pagar') }}">
