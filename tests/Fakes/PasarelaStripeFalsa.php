@@ -2,6 +2,7 @@
 
 namespace Tests\Fakes;
 
+use App\Models\Restaurante;
 use App\Servicios\PasarelaStripe;
 
 /**
@@ -32,8 +33,12 @@ class PasarelaStripeFalsa extends PasarelaStripe
 
     public int $consultas = 0;
 
-    public function crearSesionPedido(int $importeCentimos, int $mesaId, string $concepto, string $urlExito, string $urlCancelar): array
+    /** Restaurante con el que se creó la última sesión (rama 26). */
+    public ?Restaurante $restauranteDeLaSesion = null;
+
+    public function crearSesionPedido(Restaurante $restaurante, int $importeCentimos, int $mesaId, string $concepto, string $urlExito, string $urlCancelar): array
     {
+        $this->restauranteDeLaSesion = $restaurante;
         $id = 'cs_test_'.(count($this->sesiones) + 1);
         $this->sesiones[$id] = ['importe' => $importeCentimos, 'mesa_id' => $mesaId];
         $this->ultimaSesion = $id;
@@ -41,7 +46,7 @@ class PasarelaStripeFalsa extends PasarelaStripe
         return ['id' => $id, 'url' => 'https://checkout.stripe.com/c/pay/'.$id];
     }
 
-    public function consultarSesion(string $idSesion): array
+    public function consultarSesion(Restaurante $restaurante, string $idSesion): array
     {
         $this->consultas++;
         $sesion = $this->sesiones[$idSesion] ?? null;

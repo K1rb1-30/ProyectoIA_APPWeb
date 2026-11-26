@@ -41,7 +41,7 @@ class PagoTarjetaController extends Controller
         $mesa = Mesa::delQr($slug, $numero);
         $parte = $this->buscarParte($mesa, $parte) ?? abort(404);
 
-        if ($aviso = $this->motivoParaNoPagar($parte)) {
+        if ($aviso = $this->motivoParaNoPagar($mesa, $parte)) {
             return $this->volverALaCuenta($slug, $numero)->with('estado', $aviso);
         }
 
@@ -62,7 +62,7 @@ class PagoTarjetaController extends Controller
         $parte = $this->buscarParte($mesa, $parte) ?? abort(404);
 
         // Una parte ya pagada no se puede volver a pagar: ni llamamos a Stripe.
-        if ($aviso = $this->motivoParaNoPagar($parte)) {
+        if ($aviso = $this->motivoParaNoPagar($mesa, $parte)) {
             return $this->volverALaCuenta($slug, $numero)->with('estado', $aviso);
         }
 
@@ -75,7 +75,8 @@ class PagoTarjetaController extends Controller
         $concepto = "{$mesa->restaurante->nombre} · Mesa {$mesa->numero} · {$parte->nombre()}";
 
         try {
-            $sesion = $this->pasarela->crearSesion($parte, $concepto, $urlExito, $urlCancelar);
+            // Rama 26: con la cuenta de Stripe del restaurante de ESTA mesa.
+            $sesion = $this->pasarela->crearSesion($mesa->restaurante, $parte, $concepto, $urlExito, $urlCancelar);
         } catch (Throwable $error) {
             // Faltan las claves, no hay internet, Stripe falla...: lo apuntamos
             // en el log y al cliente le damos un mensaje entendible.
@@ -112,7 +113,7 @@ class PagoTarjetaController extends Controller
         // Transacción + lockForUpdate(): si llegan dos peticiones a la vez (doble
         // clic, recargar...), la segunda espera a que acabe la primera y entonces
         // ya ve la parte pagada. Así nunca se crean dos pagos.
-        $confirmado = DB::transaction(function () use ($parteCuenta, $idSesion) {
+        $confirmado = DB::transaction(function () use ($mesa, $parteCuenta, $idSesion) {
             $parte = ParteCuenta::lockForUpdate()->find($parteCuenta->id);
 
             // Ya estaba pagada (por ejemplo, se recarga la página): no se repite.
@@ -124,7 +125,16 @@ class PagoTarjetaController extends Controller
                 return false;
             }
 
-            $sesion = $this->pasarela->consultarSesion($idSesion);
+            // Rama 26: se pregunta con la clave del MISMO restaurante que creó
+            // el pago. Si ya no la tiene (el admin la ha quitado mientras
+            // tanto), no podemos confirmar: la parte sigue pendiente.
+            try {
+                $sesion = $this->pasarela->consultarSesion($mesa->restaurante, $idSesion);
+            } catch (Throwable $error) {
+                report($error);
+
+                return false;
+            }
 
             // Todo tiene que cuadrar: pagada, de ESTA parte, por ESTE importe y en euros.
             $sesionValida = $sesion['pagada']
@@ -179,10 +189,12 @@ class PagoTarjetaController extends Controller
 
     /**
      * Texto del aviso si la parte no se puede pagar con tarjeta, o null si sí.
+     * Rama 26: sin Stripe configurado en el restaurante, solo efectivo.
      */
-    private function motivoParaNoPagar(ParteCuenta $parte): ?string
+    private function motivoParaNoPagar(Mesa $mesa, ParteCuenta $parte): ?string
     {
         return match (true) {
+            ! $mesa->restaurante->tieneStripeConfigurado() => 'Este restaurante solo acepta pagos en efectivo. Elige «Efectivo» y el camarero vendrá a cobrar.',
             $parte->estaPagada() => 'Esta parte ya está pagada.',
             $parte->estado === 'pendiente_efectivo' => 'Esta parte se va a pagar en efectivo.',
             $parte->cuenta->estado !== 'abierta' => 'Esta cuenta ya está cerrada.',
