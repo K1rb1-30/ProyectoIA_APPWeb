@@ -6,7 +6,8 @@
 <x-guest-layout>
     <div class="mb-10">
         <h1 class="text-headline-lg">Acceso del personal</h1>
-        <p class="mt-2 text-body-lg text-secondary">Camareros, cocina y administración.</p>
+        {{-- Rama 25: desde los PIN y los dispositivos, en /login solo entra la administración --}}
+        <p class="mt-2 text-body-lg text-secondary">Administración del restaurante.</p>
     </div>
 
     {{-- Mensaje de estado, por ejemplo tras cambiar la contraseña --}}
@@ -47,5 +48,10 @@
     <p class="mt-space-lg pt-space-md border-t border-outline-variant text-body-md text-secondary">
         ¿Es la tablet o el móvil del bar?
         <a href="{{ route('dispositivo') }}" class="text-on-surface underline underline-offset-2 hover:text-primary">Emparejar dispositivo</a>
+    </p>
+    {{-- Rama 25: enlace discreto al alta, para quien llega aquí sin cuenta --}}
+    <p class="mt-2 text-body-md text-secondary">
+        ¿Aún no usas MesaYa?
+        <a href="{{ route('registro') }}" class="text-on-surface underline underline-offset-2 hover:text-primary">Da de alta tu restaurante</a>
     </p>
 </x-guest-layout>
