@@ -72,7 +72,7 @@ No estaban en la propuesta: salen de probar la aplicación. No confundir con los
 | 23 | `feature/rediseno-cliente` | 19 | Gabriel | 🔍 | [#36](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/36) |
 | 24 | `feature/suscripcion-restaurantes` | 11, 18 | Gabriel | 🔍 | [#46](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/46) |
 | 24b | `feature/webhook-suscripcion` | 24 | Gabriel | 🔍 | [#47](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/47) |
-| 24c | `feature/reactivar-suscripcion-impagada` | 24, 24b | Gabriel | 🟡 | — |
+| 24c | `feature/reactivar-suscripcion-impagada` | 24, 24b | Gabriel | 🔍 | [#48](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/48) |
 
 ### Semana 4 — hasta el 07/12
 
