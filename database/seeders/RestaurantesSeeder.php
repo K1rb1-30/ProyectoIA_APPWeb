@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Restaurante;
 use App\Models\User;
+use App\Servicios\PasarelaStripe;
 use Illuminate\Database\Seeder;
 
 /**
@@ -16,6 +17,7 @@ use Illuminate\Database\Seeder;
  *    emparejado con su nombre (de Faker) y su PIN. El PIN de prueba es la
  *    cifra de su número repetida: 1111 el primero, 2222 el segundo...
  *  - La cocina no tiene cuentas: se empareja una tablet en «Dispositivos».
+ *  - Stripe del restaurante (rama 26): ver conectarStripeDeDemo().
  *
  * Son datos de prueba: nunca se usan en producción.
  */
@@ -43,6 +45,8 @@ class RestaurantesSeeder extends Seeder
             // el estado no está en Fillable.
             $restaurante->forceFill(['suscripcion_estado' => Restaurante::SUSCRIPCION_ACTIVA])->save();
 
+            $this->conectarStripeDeDemo($restaurante);
+
             // El admin, con correo y contraseña. Solo se crea si no existe:
             // así "php artisan db:seed" se puede ejecutar varias veces.
             $correoAdmin = 'admin@'.$restaurante->slug.'.test';
@@ -64,5 +68,27 @@ class RestaurantesSeeder extends Seeder
                 ]);
             }
         }
+    }
+
+    /**
+     * Rama 26: para que la demo siga cobrando con tarjeta como antes, los
+     * restaurantes de demo usan la cuenta de Stripe de prueba del EQUIPO, la
+     * misma del .env (STRIPE_KEY y STRIPE_SECRET). Así:
+     *  - no hay ninguna clave escrita en el código ni en este seeder;
+     *  - la clave se guarda cifrada, como si la hubiera pegado el admin;
+     *  - solo se copia si es de modo test, y solo a estos 4 restaurantes:
+     *    uno dado de alta con el formulario empieza «Sin configurar».
+     * Si el restaurante ya tiene claves (las ha cambiado el admin), no se tocan.
+     */
+    private function conectarStripeDeDemo(Restaurante $restaurante): void
+    {
+        $secreta = (string) config('services.stripe.secret');
+        $publicable = (string) config('services.stripe.key');
+
+        if ($restaurante->tieneStripeConfigurado() || ! PasarelaStripe::esClaveSecretaDeTest($secreta)) {
+            return;
+        }
+
+        $restaurante->guardarClavesStripe(str_starts_with($publicable, 'pk_test_') ? $publicable : null, $secreta);
     }
 }

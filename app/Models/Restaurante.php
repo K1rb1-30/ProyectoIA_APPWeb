@@ -104,7 +104,7 @@ class Restaurante extends Model
      * Guarda las claves de Stripe del restaurante (rama 26). Solo se llama
      * DESPUÉS de comprobar con Stripe que la clave secreta funciona.
      */
-    public function guardarClavesStripe(string $publicable, string $secreta): void
+    public function guardarClavesStripe(?string $publicable, string $secreta): void
     {
         // forceFill: estas columnas no están en Fillable (ver arriba).
         $this->forceFill([
