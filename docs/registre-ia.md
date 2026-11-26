@@ -1,4 +1,4 @@
-# Registro de uso de IA
+4 tests nuevos en `SuscripcionTest`; se ajustan `test_impagada_y_cancelada_tambien_bloquean` y `StripeWebhookTest::test_tras_un_impago_el_restaurante_queda_bloqueado`, que esperaban el texto antiguo del botón. `php artisan test`: 330 OK# Registro de uso de IA
 
 Cada entrada: **Fecha y autor · Herramienta · Objetivo · Prompt · Resultado (¿funcionó?) · Enlace al commit/PR**.
 Se rellena en cada sesión de trabajo, no al final. Mínimo 15 entradas.
