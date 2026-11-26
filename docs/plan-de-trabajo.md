@@ -74,7 +74,7 @@ No estaban en la propuesta: salen de probar la aplicación. No confundir con los
 | 24b | `feature/webhook-suscripcion` | 24 | Gabriel | 🔍 | [#47](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/47) |
 | 24c | `feature/reactivar-suscripcion-impagada` | 24, 24b | Gabriel | 🔍 | [#48](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/48) |
 | 25 | `feature/informar-suscripcion` | 24, 24b | Gabriel | 🔍 | [#49](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/49) |
-| 26 | `feature/integracion-stripe-restaurante` | 11, 15, 24 | Gabriel | 🟡 | PENDIENTE |
+| 26 | `feature/integracion-stripe-restaurante` | 11, 15, 24 | Gabriel | 🔍 | [#50](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/50) |
 
 ### Semana 4 — hasta el 07/12
 
