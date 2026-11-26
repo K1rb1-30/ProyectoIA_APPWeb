@@ -12,7 +12,8 @@ use Illuminate\Support\Str;
 
 // Las columnas de la suscripción (rama 24) NO están en Fillable a propósito:
 // ningún formulario las puede rellenar. Solo cambian con activarSuscripcion()
-// después de preguntar a Stripe.
+// después de preguntar a Stripe. Lo mismo con las claves de Stripe del
+// restaurante (rama 26): solo se guardan con guardarClavesStripe().
 #[Fillable(['nombre', 'slug'])]
 class Restaurante extends Model
 {
@@ -32,10 +33,20 @@ class Restaurante extends Model
     // pero lo dejamos escrito como pide CLAUDE.md.
     protected $table = 'restaurantes';
 
+    // Rama 26: la clave secreta NUNCA sale del modelo al convertirlo en array
+    // o JSON (respuestas, logs, dd()...). Solo la lee PasarelaStripe.
+    protected $hidden = ['stripe_cobros_clave_secreta'];
+
     protected function casts(): array
     {
         return [
             'suscripcion_fin_en' => 'datetime',
+            // "encrypted": Laravel cifra la clave con APP_KEY (AES-256) al
+            // guardar y la descifra al leer $restaurante->stripe_cobros_clave_secreta.
+            // En la base de datos solo hay texto ilegible. Si cambia APP_KEY,
+            // ya no se puede descifrar y hay que volver a pegar la clave.
+            'stripe_cobros_clave_secreta' => 'encrypted',
+            'stripe_cobros_comprobada_en' => 'datetime',
         ];
     }
 
@@ -76,6 +87,44 @@ class Restaurante extends Model
             'stripe_suscripcion_id' => $suscripcionId,
             'suscripcion_estado' => self::SUSCRIPCION_ACTIVA,
             'suscripcion_fin_en' => $finEn,
+        ])->save();
+    }
+
+    /**
+     * True si el restaurante tiene su propia cuenta de Stripe para cobrar a
+     * sus clientes (rama 26). Mira las 4 últimas cifras y no la clave, para
+     * no descifrarla sin necesidad.
+     */
+    public function tieneStripeConfigurado(): bool
+    {
+        return $this->stripe_cobros_final_clave !== null;
+    }
+
+    /**
+     * Guarda las claves de Stripe del restaurante (rama 26). Solo se llama
+     * DESPUÉS de comprobar con Stripe que la clave secreta funciona.
+     */
+    public function guardarClavesStripe(?string $publicable, string $secreta): void
+    {
+        // forceFill: estas columnas no están en Fillable (ver arriba).
+        $this->forceFill([
+            'stripe_cobros_clave_publicable' => $publicable,
+            'stripe_cobros_clave_secreta' => $secreta,   // el cast la cifra
+            'stripe_cobros_final_clave' => substr($secreta, -4),
+            'stripe_cobros_comprobada_en' => now(),
+        ])->save();
+    }
+
+    /**
+     * Quita las claves: el restaurante pasa a cobrar solo en efectivo.
+     */
+    public function quitarClavesStripe(): void
+    {
+        $this->forceFill([
+            'stripe_cobros_clave_publicable' => null,
+            'stripe_cobros_clave_secreta' => null,
+            'stripe_cobros_final_clave' => null,
+            'stripe_cobros_comprobada_en' => null,
         ])->save();
     }
 

@@ -37,6 +37,11 @@ return Application::configure(basePath: dirname(__DIR__))
         );
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+        // Rama 26: si falla la validación, Laravel devuelve lo escrito al
+        // formulario (old()) guardándolo en la sesión. La clave secreta de
+        // Stripe NO: ni se guarda en la sesión ni vuelve a la página.
+        $exceptions->dontFlash(['clave_secreta']);
+
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
         );

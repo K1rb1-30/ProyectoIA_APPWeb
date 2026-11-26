@@ -246,9 +246,10 @@ class PagarAlPedirTest extends TestCase
 
     public function test_si_stripe_falla_al_abrir_el_pago_se_dice_que_llame_al_camarero(): void
     {
-        // Pasarela de verdad sin clave de test: falla antes de llamar a Stripe.
+        // Pasarela de verdad con una clave guardada que no es de test (rama 26:
+        // la del restaurante): falla antes de llamar a Stripe.
         $this->app->instance(PasarelaStripe::class, new PasarelaStripe);
-        config(['services.stripe.secret' => '']);
+        $this->mesa->restaurante->forceFill(['stripe_cobros_clave_secreta' => 'clave_que_no_es_de_test'])->save();
 
         $this->irAPagar()->assertRedirect($this->ruta('cliente.pedido'))->assertSessionHasErrors('pago');
         $this->assertSame(0, Pedido::withoutGlobalScopes()->count());

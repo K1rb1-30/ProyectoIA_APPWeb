@@ -28,6 +28,8 @@
         ['texto' => 'Personal', 'ruta' => 'admin.personal'],
         ['texto' => 'Dispositivos', 'ruta' => 'admin.dispositivos'],
         ['texto' => 'Estadísticas', 'ruta' => 'admin.estadisticas'],
+        // Rama 26: la cuenta de Stripe del restaurante para cobrar a sus clientes.
+        ['texto' => 'Integraciones', 'ruta' => 'admin.integraciones'],
         // Rama 24: estado de la suscripción mensual y portal de Stripe.
         ['texto' => 'Suscripción', 'ruta' => 'admin.suscripcion'],
     ];

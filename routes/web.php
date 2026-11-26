@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AlergenoController;
 use App\Http\Controllers\Admin\CategoriaController;
 use App\Http\Controllers\Admin\DispositivoController as AdminDispositivoController;
 use App\Http\Controllers\Admin\EstadisticaController;
+use App\Http\Controllers\Admin\IntegracionController;
 use App\Http\Controllers\Admin\MesaController;
 use App\Http\Controllers\Admin\CambiarRestauranteController;
 use App\Http\Controllers\Admin\PanelController;
@@ -213,6 +214,12 @@ Route::middleware(['auth', 'rol:admin', 'suscripcion'])->group(function () {
         Route::post('/dispositivos', [AdminDispositivoController::class, 'store'])->name('admin.dispositivos.guardar');
         Route::post('/dispositivos/{dispositivo}/codigo', [AdminDispositivoController::class, 'nuevoCodigo'])->name('admin.dispositivos.codigo');
         Route::delete('/dispositivos/{dispositivo}', [AdminDispositivoController::class, 'destroy'])->name('admin.dispositivos.borrar');
+
+        // Integraciones (rama 26): la cuenta de Stripe del restaurante para
+        // cobrar a sus clientes. Sin id en la URL: siempre la del usuario logueado.
+        Route::get('/integraciones', [IntegracionController::class, 'index'])->name('admin.integraciones');
+        Route::put('/integraciones/stripe', [IntegracionController::class, 'guardarStripe'])->name('admin.integraciones.stripe.guardar');
+        Route::delete('/integraciones/stripe', [IntegracionController::class, 'quitarStripe'])->name('admin.integraciones.stripe.quitar');
 
         // Mesas y QR (rama 4)
         Route::get('/mesas', [MesaController::class, 'index'])->name('admin.mesas');

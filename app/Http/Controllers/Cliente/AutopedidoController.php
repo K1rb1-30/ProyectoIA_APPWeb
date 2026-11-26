@@ -82,17 +82,26 @@ class AutopedidoController extends Controller
         $mesa = Mesa::delQr($slug, $numero);
         $lineas = array_values($request->validated('lineas'));
 
+        $rutaMesa = ['slug' => $slug, 'numero' => $numero];
+
+        // Rama 26: sin cuenta de Stripe en el restaurante no se puede pagar al
+        // pedir, así que el pedido no se envía (no hay pedidos sin pagar).
+        if (! $mesa->restaurante->tieneStripeConfigurado()) {
+            return redirect()->route('cliente.pedido', $rutaMesa)
+                ->withErrors(['pago' => 'Este restaurante no acepta pagos con tarjeta. Llama al camarero y te toma nota.']);
+        }
+
         // Si algún plato no se puede pedir, error de validación → vuelve a "Mi pedido".
         $total = $this->pagarPedido->calcularTotal($mesa, $lineas);
 
-        $rutaMesa = ['slug' => $slug, 'numero' => $numero];
         // {CHECKOUT_SESSION_ID} va a mano: Stripe lo cambia por el id de la sesión.
         $urlExito = route('cliente.pedido.pagado', $rutaMesa).'?session_id={CHECKOUT_SESSION_ID}';
         $urlCancelar = route('cliente.pedido.cancelado', $rutaMesa);
         $concepto = "{$mesa->restaurante->nombre} · Mesa {$mesa->numero} · Pedido";
 
         try {
-            $sesion = $this->pasarela->crearSesionPedido($total, $mesa->id, $concepto, $urlExito, $urlCancelar);
+            // Rama 26: con la cuenta de Stripe del restaurante de ESTA mesa.
+            $sesion = $this->pasarela->crearSesionPedido($mesa->restaurante, $total, $mesa->id, $concepto, $urlExito, $urlCancelar);
         } catch (Throwable $error) {
             report($error);
 
@@ -127,7 +136,14 @@ class AutopedidoController extends Controller
             return redirect()->route('cliente.estado', $rutaMesa);
         }
 
-        $sesion = $porPagar ? $this->pasarela->consultarSesion($idSesion) : null;
+        // Rama 26: con la clave del MISMO restaurante. Si falla (por ejemplo,
+        // el admin ha quitado la clave), el pago no se puede confirmar.
+        try {
+            $sesion = $porPagar ? $this->pasarela->consultarSesion($mesa->restaurante, $idSesion) : null;
+        } catch (Throwable $error) {
+            report($error);
+            $sesion = null;
+        }
 
         // Todo tiene que cuadrar: pagada, de un pedido, de ESTA mesa, por el
         // total que calculamos nosotros y en euros.

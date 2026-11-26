@@ -19,9 +19,13 @@
     Fuera de la maqueta: IVA desglosado, factura con CIF y barra de progreso
     de pago. "Tarjeta" lleva al pago con Stripe (rama 11) y "Efectivo" deja la
     parte esperando al camarero (rama 12).
+
+    Rama 26: si el restaurante no ha conectado su cuenta de Stripe en
+    «Integraciones», no se ofrece «Tarjeta»: solo efectivo, y se explica.
 --}}
 @php
     $rutaMesa = ['slug' => $restaurante->slug, 'numero' => $mesa->numero];
+    $aceptaTarjeta = $restaurante->tieneStripeConfigurado();
 
     // { idLinea: { cantidad, precio } }, para calcular el reparto por platos.
     // precio es el de UNA unidad: al separar una línea, cada unidad cuesta eso.
@@ -88,6 +92,9 @@
         {{-- Partes ya creadas --}}
         @if ($cuenta)
             <h2 class="text-headline-sm">Lo que paga cada persona</h2>
+            @unless ($aceptaTarjeta)
+                <p class="mt-1 text-body-md text-on-surface-variant">Este restaurante solo acepta pagos en <strong class="text-on-surface">efectivo</strong>: elige «Efectivo» y el camarero vendrá a cobrar.</p>
+            @endunless
             <ul class="mb-space-xl">
                 @foreach ($cuenta->partes as $parte)
                     <li class="flex flex-wrap items-center gap-x-space-md gap-y-3 py-4 border-b border-outline-variant">
@@ -104,11 +111,13 @@
                         <x-precio :centimos="$parte->importe_centimos" @class(['font-mono text-headline-sm', 'line-through text-secondary font-normal' => $parte->estado === 'pagado']) />
                         {{-- Solo se puede elegir cómo pagar una parte pendiente. --}}
                         @if ($parte->estado === 'pendiente')
-                            <div class="w-full grid grid-cols-2 gap-2">
-                                <a href="{{ route('cliente.pago.tarjeta', $rutaMesa + ['parte' => $parte->id]) }}"
-                                   class="pulsable flex items-center justify-center min-h-[48px] rounded bg-on-surface text-surface-container-lowest text-label-lg font-bold">
-                                    Tarjeta
-                                </a>
+                            <div @class(['w-full grid gap-2', 'grid-cols-2' => $aceptaTarjeta])>
+                                @if ($aceptaTarjeta)
+                                    <a href="{{ route('cliente.pago.tarjeta', $rutaMesa + ['parte' => $parte->id]) }}"
+                                       class="pulsable flex items-center justify-center min-h-[48px] rounded bg-on-surface text-surface-container-lowest text-label-lg font-bold">
+                                        Tarjeta
+                                    </a>
+                                @endif
                                 {{-- Formulario POST porque cambia el estado (pendiente → pendiente_efectivo) --}}
                                 <form method="POST" action="{{ route('cliente.pago.efectivo.elegir', $rutaMesa + ['parte' => $parte->id]) }}">
                                     @csrf

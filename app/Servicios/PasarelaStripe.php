@@ -7,6 +7,7 @@ use App\Models\Restaurante;
 use Carbon\CarbonInterface;
 use Illuminate\Support\Carbon;
 use RuntimeException;
+use Stripe\Exception\ApiErrorException;
 use Stripe\Exception\InvalidRequestException;
 use Stripe\Exception\SignatureVerificationException;
 use Stripe\StripeClient;
@@ -23,6 +24,13 @@ use Stripe\Webhook;
  *
  * Usa Stripe Checkout: Stripe aloja la página con el formulario de la tarjeta,
  * así que los datos de la tarjeta NUNCA pasan por nuestro servidor.
+ *
+ * Rama 26: hay DOS cuentas de Stripe y nunca se mezclan.
+ *  - Cobros a clientes (crearSesion, crearSesionPedido, consultarSesion):
+ *    con la clave del RESTAURANTE de la mesa → clienteRestaurante().
+ *    El dinero va a la cuenta de Stripe del bar.
+ *  - Suscripción a MesaYa, portal y webhook: con la clave de la PLATAFORMA
+ *    (STRIPE_SECRET del .env) → clientePlataforma().
  */
 class PasarelaStripe
 {
@@ -33,10 +41,12 @@ class PasarelaStripe
      *                            llevar {CHECKOUT_SESSION_ID}: Stripe lo cambia por el id de la sesión.
      * @param  string  $urlCancelar  Adonde vuelve si el cliente pulsa "volver".
      * @return array{id: string, url: string}
+     *
+     * @throws StripeNoConfigurado  el restaurante no tiene sus claves de Stripe
      */
-    public function crearSesion(ParteCuenta $parte, string $concepto, string $urlExito, string $urlCancelar): array
+    public function crearSesion(Restaurante $restaurante, ParteCuenta $parte, string $concepto, string $urlExito, string $urlCancelar): array
     {
-        $sesion = $this->cliente()->checkout->sessions->create([
+        $sesion = $this->clienteRestaurante($restaurante)->checkout->sessions->create([
             // 'payment' = un pago único (no una suscripción).
             'mode' => 'payment',
             'line_items' => [[
@@ -66,10 +76,12 @@ class PasarelaStripe
      * es el total del pedido y en los metadatos guardamos la mesa.
      *
      * @return array{id: string, url: string}
+     *
+     * @throws StripeNoConfigurado  el restaurante no tiene sus claves de Stripe
      */
-    public function crearSesionPedido(int $importeCentimos, int $mesaId, string $concepto, string $urlExito, string $urlCancelar): array
+    public function crearSesionPedido(Restaurante $restaurante, int $importeCentimos, int $mesaId, string $concepto, string $urlExito, string $urlCancelar): array
     {
-        $sesion = $this->cliente()->checkout->sessions->create([
+        $sesion = $this->clienteRestaurante($restaurante)->checkout->sessions->create([
             'mode' => 'payment',
             'line_items' => [[
                 'quantity' => 1,
@@ -95,15 +107,21 @@ class PasarelaStripe
      *
      * "tipo" y "mesa_id" solo vienen en las sesiones de pedidos (rama 15).
      *
+     * Rama 26: se pregunta con la clave del MISMO restaurante que creó el
+     * pago (el de la mesa de la URL). Una sesión creada con la cuenta de otro
+     * restaurante no existe en esta cuenta → Stripe da error → "no pagada".
+     *
      * @return array{pagada: bool, parte_cuenta_id: int|null, importe_centimos: int, moneda: string, tipo: string|null, mesa_id: int|null}
+     *
+     * @throws StripeNoConfigurado  el restaurante no tiene sus claves de Stripe
      */
-    public function consultarSesion(string $idSesion): array
+    public function consultarSesion(Restaurante $restaurante, string $idSesion): array
     {
         try {
-            $sesion = $this->cliente()->checkout->sessions->retrieve($idSesion);
+            $sesion = $this->clienteRestaurante($restaurante)->checkout->sessions->retrieve($idSesion);
         } catch (InvalidRequestException) {
-            // El id no existe en Stripe (por ejemplo, alguien lo ha escrito a
-            // mano en la URL): lo tratamos como una sesión NO pagada.
+            // El id no existe en esta cuenta de Stripe (escrito a mano en la
+            // URL o de otro restaurante): lo tratamos como una sesión NO pagada.
             return ['pagada' => false, 'parte_cuenta_id' => null, 'importe_centimos' => 0, 'moneda' => '', 'tipo' => null, 'mesa_id' => null];
         }
 
@@ -156,7 +174,7 @@ class PasarelaStripe
             $datos['customer'] = $restaurante->stripe_cliente_id;
         }
 
-        $sesion = $this->cliente()->checkout->sessions->create($datos);
+        $sesion = $this->clientePlataforma()->checkout->sessions->create($datos);
 
         return ['id' => $sesion->id, 'url' => $sesion->url];
     }
@@ -174,7 +192,7 @@ class PasarelaStripe
     public function consultarSesionSuscripcion(string $idSesion): array
     {
         try {
-            $sesion = $this->cliente()->checkout->sessions->retrieve($idSesion, ['expand' => ['subscription']]);
+            $sesion = $this->clientePlataforma()->checkout->sessions->retrieve($idSesion, ['expand' => ['subscription']]);
         } catch (InvalidRequestException) {
             // Id inventado o de otra cuenta: como si no estuviera pagada.
             return ['pagada' => false, 'restaurante_id' => null, 'cliente_id' => null, 'suscripcion_id' => null, 'fin_en' => null];
@@ -204,7 +222,7 @@ class PasarelaStripe
      */
     public function crearSesionPortal(Restaurante $restaurante, string $urlVolver): string
     {
-        $sesion = $this->cliente()->billingPortal->sessions->create([
+        $sesion = $this->clientePlataforma()->billingPortal->sessions->create([
             'customer' => $restaurante->stripe_cliente_id,
             'return_url' => $urlVolver,
             'locale' => 'es',
@@ -282,12 +300,76 @@ class PasarelaStripe
     }
 
     /**
-     * Cliente de Stripe con la clave secreta del .env (vía config/services.php).
+     * Comprueba con Stripe que una clave secreta de un restaurante funciona
+     * (rama 26), antes de guardarla.
+     *
+     * Pide la lista de sesiones de Checkout (solo 1): es justo el permiso que
+     * necesitan los cobros, así que también sirve para una clave restringida
+     * (rk_test_) con "Checkout Sessions: escritura". No crea ni cobra nada.
+     *
+     * Devuelve true o false y NUNCA el mensaje de Stripe: así la clave no
+     * puede acabar en una pantalla ni en un log.
+     */
+    public function comprobarClave(string $claveSecreta): bool
+    {
+        if (! self::esClaveSecretaDeTest($claveSecreta)) {
+            return false;
+        }
+
+        try {
+            (new StripeClient($claveSecreta))->checkout->sessions->all(['limit' => 1]);
+
+            return true;
+        } catch (ApiErrorException) {
+            // Clave que no existe, revocada, sin permisos, sin internet...
+            return false;
+        }
+    }
+
+    /**
+     * True si es una clave secreta de MODO TEST: normal (sk_test_) o
+     * restringida (rk_test_). Las de modo real (_live_) nunca valen.
+     */
+    public static function esClaveSecretaDeTest(?string $clave): bool
+    {
+        return is_string($clave)
+            && (str_starts_with($clave, 'sk_test_') || str_starts_with($clave, 'rk_test_'));
+    }
+
+    /**
+     * Cliente de Stripe con la clave del RESTAURANTE (rama 26): para cobrar a
+     * sus clientes. Es el único sitio donde se descifra la clave secreta (al
+     * leer el atributo, por el cast "encrypted" del modelo).
+     *
+     * Seguro extra, igual que con la plataforma: si la clave guardada no es de
+     * modo test, no se cobra.
+     *
+     * @throws StripeNoConfigurado
+     */
+    private function clienteRestaurante(Restaurante $restaurante): StripeClient
+    {
+        if (! $restaurante->tieneStripeConfigurado()) {
+            throw new StripeNoConfigurado('El restaurante '.$restaurante->id.' no tiene configurado Stripe.');
+        }
+
+        $secreta = $restaurante->stripe_cobros_clave_secreta;
+
+        if (! self::esClaveSecretaDeTest($secreta)) {
+            // El mensaje NO lleva la clave.
+            throw new StripeNoConfigurado('La clave de Stripe del restaurante '.$restaurante->id.' no es de modo test.');
+        }
+
+        return new StripeClient($secreta);
+    }
+
+    /**
+     * Cliente de Stripe con la clave secreta de la PLATAFORMA, la del .env
+     * (vía config/services.php). Solo para la suscripción, el portal y el webhook.
      *
      * Seguro extra: si la clave no es de MODO TEST (sk_test_...), no seguimos.
      * Así, aunque alguien pegue por error una clave live, nunca se cobra de verdad.
      */
-    private function cliente(): StripeClient
+    private function clientePlataforma(): StripeClient
     {
         $secreta = (string) config('services.stripe.secret');
 

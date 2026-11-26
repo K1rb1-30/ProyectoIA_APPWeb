@@ -12,6 +12,7 @@ use App\Models\Plato;
 use App\Models\Restaurante;
 use App\Servicios\PasarelaStripe;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Mockery;
 use Mockery\MockInterface;
 use Tests\TestCase;
 
@@ -88,7 +89,7 @@ class PagoStripeTest extends TestCase
         $this->mock(PasarelaStripe::class, function (MockInterface $pasarela) {
             $pasarela->shouldReceive('crearSesion')
                 ->once()
-                ->withArgs(fn (ParteCuenta $parte, string $concepto, string $urlExito, string $urlCancelar) => $parte->id === $this->parte->id
+                ->withArgs(fn (Restaurante $restaurante, ParteCuenta $parte, string $concepto, string $urlExito, string $urlCancelar) => $parte->id === $this->parte->id
                     && $parte->importe_centimos === 1034
                     // Stripe tiene que recibir el marcador tal cual, sin codificar.
                     && str_ends_with($urlExito, '?session_id={CHECKOUT_SESSION_ID}')
@@ -107,7 +108,7 @@ class PagoStripeTest extends TestCase
     public function test_volver_de_stripe_con_la_sesion_pagada_crea_el_pago_y_marca_la_parte_pagada(): void
     {
         $this->mock(PasarelaStripe::class, function (MockInterface $pasarela) {
-            $pasarela->shouldReceive('consultarSesion')->once()->with('cs_test_123')->andReturn($this->sesion());
+            $pasarela->shouldReceive('consultarSesion')->once()->with(Mockery::any(), 'cs_test_123')->andReturn($this->sesion());
         });
 
         $this->get($this->ruta('cliente.pago.exito', extra: ['session_id' => 'cs_test_123']))
@@ -161,8 +162,8 @@ class PagoStripeTest extends TestCase
         $otraParte = $this->parte->cuenta->partes->last();
 
         $this->mock(PasarelaStripe::class, function (MockInterface $pasarela) use ($otraParte) {
-            $pasarela->shouldReceive('consultarSesion')->with('cs_otra_parte')->andReturn($this->sesion(parteId: $otraParte->id));
-            $pasarela->shouldReceive('consultarSesion')->with('cs_otro_importe')->andReturn($this->sesion(importe: 1));
+            $pasarela->shouldReceive('consultarSesion')->with(Mockery::any(), 'cs_otra_parte')->andReturn($this->sesion(parteId: $otraParte->id));
+            $pasarela->shouldReceive('consultarSesion')->with(Mockery::any(), 'cs_otro_importe')->andReturn($this->sesion(importe: 1));
         });
 
         // Sesión pagada, pero de la persona 3 → no sirve para pagar la persona 1.

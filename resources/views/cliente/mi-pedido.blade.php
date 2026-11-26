@@ -9,9 +9,13 @@
 
     Rediseño «Comanda impresa»: los platos son filas con línea (no tarjetas), el
     total va grande y en letra de ticket, y hay un solo botón naranja abajo.
+
+    Rama 26: si el restaurante no ha conectado su cuenta de Stripe, el pedido
+    no se puede pagar desde el móvil: no hay botón y se pide llamar al camarero.
 --}}
 @php
     $rutaMesa = ['slug' => $restaurante->slug, 'numero' => $mesa->numero];
+    $aceptaTarjeta = $restaurante->tieneStripeConfigurado();
 
     $datosCarrito = 'carrito('.\Illuminate\Support\Js::from([
         'clave' => 'carrito-'.$restaurante->slug.'-'.$mesa->numero,
@@ -117,21 +121,29 @@
             <span class="font-mono text-[32px] leading-none font-semibold tracking-tight" x-text="euros(totalCentimos())"></span>
         </div>
         <p class="mt-1 text-right text-label-md font-normal text-secondary">
-            IVA incluido · <span x-text="articulos()"></span> uds. · Se paga ahora con tarjeta.
+            IVA incluido · <span x-text="articulos()"></span> uds.{{ $aceptaTarjeta ? ' · Se paga ahora con tarjeta.' : '' }}
         </p>
 
-        {{-- Rama 15: el pedido se paga al hacerlo. En efectivo, con el camarero. --}}
-        <div class="mt-space-lg pt-space-md border-t border-outline-variant space-y-2 text-body-md text-on-surface-variant">
-            <p>Pagas con tarjeta en la página segura de Stripe (modo de prueba) y, en cuanto se confirma el pago, tu pedido llega a cocina.</p>
-            <p>¿Prefieres pagar en efectivo? <strong class="text-on-surface">Llama al camarero</strong> y él te toma nota.</p>
-        </div>
+        @if ($aceptaTarjeta)
+            {{-- Rama 15: el pedido se paga al hacerlo. En efectivo, con el camarero. --}}
+            <div class="mt-space-lg pt-space-md border-t border-outline-variant space-y-2 text-body-md text-on-surface-variant">
+                <p>Pagas con tarjeta en la página segura de Stripe (modo de prueba) y, en cuanto se confirma el pago, tu pedido llega a cocina.</p>
+                <p>¿Prefieres pagar en efectivo? <strong class="text-on-surface">Llama al camarero</strong> y él te toma nota.</p>
+            </div>
 
-        <div class="sticky bottom-[72px] mt-space-lg">
-            <button type="submit" x-bind:disabled="enviando"
-                    class="pulsable w-full flex items-center justify-between gap-space-md min-h-[56px] px-5 rounded bg-primary-container text-on-primary shadow-nivel-2 hover:bg-primary disabled:opacity-60">
-                <span class="text-label-lg font-bold" x-text="enviando ? 'Abriendo el pago…' : 'Pagar y enviar a cocina'">Pagar y enviar a cocina</span>
-                <span class="font-mono text-label-lg" x-text="euros(totalCentimos())"></span>
-            </button>
-        </div>
+            <div class="sticky bottom-[72px] mt-space-lg">
+                <button type="submit" x-bind:disabled="enviando"
+                        class="pulsable w-full flex items-center justify-between gap-space-md min-h-[56px] px-5 rounded bg-primary-container text-on-primary shadow-nivel-2 hover:bg-primary disabled:opacity-60">
+                    <span class="text-label-lg font-bold" x-text="enviando ? 'Abriendo el pago…' : 'Pagar y enviar a cocina'">Pagar y enviar a cocina</span>
+                    <span class="font-mono text-label-lg" x-text="euros(totalCentimos())"></span>
+                </button>
+            </div>
+        @else
+            {{-- Rama 26: sin Stripe no hay pedidos desde el móvil (no existen pedidos sin pagar). --}}
+            <div class="mt-space-lg pt-space-md border-t border-outline-variant space-y-2 text-body-md text-on-surface-variant">
+                <p class="text-headline-sm text-on-surface">Este restaurante no acepta pagos con tarjeta desde el móvil.</p>
+                <p><strong class="text-on-surface">Llama al camarero</strong> y él te toma nota. Puedes enseñarle esta lista.</p>
+            </div>
+        @endif
     </form>
 </x-layouts.cliente>

@@ -74,6 +74,7 @@ No estaban en la propuesta: salen de probar la aplicación. No confundir con los
 | 24b | `feature/webhook-suscripcion` | 24 | Gabriel | 🔍 | [#47](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/47) |
 | 24c | `feature/reactivar-suscripcion-impagada` | 24, 24b | Gabriel | 🔍 | [#48](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/48) |
 | 25 | `feature/informar-suscripcion` | 24, 24b | Gabriel | 🔍 | [#49](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/49) |
+| 26 | `feature/integracion-stripe-restaurante` | 11, 15, 24 | Gabriel | 🔍 | [#50](https://github.com/K1rb1-30/ProyectoIA_APPWeb/pull/50) |
 
 ### Semana 4 — hasta el 07/12
 
@@ -325,6 +326,23 @@ La rama 5 necesita la 3 y la 4. Mientras tanto, la persona B puede cerrar la 1 c
 - Login: enlace «¿Aún no usas MesaYa? Da de alta tu restaurante».
 - Admin: `ComprobarSuscripcion` deja un aviso (`->with('aviso', ...)`) que explica por qué se llega a «Suscripción» según el estado; la pantalla dice qué incluye; mensajes más claros al volver de Stripe sin pagar y al activarse.
 - **Tests:** `InformarSuscripcionTest` (7): precio de config en la portada (con un valor que no es el de por defecto), la portada no habla de pagos de prueba ni de días gratis, un solo botón naranja y ninguno con sesión, el login enlaza al registro, el registro explica pasos y condiciones, y el aviso del admin según el estado. `InicioTest` comprueba también el ancla `#suscripcion`.
+
+### 26. `feature/integracion-stripe-restaurante` 🟠
+- Cada restaurante cobra a SUS clientes en SU cuenta de Stripe. El admin pega sus claves en una pestaña nueva, «Integraciones». La suscripción a MesaYa no cambia: se sigue cobrando con la cuenta de la plataforma (`STRIPE_SECRET` del `.env`).
+
+**Decisiones (26/11/2026)**
+1. **Claves propias guardadas cifradas** (opción a), y no Stripe Connect: encaja con Checkout y la consulta al volver, que ya teníamos, y no hay que activar nada en Stripe. Connect queda como mejora futura. Se recomienda una **clave restringida** (`rk_test_`) con permiso de escritura en «Checkout Sessions».
+2. **Columnas en `restaurantes`**, sin tabla nueva (un restaurante, una integración): `stripe_cobros_clave_publicable`, `stripe_cobros_clave_secreta` (text, cast `encrypted`, en `$hidden`), `stripe_cobros_final_clave` (4 últimas cifras) y `stripe_cobros_comprobada_en`. El prefijo `stripe_cobros_` las separa de las de la suscripción.
+3. **Sin Stripe configurado, solo efectivo:** en la cuenta no sale «Tarjeta» y en «Mi pedido» no se puede pagar al pedir («llama al camarero»). El admin ve un aviso en el panel.
+4. **Restaurantes de demo:** el seeder les copia, cifrada, la clave de prueba del equipo que ya está en el `.env` (solo si es de test). Ninguna clave escrita en el código.
+5. Los desarrolladores (`puede_cambiar_restaurante`) ven y cambian la integración del restaurante elegido, como el resto del panel, pero tampoco ven la clave.
+
+**Cómo se hace**
+- `PasarelaStripe` sigue siendo el único sitio que habla con Stripe y separa las dos cuentas: `clienteRestaurante()` (cobros a clientes: `crearSesion`, `crearSesionPedido`, `consultarSesion`, que ahora reciben el `Restaurante` de la mesa de la URL) y `clientePlataforma()` (suscripción, portal y webhook). Las dos se niegan a usar una clave que no sea de test. `comprobarClave()` lista una sesión de Checkout para validar la clave sin cobrar nada. Si falta la clave, lanza `StripeNoConfigurado`.
+- Al volver de Stripe, la sesión se consulta con la clave del MISMO restaurante: una sesión de otra cuenta sale como «no pagada».
+- «Integraciones» (`Admin\IntegracionController`, `IntegracionStripeRequest`, `admin/integraciones.blade.php`, modelo: `admin/suscripcion.blade.php`): estado «Conectada» / «Sin configurar» con punto + palabra, «Configurada · termina en ••••1234», un solo botón naranja «Guardar» y «Quitar las claves» como enlace. Rutas sin id: siempre el restaurante del usuario logueado. Se rechaza cualquier clave `_live_`. La clave secreta no vuelve al formulario si hay un error (`dontFlash` en `bootstrap/app.php`).
+- **Ojo:** si cambia `APP_KEY`, las claves guardadas ya no se pueden descifrar y hay que volver a pegarlas (o poner la clave antigua en `APP_PREVIOUS_KEYS`).
+- **Tests:** `IntegracionStripeTest` (17). `RestauranteFactory` crea los restaurantes con claves falsas (`sinStripe()` para probar el caso sin Stripe), así que los tests de pagos que ya había siguen igual, solo con la firma nueva de la pasarela.
 
 ---
 
