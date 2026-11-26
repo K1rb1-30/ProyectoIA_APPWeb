@@ -48,7 +48,9 @@ class ComprobarSuscripcion
         // «no disponible», aunque quien lo abra sea un admin con sesión: el QR
         // puede ser de otro restaurante y no tiene sentido mandarle a la suya.
         if ($usuario instanceof User && $usuario->rol === 'admin' && $request->route('slug') === null) {
-            return redirect()->route('admin.suscripcion');
+            // Rama 25: un aviso (el mismo sistema de mensajes que el resto del
+            // panel, x-mensajes-sesion) para que sepa POR QUÉ ha llegado aquí.
+            return redirect()->route('admin.suscripcion')->with('aviso', $this->motivoDelBloqueo($restaurante));
         }
 
         if ($request->expectsJson()) {
@@ -56,6 +58,18 @@ class ComprobarSuscripcion
         }
 
         return response()->view('restaurante-no-disponible', ['restaurante' => $restaurante], 403);
+    }
+
+    /**
+     * Texto del aviso que ve el admin al llegar a «Suscripción» (rama 25).
+     */
+    private function motivoDelBloqueo(Restaurante $restaurante): string
+    {
+        return match ($restaurante->suscripcion_estado) {
+            Restaurante::SUSCRIPCION_IMPAGADA => 'Tu restaurante no está disponible porque no se ha podido cobrar la suscripción.',
+            Restaurante::SUSCRIPCION_CANCELADA => 'Tu restaurante no está disponible porque la suscripción está cancelada.',
+            default => 'Tu restaurante no está disponible hasta que pagues la suscripción.',
+        };
     }
 
     /**

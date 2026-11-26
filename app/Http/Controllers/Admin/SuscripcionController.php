@@ -89,7 +89,7 @@ class SuscripcionController extends Controller
 
         $restaurante->activarSuscripcion($sesion['cliente_id'], $sesion['suscripcion_id'], $sesion['fin_en']);
 
-        return redirect()->route('panel')->with('estado', 'Suscripción activada. ¡Bienvenido a MesaYa!');
+        return redirect()->route('panel')->with('estado', 'Suscripción activada. ¡Bienvenido a MesaYa! Empieza por la carta y las mesas.');
     }
 
     /**
@@ -97,7 +97,7 @@ class SuscripcionController extends Controller
      */
     public function cancelada(): RedirectResponse
     {
-        return redirect()->route('admin.suscripcion')->with('aviso', 'No se ha hecho ningún cobro.');
+        return redirect()->route('admin.suscripcion')->with('aviso', 'No se ha hecho ningún cobro. Tu cuenta está guardada: puedes pagar cuando quieras desde esta pantalla.');
     }
 
     /**

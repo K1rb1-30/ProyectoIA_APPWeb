@@ -19,7 +19,7 @@
                 Ahora mismo este restaurante no puede recibir pedidos desde MesaYa.
             </p>
             <p class="mt-2 text-body-md text-secondary">
-                Si eres cliente, pide al personal del local. Si trabajas aquí, avisa al administrador del restaurante.
+                Si eres cliente, pide al personal del local. Si trabajas aquí, avisa al administrador del restaurante: tiene que revisar la suscripción en su panel de MesaYa.
             </p>
         </div>
     </main>
