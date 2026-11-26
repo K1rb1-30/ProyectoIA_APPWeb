@@ -27,6 +27,16 @@
         </a>
     </x-slot>
 
+    {{-- Rama 26: aviso si el restaurante no ha conectado su cuenta de Stripe.
+         Punto + palabra y un enlace (el botón naranja de esta pantalla es «Añadir plato»). --}}
+    @unless ($restaurante->tieneStripeConfigurado())
+        <p role="status" class="flex flex-wrap items-center gap-x-2 gap-y-1 mb-space-lg pb-space-md border-b border-outline-variant text-body-md text-on-surface-variant">
+            <x-chip-estado estado="sin_configurar" />
+            <span>Pagos con tarjeta: tus clientes solo pueden pagar en efectivo.</span>
+            <a href="{{ route('admin.integraciones') }}" class="font-semibold underline underline-offset-2 hover:text-primary">Conectar Stripe</a>
+        </p>
+    @endunless
+
     {{-- 1. Resumen de hoy: ventas en grande y, al lado, el resto de cifras --}}
     <section aria-label="Resumen de hoy" class="flex flex-wrap bg-surface-container-lowest border border-outline-variant">
         <div class="flex-[2_1_320px] p-space-lg sm:p-8 border-b sm:border-b-0 sm:border-r border-outline-variant">
